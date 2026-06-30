@@ -2918,6 +2918,12 @@ html, body {
   }
   .intro-main {
     gap: clamp(14px, 2.2svh, 20px);
+    width: 100%;
+  }
+  .intro-left,
+  .intro-right {
+    width: 100%;
+    min-width: 0;
   }
   .intro-db-sticker {
     margin-bottom: clamp(12px, 1.9svh, 18px);
@@ -2925,9 +2931,22 @@ html, body {
     font-size: 12px;
   }
   .intro-headline {
-    font-size: clamp(25px, 6.5vw, 30px);
+    font-size: clamp(23px, 6.2vw, 28px);
     line-height: 1.1;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 8px;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+  .intro-headline span,
+  .intro-headline .accent {
+    display: inline !important;
+    white-space: normal !important;
+  }
+  .intro-headline span:first-child::after {
+    content: " ";
   }
   .intro-headline-extra {
     margin-bottom: clamp(12px, 1.9svh, 18px);
@@ -3010,6 +3029,17 @@ html, body {
     order: 0 !important;
     width: auto !important;
     font-size: 10.5px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .intro-headline {
+    font-size: 23px !important;
+    max-width: 310px;
+  }
+  .intro-inner {
+    padding-left: 22px;
+    padding-right: 22px;
   }
 }
 </style>
