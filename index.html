@@ -54,6 +54,14 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.tg-webapp {
+  min-height: var(--tg-viewport-height, 100dvh);
+}
+
+body.tg-webapp #bottom-nav {
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
 /* ── HEADER ─────────────────────────────────────── */
 #header {
   position: fixed;
@@ -197,7 +205,7 @@ html, body {
 .no-exact-notice-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
 .smart-hint {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   background: rgba(var(--blue-rgb), .07);
   border: 1px solid rgba(var(--blue-rgb), .18);
@@ -218,6 +226,7 @@ html, body {
   font-size: 18px;
 }
 .smart-hint-text {
+  flex: 1;
   font-size: 14px;
   line-height: 1.45;
   color: var(--text-2);
@@ -229,6 +238,19 @@ html, body {
   margin-bottom: 3px;
 }
 .smart-hint-text b { color: var(--blue); }
+.smart-hint-btn {
+  border: 0;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.smart-hint-btn:active { opacity: .78; }
 
 .progress-bar { height: 3px; background: var(--border); }
 .progress-fill {
@@ -301,9 +323,9 @@ html, body {
   margin: -6px auto 18px;
   padding: 8px 12px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #8E1231, #D4263F);
+  background: linear-gradient(135deg, #A81437, #CE2445);
   color: #fff;
-  box-shadow: 0 10px 26px rgba(142,18,49,.22);
+  box-shadow: none;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .01em;
@@ -575,8 +597,8 @@ html, body {
   margin: 0 0 clamp(22px, 3.4dvh, 34px);
   padding: 9px 15px;
   font-size: 13px;
-  background: linear-gradient(135deg, #9B1234 0%, #D2234A 100%);
-  box-shadow: 0 14px 28px rgba(155,18,52,.24);
+  background: linear-gradient(135deg, #A81437 0%, #CE2445 100%);
+  box-shadow: none;
 }
 .intro-headline {
   font-size: 25px;
@@ -1209,6 +1231,11 @@ html, body {
 
 /* Options */
 .options { display: flex; flex-direction: column; gap: 10px; }
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .opt {
   background: var(--card);
@@ -1673,16 +1700,16 @@ html, body {
   align-items: center;
   gap: 12px;
   margin-bottom: 0;
-  padding: 16px 18px;
+  padding: 14px 16px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.03);
+  border-radius: 16px;
+  box-shadow: none;
 }
 .support-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1690,33 +1717,42 @@ html, body {
   background: rgba(181,22,61,.08);
   flex-shrink: 0;
 }
+.support-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.support-copy {
+  min-width: 0;
+  flex: 1;
+}
 .support-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text);
   line-height: 1.3;
 }
 .support-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-2);
-  margin-top: 2px;
+  margin-top: 1px;
   line-height: 1.35;
 }
 .btn-support {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 0;
+  margin-left: auto;
   background: linear-gradient(135deg, #8E1231, #D4263F);
   border-radius: 999px;
-  padding: 8px 13px;
+  padding: 8px 14px;
   text-align: center;
   font-size: 12px;
   font-weight: 800;
   color: white;
   text-decoration: none;
   transition: opacity .15s;
-  box-shadow: 0 8px 20px rgba(142,18,49,.18);
+  box-shadow: none;
 }
 .btn-support:active { opacity: .8; }
 .search-support-card {
@@ -1838,6 +1874,9 @@ html, body {
   border-radius: 14px;
   padding: 12px 14px;
   margin: -4px 0 2px;
+}
+.options > .skip-notice {
+  margin-bottom: 4px;
 }
 .skip-notice-icon {
   width: 28px;
@@ -2811,7 +2850,28 @@ html, body {
   .q-label { font-size: 12px; margin-bottom: 10px; }
   .q-title { font-size: 34px; }
   .q-subtitle { font-size: 15px; margin-bottom: 28px; }
-  .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .options { display: flex; flex-direction: column; gap: 16px; }
+  .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .skip-notice {
+    max-width: 720px;
+    margin: 0 0 4px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    align-items: center;
+  }
+  .skip-notice-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    line-height: 30px;
+  }
+  .skip-notice-text {
+    font-size: 14px;
+    line-height: 1.42;
+  }
+  .skip-notice-text strong {
+    font-size: 14px;
+  }
   .opt { padding: 22px 22px; border-radius: 18px; gap: 16px; }
   .opt-title { font-size: 17px; }
   .opt-desc  { font-size: 14px; }
@@ -3200,6 +3260,180 @@ html, body {
     padding: 12px 12px;
   }
 }
+
+@media (max-width: 699px) {
+  #s-intro {
+    min-height: 100svh;
+    align-items: stretch;
+  }
+  .intro-inner {
+    min-height: 100svh;
+    justify-content: space-between;
+    row-gap: 0;
+    padding-top: clamp(22px, 3.2svh, 34px);
+    padding-bottom: calc(clamp(18px, 2.7svh, 28px) + env(safe-area-inset-bottom));
+  }
+  .intro-brand {
+    margin-bottom: clamp(10px, 1.6svh, 16px);
+  }
+  .intro-db-sticker {
+    margin-bottom: clamp(12px, 1.8svh, 18px);
+    background: linear-gradient(135deg, #A81437 0%, #CE2445 100%);
+    box-shadow: none !important;
+  }
+  .intro-headline {
+    margin-bottom: 7px;
+  }
+  .intro-headline-extra {
+    margin-bottom: clamp(10px, 1.6svh, 16px);
+  }
+  .intro-desc {
+    margin-bottom: 0;
+  }
+  .intro-main {
+    gap: clamp(12px, 1.9svh, 18px);
+  }
+  .intro-actions {
+    margin-bottom: clamp(10px, 1.5svh, 14px);
+  }
+  .intro-search-card {
+    margin-bottom: 0;
+  }
+  .intro-footer {
+    margin-top: clamp(10px, 1.6svh, 16px) !important;
+    padding-top: clamp(9px, 1.35svh, 13px) !important;
+    row-gap: 9px !important;
+  }
+}
+
+@media (max-width: 699px) and (max-height: 760px) {
+  .intro-inner {
+    justify-content: flex-start;
+    padding-top: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    row-gap: 10px;
+  }
+}
+
+@media (min-width: 700px) {
+  #s-intro.intro-searching {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 46px 48px 32px;
+  }
+  #s-intro.intro-searching .intro-inner {
+    max-width: 900px !important;
+    width: min(900px, calc(100vw - 96px)) !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 42px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  #s-intro.intro-searching .intro-brand {
+    width: 100%;
+    flex-direction: row;
+    align-items: center !important;
+    justify-content: flex-start;
+    gap: 18px;
+    text-align: left;
+    margin: 0 !important;
+  }
+  #s-intro.intro-searching .intro-brand-copy {
+    align-items: flex-start;
+    text-align: left;
+  }
+  #s-intro.intro-searching .intro-icon {
+    width: 62px;
+    height: 62px;
+    margin: 0;
+    border-radius: 16px;
+  }
+  #s-intro.intro-searching .intro-title {
+    font-size: 26px;
+    margin-bottom: 5px;
+  }
+  #s-intro.intro-searching .intro-tagline {
+    margin: 0;
+    font-size: 13px;
+  }
+  #s-intro.intro-searching .intro-main {
+    width: 100% !important;
+    display: block !important;
+  }
+  #s-intro.intro-searching .intro-left,
+  #s-intro.intro-searching .intro-actions,
+  #s-intro.intro-searching .intro-or,
+  #s-intro.intro-searching .intro-footer {
+    display: none !important;
+  }
+  #s-intro.intro-searching .intro-right {
+    width: 100% !important;
+    min-height: 0 !important;
+    display: block !important;
+  }
+  #s-intro.intro-searching .intro-search-card {
+    width: 100% !important;
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  #s-intro.intro-searching .intro-search-card-hdr {
+    margin-bottom: 22px;
+  }
+  #s-intro.intro-searching .intro-search-wrap {
+    background: #fff;
+    border: 1.5px solid var(--blue);
+    box-shadow: none;
+  }
+  #s-intro.intro-searching #intro-srch-results {
+    max-height: calc(100dvh - 245px);
+    overflow-y: auto;
+  }
+  #s-intro.intro-searching .srch-match-card {
+    background: #fff;
+  }
+}
+
+@media (max-width: 699px) {
+  .smart-hint {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .smart-hint-btn {
+    width: 100%;
+  }
+  .support-top {
+    align-items: center;
+    gap: 10px;
+    padding: 13px 14px;
+  }
+  .support-sub {
+    font-size: 11.5px;
+  }
+  .btn-support {
+    padding: 8px 12px;
+    font-size: 11.5px;
+  }
+}
+
+.search-support-card,
+.search-support-card .support-top,
+.support-top,
+.btn-support,
+.hd-support-block,
+.hd-btn-donate,
+.btn-hd-donate {
+  box-shadow: none !important;
+}
 </style>
 </head>
 <body>
@@ -3488,13 +3722,11 @@ html, body {
         <span class="support-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
         </span>
-        <div>
+        <div class="support-copy">
           <div class="support-title">Поддержать проект</div>
-          <div class="support-sub">Помогите развивать базу, проверять характеристики и добавлять новые модели.</div>
-          <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">
-            Донат и поддержка
-          </a>
+          <div class="support-sub">На развитие базы и проверку моделей.</div>
         </div>
+        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">Донат</a>
       </div>
       <div class="support-or">или</div>
       <a href="mailto:partners@vbrbot.ru" class="support-contact-row">
@@ -4780,14 +5012,6 @@ const DEVICES = [
    resolution:"Full HD 1920×1080 @30fps", angle:"150°", screen:"2.31\"", gps:"GPS + сигнатурный радар",
    price:"~15 990 ₽", url:"https://roadgid.ru/shop/gibrid/optima_gt", photo:null,
    specs:{processor:"Mstar 8339",display_type:null,screen_size:'2.31"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
-
-  {name:"Roadgid Blick Combo", brand:"Roadgid",
-   type:"комбо 3 в 1", form:"регистратор-зеркало", q:2,
-   magnetic:false, smartphone:true, rear_cam:true, touch:true, rotation:false, ir_cam:false, remote:false,
-   desc:"Зеркало-комбо 2K на Sony IMX335 с радар-детектором. Сенсорный дисплей 11.66\", Wi-Fi, поддержка КЗВ.",
-   resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"11.66\" сенсорный", gps:"GPS встроенный",
-   price:"~20 490 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-blickcombo", photo:null,
-   specs:{processor:"Novatek 96565",display_type:null,screen_size:'11.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Blick Combo 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"регистратор-зеркало", q:1,
@@ -7013,17 +7237,29 @@ function getComboHornQualityHint() {
   });
 
   const labels = {2: "2K", 3: "4K"};
-  const parts = [2, 3]
+  const answerByQ = {2: "отличное", 3: "превосходное"};
+  const matches = [2, 3]
     .filter(q => q > reqQ)
     .map(q => {
       const count = pool.filter(d => d.q === q && radarAntenna(d) === "horn" && matchOtherCriteria(d)).length;
       if (count === 0) return null;
-      return `<b>${labels[q]}</b> — ${count} ${pluralRu(count, "модель", "модели", "моделей")} с рупорной антенной`;
+      return {
+        q,
+        label: labels[q],
+        answer: answerByQ[q],
+        count,
+        text: `<b>${labels[q]}</b> — ${count} ${pluralRu(count, "модель", "модели", "моделей")} с рупорной антенной`
+      };
     })
     .filter(Boolean);
 
-  if (parts.length === 0) return null;
-  return `Если поднять качество съемки: ${parts.join("; ")}.`;
+  if (matches.length === 0) return null;
+  const target = [...matches].sort((a, b) => b.q - a.q)[0];
+  return {
+    text: `Если поднять качество съемки: ${matches.map(m => m.text).join("; ")}.`,
+    targetAnswer: target.answer,
+    targetLabel: target.label
+  };
 }
 
 // ════════════════════════════════════════════════════════
@@ -7083,19 +7319,21 @@ function evaluateCompromise() {
     .sort((a, b) => b.pct - a.pct || b.d.q - a.d.q || parsePrice(a.d.price) - parsePrice(b.d.price));
   const exact = scored.filter(t => t.mm.length === 0);
   const strong = exact.length ? exact : scored.filter(t => t.pct >= 80);
-  const source = strong.length ? strong : scored.slice(0, 3);
+  const bestPct = scored[0]?.pct || 0;
+  const source = strong.length ? strong : scored.filter(t => t.pct >= Math.max(50, bestPct)).slice(0, 5);
 
   return {
-    count: strong.length,
+    count: source.length,
     exactCount: exact.length,
     bestQ: source[0]?.d.q || 0,
-    bestPct: source[0]?.pct || 0,
+    bestPct,
     bestPrice: source[0] ? parsePrice(source[0].d.price) : Infinity,
   };
 }
 
 function getCompromises() {
   const suggestions = [];
+  const currentStats = evaluateCompromise();
 
   function trySuggestion({key, val, next, hint}) {
     const saved = answers[key];
@@ -7103,6 +7341,12 @@ function getCompromises() {
     const stats = evaluateCompromise();
     answers[key] = saved;
     if (stats.count <= 0) return false;
+    const isUseful =
+      stats.exactCount > 0 ||
+      stats.bestPct >= Math.max(60, currentStats.bestPct + 5) ||
+      (stats.bestQ > currentStats.bestQ && stats.bestPct >= Math.max(45, currentStats.bestPct - 10)) ||
+      (stats.count > currentStats.count && stats.bestPct >= currentStats.bestPct);
+    if (!isUseful) return false;
     suggestions.push({
       key, val, hint,
       count: stats.count,
@@ -7125,6 +7369,32 @@ function getCompromises() {
     trySuggestion({key: "type", val: typeVal, next: "видеорегистратор", hint: typeHint});
   }
 
+  // Качество вверх: полезно, когда точных нет, но есть более сильные варианты при апгрейде съемки.
+  const qVal = (answers.quality || "").toLowerCase();
+  const qUp = { хорошее: "отличное", отличное: "превосходное" };
+  const qUpLabels = { отличное: "2K", превосходное: "4K" };
+  let nextQuality = qUp[qVal];
+  while (nextQuality) {
+    const saved = answers.quality;
+    answers.quality = nextQuality;
+    const stats = evaluateCompromise();
+    answers.quality = saved;
+    if (stats.count > 0 && (stats.exactCount > 0 || stats.bestQ > currentStats.bestQ || stats.bestPct >= currentStats.bestPct)) {
+      const targetQuality = nextQuality;
+      suggestions.push({
+        key: "quality", val: qVal,
+        hint: `Поднять качество до ${qUpLabels[targetQuality]}`,
+        count: stats.count,
+        exactCount: stats.exactCount,
+        bestQ: stats.bestQ,
+        bestPct: stats.bestPct,
+        bestPrice: stats.bestPrice,
+        action: () => { answers.quality = targetQuality; }
+      });
+    }
+    nextQuality = qUp[nextQuality];
+  }
+
   // Перебираем булевы критерии: сначала пробуем конкретную замену, затем ослабление.
   for (const k of BOOLS) {
     const val = (answers[k] || "неважно").toLowerCase();
@@ -7137,7 +7407,6 @@ function getCompromises() {
   }
 
   // Качество: попробовать снизить на одну ступень
-  const qVal = (answers.quality || "").toLowerCase();
   const qDown = { превосходное: "отличное", отличное: "хорошее" };
   const qDownLabels = { отличное: "2K", хорошее: "Full HD" };
   if (qVal && qDown[qVal]) {
@@ -7167,7 +7436,10 @@ function getCompromises() {
 //  HELPERS
 // ════════════════════════════════════════════════════════
 
+let currentScreenId = "s-intro";
+
 function show(id) {
+  currentScreenId = id;
   ["s-intro","s-question","s-loading","s-results","s-search"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
@@ -7177,11 +7449,25 @@ function show(id) {
       el.style.display = "none";
     }
   });
+  updateTelegramUI();
 }
 
 // ════════════════════════════════════════════════════════
 //  ANALOG SEARCH (inline on intro screen)
 // ════════════════════════════════════════════════════════
+
+function setIntroSearchMode(active) {
+  const intro = document.getElementById('s-intro');
+  if (!intro) return;
+  intro.classList.toggle('intro-searching', active);
+  if (window.matchMedia && !window.matchMedia('(min-width: 700px)').matches) return;
+
+  const selectors = ['.intro-left', '.intro-actions', '.intro-or', '.intro-footer'];
+  selectors.forEach(sel => {
+    const node = intro.querySelector(sel);
+    if (node) node.style.display = active ? 'none' : '';
+  });
+}
 
 function onIntroSearch(val) {
   const clearBtn = document.getElementById("intro-srch-clear");
@@ -7194,14 +7480,14 @@ function onIntroSearch(val) {
     resultsEl.innerHTML = "";
     if (cards)  cards.style.display = "";
     if (footer) footer.style.display = "";
-    document.getElementById('s-intro').classList.remove('intro-searching');
+    setIntroSearchMode(false);
     return;
   }
 
   clearBtn.style.display = "flex";
   if (cards)  cards.style.display = "none";
   if (footer) footer.style.display = "none";
-  document.getElementById('s-intro').classList.add('intro-searching');
+  setIntroSearchMode(true);
   window.scrollTo({top: 0, behavior: 'instant'});
 
   const hits = searchDevices(val.trim()).slice(0, 5);
@@ -7243,7 +7529,7 @@ function onIntroSearch(val) {
 function clearIntroSearch() {
   const inp = document.getElementById("intro-srch");
   if (inp) { inp.value = ""; inp.focus(); }
-  document.getElementById('s-intro').classList.remove('intro-searching');
+  setIntroSearchMode(false);
   onIntroSearch("");
 }
 
@@ -7730,13 +8016,11 @@ function supportDonateCardHTML() {
       <span class="support-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
       </span>
-      <div>
+      <div class="support-copy">
         <div class="support-title">Поддержать проект</div>
-        <div class="support-sub">Помогите развивать базу, проверять характеристики и добавлять новые модели.</div>
-        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">
-          Донат и поддержка
-        </a>
+        <div class="support-sub">На развитие базы и проверку моделей.</div>
       </div>
+      <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">Донат</a>
     </div>
   </div>`;
 }
@@ -7999,15 +8283,53 @@ function getSkipNotice(q) {
   return null;
 }
 
-function renderQ() {
-  const q = QS[qIdx];
-  const total = QS.length;
+function shouldSkipQuestion(q) {
+  return !!getSkipNotice(q);
+}
 
-  el("q-label").textContent = `Вопрос ${qIdx+1} из ${total}`;
+function applySkippedAnswer(q) {
+  answers[q.key] = "неважно";
+}
+
+function findRelevantQuestionIndex(from, direction = 1) {
+  let i = from;
+  while (i >= 0 && i < QS.length) {
+    if (!shouldSkipQuestion(QS[i])) return i;
+    applySkippedAnswer(QS[i]);
+    i += direction;
+  }
+  return i;
+}
+
+function visibleQuestionStats() {
+  let current = 0;
+  let total = 0;
+  QS.forEach((question, index) => {
+    if (shouldSkipQuestion(question)) return;
+    total++;
+    if (index <= qIdx) current = total;
+  });
+  return { current: Math.max(1, current), total: Math.max(1, total) };
+}
+
+function renderQ() {
+  const nextRelevant = findRelevantQuestionIndex(qIdx, 1);
+  if (nextRelevant >= QS.length) {
+    showResults();
+    return;
+  }
+  if (nextRelevant !== qIdx) {
+    qIdx = nextRelevant;
+  }
+
+  const q = QS[qIdx];
+  const { current, total } = visibleQuestionStats();
+
+  el("q-label").textContent = `Вопрос ${current} из ${total}`;
   el("q-title").textContent = q.title;
   el("q-sub").textContent   = q.sub;
-  el("hd-counter").textContent = `${qIdx+1} / ${total}`;
-  el("progress-fill").style.width = `${(qIdx+1)/total*100}%`;
+  el("hd-counter").textContent = `${current} / ${total}`;
+  el("progress-fill").style.width = `${current/total*100}%`;
 
   const btnBack = el("btn-back");
   const btnNext = el("btn-next");
@@ -8020,52 +8342,39 @@ function renderQ() {
     delete answers.form;
   }
 
-  const skipNotice = getSkipNotice(q);
-  if (skipNotice) {
-    // Auto-answer and show skip notice
-    answers[q.key] = "неважно";
-    btnNext.disabled = false;
+  const questionNotice = getQuestionNotice(q);
+  if (questionNotice) {
     const notice = document.createElement("div");
     notice.className = "skip-notice";
     notice.innerHTML = `
       <div class="skip-notice-icon">i</div>
       <div class="skip-notice-text">
-        <strong>${skipNotice.title}</strong>
-        ${skipNotice.text} Нажмите «Далее», чтобы продолжить.
+        <strong>${questionNotice.title}</strong>
+        ${questionNotice.text}
       </div>`;
     list.appendChild(notice);
-  } else {
-    const questionNotice = getQuestionNotice(q);
-    if (questionNotice) {
-      const notice = document.createElement("div");
-      notice.className = "skip-notice";
-      notice.innerHTML = `
-        <div class="skip-notice-icon">i</div>
-        <div class="skip-notice-text">
-          <strong>${questionNotice.title}</strong>
-          ${questionNotice.text}
-        </div>`;
-      list.appendChild(notice);
-    }
-    btnNext.disabled = !answers[q.key];
-    q.opts.forEach(o => {
-      const disabled = isOptionDisabled(q, o);
-      if (disabled && answers[q.key] === o.v) delete answers[q.key];
-      const d = document.createElement("div");
-      d.className = "opt" + (answers[q.key] === o.v ? " sel" : "") + (disabled ? " disabled" : "");
-      d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${o.d}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
-      let lastTap = 0;
-      d.onclick = () => {
-        if (disabled) return;
-        pick(o.v);
-        const now = Date.now();
-        if (now - lastTap < 350) goNext();
-        lastTap = now;
-      };
-      list.appendChild(d);
-    });
-    btnNext.disabled = !answers[q.key];
   }
+  const grid = document.createElement("div");
+  grid.className = "options-grid";
+  list.appendChild(grid);
+  btnNext.disabled = !answers[q.key];
+  q.opts.forEach(o => {
+    const disabled = isOptionDisabled(q, o);
+    if (disabled && answers[q.key] === o.v) delete answers[q.key];
+    const d = document.createElement("div");
+    d.className = "opt" + (answers[q.key] === o.v ? " sel" : "") + (disabled ? " disabled" : "");
+    d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${o.d}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
+    let lastTap = 0;
+    d.onclick = () => {
+      if (disabled) return;
+      pick(o.v);
+      const now = Date.now();
+      if (now - lastTap < 350) goNext();
+      lastTap = now;
+    };
+    grid.appendChild(d);
+  });
+  btnNext.disabled = !answers[q.key];
 
   el("s-question").scrollTop = 0;
 }
@@ -8089,12 +8398,12 @@ function pick(v) {
 
 function goNext() {
   if (!answers[QS[qIdx].key]) return;
-  if (qIdx < QS.length - 1) { qIdx++; renderQ(); }
+  if (qIdx < QS.length - 1) { qIdx = findRelevantQuestionIndex(qIdx + 1, 1); renderQ(); }
   else showResults();
 }
 
 function goBack() {
-  if (qIdx > 0) { qIdx--; renderQ(); }
+  if (qIdx > 0) { qIdx = findRelevantQuestionIndex(qIdx - 1, -1); renderQ(); }
 }
 
 // ════════════════════════════════════════════════════════
@@ -8252,8 +8561,16 @@ function _renderResults(top) {
       <div class="smart-hint-icon">📡</div>
       <div class="smart-hint-text">
         <strong>Подсказка по радарной части</strong>
-        ${comboHornHint}
-      </div>`;
+        ${comboHornHint.text}
+      </div>
+      <button class="smart-hint-btn" type="button">Показать ${comboHornHint.targetLabel}</button>`;
+    hint.querySelector(".smart-hint-btn").addEventListener("click", () => {
+      answers.quality = comboHornHint.targetAnswer;
+      sortMode = "match";
+      _lastTop = getTop();
+      _renderResults(_lastTop);
+      window.scrollTo(0, 0);
+    });
     list.appendChild(hint);
   }
 
@@ -8478,12 +8795,6 @@ function _renderResults(top) {
   show("s-results");
   refreshFavoriteUI();
   window.scrollTo(0, 0);
-
-  // Send data back to Telegram if in WebApp context
-  if (window.Telegram?.WebApp) {
-    const result = top.map(t => ({name: t.d.name, pct: t.pct}));
-    try { Telegram.WebApp.sendData(JSON.stringify(result)); } catch(e) {}
-  }
 }
 
 function toggleCard(toggle) {
@@ -8523,14 +8834,126 @@ function renderIntroDbSticker() {
 //  TELEGRAM INIT
 // ════════════════════════════════════════════════════════
 
+function telegramApp() {
+  return window.Telegram?.WebApp || null;
+}
+
+function isTelegramMiniApp() {
+  const tg = telegramApp();
+  return !!(tg && tg.initData);
+}
+
+function applyTelegramTheme() {
+  const tg = telegramApp();
+  if (!tg) return;
+  const theme = tg.themeParams || {};
+  const root = document.documentElement;
+
+  if (theme.button_color) {
+    root.style.setProperty("--blue", theme.button_color);
+  }
+  if (theme.button_text_color) {
+    root.style.setProperty("--tg-button-text", theme.button_text_color);
+  }
+  if (theme.bg_color) {
+    root.style.setProperty("--tg-bg", theme.bg_color);
+  }
+  if (theme.text_color) {
+    root.style.setProperty("--tg-text", theme.text_color);
+  }
+  if (theme.hint_color) {
+    root.style.setProperty("--tg-hint", theme.hint_color);
+  }
+
+  try {
+    tg.setHeaderColor(theme.secondary_bg_color || theme.bg_color || "#FFFFFF");
+    tg.setBackgroundColor(theme.bg_color || "#F2F2F7");
+  } catch(e) {}
+}
+
+function updateTelegramViewport() {
+  const tg = telegramApp();
+  if (!tg) return;
+  const h = tg.viewportStableHeight || tg.viewportHeight;
+  if (h) document.documentElement.style.setProperty("--tg-viewport-height", `${h}px`);
+}
+
+function handleTelegramBack() {
+  if (currentScreenId === "s-question") {
+    if (qIdx > 0) goBack();
+    else goHome();
+    return;
+  }
+  if (currentScreenId === "s-results") {
+    goHome();
+    return;
+  }
+  if (currentScreenId === "s-search") {
+    const area = document.getElementById('srch-results-area');
+    if (area && area.querySelector('.dev-hero')) backToSearchResults();
+    else goHome();
+    return;
+  }
+  goHome();
+}
+
+function updateTelegramUI() {
+  const tg = telegramApp();
+  if (!tg || !isTelegramMiniApp()) return;
+  const showBack = currentScreenId !== "s-intro" && currentScreenId !== "s-loading";
+  try {
+    if (showBack) tg.BackButton.show();
+    else tg.BackButton.hide();
+  } catch(e) {}
+}
+
+function setupTelegramExternalLinks() {
+  const tg = telegramApp();
+  if (!tg || !isTelegramMiniApp()) return;
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+    const href = link.getAttribute("href") || "";
+    if (!/^https?:\/\//i.test(href)) return;
+    event.preventDefault();
+    try {
+      tg.openLink(link.href, { try_instant_view: false });
+    } catch(e) {
+      window.open(link.href, "_blank", "noopener");
+    }
+  });
+}
+
+function initTelegramWebApp() {
+  const tg = telegramApp();
+  if (!tg) return;
+
+  if (isTelegramMiniApp()) {
+    document.body.classList.add("tg-webapp");
+  }
+
+  try {
+    tg.ready();
+    tg.expand();
+    tg.disableVerticalSwipes?.();
+  } catch(e) {}
+
+  applyTelegramTheme();
+  updateTelegramViewport();
+  updateTelegramUI();
+  setupTelegramExternalLinks();
+
+  try {
+    tg.onEvent("themeChanged", applyTelegramTheme);
+    tg.onEvent("viewportChanged", updateTelegramViewport);
+    tg.BackButton.onClick(handleTelegramBack);
+  } catch(e) {}
+}
+
 document.getElementById("btn-start").addEventListener("click", startQuiz);
 renderIntroDbSticker();
 renderFavoritePanel();
-
-if (window.Telegram?.WebApp) {
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();
-}
+initTelegramWebApp();
 
 </script>
 </body>
