@@ -1851,12 +1851,14 @@ body.tg-webapp #bottom-nav {
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 .compromise-row {
-  display: flex; align-items: center; justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
   gap: 10px; padding: 12px 14px;
   background: var(--card-bg); border-radius: 12px;
   border: 1px solid var(--border);
 }
-.compromise-text { font-size: 14px; color: var(--text); line-height: 1.4; flex: 1; }
+.compromise-text { font-size: 14px; color: var(--text); line-height: 1.4; min-width: 0; }
 .compromise-count { font-size: 13px; font-weight: 700; color: var(--green-text); white-space: nowrap; }
 .compromise-btn {
   padding: 7px 14px; border-radius: 10px;
@@ -1865,6 +1867,33 @@ body.tg-webapp #bottom-nav {
   border: none; white-space: nowrap; flex-shrink: 0;
 }
 .compromise-btn:active { opacity: .75; }
+
+@media (max-width: 520px) {
+  .compromise-wrap {
+    padding: 16px 14px;
+  }
+  .compromise-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 10px;
+    padding: 12px;
+  }
+  .compromise-text {
+    grid-column: 1 / -1;
+    font-size: 13px;
+  }
+  .compromise-count {
+    min-width: 0;
+    white-space: normal;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+  .compromise-btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    justify-self: end;
+  }
+}
 
 /* Skip notice (mirror dashcam auto-skip) */
 .skip-notice {
@@ -6915,6 +6944,11 @@ const ANALOG_BOOLS = [...BOOLS, "rotation"];
 const PRIORITY_BRANDS = ["iBox"];
 const FAVORITES_KEY = "vbrbot_favorites_v1";
 
+DEVICES.forEach(d => {
+  if (String(d.brand).toLowerCase() === "70mai") d.brand = "70Mai";
+  if (String(d.type).toLowerCase() === "gps-информер") d.type = "gps-информер";
+});
+
 // ════════════════════════════════════════════════════════
 //  STATE
 // ════════════════════════════════════════════════════════
@@ -7128,8 +7162,15 @@ function getTop() {
 
   // Мягкий скоринг — все устройства получают %, но 0% не считаем похожими.
   const scored = pool.map(d => ({ d, ...scoreDevice(d) }));
-  // Сортируем по pct desc. Для комбо внутри равных совпадений сначала рупорная антенна.
-  scored.sort((a, b) => b.pct - a.pct || comboSearchPriority(b) - comboSearchPriority(a) || b.d.q - a.d.q);
+  // Сортируем по совпадению, а внутри равных вариантов — по реальной пользе:
+  // рупорная антенна для комбо, качество съёмки и угол обзора.
+  scored.sort((a, b) =>
+    b.pct - a.pct ||
+    recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
+    comboSearchPriority(b) - comboSearchPriority(a) ||
+    b.d.q - a.d.q ||
+    primaryAngle(b.d) - primaryAngle(a.d)
+  );
 
   return pickBrandDiverse(scored.filter(t => t.pct > 0), 12, 2);
 }
@@ -7256,7 +7297,7 @@ function getComboHornQualityHint() {
   if (matches.length === 0) return null;
   const target = [...matches].sort((a, b) => b.q - a.q)[0];
   return {
-    text: `Если поднять качество съемки: ${matches.map(m => m.text).join("; ")}.`,
+    text: `При повышении качества появятся варианты с рупорной антенной: ${matches.map(m => m.text).join("; ")}.`,
     targetAnswer: target.answer,
     targetLabel: target.label
   };
@@ -7379,7 +7420,7 @@ function getCompromises() {
     answers.quality = nextQuality;
     const stats = evaluateCompromise();
     answers.quality = saved;
-    if (stats.count > 0 && (stats.exactCount > 0 || stats.bestQ > currentStats.bestQ || stats.bestPct >= currentStats.bestPct)) {
+    if (stats.count > 0 && (stats.exactCount > 0 || stats.bestQ > currentStats.bestQ || stats.bestPct >= Math.max(45, currentStats.bestPct))) {
       const targetQuality = nextQuality;
       suggestions.push({
         key: "quality", val: qVal,
@@ -7427,7 +7468,14 @@ function getCompromises() {
     });
   }
 
+  const seenSuggestions = new Set();
   return suggestions
+    .filter(s => {
+      const signature = `${s.key}:${s.hint}`;
+      if (seenSuggestions.has(signature)) return false;
+      seenSuggestions.add(signature);
+      return true;
+    })
     .sort((a, b) => b.exactCount - a.exactCount || b.bestQ - a.bestQ || b.bestPct - a.bestPct || b.count - a.count || a.bestPrice - b.bestPrice)
     .slice(0, 3);
 }
@@ -7850,6 +7898,16 @@ function similarPct(x, d) {
   const qDiff = Math.abs(x.q - d.q);
   p += qDiff === 0 ? 14 : x.q > d.q ? 12 : qDiff === 1 ? 6 : 0;
   return Math.min(99, p);
+}
+
+function recommendationFitScore(d) {
+  const base = scoreDevice(d);
+  let score = base.pct;
+  if (isComboSearch()) score += radarAntennaRank(d) * 8;
+  score += d.q * 3;
+  const angle = primaryAngle(d);
+  if (angle) score += Math.min(10, Math.max(0, angle - 120) / 8);
+  return score;
 }
 
 // Returns human-readable list of differences vs target device
@@ -8516,7 +8574,7 @@ function _renderResults(top) {
       row.innerHTML = `
         <div class="compromise-text">${s.hint}</div>
         <div class="compromise-count">${countText}</div>
-        <button class="compromise-btn">Показать</button>`;
+        <button class="compromise-btn">Применить</button>`;
       row.querySelector(".compromise-btn").addEventListener("click", () => {
         s.action();
         sortMode = "match";
@@ -8613,7 +8671,7 @@ function _renderResults(top) {
       const header = document.createElement("div");
       if (isUpgrade) {
         header.className = "res-section-header upgrade";
-        header.textContent = "Лучше по съемке";
+        header.textContent = "Подходит и лучше";
       } else {
         header.className = `res-section-header ${isExact ? "exact" : "near"}`;
         header.textContent = isExact ? "Подходит на 100%" : "Похожие варианты";
@@ -8667,9 +8725,9 @@ function _renderResults(top) {
       const rankClass = isUpgrade ? "rank-pill upgrade-pill"
                       : isExact   ? "rank-pill exact-pill"
                                   : "rank-pill hidden-pill";
-      const matchLabel = isUpgrade ? `⬆ ${QLABELS_BADGE[d.q] || ""} апгрейд`
+      const matchLabel = isUpgrade ? `${QLABELS_BADGE[d.q] || ""} лучше`
                        : isExact   ? "100% подходит"
-                                   : `${pct}% подходит`;
+                       : `${pct}% подходит`;
       const explainHtml = buildMatchExplanation(item, isExact, isUpgrade);
 
       card.innerHTML = `
@@ -8696,7 +8754,7 @@ function _renderResults(top) {
           ${isUpgrade
             ? `<div class="match-bar-wrap">
                 <div class="match-bar-row">
-                  <span class="match-bar-label">Все параметры совпадают · съёмка лучше</span>
+                  <span class="match-bar-label">Подходит по критериям · съёмка лучше</span>
                   <span class="match-bar-pct" style="color:var(--blue)">${QLABELS_BADGE[d.q] || ""}</span>
                 </div>
                 <div class="match-bar-track">
