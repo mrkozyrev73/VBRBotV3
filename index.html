@@ -2045,8 +2045,11 @@ html, body {
 .loading-sub {
   font-size: 14px; color: var(--text-2);
   margin-bottom: 18px;
-  text-align: center; min-height: 20px;
-  transition: opacity .35s;
+  text-align: center;
+  min-height: 22px;
+  line-height: 22px;
+  transition: opacity .22s ease, transform .22s ease;
+  will-change: opacity, transform;
 }
 
 /* ── Search status card ── */
@@ -2076,24 +2079,52 @@ html, body {
   font-size: 14px; font-weight: 500;
   color: var(--text);
   margin-bottom: 6px;
-  transition: opacity .35s;
+  min-height: 20px;
+  line-height: 20px;
+  transition: opacity .22s ease, transform .22s ease;
+  will-change: opacity, transform;
 }
-.search-dots { display: flex; gap: 5px; align-items: center; }
+.loading-text-out {
+  opacity: 0;
+  transform: translateY(-3px);
+}
+.search-dots {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  align-items: center;
+  width: min(180px, 100%);
+  height: 6px;
+}
 .sdot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--blue);
-  animation: sdot-wave 1.5s ease-in-out infinite;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(var(--blue-rgb), .12);
+  overflow: hidden;
+  position: relative;
 }
-.sdot:nth-child(1) { animation-delay:  .0s; }
-.sdot:nth-child(2) { animation-delay:  .2s; }
-.sdot:nth-child(3) { animation-delay:  .4s; background: var(--border); }
-.sdot:nth-child(4) { animation-delay:  .6s; background: var(--border); }
-.sdot:nth-child(5) { animation-delay:  .8s; background: var(--border); }
-.sdot:nth-child(6) { animation-delay: 1.0s; background: var(--border); }
-@keyframes sdot-wave {
-  0%,60%,100% { opacity: .25; transform: scale(.8); }
-  30%          { opacity: 1;   transform: scale(1.3); }
+.sdot::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: sdot-scan 1.8s ease-in-out infinite;
+}
+.sdot:nth-child(1)::after { animation-delay:  .0s; }
+.sdot:nth-child(2)::after { animation-delay:  .12s; }
+.sdot:nth-child(3)::after { animation-delay:  .24s; }
+.sdot:nth-child(4)::after { animation-delay:  .36s; }
+.sdot:nth-child(5)::after { animation-delay:  .48s; }
+.sdot:nth-child(6)::after { animation-delay:  .60s; }
+@keyframes sdot-scan {
+  0%, 18%   { transform: scaleX(0); opacity: .35; }
+  38%, 62%  { transform: scaleX(1); opacity: 1; }
+  82%, 100% { transform: scaleX(0); opacity: .35; transform-origin: right center; }
 }
 
 /* ── Loading progress bar ── */
@@ -2856,14 +2887,112 @@ html, body {
 }
 
 @media (max-width: 699px) {
+  #s-intro {
+    min-height: 100svh;
+  }
+  .intro-inner {
+    min-height: 100svh;
+    padding-top: clamp(14px, 2.2svh, 22px);
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    justify-content: flex-start;
+  }
+  .intro-brand {
+    margin-bottom: clamp(10px, 1.8svh, 16px);
+  }
+  .intro-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+    margin-bottom: 9px;
+  }
+  .intro-icon svg {
+    width: 33px;
+    height: 33px;
+  }
+  .intro-title {
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+  .intro-tagline {
+    font-size: 12px;
+  }
+  .intro-main {
+    gap: clamp(14px, 2.2svh, 20px);
+  }
+  .intro-db-sticker {
+    margin-bottom: clamp(12px, 1.9svh, 18px);
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+  .intro-headline {
+    font-size: clamp(25px, 6.5vw, 30px);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .intro-headline-extra {
+    margin-bottom: clamp(12px, 1.9svh, 18px);
+    font-size: 15px;
+  }
+  .intro-desc {
+    font-size: 13px;
+    line-height: 1.42;
+  }
+  .intro-actions {
+    margin-bottom: clamp(12px, 1.8svh, 16px);
+  }
+  .btn-start {
+    height: 50px;
+    border-radius: 13px;
+    font-size: 16px;
+  }
+  .intro-search-card {
+    padding: 14px 14px 13px;
+    border-radius: 17px;
+  }
+  .intro-search-card-hdr {
+    gap: 11px;
+    margin-bottom: 10px;
+  }
+  .intro-search-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+  .intro-search-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .intro-search-card-title {
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+  .intro-search-card-sub {
+    font-size: 12px;
+    line-height: 1.28;
+  }
+  .intro-search-wrap {
+    height: 48px;
+    border-radius: 13px;
+  }
+  .intro-srch-input {
+    font-size: 13px;
+  }
+  .intro-srch-arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
   .intro-footer {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
     grid-template-areas:
       "donate mail"
       "privacy privacy" !important;
+    margin-top: clamp(12px, 1.8svh, 18px) !important;
+    padding-top: clamp(10px, 1.5svh, 14px) !important;
     row-gap: 12px !important;
     column-gap: 10px !important;
+    font-size: 11px !important;
   }
   .intro-footer-link.donate {
     grid-area: donate !important;
@@ -2880,6 +3009,7 @@ html, body {
     justify-self: center !important;
     order: 0 !important;
     width: auto !important;
+    font-size: 10.5px !important;
   }
 }
 </style>
@@ -6388,6 +6518,7 @@ const FAVORITES_KEY = "vbrbot_favorites_v1";
 let qIdx = 0;
 let answers = {};
 let favorites = loadFavorites();
+let loadingTimers = [];
 
 function loadFavorites() {
   try {
@@ -7688,10 +7819,30 @@ function goBack() {
 
 function matchClass(p) { return p >= 70 ? "hi" : p >= 40 ? "mid" : "lo"; }
 
+function clearLoadingTimers() {
+  loadingTimers.forEach(id => clearTimeout(id));
+  loadingTimers = [];
+}
+
+function swapLoadingText(elem, text) {
+  if (!elem || elem.textContent === text) return;
+  elem.classList.add("loading-text-out");
+  const id = setTimeout(() => {
+    elem.textContent = text;
+    elem.classList.remove("loading-text-out");
+  }, 170);
+  loadingTimers.push(id);
+}
+
 function showResults() {
+  clearLoadingTimers();
   el("bottom-nav").style.display = "none";
   el("hd-counter").textContent = "Поиск…";
   el("progress-fill").style.width = "100%";
+  el("loading-sub").textContent = "Сравниваем модели";
+  el("loading-sub2").textContent = "Сопоставляем ключевые параметры";
+  el("loading-sub").classList.remove("loading-text-out");
+  el("loading-sub2").classList.remove("loading-text-out");
   show("s-loading");
 
   const steps = [
@@ -7703,25 +7854,23 @@ function showResults() {
   ];
 
   steps.forEach(s => {
-    setTimeout(() => {
+    const id = setTimeout(() => {
       const topEl  = el("loading-sub");
       const cardEl = el("loading-sub2");
-      const fade = (elem, text) => {
-        if (!elem) return;
-        elem.style.opacity = "0";
-        setTimeout(() => { elem.textContent = text; elem.style.opacity = "1"; }, 180);
-      };
-      fade(topEl,  s.top);
-      fade(cardEl, s.card);
+      swapLoadingText(topEl,  s.top);
+      swapLoadingText(cardEl, s.card);
     }, s.t);
+    loadingTimers.push(id);
   });
 
-  setTimeout(() => {
+  const doneId = setTimeout(() => {
+    clearLoadingTimers();
     el("hd-counter").textContent = "Результат";
     sortMode = "match";
     _lastTop = getTop();
     _renderResults(_lastTop);
   }, 5000);
+  loadingTimers.push(doneId);
 }
 
 function _renderResults(top) {
