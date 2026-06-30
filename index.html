@@ -195,6 +195,40 @@ html, body {
 .no-exact-notice-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
 .no-exact-notice-text { font-size: 14px; color: var(--amber-text); line-height: 1.5; }
 .no-exact-notice-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.smart-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(var(--blue-rgb), .07);
+  border: 1px solid rgba(var(--blue-rgb), .18);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin: 12px 0 18px;
+}
+.smart-hint-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--blue-rgb), .1);
+  color: var(--blue);
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.smart-hint-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.smart-hint-text strong {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+.smart-hint-text b { color: var(--blue); }
 
 .progress-bar { height: 3px; background: var(--border); }
 .progress-fill {
@@ -909,6 +943,7 @@ html, body {
   padding: 1px 6px;
 }
 .srch-badge.hi { background: var(--blue-bg); color: var(--blue); }
+.srch-badge.interp { background: var(--amber-bg); color: var(--amber-text); }
 .srch-match-arrow { color: var(--blue); flex-shrink: 0; }
 .srch-price {
   font-size: 12px;
@@ -1453,6 +1488,7 @@ html, body {
 .spec-tag.miss  { background: var(--red-bg);    border-color: transparent; color: var(--red-text); }
 .spec-tag.extra { background: rgba(255,59,48,.06); border: 0.5px solid rgba(255,59,48,.35); color: var(--red-text); }
 .spec-tag.qual  { background: var(--amber-bg);  border-color: transparent; color: var(--amber-text); }
+.spec-tag.interp{ background: var(--amber-bg);  border-color: transparent; color: var(--amber-text); }
 .match-explain {
   margin-top: 10px;
   padding: 10px 12px;
@@ -1636,11 +1672,23 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.03);
 }
 .support-icon {
-  font-size: 28px;
-  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B5163D;
+  background: rgba(181,22,61,.08);
+  flex-shrink: 0;
 }
 .support-title {
   font-size: 15px;
@@ -1652,22 +1700,31 @@ html, body {
   font-size: 13px;
   color: var(--text-2);
   margin-top: 2px;
+  line-height: 1.35;
 }
 .btn-support {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  background: var(--blue);
-  border-radius: 14px;
-  padding: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #8E1231, #D4263F);
+  border-radius: 999px;
+  padding: 8px 13px;
   text-align: center;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 800;
   color: white;
   text-decoration: none;
   transition: opacity .15s;
+  box-shadow: 0 8px 20px rgba(142,18,49,.18);
 }
 .btn-support:active { opacity: .8; }
+.search-support-card {
+  margin: 22px 0 0;
+}
+.search-support-card .support-top {
+  margin: 0;
+}
 
 /* Results sections */
 .res-section-header {
@@ -1775,20 +1832,38 @@ html, body {
 
 /* Skip notice (mirror dashcam auto-skip) */
 .skip-notice {
-  display: flex; align-items: flex-start; gap: 14px;
-  background: var(--card); border: 0.5px solid var(--border);
-  border-radius: 18px; padding: 20px 18px;
-  margin: 0;
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: -4px 0 2px;
 }
 .skip-notice-icon {
-  font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+  flex-shrink: 0;
 }
 .skip-notice-text {
-  font-size: 15px; color: var(--text-2); line-height: 1.5;
+  font-size: 13px; color: var(--text-2); line-height: 1.38;
+  padding-top: 1px;
 }
 .skip-notice-text strong {
-  display: block; color: var(--text); font-size: 15px; font-weight: 600; margin-bottom: 4px;
+  display: block; color: var(--text); font-size: 13px; font-weight: 700; margin-bottom: 2px;
 }
+.opt.disabled {
+  opacity: .45;
+  cursor: default;
+  background: rgba(255,255,255,.55);
+}
+.opt.disabled:active { transform: none; }
+.opt.disabled .opt-title { color: var(--text-2); }
 
 /* Answer chips */
 .chips-wrap { padding: 0 18px 18px; }
@@ -2826,7 +2901,8 @@ html, body {
   .srch-no-results,
   .dev-profile-back,
   .dev-hero,
-  .dev-section-hdr {
+  .dev-section-hdr,
+  .search-support-card {
     grid-column: 1 / -1;
   }
   .srch-section-label {
@@ -2856,6 +2932,11 @@ html, body {
     width: 100%;
     justify-self: center;
     margin-bottom: 8px;
+  }
+  .search-support-card {
+    max-width: 720px;
+    width: 100%;
+    justify-self: center;
   }
   .dev-hero-body {
     padding: 20px 24px 24px;
@@ -2891,6 +2972,7 @@ html, body {
   .res-section-header { font-size: 12px; margin: 24px 0 12px; }
   .support-section { display: none; } /* донат перенесён в хедер */
   .no-exact-notice   { grid-column: 1 / -1; }
+  .smart-hint        { grid-column: 1 / -1; }
   .sort-bar          { grid-column: 1 / -1; }
   .compromise-wrap   { grid-column: 1 / -1; }
 
@@ -3052,6 +3134,70 @@ html, body {
   .intro-inner {
     padding-left: 22px;
     padding-right: 22px;
+  }
+}
+
+@media (max-width: 699px) {
+  #s-intro {
+    padding: 0;
+    min-height: 100svh;
+  }
+  .intro-inner {
+    min-height: 100svh;
+    align-content: center;
+    row-gap: clamp(12px, 2svh, 18px);
+    padding-top: clamp(28px, 4.2svh, 44px);
+    padding-bottom: calc(clamp(28px, 4.2svh, 44px) + env(safe-area-inset-bottom));
+  }
+  .intro-brand {
+    margin-bottom: clamp(8px, 1.4svh, 14px);
+  }
+  .intro-main {
+    gap: clamp(13px, 2svh, 18px);
+  }
+  .intro-footer {
+    margin-top: clamp(10px, 1.6svh, 16px) !important;
+    padding-top: clamp(9px, 1.35svh, 13px) !important;
+  }
+}
+
+@media (max-width: 699px) and (max-height: 760px) {
+  .intro-inner {
+    padding-top: 18px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+    row-gap: 10px;
+  }
+  .intro-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    margin-bottom: 7px;
+  }
+  .intro-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  .intro-title {
+    font-size: 25px;
+  }
+  .intro-db-sticker {
+    margin-bottom: 10px;
+  }
+  .intro-headline {
+    font-size: 22px !important;
+    margin-bottom: 6px;
+  }
+  .intro-headline-extra {
+    margin-bottom: 10px;
+  }
+  .intro-desc {
+    font-size: 12.5px;
+  }
+  .btn-start {
+    height: 48px;
+  }
+  .intro-search-card {
+    padding: 12px 12px;
   }
 }
 </style>
@@ -3339,15 +3485,17 @@ html, body {
   <div class="support-section">
     <div class="support-inner">
       <div class="support-top">
-        <span class="support-icon">☕</span>
+        <span class="support-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        </span>
         <div>
           <div class="support-title">Поддержать проект</div>
-          <div class="support-sub">Помогите нам развиваться</div>
+          <div class="support-sub">Помогите развивать базу, проверять характеристики и добавлять новые модели.</div>
+          <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">
+            Донат и поддержка
+          </a>
         </div>
       </div>
-      <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">
-        Отправить донат
-      </a>
       <div class="support-or">или</div>
       <a href="mailto:partners@vbrbot.ru" class="support-contact-row">
         <div class="support-contact-icon">
@@ -3427,15 +3575,6 @@ const QS = [
     ]
   },
   {
-    key:"rear_cam", title:"Нужна поддержка КЗВ?",
-    sub:"Поддержка подключения дополнительной внешней камеры (подразумевается поддержка задней камеры, а не ее наличие в комплектации)",
-    opts:[
-      {l:"Да",      d:"Хочу возможность подключить заднюю камеру", v:"да"},
-      {l:"Нет",     d:"Поддержка КЗВ не нужна",                    v:"нет"},
-      {l:"Неважно", d:"Не принципиально",                     v:"неважно"},
-    ]
-  },
-  {
     key:"touch", title:"Нужно сенсорное управление?",
     sub:"Экран, реагирующий на прикосновения",
     opts:[
@@ -3458,12 +3597,12 @@ const QS = [
 const QLABELS = {
   type:"Тип устройства", form:"Форм-фактор", quality:"Качество съёмки",
   smartphone:"Управление со смартфона", magnetic:"Магнитное крепление",
-  rear_cam:"Поддержка КЗВ", touch:"Сенсорное управление",
+  touch:"Сенсорное управление",
   ir_cam:"Внутрисалонная камера", remote:"Удалённое управление"
 };
 const QLABELS_SHORT = {
   quality:"Качество", smartphone:"Wi-Fi", magnetic:"Магнит",
-  rear_cam:"Поддержка КЗВ", touch:"Сенсорное управление",
+  touch:"Сенсорное управление",
   ir_cam:"Внутрисалонная камера", remote:"4G/удалённо"
 };
 
@@ -3471,7 +3610,6 @@ const QLABELS_SHORT = {
 const MISS_LABELS = {
   smartphone: "Нет Wi-Fi / приложения",
   magnetic:   "Нет магнитного крепления",
-  rear_cam:   "Нет поддержки КЗВ",
   touch:      "Нет сенсорного управления",
   ir_cam:     "Нет внутрисалонной камеры",
   remote:     "Нет 4G-управления",
@@ -3480,7 +3618,6 @@ const MISS_LABELS = {
 const EXTRA_LABELS = {
   smartphone: "Wi-Fi — есть, но вы не просили",
   magnetic:   "Магнитное крепление — есть, но вы не просили",
-  rear_cam:   "Поддержка КЗВ — есть, но вы не просили",
   touch:      "Сенсорное управление — есть, но вы не просили",
   ir_cam:     "Внутрисалонная камера — есть, но вы не просили",
   remote:     "4G-управление — есть, но вы не просили",
@@ -5363,13 +5500,13 @@ const DEVICES = [
 
   {name:"INTEGO VX-800MR",                      brand:"INTEGO",
    type:"комбо 3 в 1",      form:"регистратор-зеркало",  q:2,
-   magnetic:false, smartphone:false, rear_cam:true,  touch:false, rotation:false, ir_cam:false, remote:false,
-   desc:"Комбо-зеркало Super HD с сигнатурным радаром и GPS. Устанавливается вместо штатного зеркала.",
+   magnetic:false, smartphone:true,  rear_cam:true,  touch:false, rotation:false, ir_cam:false, remote:false,
+   desc:"Комбо-зеркало Super HD с сигнатурным радаром, GPS и Wi-Fi. Устанавливается вместо штатного зеркала.",
    resolution:"Super HD 2560×1440 @30fps", angle:"160°", screen:"зеркало", gps:"GPS + ГЛОНАСС",
    price:"~14 754 ₽",
    url:"https://store.intego.ru/products/videoregistrator-zerkalo-c-signaturnym-radar-detektorom-intego-vx-800mr-105943",
    photo:"https://avatars.mds.yandex.net/get-yastore/20341920/zt6l48442kgq88gt24cgqxkqvxqcwwn4/orig",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // GPS-информеры
   {name:"INTEGO Kite 2 FHD",                    brand:"INTEGO",
@@ -5839,7 +5976,7 @@ const DEVICES = [
    specs:{processor:"MStar",display_type:"IPS",screen_size:"11\"",max_sd:null,power_element:null,power_type:"Type-C",gsensor:true,motion:false,timelapse:true,wifi_gen:null}},
 
   {name:"TrendVision MR-360",                brand:"TrendVision",
-   type:"видеорегистратор", form:"регистратор-зеркало", q:2,
+   type:"видеорегистратор", form:"регистратор-зеркало", q:3,
    magnetic:false, smartphone:true,  rear_cam:true,  touch:true, rotation:false, ir_cam:true, remote:false,
    desc:"3 камеры одновременно: передняя 4K + салонная 2K + задняя 2K. 9.66\" IPS, GPS, Wi-Fi, голосовое управление.",
    resolution:"4K+2K+2K интерп. (три камеры)", angle:"150°+160°+110°", screen:"9.66\" IPS", gps:"GPS",
@@ -6549,7 +6686,7 @@ const DEVICES = [
 
 const QRANK = {хорошее:1, отличное:2, превосходное:3};
 const QLABELS_Q = ["хорошее","отличное","превосходное"];
-const BOOLS = ["smartphone","magnetic","rear_cam","touch","ir_cam","remote"];
+const BOOLS = ["smartphone","magnetic","touch","ir_cam","remote"];
 const ANALOG_BOOLS = [...BOOLS, "rotation"];
 const PRIORITY_BRANDS = ["iBox"];
 const FAVORITES_KEY = "vbrbot_favorites_v1";
@@ -6745,26 +6882,32 @@ function scoreDevice(dev) {
   return { pct: m === 0 ? 100 : Math.round(s/m*100), s, m, mm };
 }
 
+function isComboSearch() {
+  return String(answers.type || "").toLowerCase() === "комбо 3 в 1";
+}
+
+function comboSearchPriority(item) {
+  return isComboSearch() ? radarAntennaRank(item.d) : 0;
+}
+
 function getTop() {
   let pool = DEVICES;
 
-  // Жёсткий фильтр по типу (с fallback — не оставлять пустой пул)
+  // Тип и форм-фактор — жёсткие границы. Если связки в базе нет,
+  // лучше честно показать пустой результат, чем подмешать другой корпус.
   if (answers.type && answers.type !== "неважно") {
-    const narrowed = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
-    pool = narrowed.length > 0 ? narrowed : pool;
+    pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
   }
-  // Жёсткий фильтр по форм-фактору (с fallback)
   if (answers.form && answers.form !== "неважно") {
-    const narrowed = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
-    pool = narrowed.length > 0 ? narrowed : pool;
+    pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
   }
 
-  // Мягкий скоринг — все устройства получают %, ничего жёстко не отсекаем
+  // Мягкий скоринг — все устройства получают %, но 0% не считаем похожими.
   const scored = pool.map(d => ({ d, ...scoreDevice(d) }));
-  // Сортируем по pct desc, при равном — более высокое q выше
-  scored.sort((a, b) => b.pct - a.pct || b.d.q - a.d.q);
+  // Сортируем по pct desc. Для комбо внутри равных совпадений сначала рупорная антенна.
+  scored.sort((a, b) => b.pct - a.pct || comboSearchPriority(b) - comboSearchPriority(a) || b.d.q - a.d.q);
 
-  return pickBrandDiverse(scored, 12, 2);
+  return pickBrandDiverse(scored.filter(t => t.pct > 0), 12, 2);
 }
 
 function pickBrandDiverse(items, limit = 12, perBrand = 2) {
@@ -6778,7 +6921,7 @@ function pickBrandDiverse(items, limit = 12, perBrand = 2) {
   const brands = [...groups.keys()].sort((a, b) => {
     const aa = groups.get(a)[0];
     const bb = groups.get(b)[0];
-    return bb.pct - aa.pct || bb.d.q - aa.d.q || a.localeCompare(b);
+    return bb.pct - aa.pct || comboSearchPriority(bb) - comboSearchPriority(aa) || bb.d.q - aa.d.q || a.localeCompare(b);
   });
 
   const picked = [];
@@ -6816,10 +6959,8 @@ function getUpgrades(exactItems) {
   let pool = DEVICES;
   if (answers.type && answers.type !== "неважно")
     pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
-  if (answers.form && answers.form !== "неважно") {
-    const narrowed = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
-    pool = narrowed.length > 0 ? narrowed : pool;
-  }
+  if (answers.form && answers.form !== "неважно")
+    pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
 
   const candidates = pool.filter(d => {
     if (exactNames.has(d.name)) return false;   // уже в точных
@@ -6855,6 +6996,36 @@ function getUpgrades(exactItems) {
   return result;
 }
 
+function getComboHornQualityHint() {
+  if (!isComboSearch()) return null;
+  const qVal = (answers.quality || "").toLowerCase();
+  const reqQ = QRANK[qVal];
+  if (!reqQ || reqQ >= 3) return null;
+
+  let pool = DEVICES.filter(d => d.type.toLowerCase() === "комбо 3 в 1");
+  if (answers.form && answers.form !== "неважно")
+    pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
+
+  const matchOtherCriteria = d => BOOLS.every(k => {
+    const a = (answers[k] || "неважно").toLowerCase();
+    if (a === "неважно") return true;
+    return a === "да" ? d[k] : !d[k];
+  });
+
+  const labels = {2: "2K", 3: "4K"};
+  const parts = [2, 3]
+    .filter(q => q > reqQ)
+    .map(q => {
+      const count = pool.filter(d => d.q === q && radarAntenna(d) === "horn" && matchOtherCriteria(d)).length;
+      if (count === 0) return null;
+      return `<b>${labels[q]}</b> — ${count} ${pluralRu(count, "модель", "модели", "моделей")} с рупорной антенной`;
+    })
+    .filter(Boolean);
+
+  if (parts.length === 0) return null;
+  return `Если поднять качество съемки: ${parts.join("; ")}.`;
+}
+
 // ════════════════════════════════════════════════════════
 //  SORT & PRICE
 // ════════════════════════════════════════════════════════
@@ -6884,7 +7055,6 @@ function sortItems(items) {
 const COMPROMISE_HINTS = {
   smartphone: { да: "Отказаться от Wi-Fi",           нет: "Разрешить Wi-Fi" },
   magnetic:   { да: "Убрать магнитное крепление",    нет: "Разрешить магнитное крепление" },
-  rear_cam:   { да: "Убрать поддержку КЗВ", нет: "Разрешить поддержку КЗВ" },
   touch:      { да: "Убрать сенсорное управление",   нет: "Разрешить сенсорное управление" },
   ir_cam:     { да: "Убрать внутрисалонную камеру",  нет: "Разрешить внутрисалонную камеру" },
   remote:     { да: "Убрать 4G/удалённый доступ",    нет: "Разрешить 4G/удалённый доступ" },
@@ -6893,7 +7063,6 @@ const COMPROMISE_HINTS = {
 const COMPROMISE_FLIP_HINTS = {
   smartphone: { да: "Заменить Wi-Fi на вариант без Wi-Fi", нет: "Заменить на модель с Wi-Fi" },
   magnetic:   { да: "Заменить магнит на обычное крепление", нет: "Заменить на магнитное крепление" },
-  rear_cam:   { да: "Заменить на вариант без поддержки КЗВ", нет: "Добавить поддержку КЗВ" },
   touch:      { да: "Заменить сенсорное управление на физические кнопки", нет: "Заменить физические кнопки на сенсорное управление" },
   ir_cam:     { да: "Заменить на вариант без внутрисалонной камеры", нет: "Добавить внутрисалонную камеру" },
   remote:     { да: "Заменить на вариант без 4G", нет: "Добавить 4G/удалённый доступ" },
@@ -6901,14 +7070,10 @@ const COMPROMISE_FLIP_HINTS = {
 
 function compromisePool() {
   let pool = DEVICES;
-  if (answers.type && answers.type !== "неважно") {
-    const narrowed = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
-    pool = narrowed.length > 0 ? narrowed : pool;
-  }
-  if (answers.form && answers.form !== "неважно") {
-    const narrowed = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
-    pool = narrowed.length > 0 ? narrowed : pool;
-  }
+  if (answers.type && answers.type !== "неважно")
+    pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
+  if (answers.form && answers.form !== "неважно")
+    pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
   return pool;
 }
 
@@ -6948,6 +7113,16 @@ function getCompromises() {
       action: () => { answers[key] = next; }
     });
     return true;
+  }
+
+  // Если пользователь выбрал GPS-информер/комбо, но остальные параметры
+  // лучше совпадают с обычными регистраторами, показываем это как первый ход.
+  const typeVal = (answers.type || "").toLowerCase();
+  if (typeVal === "gps-информер" || typeVal === "комбо 3 в 1") {
+    const typeHint = typeVal === "gps-информер"
+      ? "Заменить GPS-информер на обычный видеорегистратор"
+      : "Заменить комбо на обычный видеорегистратор";
+    trySuggestion({key: "type", val: typeVal, next: "видеорегистратор", hint: typeHint});
   }
 
   // Перебираем булевы критерии: сначала пробуем конкретную замену, затем ослабление.
@@ -7046,6 +7221,7 @@ function onIntroSearch(val) {
       d.gps && d.gps !== 'нет' ? `<span class="srch-badge">GPS</span>` : '',
       antennaLabel ? `<span class="srch-badge hi">${antennaLabel}</span>` : '',
       hasLNA(d) ? `<span class="srch-badge">LNA</span>` : '',
+      hasInterpolation(d) ? `<span class="srch-badge interp">Интерполяция</span>` : '',
       d.ir_cam  ? `<span class="srch-badge">Внутрисалонная</span>` : '',
       d.rear_cam ? `<span class="srch-badge">Поддержка КЗВ</span>` : '',
       d.smartphone ? `<span class="srch-badge">Wi-Fi</span>` : '',
@@ -7334,7 +7510,6 @@ function compatibleProfileCandidate(x, d) {
   // В ручном сравнении похожесть должна держать базовый класс устройства.
   // Например, 3CH-регистратор не должен получать в "похожие" обычный 1CH/2CH
   // гаджет только потому, что у него выше разрешение.
-  if (d.rear_cam && !x.rear_cam) return false;
   if (d.ir_cam && !x.ir_cam) return false;
   if (d.rotation && !x.rotation) return false;
   if (d.remote && !x.remote) return false;
@@ -7378,7 +7553,6 @@ function similarPct(x, d) {
   let p = 0;
   if (x.form      === d.form)       p += 16;
   if (x.ir_cam    === d.ir_cam)     p += 12;
-  if (x.rear_cam  === d.rear_cam)   p += 12;
   if (x.smartphone=== d.smartphone) p += 12;
   if (x.magnetic  === d.magnetic)   p += 10;
   if (x.touch     === d.touch)      p += 10;
@@ -7404,8 +7578,8 @@ function getDiffs(x, d) {
     diffs.push({text: xAngle > dAngle ? `Угол обзора шире: ${xAngle}°` : `Угол обзора уже: ${xAngle}°`, type: xAngle > dAngle ? 'better' : 'worse'});
   if (x.ir_cam !== d.ir_cam)
     diffs.push({text: x.ir_cam ? UI_TERMS.cabinCam : 'Без внутрисалонной камеры'});
-  if (x.rear_cam !== d.rear_cam)
-    diffs.push({text: x.rear_cam ? UI_TERMS.rearCam : 'Без поддержки КЗВ'});
+  if (x.rear_cam && !d.rear_cam)
+    diffs.push({text: UI_TERMS.rearCam, type: 'better'});
   if (x.smartphone !== d.smartphone)
     diffs.push({text: x.smartphone ? 'Wi-Fi' : 'Без Wi-Fi'});
   if (x.magnetic !== d.magnetic)
@@ -7440,7 +7614,6 @@ function describeSpecValue(key, val) {
   const map = {
     smartphone: val ? "Wi-Fi и приложение" : "без Wi-Fi",
     magnetic:   val ? UI_TERMS.magnetic.toLowerCase() : "обычное крепление",
-    rear_cam:   val ? UI_TERMS.rearCam : "без поддержки КЗВ",
     touch:      val ? UI_TERMS.touch.toLowerCase() : "физические кнопки",
     rotation:   val ? "вращение камеры" : "камера не вращается",
     ir_cam:     val ? UI_TERMS.cabinCam : "без внутрисалонной камеры",
@@ -7524,6 +7697,10 @@ function boolSpec(v) {
   return v ? "есть" : "нет";
 }
 
+function hasInterpolation(d) {
+  return /интерп/i.test(`${d.resolution || ""} ${d.desc || ""}`);
+}
+
 function cheaperExactAlternatives(d, exactItems) {
   const basePrice = parsePrice(d.price);
   if (!Number.isFinite(basePrice)) return [];
@@ -7547,6 +7724,23 @@ function reviewLinksHTML(d) {
   </div>`;
 }
 
+function supportDonateCardHTML() {
+  return `<div class="search-support-card">
+    <div class="support-top">
+      <span class="support-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </span>
+      <div>
+        <div class="support-title">Поддержать проект</div>
+        <div class="support-sub">Помогите развивать базу, проверять характеристики и добавлять новые модели.</div>
+        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">
+          Донат и поддержка
+        </a>
+      </div>
+    </div>
+  </div>`;
+}
+
 function positiveFeatureTagsHTML(d) {
   const specsData = [
     {k:"smartphone", l:"Wi-Fi"},
@@ -7563,6 +7757,7 @@ function positiveFeatureTagsHTML(d) {
   const antenna = radarAntenna(d);
   if (antenna) featureTags.push(`<span class="spec-tag ${antenna === "horn" ? "better" : "qual"}">${radarAntennaLabel(d)}</span>`);
   if (hasLNA(d)) featureTags.push(`<span class="spec-tag has">✓ LNA-усилитель</span>`);
+  if (hasInterpolation(d)) featureTags.push(`<span class="spec-tag interp">Интерполяция</span>`);
   return featureTags.join("");
 }
 
@@ -7584,6 +7779,7 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
     ["Угол обзора", d.angle],
     ["Экран", d.screen],
     ["GPS", d.gps],
+    ["Интерполяция", hasInterpolation(d) ? "есть" : null],
     ["Wi-Fi", d.specs?.wifi_gen || boolSpec(d.smartphone)],
     ["Магнитное крепление", boolSpec(d.magnetic)],
     ["Поддержка КЗВ", boolSpec(d.rear_cam)],
@@ -7636,6 +7832,7 @@ function renderDeviceProfile(d, exact, similar) {
     hasGPS(d)    ? `<span class="dev-hero-spec">GPS</span>` : '',
     radarAntennaLabel(d) ? `<span class="dev-hero-spec">${radarAntennaLabel(d)}</span>` : '',
     hasLNA(d) ? `<span class="dev-hero-spec">LNA-усилитель</span>` : '',
+    hasInterpolation(d) ? `<span class="dev-hero-spec">Интерполяция</span>` : '',
     d.smartphone ? `<span class="dev-hero-spec">Wi-Fi + приложение</span>` : '',
     d.rear_cam   ? `<span class="dev-hero-spec">Поддержка КЗВ</span>` : '',
     d.ir_cam     ? `<span class="dev-hero-spec">Внутрисалонная камера</span>` : '',
@@ -7670,7 +7867,8 @@ function renderDeviceProfile(d, exact, similar) {
         </a>` : ''}
         ${reviewLinksHTML(d)}
       </div>
-    </div>`;
+    </div>
+    ${supportDonateCardHTML()}`;
 
   if (exact.length > 0) {
     html += `<div class="dev-section-hdr exact">Полные аналоги <span class="dev-section-pct">100%</span></div>`;
@@ -7766,6 +7964,25 @@ function startQuiz() {
 
 const FORM_SKIP_KEYS = ["magnetic", "touch"];
 
+function screenRequiredByType() {
+  const t = String(answers.type || "").toLowerCase();
+  return t === "gps-информер" || t === "комбо 3 в 1";
+}
+
+function isOptionDisabled(q, option) {
+  return q.key === "form" && option.v === "без экрана" && screenRequiredByType();
+}
+
+function getQuestionNotice(q) {
+  if (q.key === "form" && screenRequiredByType()) {
+    return {
+      title: "Для этого типа нужен экран",
+      text: "GPS-информеры и комбо показывают предупреждения о камерах и радарах на дисплее. Поэтому вариант «Без экрана» недоступен."
+    };
+  }
+  return null;
+}
+
 function getSkipNotice(q) {
   if (answers.form === "регистратор-зеркало" && q.key === "magnetic") {
     return {
@@ -7799,6 +8016,10 @@ function renderQ() {
   const list = el("options");
   list.innerHTML = "";
 
+  if (q.key === "form" && answers.form === "без экрана" && screenRequiredByType()) {
+    delete answers.form;
+  }
+
   const skipNotice = getSkipNotice(q);
   if (skipNotice) {
     // Auto-answer and show skip notice
@@ -7807,20 +8028,35 @@ function renderQ() {
     const notice = document.createElement("div");
     notice.className = "skip-notice";
     notice.innerHTML = `
-      <div class="skip-notice-icon">💡</div>
+      <div class="skip-notice-icon">i</div>
       <div class="skip-notice-text">
         <strong>${skipNotice.title}</strong>
         ${skipNotice.text} Нажмите «Далее», чтобы продолжить.
       </div>`;
     list.appendChild(notice);
   } else {
+    const questionNotice = getQuestionNotice(q);
+    if (questionNotice) {
+      const notice = document.createElement("div");
+      notice.className = "skip-notice";
+      notice.innerHTML = `
+        <div class="skip-notice-icon">i</div>
+        <div class="skip-notice-text">
+          <strong>${questionNotice.title}</strong>
+          ${questionNotice.text}
+        </div>`;
+      list.appendChild(notice);
+    }
     btnNext.disabled = !answers[q.key];
     q.opts.forEach(o => {
+      const disabled = isOptionDisabled(q, o);
+      if (disabled && answers[q.key] === o.v) delete answers[q.key];
       const d = document.createElement("div");
-      d.className = "opt" + (answers[q.key] === o.v ? " sel" : "");
+      d.className = "opt" + (answers[q.key] === o.v ? " sel" : "") + (disabled ? " disabled" : "");
       d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${o.d}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
       let lastTap = 0;
       d.onclick = () => {
+        if (disabled) return;
         pick(o.v);
         const now = Date.now();
         if (now - lastTap < 350) goNext();
@@ -7828,6 +8064,7 @@ function renderQ() {
       };
       list.appendChild(d);
     });
+    btnNext.disabled = !answers[q.key];
   }
 
   el("s-question").scrollTop = 0;
@@ -7835,6 +8072,10 @@ function renderQ() {
 
 function pick(v) {
   const key = QS[qIdx].key;
+  if (key === "form" && v === "без экрана" && screenRequiredByType()) return;
+  if (key === "type" && (v === "gps-информер" || v === "комбо 3 в 1") && answers.form === "без экрана") {
+    delete answers.form;
+  }
   // If changing form factor, clear auto-skip answers so they re-evaluate
   if (key === "form" && answers[key] !== v) {
     FORM_SKIP_KEYS.forEach(k => { delete answers[k]; });
@@ -7924,7 +8165,6 @@ function _renderResults(top) {
     {k:"quality",    fn: v => ({хорошее:"Full HD", отличное:"2K", превосходное:"4K"}[v] || null)},
     {k:"smartphone", fn: v => v === "да" ? "Wi-Fi" : v === "нет" ? "без Wi-Fi" : null},
     {k:"magnetic",   fn: v => v === "да" ? "Магнит" : v === "нет" ? "без магнита" : null},
-    {k:"rear_cam",   fn: v => v === "да" ? "Поддержка КЗВ" : v === "нет" ? "Без поддержки КЗВ" : null},
     {k:"touch",      fn: v => v === "да" ? "Сенсорное управление" : v === "нет" ? "Физические кнопки" : null},
     {k:"ir_cam",     fn: v => v === "да" ? "Внутрисалонная камера" : v === "нет" ? "Без внутрисалонной камеры" : null},
     {k:"remote",     fn: v => v === "да" ? "4G/удалённо" : v === "нет" ? "без 4G" : null},
@@ -7951,6 +8191,35 @@ function _renderResults(top) {
   const list = el("results-list");
   list.innerHTML = "";
 
+  function appendCompromiseBlock() {
+    const compromises = getCompromises();
+    if (compromises.length === 0) return;
+
+    const cWrap = document.createElement("div");
+    cWrap.className = "compromise-wrap";
+    cWrap.innerHTML = `<div class="compromise-title">💡 Что можно изменить</div>`;
+    compromises.forEach(s => {
+      const row = document.createElement("div");
+      row.className = "compromise-row";
+      const countText = s.exactCount > 0
+        ? `+${s.exactCount} ${pluralRu(s.exactCount, "вариант", "варианта", "вариантов")} на 100%`
+        : `${s.count} ${pluralRu(s.count, "похожий вариант", "похожих варианта", "похожих вариантов")}`;
+      row.innerHTML = `
+        <div class="compromise-text">${s.hint}</div>
+        <div class="compromise-count">${countText}</div>
+        <button class="compromise-btn">Показать</button>`;
+      row.querySelector(".compromise-btn").addEventListener("click", () => {
+        s.action();
+        sortMode = "match";
+        _lastTop = getTop();
+        _renderResults(_lastTop);
+        window.scrollTo(0, 0);
+      });
+      cWrap.appendChild(row);
+    });
+    list.appendChild(cWrap);
+  }
+
   // ── Sort bar ─────────────────────────────────────────
   if (top.length > 1) {
     const sortBar = document.createElement("div");
@@ -7975,8 +8244,21 @@ function _renderResults(top) {
     list.appendChild(sortBar);
   }
 
+  const comboHornHint = getComboHornQualityHint();
+  if (comboHornHint) {
+    const hint = document.createElement("div");
+    hint.className = "smart-hint";
+    hint.innerHTML = `
+      <div class="smart-hint-icon">📡</div>
+      <div class="smart-hint-text">
+        <strong>Подсказка по радарной части</strong>
+        ${comboHornHint}
+      </div>`;
+    list.appendChild(hint);
+  }
+
   // ── Всё «неважно» ────────────────────────────────
-  const scoredKeys = ["quality","smartphone","magnetic","rear_cam","touch","ir_cam","remote"];
+  const scoredKeys = ["quality","smartphone","magnetic","touch","ir_cam","remote"];
   const allDontCare = scoredKeys.every(k => !answers[k] || answers[k] === "неважно");
   if (allDontCare) {
     const lazy = document.createElement("div");
@@ -7996,10 +8278,11 @@ function _renderResults(top) {
     empty.style.cssText = "display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center;";
     empty.innerHTML = `
       <div style="font-size:56px;margin-bottom:20px;">🤔</div>
-      <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">УПС.</div>
-      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:12px;">У вас слишком своеобразный запрос.</div>
-      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">По нашим данным таких устройств не существует.</div>`;
+      <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">Такой связки не нашлось</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:12px;">Тип устройства и форм-фактор не совпали ни с одной моделью.</div>
+      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">Попробуйте изменить формат корпуса или выбрать «Неважно» в одном из первых вопросов.</div>`;
     list.appendChild(empty);
+    appendCompromiseBlock();
     show("s-results");
     return;
   }
@@ -8042,6 +8325,7 @@ function _renderResults(top) {
       const radarTags = [
         antenna ? `<span class="spec-tag ${antenna === "horn" ? "better" : "qual"}">${radarAntennaLabel(d)}</span>` : "",
         hasLNA(d) ? `<span class="spec-tag has">✓ LNA-усилитель</span>` : "",
+        hasInterpolation(d) ? `<span class="spec-tag interp">Интерполяция</span>` : "",
       ].join("");
 
       const missTags = mm.map(m => {
@@ -8123,6 +8407,7 @@ function _renderResults(top) {
               ${[
                 ["Разрешение",        d.resolution],
                 ["Угол обзора",       d.angle],
+                ["Интерполяция",      hasInterpolation(d) ? "есть" : null],
                 ["Wi-Fi",             d.specs?.wifi_gen || (d.smartphone ? "есть" : "нет")],
                 ["Процессор",         d.specs?.processor],
                 ["Тип дисплея",       d.specs?.display_type || (d.screen ? "есть" : null)],
@@ -8171,33 +8456,7 @@ function _renderResults(top) {
       </div>`;
     list.appendChild(notice);
 
-    // Компромисс-подсказчик
-    const compromises = getCompromises();
-    if (compromises.length > 0) {
-      const cWrap = document.createElement("div");
-      cWrap.className = "compromise-wrap";
-      cWrap.innerHTML = `<div class="compromise-title">💡 Что можно изменить</div>`;
-      compromises.forEach(s => {
-      const row = document.createElement("div");
-      row.className = "compromise-row";
-      const countText = s.exactCount > 0
-        ? `+${s.exactCount} ${pluralRu(s.exactCount, "вариант", "варианта", "вариантов")} на 100%`
-        : `${s.count} ${pluralRu(s.count, "похожий вариант", "похожих варианта", "похожих вариантов")}`;
-      row.innerHTML = `
-        <div class="compromise-text">${s.hint}</div>
-          <div class="compromise-count">${countText}</div>
-        <button class="compromise-btn">Показать</button>`;
-        row.querySelector(".compromise-btn").addEventListener("click", () => {
-          s.action();
-          sortMode = "match";
-          _lastTop = getTop();
-          _renderResults(_lastTop);
-          window.scrollTo(0, 0);
-        });
-        cWrap.appendChild(row);
-      });
-      list.appendChild(cWrap);
-    }
+    appendCompromiseBlock();
   }
 
   if (sortMode !== "match") {
