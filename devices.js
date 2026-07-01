@@ -727,6 +727,7 @@ window.DEVICES = [
    price:"~19 299 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-icon-2-laservision/",
    photo:null,
+   image:"assets/devices/ibox-icon-2-laservision-wifi.webp",
    specs:{sensor:"SC501",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Alta LaserScan WiFi",        brand:"iBox",
@@ -747,6 +748,7 @@ window.DEVICES = [
    price:"~24 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-f5-pro-4k-laserscan-wifi-signature-dual/",
    photo:null,
+   image:"assets/devices/ibox-f5-pro-4k-laserscan-wifi.webp",
    specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX Видеорегистраторы (дополнение) ────────── */
@@ -872,6 +874,7 @@ window.DEVICES = [
    price:"~16 199 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
+   image:"assets/devices/ibox-f5-plus-wifi.webp",
    specs:{sensor:"SC501",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // ── Fujida ──────────────────────────────────────────────────────────
