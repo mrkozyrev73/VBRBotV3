@@ -9,7 +9,7 @@ window.DEVICES = [
    price:"~25 990 ₽",
    url:"https://trendvision.ru/products/trendvision-tdr-725-real-4k-2ch/",
    photo:"https://trendvision.ru/uploads/c1646d4c7727fd4562f5e62b09145451_png_1_Wihk_BL_jpg_4109b6b436.jpeg",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"Neoline X-COP CITYSMART",         brand:"Neoline",
    type:"комбо 3 в 1",      form:"с экраном",  q:2,
    magnetic:false, smartphone:true,  rear_cam:false, touch:false, rotation:true,  ir_cam:false, remote:false,
@@ -18,7 +18,7 @@ window.DEVICES = [
    price:"~18 000 ₽",
    url:"https://neoline.ru/shop/gibrid-videoregistratora-s-radar-detektorom-neoline-x-cop-citysmart/",
    photo:"https://car-radar.ru/wa-data/public/shop/products/88/37/3788/images/16853/16853.750.jpg",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony Exmor",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"70Mai Dash Cam 4K A810S",          brand:"70Mai",
    type:"видеорегистратор", form:"с экраном",  q:3,
    magnetic:false, smartphone:true,  rear_cam:true, touch:false, rotation:false, ir_cam:false, remote:false,
@@ -27,8 +27,9 @@ window.DEVICES = [
    price:"~16 990 ₽",
    url:"https://new-cdn-res.70mai.com/ru/a810s/",
    photo:"https://cdn-www.70mai.com/locales/en/a810s/A810S.png",
-   specs:{
+   specs:{sensor:"Sony Exmor",
      processor:    null,
+     sensor:       "Sony STARVIS 2",
      display_type: "IPS",
      screen_size:  "3\"",
      max_sd:       "512 ГБ",
@@ -47,7 +48,7 @@ window.DEVICES = [
    price:"~12 000 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-zerkalo-s-gps-glonass-bazoy-kamer-ibox-rover-wifi-gps-dual/",
    photo:"https://img.ixbt.site/live/topics/preview/00/03/04/50/b6ca243506.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"7\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:"IPS",screen_size:"7\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"iBox Range 2 LaserVision WiFi",    brand:"iBox",
    type:"комбо 3 в 1",      form:"регистратор-зеркало",    q:1,
    magnetic:false, smartphone:true,  rear_cam:true, touch:true,  rotation:false, ir_cam:false, remote:false,
@@ -56,7 +57,7 @@ window.DEVICES = [
    price:"~21 000 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-zerkalo-s-signaturnym-radar-detektorom-ibox-range-2-laservision-wifi-signature-dual/",
    photo:"https://car-radar.ru/wa-data/public/shop/products/26/38/3826/images/17409/17409.750.jpg",
-   specs:{processor:null,display_type:null,screen_size:"11.26\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"SigmaStar 8339",display_type:null,screen_size:"11.26\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"Mio MiVue J20",                    brand:"Mio",
    type:"видеорегистратор", form:"без экрана",  q:1,
    magnetic:false, smartphone:true,  rear_cam:false, touch:false, rotation:false, ir_cam:false, remote:false,
@@ -74,7 +75,7 @@ window.DEVICES = [
    price:"~8 500 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-flip-2k-wifi-dual-dvukhkanalnyy-s-vozmozhnostyu-podklyucheniya-tretey/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"1.5\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC4653",processor:"Eeasy 230L",display_type:null,screen_size:"1.5\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"iBox Flip GPS Dual",               brand:"iBox",
    type:"видеорегистратор", form:"с экраном",   q:1,
    magnetic:false, smartphone:false, rear_cam:true, touch:false, rotation:true,  ir_cam:true,  remote:false,
@@ -83,7 +84,7 @@ window.DEVICES = [
    price:"~6 500 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/dvukhkanalnyy-videoregistrator-ibox-flip-gps-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"1.5\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"Jieli 5701",display_type:null,screen_size:"1.5\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
   {name:"SilverStone F1 HYBRID S-BOT PRO",  brand:"SilverStone F1",
    type:"комбо 3 в 1",      form:"с экраном",  q:2,
    magnetic:false, smartphone:true,  rear_cam:false, touch:false, rotation:true,  ir_cam:false, remote:false,
@@ -144,7 +145,7 @@ window.DEVICES = [
    price:"~16 990 ₽",
    url:"https://trendvision.ru/products/trendvision-drivecam-real-4k-gps-2ch/",
    photo:"https://trendvision.ru/uploads/xlarge_6_klass_a92d6f18ab.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision TDR-725 Real 4K Max", brand:"TrendVision",
    type:"gps-информер", form:"с экраном", q:3,
@@ -154,7 +155,7 @@ window.DEVICES = [
    price:"~26 990 ₽",
    url:"https://trendvision.ru/products/trendvision-tdr-725-real-4k-max/",
    photo:"https://trendvision.ru/uploads/6_1_029f8048bf.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── Mio i серия (комбо 3 в 1) ───────────────────── */
   {name:"Mio MiVue i85", brand:"Mio",
@@ -175,7 +176,7 @@ window.DEVICES = [
    price:"~7 500 ₽",
    url:"https://www.mio.com/ru/mivue-i87",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i87_camera_merge_01.png",
-   specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS IMX323",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i88", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -185,7 +186,7 @@ window.DEVICES = [
    price:"~7 500 ₽",
    url:"https://www.mio.com/ru/mivue-i88",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i88_scr_merge_01.png",
-   specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS IMX323",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i80", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -195,7 +196,7 @@ window.DEVICES = [
    price:"~7 000 ₽",
    url:"https://www.mio.com/ru/mivue-i80",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i80_camera_merge_01.png",
-   specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i90", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -205,7 +206,7 @@ window.DEVICES = [
    price:"~8 500 ₽",
    url:"https://www.mio.com/ru/mivue-i90",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i90_camera_merge_01.png",
-   specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i95", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -215,7 +216,7 @@ window.DEVICES = [
    price:"~10 000 ₽",
    url:"https://www.mio.com/ru/mivue-i95",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i95_scr_merge_01.png",
-   specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i127", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -225,7 +226,7 @@ window.DEVICES = [
    price:"~20 000 ₽",
    url:"https://www.mio.com/ru/mivue-i127",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i127_camera_merge_01.png",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Mio MiVue i150", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -255,7 +256,7 @@ window.DEVICES = [
    price:"~11 500 ₽",
    url:"https://www.mio.com/ru/mivue-i170",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_i170_camera_merge_01.png",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i177", brand:"Mio",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -265,7 +266,7 @@ window.DEVICES = [
    price:"~14 500 ₽",
    url:"https://www.mio.com/ru/mivue-i177",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i177_camera_merge_01.png",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── Mio 8 серия (GPS-информеры) ─────────────────── */
   {name:"Mio MiVue 812", brand:"Mio",
@@ -307,7 +308,7 @@ window.DEVICES = [
    price:"~10 500 ₽",
    url:"https://www.mio.com/ru/products/dash-cameras/car-cameras/9-series/mivue-910w-ru",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_910w_scr-angle-45_merge.png",
-   specs:{processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Mio MiVue 910WD", brand:"Mio",
    type:"gps-информер", form:"с экраном", q:3,
@@ -317,7 +318,7 @@ window.DEVICES = [
    price:"~14 000 ₽",
    url:"https://www.mio.com/ru/products/dash-cameras/car-cameras/9-series/mivue-910wd-ru",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_910wd_scr-angle-45_merge.png",
-   specs:{processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Mio MiVue 955W", brand:"Mio",
    type:"gps-информер", form:"с экраном", q:3,
@@ -367,7 +368,7 @@ window.DEVICES = [
    price:"~12 990 ₽",
    url:"https://trendvision.ru/products/trendvision-tdr-721s-evo/",
    photo:"https://trendvision.ru/uploads/trendvision_tdr_721s_11_fa25240127.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX335",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision TDR-721S EVO Pro", brand:"TrendVision",
    type:"gps-информер", form:"с экраном", q:2,
@@ -529,7 +530,7 @@ window.DEVICES = [
    price:"~32 990 ₽",
    url:"https://trendvision.ru/products/trendvision-hybrid-signature-real-4k/",
    photo:"https://trendvision.ru/uploads/TrendVision_Hybrid_Signature_Real_4_K_top_photo_7_2dde630e95.png",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision Hybrid Signature Real 4K 2CH", brand:"TrendVision",
    type:"комбо 3 в 1", form:"с экраном", q:3,
@@ -559,7 +560,7 @@ window.DEVICES = [
    price:"~27 990 ₽",
    url:"https://trendvision.ru/products/trendvision-drivecam-real-4k-signature-lna/",
    photo:"https://trendvision.ru/uploads/1de0275b95059c5339796df1a324f647_dfeada3d39.png",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision DriveCam Real 4K Signature LNA Max", brand:"TrendVision",
    type:"комбо 3 в 1", form:"с экраном", q:3,
@@ -589,7 +590,7 @@ window.DEVICES = [
    price:"~20 490 ₽",
    url:"https://trendvision.ru/products/trendvision-hybrid-signature-evo-wi/",
    photo:"https://trendvision.ru/uploads/TrendVision_Hybrid_Signature_EVO_Wi_10_48e6ef641a.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX335",processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision Hybrid Signature EVO Wi 2CH", brand:"TrendVision",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -671,7 +672,7 @@ window.DEVICES = [
    price:"~7 490 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-city-pro/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2083",processor:"GP6247",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Epic WiFi Dual",            brand:"iBox",
    type:"видеорегистратор", form:"без экрана", q:1,
@@ -681,7 +682,17 @@ window.DEVICES = [
    price:"~5 990 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-epic-wifi-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"SigmaStar 8339",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+
+  {name:"iBOX Epic 2K WiFi",              brand:"iBox",
+   type:"видеорегистратор", form:"без экрана", q:2,
+   magnetic:false, smartphone:true,  rear_cam:false, touch:false, rotation:false, ir_cam:false, remote:false,
+   desc:"Ультракомпактный 2K-регистратор без экрана. Скрытая установка на скотч, управление через Wi-Fi приложение iBOX Assist.",
+   resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"без экрана", gps:"нет",
+   price:"цена не указана",
+   url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-epic-2k-wifi/",
+   photo:null,
+   specs:{sensor:"GalaxyCore GC4653",processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX GPS-информеры ──────────────────────────── */
   {name:"iBOX RoadScan",                  brand:"iBox",
@@ -692,7 +703,7 @@ window.DEVICES = [
    price:"~10 790 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan/",
    photo:"https://s3.regru.cloud/iboxstore-upload/resize_cache/341524/f6e5b326a22b0348aad67cbb31d5615d/iblock/0ff/0ff7af7afaebc33e38313098c48903a8/iBOX_RoadScan.jpg",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"SigmaStar 8339",display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX RoadScan 4K GPS",           brand:"iBox",
    type:"gps-информер",     form:"с экраном", q:3,
@@ -702,7 +713,7 @@ window.DEVICES = [
    price:"~13 990 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan-4k-gps/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX RoadScan PRO 4K",           brand:"iBox",
    type:"gps-информер",     form:"с экраном", q:3,
@@ -712,7 +723,7 @@ window.DEVICES = [
    price:"~14 990 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan-pro-4k/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX Комбо 3 в 1 ───────────────────────────── */
   {name:"iBOX iCON 2 LaserVision WiFi",   brand:"iBox",
@@ -723,7 +734,7 @@ window.DEVICES = [
    price:"~19 299 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-icon-2-laservision/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"SC501",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Alta LaserScan WiFi",        brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:1,
@@ -733,7 +744,7 @@ window.DEVICES = [
    price:"~17 990 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-alta-laserscan-wifi/",
    photo:"https://s3.regru.cloud/iboxstore-upload/resize_cache/340561/f6e5b326a22b0348aad67cbb31d5615d/iblock/cea/cea2e80fb46cfdccd21971afd8614a1f/iBOX_Alta_WiFi.jpg",
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX F5 PRO 4K LaserScan WiFi",  brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:3,
@@ -743,7 +754,7 @@ window.DEVICES = [
    price:"~24 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-f5-pro-4k-laserscan-wifi-signature-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX Видеорегистраторы (дополнение) ────────── */
   {name:"iBOX Alpha WiFi",                brand:"iBox",
@@ -754,7 +765,7 @@ window.DEVICES = [
    price:"~5 599 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-alpha-wifi/",
    photo:null,
-   specs:{processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"SmartSens, модель не указана",processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Epic 4K",                   brand:"iBox",
    type:"видеорегистратор", form:"без экрана", q:3,
@@ -764,7 +775,7 @@ window.DEVICES = [
    price:"~8 999 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-epic-4k-wifi-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"Sony STARVIS IMX415",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX GPS-информеры (дополнение) ────────────── */
   {name:"iBOX RoadScan 2K",               brand:"iBox",
@@ -775,7 +786,7 @@ window.DEVICES = [
    price:"~13 499 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Rover 2",                   brand:"iBox",
    type:"gps-информер",     form:"регистратор-зеркало", q:1,
@@ -785,7 +796,7 @@ window.DEVICES = [
    price:"~14 299 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"12\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"12\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX Комбо 3 в 1 (дополнение) ─────────────── */
   {name:"iBOX Alta",                      brand:"iBox",
@@ -796,7 +807,7 @@ window.DEVICES = [
    price:"~13 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"SigmaStar 8336",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"iBOX iCON WiFi",                 brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:1,
@@ -806,7 +817,7 @@ window.DEVICES = [
    price:"~17 899 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX iCON LaserVision WiFi",     brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:2,
@@ -816,7 +827,7 @@ window.DEVICES = [
    price:"~19 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX iCON Dual",                 brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:1,
@@ -826,7 +837,7 @@ window.DEVICES = [
    price:"~16 599 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Range",                     brand:"iBox",
    type:"комбо 3 в 1",      form:"регистратор-зеркало", q:1,
@@ -836,7 +847,7 @@ window.DEVICES = [
    price:"~14 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-range-laservision-wifi-signature-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"11.26\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"11.26\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX EVO",                       brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:1,
@@ -846,7 +857,7 @@ window.DEVICES = [
    price:"~19 399 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-evo-laservision-wifi-signature-dual/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX EVO 4K",                    brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:3,
@@ -856,7 +867,7 @@ window.DEVICES = [
    price:"~24 499 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX F5+ WiFi",                  brand:"iBox",
    type:"комбо 3 в 1",      form:"с экраном", q:2,
@@ -866,7 +877,7 @@ window.DEVICES = [
    price:"~16 199 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"SC501",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // ── Fujida ──────────────────────────────────────────────────────────
   {name:"Fujida Karma Hit",                brand:"Fujida",
@@ -897,7 +908,7 @@ window.DEVICES = [
    price:"~17 999 ₽",
    url:"https://fujida.su/catalog/gibridy/fujida-karma-one-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Karma Pro S WiFi",         brand:"Fujida",
    type:"комбо 3 в 1",      form:"с экраном", q:2,
@@ -907,7 +918,7 @@ window.DEVICES = [
    price:"~19 999 ₽",
    url:"https://fujida.su/catalog/gibridy/fujida-karma-pro-s-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Karma One Duo WiFi",       brand:"Fujida",
    type:"комбо 3 в 1",      form:"с экраном", q:1,
@@ -917,7 +928,7 @@ window.DEVICES = [
    price:"~19 999 ₽",
    url:"https://fujida.su/catalog/gibridy/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Karma Pro Max WiFi",       brand:"Fujida",
    type:"комбо 3 в 1",      form:"с экраном", q:2,
@@ -927,7 +938,7 @@ window.DEVICES = [
    price:"~27 499 ₽",
    url:"https://fujida.su/catalog/gibridy/fujida-karma-pro-max-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX335",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Zoom Hit S WiFi",          brand:"Fujida",
    type:"gps-информер",     form:"с экраном", q:2,
@@ -937,7 +948,7 @@ window.DEVICES = [
    price:"~11 999 ₽",
    url:"https://fujida.su/catalog/informatory/fujida-zoom-hit-s-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"2.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:null,display_type:null,screen_size:"2.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Zoom Hit S Duo WiFi",      brand:"Fujida",
    type:"gps-информер",     form:"с экраном", q:1,
@@ -957,7 +968,7 @@ window.DEVICES = [
    price:"~11 999 ₽",
    url:"https://fujida.su/catalog/informatory/fujida-zoom-hit-max-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"2.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX335",processor:null,display_type:null,screen_size:"2.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Zoom Smart S WiFi",        brand:"Fujida",
    type:"gps-информер",     form:"с экраном", q:2,
@@ -967,7 +978,7 @@ window.DEVICES = [
    price:"~13 999 ₽",
    url:"https://fujida.su/catalog/informatory/fujida-zoom-smart-s-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Zoom Smart Max WiFi",      brand:"Fujida",
    type:"gps-информер",     form:"с экраном", q:3,
@@ -977,7 +988,7 @@ window.DEVICES = [
    price:"~15 999 ₽",
    url:"https://fujida.su/catalog/informatory/fujida-zoom-smart-max-wifi/",
    photo:null,
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Fujida Zoom Okko WiFi",           brand:"Fujida",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -996,7 +1007,7 @@ window.DEVICES = [
    desc:"Флагманский GPS-информер 4K на Sony IMX678. WDR, суперконденсатор, Wi-Fi, CPL-фильтр, магнитное крепление, 3.5\" IPS, оповещения о камерах по GPS.",
    resolution:"4K 3840×2160 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS встроенный",
    price:"~15 490 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo-4pro", photo:null,
-   specs:{processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
+   specs:{sensor:"Sony STARVIS IMX678",processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
 
   {name:"Roadgid CityGo 4 Pro 2CH", brand:"Roadgid",
    type:"gps-информер", form:"с экраном", q:3,
@@ -1004,7 +1015,7 @@ window.DEVICES = [
    desc:"Двухканальный GPS-информер 4K на Sony IMX678. Wi-Fi, CPL-фильтр, магнитное крепление, задняя Full HD камера в комплекте.",
    resolution:"4K 3840×2160 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS встроенный",
    price:"~16 990 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo4pro-2ch", photo:null,
-   specs:{processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
+   specs:{sensor:"Sony STARVIS IMX678",processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
 
   {name:"Roadgid CityGo 4", brand:"Roadgid",
    type:"gps-информер", form:"с экраном", q:2,
@@ -1012,7 +1023,7 @@ window.DEVICES = [
    desc:"GPS-информер 2K на Sony IMX675. Wi-Fi, магнитное крепление, суперконденсатор, оповещения о камерах по GPS.",
    resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS встроенный",
    price:"~11 990 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo-4", photo:null,
-   specs:{processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX675",processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid CityGo 4 2CH", brand:"Roadgid",
    type:"gps-информер", form:"с экраном", q:1,
@@ -1020,7 +1031,7 @@ window.DEVICES = [
    desc:"Двухканальный GPS-информер Full HD на Sony IMX675. Wi-Fi, магнитное крепление, задняя камера в комплекте.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS встроенный",
    price:"~13 490 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo-4-2ch", photo:null,
-   specs:{processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX675",processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid CityGo 3 Wi-Fi AI", brand:"Roadgid",
    type:"gps-информер", form:"с экраном", q:2,
@@ -1028,7 +1039,7 @@ window.DEVICES = [
    desc:"GPS-информер 2K на Sony IMX327 с AI-распознаванием знаков. Wi-Fi, магнитное крепление, ультра-ночная съёмка.",
    resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS встроенный",
    price:"~10 490 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo-3-wi-fi-ai", photo:null,
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid CityGo 3 Wi-Fi 2CH", brand:"Roadgid",
    type:"gps-информер", form:"с экраном", q:1,
@@ -1036,7 +1047,7 @@ window.DEVICES = [
    desc:"Двухканальный GPS-информер Full HD на Sony IMX327. Ультра-ночная съёмка, Wi-Fi, магнитное крепление, задняя камера в комплекте.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS встроенный",
    price:"~11 990 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-citygo-3-2ch", photo:null,
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Blick 3 GPS", brand:"Roadgid",
    type:"gps-информер", form:"регистратор-зеркало", q:1,
@@ -1044,7 +1055,7 @@ window.DEVICES = [
    desc:"Зеркало-видеорегистратор с GPS-базой камер на Sony IMX327. Ультра-ночная съёмка, сенсорный дисплей 9.66\", камера заднего вида, Wi-Fi.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"9.66\" сенсорный", gps:"GPS встроенный",
    price:"~14 490 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-blick3-gps", photo:null,
-   specs:{processor:"Novatek 96565",display_type:null,screen_size:'9.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96565",display_type:null,screen_size:'9.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Blick 3 Wi-Fi", brand:"Roadgid",
    type:"видеорегистратор", form:"регистратор-зеркало", q:1,
@@ -1052,7 +1063,7 @@ window.DEVICES = [
    desc:"Зеркало-видеорегистратор на Sony IMX327 без GPS. Ультра-ночная съёмка, сенсорный дисплей 9.66\", камера заднего вида, Wi-Fi.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"9.66\" сенсорный", gps:"нет",
    price:"~12 490 ₽", url:"https://roadgid.ru/shop/videoreg/roadgid-blick3", photo:null,
-   specs:{processor:"Novatek 96565",display_type:null,screen_size:'9.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96565",display_type:null,screen_size:'9.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Tube 4K 2CH", brand:"Roadgid",
    type:"видеорегистратор", form:"без экрана", q:3,
@@ -1060,7 +1071,7 @@ window.DEVICES = [
    desc:"Компактный двухканальный регистратор 4K без экрана. Sony IMX415, Wi-Fi, GPS-трекинг, задняя камера в комплекте. Скрытая установка.",
    resolution:"4K 3840×2160 @25fps", angle:"140°", screen:"нет", gps:"GPS встроенный",
    price:"~13 990 ₽", url:"https://roadgid.ru/shop/videoreg/tube-2ch-4k", photo:null,
-   specs:{processor:"Novatek 96670",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro USB",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro USB",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Tube 4K", brand:"Roadgid",
    type:"видеорегистратор", form:"без экрана", q:3,
@@ -1068,7 +1079,7 @@ window.DEVICES = [
    desc:"Компактный регистратор 4K без экрана. Sony IMX415, Wi-Fi, GPS-трекинг. Скрытая установка, управление через смартфон.",
    resolution:"4K 3840×2160 @30fps", angle:"140°", screen:"нет", gps:"GPS встроенный",
    price:"~11 990 ₽", url:"https://roadgid.ru/shop/videoreg/tube", photo:null,
-   specs:{processor:"Novatek 96670",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro USB",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro USB",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Duo 4", brand:"Roadgid",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -1092,7 +1103,7 @@ window.DEVICES = [
    desc:"Премиальное комбо 4K на Sony IMX678 с сигнатурным радар-детектором и LNA-усилителем сигналов. Wi-Fi, магнитное крепление.",
    resolution:"4K 3840×2160 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS + сигнатурный радар",
    price:"~24 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier-4pro", photo:null,
-   specs:{processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
+   specs:{sensor:"Sony STARVIS IMX678",processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
 
   {name:"Roadgid Premier 4 Pro 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:3,
@@ -1100,7 +1111,7 @@ window.DEVICES = [
    desc:"Флагманское комбо 4K на Sony IMX678 с сигнатурным радар-детектором, LNA-усилителем и задней Full HD камерой. Wi-Fi, магнит.",
    resolution:"4K 3840×2160 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS + сигнатурный радар",
    price:"~26 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier4pro-2ch", photo:null,
-   specs:{processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
+   specs:{sensor:"Sony STARVIS IMX678",processor:"Novatek 98529",display_type:"IPS",screen_size:'3.5"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
 
   {name:"Roadgid Premier 4", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -1108,7 +1119,7 @@ window.DEVICES = [
    desc:"Обновлённое комбо 2K на Sony IMX675 с сигнатурным радар-детектором. Wi-Fi, магнитное крепление.",
    resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS + сигнатурный радар",
    price:"~20 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier-4", photo:null,
-   specs:{processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX675",processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Premier 4 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -1116,7 +1127,7 @@ window.DEVICES = [
    desc:"Двухканальное комбо Full HD на Sony IMX675 с сигнатурным радар-детектором. Wi-Fi, магнитное крепление, задняя камера.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3.5\" IPS", gps:"GPS + сигнатурный радар",
    price:"~22 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier4-2ch", photo:null,
-   specs:{processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX675",processor:"Novatek 96565",display_type:"IPS",screen_size:'3.5"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Premier 3 Carbon", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:2,
@@ -1124,7 +1135,7 @@ window.DEVICES = [
    desc:"Комбо 2K с ультра-ночным сенсором Sony IMX327 и сигнатурным радар-детектором. Wi-Fi, магнитное крепление.",
    resolution:"2K 2560×1440 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS + сигнатурный радар",
    price:"~18 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier-3", photo:null,
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Premier 3 Carbon 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -1132,7 +1143,7 @@ window.DEVICES = [
    desc:"Первое комбо с ультра-ночным сенсором Sony IMX327 и сигнатурным радаром. Wi-Fi, магнитное крепление, задняя камера.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS + сигнатурный радар",
    price:"~20 490 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-premier-3-carbon-2ch-s-vtoroj-kameroj-pervyj-kombo-s-ultra-nochnym-sensorom-sony-imx-327", photo:null,
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96675",display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Type-C",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid X9 Gibrid GT", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -1140,7 +1151,7 @@ window.DEVICES = [
    desc:"Комбо Full HD на Sony IMX307 с сигнатурным радар-детектором и Wi-Fi. Магнитное крепление, GPS.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS + сигнатурный радар",
    price:"~17 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid_x9", photo:null,
-   specs:{processor:"Mstar 8339",display_type:"IPS",screen_size:'3"',max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"Mstar 8339",display_type:"IPS",screen_size:'3"',max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid X9 Gibrid GT 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -1148,7 +1159,7 @@ window.DEVICES = [
    desc:"Двухканальное комбо Full HD на Sony IMX307 с сигнатурным радар-детектором. Wi-Fi, магнитное крепление, задняя камера.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"3\" IPS", gps:"GPS + сигнатурный радар",
    price:"~19 490 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid_x9_2ch", photo:null,
-   specs:{processor:"Mstar 8339",display_type:"IPS",screen_size:'3"',max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"Mstar 8339",display_type:"IPS",screen_size:'3"',max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid OPTIMA GT", brand:"Roadgid",
    type:"комбо 3 в 1", form:"с экраном", q:1,
@@ -1156,7 +1167,7 @@ window.DEVICES = [
    desc:"Доступное комбо Full HD на Sony IMX307 с сигнатурным радар-детектором и Wi-Fi. Компактный дисплей 2.31\".",
    resolution:"Full HD 1920×1080 @30fps", angle:"150°", screen:"2.31\"", gps:"GPS + сигнатурный радар",
    price:"~15 990 ₽", url:"https://roadgid.ru/shop/gibrid/optima_gt", photo:null,
-   specs:{processor:"Mstar 8339",display_type:null,screen_size:'2.31"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"Mstar 8339",display_type:null,screen_size:'2.31"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Roadgid Blick Combo 2CH", brand:"Roadgid",
    type:"комбо 3 в 1", form:"регистратор-зеркало", q:1,
@@ -1164,7 +1175,7 @@ window.DEVICES = [
    desc:"Зеркало-комбо Full HD на Sony IMX335 с радар-детектором, задней камерой и сенсорным дисплеем 11.66\". Wi-Fi.",
    resolution:"Full HD 1920×1080 @30fps", angle:"170°", screen:"11.66\" сенсорный", gps:"GPS встроенный",
    price:"~21 990 ₽", url:"https://roadgid.ru/shop/gibrid/roadgid-blickcombo-2ch", photo:null,
-   specs:{processor:"Novatek 96565",display_type:null,screen_size:'11.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX335",processor:"Novatek 96565",display_type:null,screen_size:'11.66"',max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // ── SilverStone F1 ──────────────────────────────────────────────────────────
   {name:"SilverStone F1 HYBRID S-BOT PRO Wi-Fi DE", brand:"SilverStone F1",
@@ -1712,7 +1723,7 @@ window.DEVICES = [
    resolution:"2.7K 2592×1944p", angle:"150°", screen:"с экраном", gps:"GPS + ГЛОНАСС",
    price:"~7 990 ₽", url:"https://market.navitel.ru/catalog/videoregistratory-i-komboustroystva/videoregistratory/navitel-r87-gps/",
    photo:"https://market.navitel.ru/upload/iblock/520/zisf2p1hsxb0yd7mbgc4fklz9beuav2q.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"3.7\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS 2",processor:null,display_type:"IPS",screen_size:"3.7\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"NAVITEL R385 GPS", brand:"Navitel",
    type:"GPS-информер", form:"с экраном", q:2,
@@ -1759,7 +1770,7 @@ window.DEVICES = [
    resolution:"Full HD 1920×1080p", angle:"135°", screen:"с экраном", gps:"GPS + ГЛОНАСС",
    price:"~22 499 ₽", url:"https://neoline.ru/shop/signaturnyy-gibrid-neoline-deepscan-wi-fi-black/",
    photo:"",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony Exmor",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Neoline SPECTRUM", brand:"Neoline",
    type:"комбо 3 в 1", form:"с экраном", q:3,
@@ -1835,7 +1846,7 @@ window.DEVICES = [
    price:"~19 283 ₽",
    url:"https://store.intego.ru/products/intego-videoregistrator-c-signaturnym-radar-detektorom-vx-1300s-4k-lna-4-105957",
    photo:"https://avatars.mds.yandex.net/get-yastore/20341920/248m2n5kzzqrfdg7cpt8f67z2dh5lgp6/orig",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"INTEGO VX-1300S 4K",                   brand:"INTEGO",
    type:"комбо 3 в 1",      form:"с экраном",  q:3,
@@ -1845,7 +1856,7 @@ window.DEVICES = [
    price:"~21 163 ₽",
    url:"https://store.intego.ru/products/intego-videoregistrator-c-signaturnym-radar-detektorom-vx-1300s-4k-3-104426",
    photo:"https://avatars.mds.yandex.net/get-yastore/20459843/x7cr5kbwd7k9r8xv9gz6f6tg7fgt5hk9/orig",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"INTEGO VX-1300S FHD",                  brand:"INTEGO",
    type:"комбо 3 в 1",      form:"с экраном",  q:2,
@@ -1855,7 +1866,7 @@ window.DEVICES = [
    price:"~15 932 ₽",
    url:"https://store.intego.ru/products/videoregistrator-c-signaturnym-radar-detektorom-intego-vx-1300s-fhd-105958",
    photo:"https://avatars.mds.yandex.net/get-yastore/18104899/wff56zs6bfxns4pp4fgx9qdxk8nxzh4n/orig",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"INTEGO VX-1500SW",                     brand:"INTEGO",
    type:"комбо 3 в 1",      form:"с экраном",  q:2,
@@ -1886,7 +1897,7 @@ window.DEVICES = [
    price:"~12 760 ₽",
    url:"https://store.intego.ru/products/intego-videoregistrator-avtomobilnyiy-kite-2-full-hd-gps-i-wifi-105955",
    photo:"https://avatars.mds.yandex.net/get-yastore/20412565/dm7dcxpnrslqktbk7mdh9j8xhc2hmbh6/orig",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"INTEGO Kite 2 4K",                     brand:"INTEGO",
    type:"gps-информер",     form:"с экраном",  q:3,
@@ -1896,7 +1907,7 @@ window.DEVICES = [
    price:"~11 815 ₽",
    url:"https://store.intego.ru/products/intego-videoregistrator-avtomobilnyiy-kite-2-gps-i-wifi-3-105954",
    photo:"https://avatars.mds.yandex.net/get-yastore/20412565/fbz8w9nc222rnmql6kngkx7rs8nxg47v/orig",
-   specs:{processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // Видеорегистраторы
   {name:"INTEGO Argo",                           brand:"INTEGO",
@@ -2018,7 +2029,7 @@ window.DEVICES = [
    price:"~4 990 ₽",
    url:"https://70mai-russia.com/m310/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/06/70mai-m310--1024x1024.jpg",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"SmartSens SC3336P",display_type:null,screen_size:null,max_sd:"256 ГБ",power_element:"аккумулятор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai M310 Plus",                          brand:"70mai",
    type:"видеорегистратор", form:"без экрана",  q:1,
@@ -2028,7 +2039,7 @@ window.DEVICES = [
    price:"~5 490 ₽",
    url:"https://70mai-russia.com/m310-plus/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/06/70mai-m310-plus-1024x1024.jpg",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"3 МП (модель не указана)",display_type:null,screen_size:null,max_sd:"256 ГБ",power_element:"аккумулятор",power_type:"Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai M300",                               brand:"70mai",
    type:"видеорегистратор", form:"без экрана",  q:1,
@@ -2038,7 +2049,7 @@ window.DEVICES = [
    price:"~4 990 ₽",
    url:"https://70mai-russia.com/m300/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/06/70mai-m300-1024x1024.jpg",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"SmartSens SC3335",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"аккумулятор",power_type:"Micro-USB",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai A410",                               brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:2,
@@ -2068,7 +2079,7 @@ window.DEVICES = [
    price:"~8 990 ₽",
    url:"https://70mai-russia.com/a500s-pro-plus/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/04/70mai-a500s-pro-plus--1024x1024.jpg",
-   specs:{processor:"NT96580",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:"NT96580",sensor:"Sony STARVIS IMX335",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai A510",                               brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:2,
@@ -2078,7 +2089,7 @@ window.DEVICES = [
    price:"~9 990 ₽",
    url:"https://70mai-russia.com/a510/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/01/70mai-a510-1024x1024.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"Sony STARVIS 2 IMX675",display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai A800S",                              brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2088,7 +2099,7 @@ window.DEVICES = [
    price:"~12 990 ₽",
    url:"https://70mai-russia.com/a800s/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/04/70mai-a800s-4k-1024x1024.jpg",
-   specs:{processor:"SigmaStar SSC8629G",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:"SigmaStar SSC8629G",sensor:"Sony STARVIS IMX415",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai A800SE",                             brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2098,7 +2109,7 @@ window.DEVICES = [
    price:"~11 990 ₽",
    url:"https://70mai-russia.com/a800se/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/06/70mai-a800se-1024x1024.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 6"}},
+   specs:{processor:null,sensor:"GalaxyCore GC8613",display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 6"}},
 
   {name:"70mai A810 4K",                            brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2108,7 +2119,7 @@ window.DEVICES = [
    price:"~15 990 ₽",
    url:"https://70mai-russia.com/a810-4k/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/04/70mai-a810-4k-1024x1024.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:null,sensor:"Sony STARVIS 2 IMX678",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"70mai A810S 4K",                           brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2118,7 +2129,7 @@ window.DEVICES = [
    price:"~16 990 ₽",
    url:"https://70mai-russia.com/a810s-4k/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/04/70mai-a810s-4k-1024x1024.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
+   specs:{processor:null,sensor:"Sony STARVIS 2 IMX678",display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
 
   {name:"70mai 4K Omni",                            brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2128,7 +2139,7 @@ window.DEVICES = [
    price:"~19 990 ₽",
    url:"https://70mai-russia.com/4k-omni/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/04/70mai-4k-omni-1024x1024.jpg",
-   specs:{processor:"NT98530",display_type:"IPS",screen_size:"1.4\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
+   specs:{processor:"NT98530",sensor:"Sony STARVIS 2 IMX678",display_type:"IPS",screen_size:"1.4\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
 
   {name:"70mai T800",                               brand:"70mai",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2138,7 +2149,7 @@ window.DEVICES = [
    price:"~22 990 ₽",
    url:"https://70mai-russia.com/t800/",
    photo:"https://70-mai.ru/wp-content/uploads/2026/01/70mai-t800-1024x1024.jpg",
-   specs:{processor:null,display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
+   specs:{processor:null,sensor:"Sony STARVIS 2 IMX678",display_type:"IPS",screen_size:"3\"",max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi 6"}},
 
   // ── DaoCam ──────────────────────────────────────────
   // Видеорегистраторы
@@ -2150,7 +2161,7 @@ window.DEVICES = [
    price:"~6 990 ₽",
    url:"https://daocam.ru/product/uno-wifi",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/4.3-1-600x800-1.jpg",
-   specs:{processor:"Novatek 96672",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96672",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Uno GPS",                           brand:"DaoCam",
    type:"видеорегистратор", form:"с экраном",   q:1,
@@ -2160,7 +2171,7 @@ window.DEVICES = [
    price:"~7 990 ₽",
    url:"https://daocam.ru/product/uno-gps",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/4.4-1-600x800-1.jpg",
-   specs:{processor:"Novatek 96672",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX327",processor:"Novatek 96672",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Mirror Wi-Fi",                      brand:"DaoCam",
    type:"видеорегистратор", form:"регистратор-зеркало", q:1,
@@ -2170,7 +2181,7 @@ window.DEVICES = [
    price:"~7 490 ₽",
    url:"https://daocam.ru/product/mirror",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/1-1.jpg",
-   specs:{processor:"Jieli 5401B",display_type:null,screen_size:"4.55\"",max_sd:"32 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"Jieli 5401B",display_type:null,screen_size:"4.55\"",max_sd:"32 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Mirror 2",                          brand:"DaoCam",
    type:"видеорегистратор", form:"регистратор-зеркало", q:2,
@@ -2180,7 +2191,7 @@ window.DEVICES = [
    price:"~7 490 ₽",
    url:"https://daocam.ru/product/mirror2k",
    photo:"https://api.daocam.ru/wp-content/uploads/2026/05/1.jpg",
-   specs:{processor:"Eeasy230C",display_type:null,screen_size:"4.55\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"SmartSens SC2336",processor:"Eeasy230C",display_type:null,screen_size:"4.55\"",max_sd:"256 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Uno 3",                             brand:"DaoCam",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2190,7 +2201,7 @@ window.DEVICES = [
    price:"~11 490 ₽",
    url:"https://daocam.ru/product/uno-3",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/11/2-1.jpg",
-   specs:{processor:"Novatek 96670",display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Uno 3 2ch",                         brand:"DaoCam",
    type:"видеорегистратор", form:"с экраном",   q:3,
@@ -2200,7 +2211,7 @@ window.DEVICES = [
    price:"~12 790 ₽",
    url:"https://daocam.ru/product/uno-3-2ch",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/11/01-1.jpg",
-   specs:{processor:"Novatek 96670",display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:"IPS",screen_size:"2\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   // Комбо-устройства
   {name:"DaoCam Genom Wi-Fi",                       brand:"DaoCam",
@@ -2211,7 +2222,7 @@ window.DEVICES = [
    price:"~12 990 ₽",
    url:"https://daocam.ru/product/daocam-genom-wi-fi-dostupnyj-videoregistrator-s-radar-detektorom-i-gps-kombo-3-v-1",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/1-600x800-1.jpg",
-   specs:{processor:"MStar 8336",display_type:null,screen_size:"2.31\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"MStar 8336",display_type:null,screen_size:"2.31\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Genom 3",                           brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:1,
@@ -2221,7 +2232,7 @@ window.DEVICES = [
    price:"~14 990 ₽",
    url:"https://daocam.ru/product/daocam-genom-3",
    photo:"https://api.daocam.ru/wp-content/uploads/2026/04/1.jpg",
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"Novatek 96675",display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Genom 3 2CH",                       brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:1,
@@ -2231,7 +2242,7 @@ window.DEVICES = [
    price:"~16 490 ₽",
    url:"https://daocam.ru/product/daocam-genom-3-2ch",
    photo:"https://api.daocam.ru/wp-content/uploads/2026/04/1-2.jpg",
-   specs:{processor:"Novatek 96675",display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"Novatek 96675",display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Combo Wi-Fi",                       brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:1,
@@ -2241,7 +2252,7 @@ window.DEVICES = [
    price:"~17 490 ₽",
    url:"https://daocam.ru/product/daocam-combo-wifi-videoregistrator-s-signaturnym-radar-detektorom-i-nochnoj-semkoj",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/2.7-6-600x800-1.jpg",
-   specs:{processor:"MStar 8339",display_type:"IPS",screen_size:"3\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"MStar 8339",display_type:"IPS",screen_size:"3\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Combo Wi-Fi 2ch",                   brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:1,
@@ -2251,7 +2262,7 @@ window.DEVICES = [
    price:"~18 990 ₽",
    url:"https://daocam.ru/product/daocam-combo-wifi-2ch-videoregistrator-s-signaturnym-radar-detektorom-i-vtoroj-kameroj",
    photo:"https://api.daocam.ru/wp-content/uploads/2024/09/2.7-7-600x800-1.jpg",
-   specs:{processor:"MStar 8339",display_type:"IPS",screen_size:"3\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX307",processor:"MStar 8339",display_type:"IPS",screen_size:"3\"",max_sd:"64 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Combo 3 Max 2CH",                   brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:2,
@@ -2261,7 +2272,7 @@ window.DEVICES = [
    price:"~25 990 ₽",
    url:"https://daocam.ru/product/daocam-combo-3-max-2ch",
    photo:"https://api.daocam.ru/wp-content/uploads/2026/04/1-5.jpg",
-   specs:{processor:"Novatek 96670",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"DaoCam Combo 3 Max",                       brand:"DaoCam",
    type:"комбо 3 в 1",     form:"с экраном",   q:3,
@@ -2271,7 +2282,7 @@ window.DEVICES = [
    price:"~24 490 ₽",
    url:"https://daocam.ru/product/daocam-combo-3-max",
    photo:"https://api.daocam.ru/wp-content/uploads/2026/04/1-4.jpg",
-   specs:{processor:"Novatek 96670",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Novatek 96670",display_type:"IPS",screen_size:"3\"",max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── TrendVision — зеркала ─────────────────────────────── */
   {name:"TrendVision City Mirror",            brand:"TrendVision",
@@ -2312,7 +2323,7 @@ window.DEVICES = [
    price:"~7 990 ₽",
    url:"https://trendvision.ru/products/trendvision-mr-2k/",
    photo:"",
-   specs:{processor:"SA230L",display_type:"IPS",screen_size:"10\"",max_sd:"256 ГБ",power_element:"аккумулятор 400мАч",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore GC4653",processor:"SA230L",display_type:"IPS",screen_size:"10\"",max_sd:"256 ГБ",power_element:"аккумулятор 400мАч",power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision MR-810 GT",             brand:"TrendVision",
    type:"видеорегистратор", form:"регистратор-зеркало", q:1,
@@ -2322,7 +2333,7 @@ window.DEVICES = [
    price:"~12 490 ₽",
    url:"https://trendvision.ru/products/trendvision-mr-810-gt/",
    photo:"",
-   specs:{processor:"Mstar 8336N",display_type:"LCD",screen_size:"10\"",max_sd:"128 ГБ",power_element:null,power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"GalaxyCore GC2053",processor:"Mstar 8336N",display_type:"LCD",screen_size:"10\"",max_sd:"128 ГБ",power_element:null,power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"TrendVision MR-1100 (AI Smart Assist)", brand:"TrendVision",
    type:"видеорегистратор", form:"регистратор-зеркало", q:2,
@@ -2342,7 +2353,7 @@ window.DEVICES = [
    price:"~17 990 ₽",
    url:"https://trendvision.ru/products/trendvision-carplay-mirror/",
    photo:"",
-   specs:{processor:"MStar",display_type:"IPS",screen_size:"11\"",max_sd:null,power_element:null,power_type:"Type-C",gsensor:true,motion:false,timelapse:true,wifi_gen:null}},
+   specs:{sensor:"GalaxyCore GC4653",processor:"MStar",display_type:"IPS",screen_size:"11\"",max_sd:null,power_element:null,power_type:"Type-C",gsensor:true,motion:false,timelapse:true,wifi_gen:null}},
 
   {name:"TrendVision MR-360",                brand:"TrendVision",
    type:"видеорегистратор", form:"регистратор-зеркало", q:3,
@@ -2362,7 +2373,7 @@ window.DEVICES = [
    price:"~25 990 ₽",
    url:"https://trendvision.ru/products/trendvision-mr-4k/",
    photo:"",
-   specs:{processor:"Hi3559V",display_type:"LCD",screen_size:"11\"",max_sd:null,power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"Sony STARVIS IMX415",processor:"Hi3559V",display_type:"LCD",screen_size:"11\"",max_sd:null,power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi"}},
 
   {name:"TrendVision aMirror 15 Android",    brand:"TrendVision",
    type:"видеорегистратор", form:"регистратор-зеркало", q:1,
@@ -2383,7 +2394,7 @@ window.DEVICES = [
    price:"~13 990 ₽",
    url:"https://www.dns-shop.ru/product/5a976f50e740ed20/videoregistrator-zerkalo-70mai-s500/",
   photo:"https://natural.lamobile.ru/upload/resize_cache/webp/iblock/eff/b8py30wsvi0nikcc454gsrp1tjttn40w.webp",
-  specs:{processor:null,display_type:"IPS",screen_size:"9.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro-USB",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi 2.4ГГц"}},
+  specs:{processor:null,sensor:"Sony STARVIS 2 IMX675",display_type:"IPS",screen_size:"9.35\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"Micro-USB",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi 2.4ГГц"}},
 
   /* ── VIOFO — видеорегистраторы ───────────────────────────── */
   {name:"VIOFO A329S 2CH", brand:"VIOFO",
@@ -2605,7 +2616,7 @@ window.DEVICES = [
    price:"~59 490 ₽",
    url:"https://blackvue.ru/catalog/videoregistratory/dr970x_1ch_plus/",
    photo:null,
-   specs:{processor:"SigmaStar SSC8629G",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
+   specs:{processor:"SigmaStar SSC8629G",sensor:"Sony STARVIS 2",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
 
   {name:"BlackVue DR970X-2CH Plus II", brand:"BlackVue",
    type:"видеорегистратор", form:"без экрана", q:3,
@@ -2615,7 +2626,7 @@ window.DEVICES = [
    price:"~75 490 ₽",
    url:"https://blackvue.ru/catalog/videoregistratory/dr970x_2ch_plus/",
    photo:null,
-   specs:{processor:"SigmaStar SSC8629G",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
+   specs:{processor:"SigmaStar SSC8629G",sensor:"Sony STARVIS 2",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
 
   {name:"BlackVue DR770X-1CH II", brand:"BlackVue",
    type:"видеорегистратор", form:"без экрана", q:1,
@@ -2625,7 +2636,7 @@ window.DEVICES = [
    price:"~46 990 ₽",
    url:"https://blackvue.ru/catalog/videoregistratory/dr770x_1ch/",
    photo:null,
-   specs:{processor:"SigmaStar SSC8629G",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
+   specs:{processor:"SigmaStar SSC8629G",sensor:"Sony STARVIS",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
 
   {name:"BlackVue DR770X-2CH II", brand:"BlackVue",
    type:"видеорегистратор", form:"без экрана", q:1,
@@ -2635,7 +2646,7 @@ window.DEVICES = [
    price:"~59 990 ₽",
    url:"https://blackvue.ru/catalog/videoregistratory/dr770x_2ch/",
    photo:null,
-   specs:{processor:"SigmaStar SSC8629G",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
+   specs:{processor:"SigmaStar SSC8629G",sensor:"Sony STARVIS",display_type:null,screen_size:null,max_sd:"512 ГБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
 
   {name:"BlackVue ELITE8-2CH", brand:"BlackVue",
    type:"видеорегистратор", form:"без экрана", q:2,
@@ -2645,7 +2656,7 @@ window.DEVICES = [
    price:"~65 490 ₽",
    url:"https://blackvue.ru/catalog/videoregistratory/elite8_2ch/",
    photo:null,
-   specs:{processor:"SigmaStar",display_type:null,screen_size:null,max_sd:"1 ТБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
+   specs:{processor:"SigmaStar",sensor:"Sony STARVIS 2",display_type:null,screen_size:null,max_sd:"1 ТБ",power_element:"суперконденсатор",power_type:"12-24 В",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi + Cloud"}},
 
   /* ── Sho-Me — комбо 3-в-1 ───────────────────────── */
   {name:"Sho-Me Combo Mirage WiFi DUO", brand:"Sho-Me",
@@ -2797,7 +2808,7 @@ window.DEVICES = [
    price:"~3 790 ₽",
    url:"https://sho-me.ru/katalog/videoregistrator-avtomobilnyy/kupit-videoregistrator-sho-me-fhd-590",
    photo:"https://sho-me.ru/media/catalog/product/cache/f72bed58e8d6de93feb37803e88c598c/s/h/sho-me-videoregistrator-fhd-590-01.jpg",
-   specs:{processor:"JL5401",display_type:null,screen_size:"9.66\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{processor:"JL5401",sensor:"CS2363",display_type:null,screen_size:"9.66\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Sho-Me FHD 925", brand:"Sho-Me",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -2817,7 +2828,7 @@ window.DEVICES = [
    price:"~1 690 ₽",
    url:"https://sho-me.ru/katalog/videoregistrator-avtomobilnyy/kupit-videoregistrator-sho-me-sfhd-700",
    photo:"https://sho-me.ru/media/catalog/product/cache/f72bed58e8d6de93feb37803e88c598c/7/0/700-01.jpg",
-   specs:{processor:"GP2247",display_type:null,screen_size:"4.5\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"GalaxyCore GC1054",processor:"GP2247",display_type:null,screen_size:"4.5\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:null}},
 
   {name:"Sho-Me FHD 825", brand:"Sho-Me",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -2827,7 +2838,7 @@ window.DEVICES = [
    price:"~2 690 ₽",
    url:"https://sho-me.ru/katalog/videoregistrator-avtomobilnyy/kupit-videoregistrator-sho-me-fhd-825",
    photo:"https://sho-me.ru/media/catalog/product/cache/f72bed58e8d6de93feb37803e88c598c/8/2/825-01_1.jpg",
-   specs:{processor:"JL5212B+SC1243",display_type:null,screen_size:"1.54\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:null}},
+   specs:{sensor:"H42",processor:"JL5212B+SC1243",display_type:null,screen_size:"1.54\"",max_sd:null,power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:null}},
 
   {name:"Sho-Me FHD-325", brand:"Sho-Me",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -2989,7 +3000,7 @@ window.DEVICES = [
    price:"цена не указана",
    url:"https://ddpai-russia.ru/videoregistrator-ddpai-z40/",
    photo:"https://ddpai-russia.ru/wp-content/uploads/2026/03/videoregistrator-ddpai-dash-cam-z40.jpg",
-   specs:{processor:"SigmaStar",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 2.4 ГГц"}},
+   specs:{processor:"SigmaStar",sensor:"Sony STARVIS IMX335",display_type:"IPS",screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 2.4 ГГц"}},
 
   {name:"DDPAI Dash Cam MINI5 4K", brand:"DDPAI",
    type:"видеорегистратор", form:"без экрана", q:3,
@@ -2999,7 +3010,7 @@ window.DEVICES = [
    price:"цена не указана",
    url:"https://ddpai-russia.ru/videoregistrator-ddpai-mini5/",
    photo:"https://ddpai-russia.ru/wp-content/uploads/2026/03/videoregistrator-ddpai-dash-cam-mini5-4k.jpg",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"встроенная eMMC 64 ГБ",power_element:"суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
+   specs:{processor:null,sensor:"Sony STARVIS IMX415",display_type:null,screen_size:null,max_sd:"встроенная eMMC 64 ГБ",power_element:"суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi 5 ГГц"}},
 
   {name:"DDPAI Dash Cam Z50 Pro 4K", brand:"DDPAI",
    type:"видеорегистратор", form:"с экраном", q:3,

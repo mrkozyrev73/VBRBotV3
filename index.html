@@ -5,18 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>VBR Bot</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110272214', 'ym');
-
-    ym(110272214, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<!-- /Yandex.Metrika counter -->
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -3676,7 +3664,6 @@ body.tg-webapp #bottom-nav {
 </style>
 </head>
 <body>
-<noscript><div><img src="https://mc.yandex.ru/watch/110272214" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <div class="fav-tooltip" id="fav-tooltip"></div>
 <div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
 
@@ -4964,6 +4951,17 @@ function termTip(key) {
 }
 
 const SENSOR_META = {
+  H42: {rank: 0.8, label: "H42", tier: "базовый Full HD"},
+  CS2363: {rank: 1, label: "CS2363", tier: "базовый Full HD"},
+  GC1054: {rank: 0.7, label: "GalaxyCore GC1054", tier: "базовый Full HD"},
+  GC2053: {rank: 1, label: "GalaxyCore GC2053", tier: "базовый Full HD"},
+  GC2083: {rank: 1, label: "GalaxyCore GC2083", tier: "базовый Full HD"},
+  SC2336: {rank: 1.2, label: "SmartSens SC2336", tier: "базовый Full HD"},
+  SC501: {rank: 1.4, label: "SC501", tier: "сенсор указан"},
+  SC3335: {rank: 1.7, label: "SmartSens SC3335", tier: "хороший Full HD"},
+  SC3336P: {rank: 1.8, label: "SmartSens SC3336P", tier: "хороший Full HD"},
+  GC4653: {rank: 2.1, label: "GalaxyCore GC4653", tier: "хороший 2K"},
+  GC8613: {rank: 3, label: "GalaxyCore GC8613", tier: "4K-сенсор"},
   IMX323: {rank: 1, label: "Sony IMX323", tier: "базовый Full HD"},
   IMX307: {rank: 1, label: "Sony IMX307", tier: "базовый Full HD"},
   IMX327: {rank: 1.4, label: "Sony IMX327", tier: "хороший Full HD"},
@@ -4972,19 +4970,31 @@ const SENSOR_META = {
   IMX675: {rank: 4.2, label: "Sony STARVIS 2 IMX675", tier: "лучше, STARVIS 2"},
   IMX678: {rank: 5, label: "Sony STARVIS 2 IMX678", tier: "сильно лучше"},
   STARVIS2: {rank: 4, label: "Sony STARVIS 2", tier: "лучше, STARVIS 2"},
-  STARVIS: {rank: 1.6, label: "Sony STARVIS", tier: "хороший сенсор"}
+  STARVIS: {rank: 1.6, label: "Sony STARVIS", tier: "хороший сенсор"},
+  EXMOR: {rank: 1.2, label: "Sony Exmor", tier: "базовый хороший сенсор"},
+  SONY: {rank: 1.5, label: "Sony, модель не указана", tier: "матрица Sony"},
+  SMARTSENS: {rank: 1.1, label: "SmartSens, модель не указана", tier: "сенсор указан без модели"}
 };
 
 function detectedSensorKey(d) {
   const explicit = d.specs?.sensor;
   const text = `${d.name || ""} ${d.resolution || ""} ${d.desc || ""} ${explicit || ""}`.toUpperCase();
-  const imxMatches = [...text.matchAll(/IMX\s*([0-9]{3,4})/g)].map(m => `IMX${m[1]}`);
-  const ranked = imxMatches
+  const sensorMatches = [
+    ...[...text.matchAll(/IMX\s*([0-9]{3,4})/g)].map(m => `IMX${m[1]}`),
+    ...[...text.matchAll(/GC\s*([0-9]{4})/g)].map(m => `GC${m[1]}`),
+    ...[...text.matchAll(/SC\s*([0-9]{3,4}P?)/g)].map(m => `SC${m[1]}`),
+    ...[...text.matchAll(/CS\s*([0-9]{4})/g)].map(m => `CS${m[1]}`),
+    ...[...text.matchAll(/\bH42\b/g)].map(() => "H42")
+  ];
+  const ranked = sensorMatches
     .filter(k => SENSOR_META[k])
     .sort((a, b) => SENSOR_META[b].rank - SENSOR_META[a].rank);
   if (ranked.length) return ranked[0];
   if (/STARVIS\s*2|STARVIS2/.test(text)) return "STARVIS2";
-  if (/STARVIS|EXMOR/.test(text)) return "STARVIS";
+  if (/STARVIS/.test(text)) return "STARVIS";
+  if (/EXMOR/.test(text)) return "EXMOR";
+  if (/SONY/.test(String(explicit || "").toUpperCase()) || /SONY[-\s]*МАТРИЦ/.test(text)) return "SONY";
+  if (/SMARTSENS/.test(String(explicit || "").toUpperCase()) || /МАТРИЦ[АЫ]\s+SMARTSENS/.test(text)) return "SMARTSENS";
   return null;
 }
 
@@ -5011,16 +5021,26 @@ function sensorRank(d) {
   return sensorInfo(d)?.rank || 0;
 }
 
+function isSonySensorInfo(info) {
+  return /Sony|STARVIS|Exmor/i.test(info?.label || "");
+}
+
+function sensorPriorityScore(d) {
+  const info = sensorInfo(d);
+  if (!info) return 0;
+  return info.rank + (isSonySensorInfo(info) ? 0.35 : 0);
+}
+
 function shootingQualityScore(d) {
   let score = (d.q || 0) * 100;
-  score += sensorRank(d) * 8;
+  score += sensorPriorityScore(d) * 8;
   if (hasInterpolation(d)) score -= 35;
   return score;
 }
 
 function sensorClassDifferent(a, b) {
-  const ar = sensorRank(a);
-  const br = sensorRank(b);
+  const ar = sensorPriorityScore(a);
+  const br = sensorPriorityScore(b);
   if (!ar || !br) return false;
   return Math.abs(ar - br) >= 1.2;
 }
@@ -5032,7 +5052,10 @@ function makeSearchCard(item, isExact) {
   const sensor = sensorLabel(d);
   if (QNAMES[d.q]) badges.push({text: QNAMES[d.q], hi: d.q >= 2});
   if (FORM_SHORT[d.form]) badges.push({text: FORM_SHORT[d.form], hi: false});
-  if (sensor) badges.push({text: sensor.replace(/^Sony\s+/i, ""), hi: sensorRank(d) >= 3.2});
+  if (sensor) {
+    const sensorInfoValue = sensorInfo(d);
+    badges.push({text: sensor.replace(/^Sony\s+/i, ""), hi: isSonySensorInfo(sensorInfoValue) && sensorRank(d) >= 3.2});
+  }
   if (d.gps && d.gps !== "нет") badges.push({text: "GPS", hi: false});
   if (antennaLabel) badges.push({text: antennaLabel, hi: radarAntenna(d) === "horn"});
   if (hasLNA(d)) badges.push({text: "LNA", hi: false});
@@ -5236,8 +5259,8 @@ function similarPct(x, d) {
   if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) === hasLNA(d)) p += 4;
   const qDiff = Math.abs(x.q - d.q);
   p += qDiff === 0 ? 14 : x.q > d.q ? 12 : qDiff === 1 ? 6 : 0;
-  const xSensorRank = sensorRank(x);
-  const dSensorRank = sensorRank(d);
+  const xSensorRank = sensorPriorityScore(x);
+  const dSensorRank = sensorPriorityScore(d);
   if (xSensorRank && dSensorRank) {
     p += Math.abs(xSensorRank - dSensorRank) < 0.8 ? 5 : xSensorRank > dSensorRank && x.q >= d.q ? 4 : 1;
   }
@@ -5263,16 +5286,25 @@ function getDiffs(x, d) {
   const xSensor = sensorInfo(x);
   const dSensor = sensorInfo(d);
   if (xSensor && dSensor && xSensor.key !== dSensor.key && (x.q === d.q || sensorClassDifferent(x, d))) {
-    const betterSensor = xSensor.rank > dSensor.rank;
-    const tone = x.q === d.q
-      ? (betterSensor ? 'better' : 'worse')
-      : (betterSensor && x.q >= d.q ? 'better' : !betterSensor && x.q <= d.q ? 'worse' : undefined);
+    const betterSensor = sensorPriorityScore(x) > sensorPriorityScore(d);
+    const xSony = isSonySensorInfo(xSensor);
+    const dSony = isSonySensorInfo(dSensor);
+    const tone = xSony && dSony
+      ? (x.q === d.q
+        ? (betterSensor ? 'better' : 'worse')
+        : (betterSensor && x.q >= d.q ? 'better' : !betterSensor && x.q <= d.q ? 'worse' : undefined))
+      : (xSony && betterSensor && x.q >= d.q ? 'better' : undefined);
+    const sensorText = tone === 'better'
+      ? `Сенсор лучше: ${xSensor.label}`
+      : tone === 'worse'
+        ? `Сенсор проще: ${xSensor.label}`
+        : `Сенсор: ${xSensor.label}`;
     diffs.push({
-      text: betterSensor ? `Сенсор лучше: ${xSensor.label}` : `Сенсор проще: ${xSensor.label}`,
+      text: sensorText,
       type: tone
     });
   } else if (xSensor && !dSensor && x.q >= d.q) {
-    diffs.push({text: `Сенсор указан: ${xSensor.label}`, type: 'better'});
+    diffs.push({text: `Сенсор указан: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
