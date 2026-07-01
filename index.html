@@ -110,43 +110,46 @@ body.tg-webapp #bottom-nav {
 
 /* Desktop support block in header — hidden on mobile */
 .hd-support-block { display: none; }
-.hd-support-info { display: flex; align-items: center; gap: 10px; }
-.hd-support-icon { font-size: 22px; line-height: 1; flex-shrink: 0; }
-.hd-support-title { font-size: 13px; font-weight: 700; color: var(--text-1); line-height: 1.3; }
-.hd-support-sub { font-size: 11px; color: var(--text-2); margin-top: 1px; }
-.hd-btn-donate {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 9px 20px;
-  background: var(--blue); border-radius: 12px;
-  font-size: 13px; font-weight: 600; color: #fff;
-  text-decoration: none; white-space: nowrap;
-  transition: opacity .15s;
+.hd-support-block,
+.hd-privacy-block {
+  align-items: center; gap: 8px;
+  color: var(--text-2);
+  font-size: 12px; font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.hd-support-block { color: var(--text); }
+.hd-support-block svg,
+.hd-privacy-block svg {
+  width: 18px; height: 18px;
   flex-shrink: 0;
 }
-.hd-btn-donate:hover { opacity: .88; }
-.hd-btn-donate:active { opacity: .7; }
+.hd-support-block svg { color: #B0123B; }
+.hd-privacy-block { display: none; color: var(--text-3); }
 /* Desktop contact block in header */
 .hd-contact-block {
   display: none;
-  align-items: center; gap: 10px;
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: 16px; padding: 10px 14px;
+  align-items: center; gap: 8px;
+  background: transparent; border: 0;
+  border-radius: 0; padding: 0;
   text-decoration: none;
-  transition: background .15s;
+  transition: opacity .15s;
   flex-shrink: 0;
   font: inherit;
   cursor: pointer;
   text-align: left;
+  color: var(--text-2);
 }
-.hd-contact-block:hover { background: var(--bg); }
+.hd-contact-block:hover,
+.hd-support-block:hover { opacity: .72; }
 .hd-contact-icon {
-  width: 36px; height: 36px;
-  background: var(--bg); border-radius: 10px;
+  width: 18px; height: 18px;
+  background: transparent; border-radius: 0;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; color: var(--blue);
+  flex-shrink: 0; color: var(--text-2);
 }
-.hd-contact-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.hd-contact-sub   { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+.hd-contact-title { display: none; }
+.hd-contact-sub   { font-size: 12px; color: var(--text-2); margin-top: 0; }
 .hd-contact-arrow { display: none; }
 
 /* Mobile support section "или" + contact row */
@@ -1557,6 +1560,7 @@ body.tg-webapp #bottom-nav {
   visibility: hidden;
   pointer-events: none;
   transition: opacity .06s ease, transform .06s ease, visibility 0s linear .06s;
+  display: none;
 }
 .term-tip::before {
   content: "";
@@ -1571,6 +1575,7 @@ body.tg-webapp #bottom-nav {
   visibility: hidden;
   pointer-events: none;
   transition: opacity .06s ease, visibility 0s linear .06s;
+  display: none;
 }
 .term-tip:hover::after,
 .term-tip:focus-visible::after {
@@ -1584,6 +1589,41 @@ body.tg-webapp #bottom-nav {
   opacity: 1;
   visibility: visible;
   transition-delay: 0s;
+}
+.term-tooltip-float {
+  position: fixed;
+  z-index: 200;
+  max-width: min(300px, calc(100vw - 24px));
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: rgba(29, 29, 31, .96);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(2px);
+  transition: opacity .06s ease, transform .06s ease, visibility 0s linear .06s;
+}
+.term-tooltip-float.on {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+.term-tooltip-float::after {
+  content: "";
+  position: absolute;
+  left: var(--tip-arrow-left, 50%);
+  bottom: -4px;
+  width: 8px;
+  height: 8px;
+  background: rgba(29, 29, 31, .96);
+  transform: translateX(-50%) rotate(45deg);
 }
 .match-explain {
   margin-top: 10px;
@@ -2486,11 +2526,10 @@ body.tg-webapp #bottom-nav {
   }
   .btn-hd-donate { display: none; }
   .hd-support-block {
-    display: flex; align-items: center; gap: 16px;
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 16px; padding: 10px 16px;
+    display: flex;
     margin-left: auto;
   }
+  .hd-privacy-block { display: flex; }
   .hd-contact-block { display: flex; }
   .hd-counter { min-width: 64px; text-align: right; flex-shrink: 0; }
 
@@ -3665,6 +3704,7 @@ body.tg-webapp #bottom-nav {
 </head>
 <body>
 <div class="fav-tooltip" id="fav-tooltip"></div>
+<div class="term-tooltip-float" id="term-tooltip"></div>
 <div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
 
 <!-- ── HEADER (hidden on intro) ───────────────────── -->
@@ -3697,16 +3737,13 @@ body.tg-webapp #bottom-nav {
     <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-hd-donate" id="btn-hd-donate">
       ☕ Поддержать
     </a>
-    <!-- Desktop: expanded support block -->
-    <div class="hd-support-block">
-      <div class="hd-support-info">
-        <span class="hd-support-icon">☕</span>
-        <div>
-          <div class="hd-support-title">Поддержать проект</div>
-          <div class="hd-support-sub">Помогите нам развиваться</div>
-        </div>
-      </div>
-      <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="hd-btn-donate">Отправить донат</a>
+    <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="hd-support-block">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0s-1.7 4.4 0 6.1L12 19.5l8.8-8.8c1.7-1.7 1.7-4.4 0-6.1Z"/></svg>
+      <span>Донат и поддержка</span>
+    </a>
+    <div class="hd-privacy-block">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+      <span>Конфиденциально. Никаких личных данных.</span>
     </div>
     <button type="button" class="hd-contact-block copy-email" data-email="partners@vbrbot.ru" aria-label="Скопировать email для сотрудничества">
       <div class="hd-contact-icon">
@@ -4182,8 +4219,64 @@ function hideFavTooltip() {
   if (tip) tip.classList.remove("on");
 }
 
+function showTermTooltip(target) {
+  const tip = document.getElementById("term-tooltip");
+  if (!target || !tip) return;
+  const text = target.getAttribute("data-tip") || "";
+  if (!text) return;
+
+  tip.textContent = text;
+  tip.classList.add("on");
+  tip.style.left = "0px";
+  tip.style.top = "0px";
+
+  const r = target.getBoundingClientRect();
+  const pad = 12;
+  const tipW = Math.min(tip.offsetWidth, window.innerWidth - pad * 2);
+  const tipH = tip.offsetHeight;
+  let left = r.left + r.width / 2 - tipW / 2;
+  left = Math.max(pad, Math.min(window.innerWidth - pad - tipW, left));
+
+  let top = r.top - tipH - 10;
+  if (top < pad) top = r.bottom + 10;
+
+  const arrowLeft = Math.max(14, Math.min(tipW - 14, r.left + r.width / 2 - left));
+  tip.style.left = `${left}px`;
+  tip.style.top = `${top}px`;
+  tip.style.setProperty("--tip-arrow-left", `${arrowLeft}px`);
+}
+
+function hideTermTooltip() {
+  const tip = document.getElementById("term-tooltip");
+  if (tip) tip.classList.remove("on");
+}
+
+function setupTermTooltips() {
+  document.addEventListener("pointerover", (event) => {
+    const target = event.target.closest(".term-tip");
+    if (target) showTermTooltip(target);
+  });
+  document.addEventListener("pointerout", (event) => {
+    if (event.target.closest(".term-tip")) hideTermTooltip();
+  });
+  document.addEventListener("focusin", (event) => {
+    const target = event.target.closest(".term-tip");
+    if (target) showTermTooltip(target);
+  });
+  document.addEventListener("focusout", (event) => {
+    if (event.target.closest(".term-tip")) hideTermTooltip();
+  });
+  document.addEventListener("click", (event) => {
+    const target = event.target.closest(".term-tip");
+    if (!target) return;
+    event.preventDefault();
+    showTermTooltip(target);
+  });
+}
+
 function hideFloatingHints() {
   hideFavTooltip();
+  hideTermTooltip();
 }
 
 function showCopyToast(message = "email скопирован в буфер обмена") {
@@ -4953,10 +5046,17 @@ function termTip(key) {
 const SENSOR_META = {
   H42: {rank: 0.8, label: "H42", tier: "базовый Full HD"},
   CS2363: {rank: 1, label: "CS2363", tier: "базовый Full HD"},
+  O4B10: {rank: 1.3, label: "04B10", tier: "сенсор указан"},
+  C2395K: {rank: 1.2, label: "C2395K", tier: "сенсор указан"},
   GC1054: {rank: 0.7, label: "GalaxyCore GC1054", tier: "базовый Full HD"},
   GC2053: {rank: 1, label: "GalaxyCore GC2053", tier: "базовый Full HD"},
+  GC2063: {rank: 1, label: "GalaxyCore GC2063", tier: "базовый Full HD"},
   GC2083: {rank: 1, label: "GalaxyCore GC2083", tier: "базовый Full HD"},
+  GC323PJ: {rank: 1, label: "GalaxyCore GC323PJ", tier: "базовый Full HD"},
+  SC533: {rank: 1.4, label: "SmartSens SC533", tier: "сенсор указан"},
+  SC1225: {rank: 0.8, label: "SmartSens SC1225", tier: "дополнительная камера"},
   SC2336: {rank: 1.2, label: "SmartSens SC2336", tier: "базовый Full HD"},
+  SC2363P: {rank: 1.2, label: "SmartSens SC2363P", tier: "базовый Full HD"},
   SC501: {rank: 1.4, label: "SC501", tier: "сенсор указан"},
   SC3335: {rank: 1.7, label: "SmartSens SC3335", tier: "хороший Full HD"},
   SC3336P: {rank: 1.8, label: "SmartSens SC3336P", tier: "хороший Full HD"},
@@ -4981,9 +5081,11 @@ function detectedSensorKey(d) {
   const text = `${d.name || ""} ${d.resolution || ""} ${d.desc || ""} ${explicit || ""}`.toUpperCase();
   const sensorMatches = [
     ...[...text.matchAll(/IMX\s*([0-9]{3,4})/g)].map(m => `IMX${m[1]}`),
-    ...[...text.matchAll(/GC\s*([0-9]{4})/g)].map(m => `GC${m[1]}`),
+    ...[...text.matchAll(/GC\s*([0-9]{3,4}P?J?)/g)].map(m => `GC${m[1]}`),
     ...[...text.matchAll(/SC\s*([0-9]{3,4}P?)/g)].map(m => `SC${m[1]}`),
     ...[...text.matchAll(/CS\s*([0-9]{4})/g)].map(m => `CS${m[1]}`),
+    ...[...text.matchAll(/\b0?4B10\b/g)].map(() => "O4B10"),
+    ...[...text.matchAll(/\bC2395K\b/g)].map(() => "C2395K"),
     ...[...text.matchAll(/\bH42\b/g)].map(() => "H42")
   ];
   const ranked = sensorMatches
@@ -5426,7 +5528,11 @@ function renderAnalogCard(x, pct, diffs) {
 }
 
 function isKnownSpecValue(v) {
-  return v != null && String(v).trim() !== "" && String(v).trim().toLowerCase() !== "н/д";
+  if (v == null) return false;
+  if (typeof v === "boolean") return true;
+  const value = String(v).trim();
+  if (!value) return false;
+  return !/^(?:-|—|н\/д|нет данных|не указано|не указан|nan|null|undefined)$/i.test(value);
 }
 
 function boolSpec(v) {
@@ -5444,6 +5550,7 @@ function fullSpecRows(d) {
     ["Форм-фактор", d.form],
     ["Разрешение", d.resolution],
     ["Сенсор", sensorSpecValue(d)],
+    ["Сенсор доп. камеры", d.specs?.rear_sensor],
     ["Угол обзора", d.angle],
     ["Экран", d.screen],
     ["GPS", d.gps],
@@ -5460,9 +5567,18 @@ function fullSpecRows(d) {
     ["Процессор", d.specs?.processor],
     ["Тип дисплея", d.specs?.display_type],
     ["Размер экрана", d.specs?.screen_size],
+    ["Количество камер", d.specs?.camera_count],
+    ["Разрешение доп. камеры", d.specs?.rear_resolution],
+    ["CPL-фильтр", d.specs?.cpl === true ? "есть" : null],
+    ["Крепление", d.specs?.bracket],
     ["Карта памяти", d.specs?.max_sd],
     ["Элемент питания", d.specs?.power_element],
     ["Тип питания", d.specs?.power_type],
+    ["Разъём", d.specs?.connector],
+    ["Кодек", d.specs?.codec],
+    ["Формат записи", d.specs?.format],
+    ["Приложение", d.specs?.app],
+    ["Особенности", d.specs?.features],
     ["G-сенсор", d.specs?.gsensor != null ? boolSpec(d.specs.gsensor) : null],
     ["Датчик движения", d.specs?.motion != null ? boolSpec(d.specs.motion) : null],
     ["Таймлапс", d.specs?.timelapse != null ? boolSpec(d.specs.timelapse) : null],
@@ -6436,6 +6552,7 @@ document.getElementById("btn-start").addEventListener("click", startQuiz);
 window.addEventListener("scroll", hideFloatingHints, {passive: true});
 document.addEventListener("scroll", hideFloatingHints, true);
 setupCopyEmailActions();
+setupTermTooltips();
 renderIntroDbSticker();
 renderFavoritePanel();
 initTelegramWebApp();
