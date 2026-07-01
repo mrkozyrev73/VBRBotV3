@@ -75,6 +75,7 @@ window.DEVICES = [
    price:"~8 500 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-flip-2k-wifi-dual-dvukhkanalnyy-s-vozmozhnostyu-podklyucheniya-tretey/",
    photo:null,
+   image:"assets/devices/ibox-flip-2k-wifi-dual.webp",
    specs:{sensor:"GalaxyCore GC4653",processor:"Eeasy 230L",display_type:null,screen_size:"1.5\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
   {name:"iBox Flip GPS Dual",               brand:"iBox",
    type:"видеорегистратор", form:"с экраном",   q:1,
@@ -653,16 +654,6 @@ window.DEVICES = [
    photo:"https://trendvision.ru/uploads/Trendvision_online_cloud_4g_1_7a99fc8d0d.jpg",
    specs:{sensor:"GalaxyCore, модель не указана",processor:"SL8521E Cortex-A53 Dual Core 1.3GHz",screen_size:"2\"",max_sd:"128 ГБ",power_element:"Бортовая сеть автомобиля",power_type:"уникальный",gsensor:true,motion:false,timelapse:false,wifi_gen:"Wi-Fi",cpl:false,rear_resolution:"VGA (640×480) 15 к/с",camera_count:"2",bracket:"Механическое (\"салазки\")",connector:"уникальный",codec:"H.264",app:"CloudDVR",features:"4G, 3G, возможность подключения к CMSV6 с облачным мониторингом, голосовые подсказки"}},
 
-  {name:"TrendVision SafeCube 4G", brand:"TrendVision",
-   type:"4G-регистратор", form:"без экрана", q:1,
-   magnetic:false, smartphone:true, rear_cam:false, touch:false, rotation:false, ir_cam:true, remote:true,
-   desc:"Автономная 4G-камера наблюдения: два объектива (140° + x6 зум), ночная подсветка до 5м, аппаратный датчик движения. Аккумулятор до 10 суток. Склад, гараж, дача.",
-   resolution:"Full HD 1920×1080 @30fps", angle:"140°", screen:"нет", gps:"нет",
-   price:"~8 990 ₽",
-   url:"https://trendvision.ru/products/trendvision-safecube-4g/",
-   photo:"https://trendvision.ru/uploads/xlarge_bok_3_e5facf64cd.jpg",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
-
   /* ── iBOX Видеорегистраторы ─────────────────────── */
   {name:"iBOX City PRO",                  brand:"iBox",
    type:"видеорегистратор", form:"с экраном", q:1,
@@ -703,6 +694,7 @@ window.DEVICES = [
    price:"~10 790 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan/",
    photo:"https://s3.regru.cloud/iboxstore-upload/resize_cache/341524/f6e5b326a22b0348aad67cbb31d5615d/iblock/0ff/0ff7af7afaebc33e38313098c48903a8/iBOX_RoadScan.jpg",
+   image:"assets/devices/ibox-roadscan.webp",
    specs:{sensor:"Sony STARVIS IMX307",processor:"SigmaStar 8339",display_type:null,screen_size:"2\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX RoadScan 4K GPS",           brand:"iBox",
@@ -713,6 +705,7 @@ window.DEVICES = [
    price:"~13 990 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan-4k-gps/",
    photo:null,
+   image:"assets/devices/ibox-roadscan-4k-gps.webp",
    specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX RoadScan PRO 4K",           brand:"iBox",
@@ -765,6 +758,7 @@ window.DEVICES = [
    price:"~5 599 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-alpha-wifi/",
    photo:null,
+   image:"assets/devices/ibox-alpha-wifi.webp",
    specs:{sensor:"SmartSens SC2336",processor:"Jieli JL5601",display_type:"IPS",screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Epic 4K",                   brand:"iBox",
@@ -786,6 +780,7 @@ window.DEVICES = [
    price:"~13 499 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/",
    photo:null,
+   image:"assets/devices/ibox-roadscan-2k.webp",
    specs:{sensor:"SmartSens SC533",processor:"SigmaStar 8825",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Rover 2",                   brand:"iBox",
