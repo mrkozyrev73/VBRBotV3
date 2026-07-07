@@ -91,6 +91,7 @@ window.DEVICES = [
    price:"~16 000 ₽",
    url:"https://silverstonef1.ru/product/kombo-ustrojstva/silverstone-f1-hybrid-s-bot-pro-wifi/",
    photo:"https://silverstonef1.ru/wp-content/uploads/2023/10/ren_sbot_pro_wifi_01.jpg",
+image:"assets/devices/silverstone-f1-hybrid-s-bot-pro.webp",
    specs:{
      processor:    "AIT 8339D",
      display_type: "IPS",
@@ -135,6 +136,7 @@ window.DEVICES = [
    price:"~16 990 ₽",
    url:"https://trendvision.ru/products/trendvision-drivecam-real-4k-gps-2ch/",
    photo:"https://trendvision.ru/uploads/xlarge_6_klass_a92d6f18ab.jpg",
+image:"assets/devices/trendvision-drivecam-real-4k-gps-2ch.webp",
    specs:{sensor:"Sony STARVIS IMX415",processor:"MStar 8629",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Суперконденсатор",power_type:"DC 2.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi",cpl:true,camera_count:"2",bracket:"Магнитное, со сквозным питанием",connector:"DC 2.5",codec:"H.265",format:"MP4",app:"Есть для iOS и Android / Приложение TV.DRIVE CAM / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",features:"Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)"}},
 
   {name:"TrendVision TDR-725 Real 4K Max", brand:"TrendVision",
@@ -179,6 +181,7 @@ window.DEVICES = [
    price:"~7 500 ₽",
    url:"https://www.mio.com/ru/mivue-i88",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i88_scr_merge_01.png",
+image:"assets/devices/mio-mivue-i88.webp",
    specs:{sensor:"Sony STARVIS IMX323",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i80", brand:"Mio",
@@ -211,6 +214,7 @@ window.DEVICES = [
    price:"~10 000 ₽",
    url:"https://www.mio.com/ru/mivue-i95",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_i95_scr_merge_01.png",
+image:"assets/devices/mio-mivue-i95.webp",
    specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i127", brand:"Mio",
@@ -232,6 +236,7 @@ window.DEVICES = [
    price:"~10 500 ₽",
    url:"https://www.mio.com/ru/mivue-i150",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_i150_camera_merge_01.png",
+image:"assets/devices/mio-mivue-i150.webp",
    specs:{processor:null,display_type:"IPS",screen_size:'3"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"Mio MiVue i157", brand:"Mio",
@@ -298,6 +303,7 @@ window.DEVICES = [
    price:"~6 500 ₽",
    url:"https://www.mio.com/ru/mivue-826-5415n6310040",
    photo:"https://www.mio.com/media/catalog/product/m/i/mivue_826_camera_merge_01.png",
+image:"assets/devices/mio-mivue-826.webp",
    specs:{processor:null,display_type:null,screen_size:'2.7"',max_sd:"128 ГБ",power_element:"аккумулятор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── Mio 9 серия (GPS-информеры, 4K) ─────────────── */
@@ -309,6 +315,7 @@ window.DEVICES = [
    price:"~10 500 ₽",
    url:"https://www.mio.com/ru/products/dash-cameras/car-cameras/9-series/mivue-910w-ru",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_910w_scr-angle-45_merge.png",
+image:"assets/devices/mio-mivue-910w.webp",
    specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Mio MiVue 910WD", brand:"Mio",
@@ -319,6 +326,7 @@ window.DEVICES = [
    price:"~14 000 ₽",
    url:"https://www.mio.com/ru/products/dash-cameras/car-cameras/9-series/mivue-910wd-ru",
    photo:"https://www.mio.com/media/catalog/product/r/u/ru_mivue_910wd_scr-angle-45_merge.png",
+image:"assets/devices/mio-mivue-910wd.webp",
    specs:{sensor:"Sony STARVIS",processor:null,display_type:null,screen_size:'3.2"',max_sd:"256 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Mio MiVue 955W", brand:"Mio",
@@ -340,6 +348,7 @@ window.DEVICES = [
    price:"~5 990 ₽",
    url:"https://trendvision.ru/products/trendvision-victory/",
    photo:"https://trendvision.ru/uploads/viktori_2_2_0fbe0f848e.jpg",
+image:"assets/devices/trendvision-victory.webp",
    specs:{sensor:"SmartSens SC2336",processor:"GP6248",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Аккумулятор, 200 мАч",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:false,cpl:false,camera_count:"1",bracket:"Магнитное, со сквозным питанием",connector:"USB Type-C",codec:"H.264",format:"AVI",app:"Нет"}},
 
   {name:"TrendVision Victory Dual", brand:"TrendVision",
@@ -372,6 +381,7 @@ window.DEVICES = [
    price:"~12 990 ₽",
    url:"https://trendvision.ru/products/trendvision-tdr-721s-evo/",
    photo:"https://trendvision.ru/uploads/trendvision_tdr_721s_11_fa25240127.jpg",
+image:"assets/devices/trendvision-tdr-721s-evo.webp",
    specs:{sensor:"Sony STARVIS IMX335",processor:"Novatek NTK96675",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi",cpl:true,camera_count:"1",bracket:"Магнитное, со сквозным питанием",connector:"USB Type-C",codec:"H.264",format:"TS",app:"Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",features:"AI искусственный интелект (определение знаков ограничения скорости), голосовые подсказки"}},
 
   {name:"TrendVision TDR-721S EVO Pro", brand:"TrendVision",
@@ -426,6 +436,7 @@ window.DEVICES = [
    price:"~13 990 ₽",
    url:"https://trendvision.ru/products/trendvision-proof-360-gps/",
    photo:null,
+image:"assets/devices/trendvision-proof-360-gps.webp",
    specs:{sensor:"GalaxyCore GC2083 / GalaxyCore GC2053",rear_sensor:"GalaxyCore, модель не указана",processor:"SigmaStar SSC8826Q",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Батарейка энергозависимой памяти",power_type:"USB Type-C",gsensor:true,motion:false,timelapse:true,wifi_gen:"Wi-Fi",cpl:false,rear_resolution:"Full HD (1920×1080) 25 к/с",camera_count:"4",bracket:"Механическое (на защёлке)",connector:"USB Type-C",codec:"H.264",format:"TS",app:"Есть для iOS и Android / Приложение Viidure / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора",features:"Три камеры в одном корпусе и одна дополнительная (выносная)"}},
 
   {name:"TrendVision Winner", brand:"TrendVision",
@@ -436,6 +447,7 @@ window.DEVICES = [
    price:"~6 990 ₽",
    url:"https://trendvision.ru/products/trendvision-winner/",
    photo:null,
+image:"assets/devices/trendvision-winner.webp",
    specs:{sensor:"GalaxyCore GC2063",processor:"Jieli 5701",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Аккумулятор, 200 мАч",power_type:"mini USB",gsensor:true,motion:true,timelapse:false,cpl:false,rear_resolution:"HD (1280×720) 25 к/с",camera_count:"2",bracket:"Магнитное",connector:"mini USB",codec:"H.264",format:"MOV",app:"Нет"}},
 
   {name:"TrendVision Winner PRO Plus", brand:"TrendVision",
@@ -446,6 +458,7 @@ window.DEVICES = [
    price:"~9 990 ₽",
    url:"https://trendvision.ru/products/trendvision-winner-pro-plus/",
    photo:null,
+image:"assets/devices/trendvision-winner-pro-plus.webp",
    specs:{sensor:"GalaxyCore GC2063",processor:"MStar 8336",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Аккумулятор, 200 мАч",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi",cpl:false,rear_resolution:"Full HD (1920×1080) 25 к/с",camera_count:"2",bracket:"Магнитное",connector:"USB Type-C",codec:"H.264",format:"TS",app:"Roadcam или Viidure"}},
 
   {name:"TrendVision X1 (ver.2)", brand:"TrendVision",
@@ -524,6 +537,7 @@ window.DEVICES = [
    price:"~13 990 ₽",
    url:"https://trendvision.ru/products/trendvision-combo-f10/",
    photo:"https://trendvision.ru/uploads/b66b4cc1636cde4592438389c7c16aa9_ce50f768d5.png",
+image:"assets/devices/trendvision-combo-f10.webp",
    specs:{sensor:"GalaxyCore GC2053",processor:"MStar 8336",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi",cpl:false,camera_count:"1",bracket:"Со сквозным питанием",connector:"DC 3.5",codec:"H.264",format:"MOV",app:"Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",features:"Фильтр Z-сигнатур"}},
 
   {name:"TrendVision Combo F10 CPL", brand:"TrendVision",
@@ -534,6 +548,7 @@ window.DEVICES = [
    price:"~14 990 ₽",
    url:"https://trendvision.ru/products/trendvision-combo-f10-cpl/",
    photo:"https://trendvision.ru/uploads/b66b4cc1636cde4592438389c7c16aa9_ce50f768d5.png",
+image:"assets/devices/trendvision-combo-f10-cpl.webp",
    specs:{sensor:"GalaxyCore GC2053",processor:"MStar 8336",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Суперконденсатор",power_type:"DC 3.5",gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi",cpl:true,camera_count:"1",bracket:"Со сквозным питанием",connector:"DC 3.5",codec:"H.264",format:"MOV",app:"Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",features:"Голосовые подсказки"}},
 
   {name:"TrendVision Hybrid Signature Real 4K", brand:"TrendVision",
@@ -555,6 +570,7 @@ window.DEVICES = [
    price:"~35 990 ₽",
    url:"https://trendvision.ru/products/trendvision-hybrid-signature-real-4k-2ch/",
    photo:"https://trendvision.ru/uploads/TrendVision_Hybrid_Signature_Real_4_K_top_photo_7_2dde630e95.png",
+image:"assets/devices/trendvision-hybrid-signature-real-4k-2ch.webp",
    specs:{sensor:"Sony STARVIS IMX415",rear_sensor:"Sony STARVIS IMX307 / GalaxyCore GC2053",processor:"Novatek NTK96670",screen_size:"3\"",max_sd:"128 ГБ",power_element:"Суперконденсатор",power_type:"USB Type-C",gsensor:true,motion:true,timelapse:true,wifi_gen:"Wi-Fi",cpl:true,rear_resolution:"Full HD (1920×1080) 30 к/с",camera_count:"2",bracket:"Магнитное, со сквозным питанием",connector:"USB Type-C",codec:"H.265",format:"TS",app:"Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",features:"Сенсор жестов, сенсорный дисплей, голосовые подсказки"}},
 
   {name:"TrendVision Hybrid Signature Real 4K Max", brand:"TrendVision",
@@ -665,6 +681,7 @@ window.DEVICES = [
    price:"~15 990 ₽",
    url:"https://trendvision.ru/products/trendvision-online-air-4g/",
    photo:"https://trendvision.ru/uploads/fotka_32_5cb94f6502.jpg",
+   image:"assets/devices/trendvision-online-air-4g.webp",
    specs:{sensor:"SmartSens SC2336",processor:"Allwinner V853",screen_size:"3\"",max_sd:"256 ГБ",power_element:"Бортовая сеть автомобиля",power_type:"USB Type-C",gsensor:true,motion:false,timelapse:true,wifi_gen:"Wi-Fi",cpl:true,camera_count:"2",bracket:"Механическое (на защёлке)",connector:"USB Type-C",codec:"H.264",format:"TS",app:"Есть для iOS и Android / Приложение CloudSpirit / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора",features:"4G, 3G, голосовые подсказки, момнательный поиск авто в один клик, уведомления на телефон о \"тревожных\" событиях, раздача интернета для любых гаджетов"}},
 
   {name:"TrendVision Online Cloud 4G", brand:"TrendVision",
@@ -709,6 +726,7 @@ window.DEVICES = [
    price:"цена не указана",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-epic-2k-wifi/",
    photo:null,
+image:"assets/devices/ibox-epic-2k-wifi.webp",
    specs:{sensor:"GalaxyCore GC4653",processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX GPS-информеры ──────────────────────────── */
@@ -742,6 +760,7 @@ window.DEVICES = [
    price:"~14 990 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-gps-informer-ibox-roadscan-pro-4k/",
    photo:null,
+image:"assets/devices/ibox-roadscan-pro-4k.webp",
    specs:{sensor:"Sony STARVIS IMX415",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX Комбо 3 в 1 ───────────────────────────── */
@@ -764,6 +783,7 @@ window.DEVICES = [
    price:"~17 990 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/videoregistrator-s-signaturnym-radar-detektorom-ibox-alta-laserscan-wifi/",
    photo:"https://s3.regru.cloud/iboxstore-upload/resize_cache/340561/f6e5b326a22b0348aad67cbb31d5615d/iblock/cea/cea2e80fb46cfdccd21971afd8614a1f/iBOX_Alta_WiFi.jpg",
+image:"assets/devices/ibox-alta-laserscan-wifi.webp",
    specs:{sensor:"GalaxyCore GC2053",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX F5 PRO 4K LaserScan WiFi",  brand:"iBox",
@@ -797,6 +817,7 @@ window.DEVICES = [
    price:"~8 999 ₽",
    url:"https://iboxstore.ru/catalog/videoregistratory/videoregistrator-ibox-epic-4k-wifi-dual/",
    photo:null,
+image:"assets/devices/ibox-epic-4k.webp",
    specs:{processor:null,sensor:"Sony STARVIS IMX415",display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   /* ── iBOX GPS-информеры (дополнение) ────────────── */
@@ -820,6 +841,7 @@ window.DEVICES = [
    price:"~13 999 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
+image:"assets/devices/ibox-alta.webp",
    specs:{sensor:"GalaxyCore GC2053",processor:"SigmaStar 8336",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:null}},
 
   {name:"iBOX iCON WiFi",                 brand:"iBox",
@@ -830,6 +852,7 @@ window.DEVICES = [
    price:"~17 899 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
+image:"assets/devices/ibox-icon-wifi.webp",
    specs:{sensor:"Sony STARVIS IMX307",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX iCON LaserVision WiFi",     brand:"iBox",
@@ -851,6 +874,7 @@ window.DEVICES = [
    price:"~16 599 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
+image:"assets/devices/ibox-icon-dual.webp",
    specs:{sensor:"Sony STARVIS IMX307",processor:"SigmaStar 8339",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX Range",                     brand:"iBox",
@@ -883,6 +907,7 @@ window.DEVICES = [
    price:"~24 499 ₽",
    url:"https://iboxstore.ru/catalog/kombo-ustroystva/",
    photo:null,
+image:"assets/devices/ibox-evo-4k.webp",
    specs:{sensor:"Sony STARVIS IMX415",processor:"SigmaStar 8629",display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"iBOX F5+ WiFi",                  brand:"iBox",
@@ -3455,15 +3480,6 @@ window.DEVICES = [
    photo:"",
    image:"assets/devices/trendvision-online-sky-4g-dual.webp",
    specs:{processor:"Cortex-A7",display_type:null,screen_size:null,max_sd:"256 ГБ",power_element:null,power_type:null,gsensor:true,motion:false,timelapse:false,wifi_gen:null,app:"CloudDVR — просмотр в реальном времени, GPS-трек, уведомления, «Электронное ограждение», двусторонняя связь",features:"4G удалённый доступ 24/7, функция «Рация» (двусторонняя голосовая связь), доп. камера в комплекте"}},
-  {name:"TrendVision Online Air 4G",         brand:"TrendVision",
-   type:"4G-регистратор",  form:"без экрана",  q:2,
-   magnetic:false, smartphone:true,  rear_cam:true,  touch:false, rotation:false, ir_cam:false, remote:true,
-   desc:"Топовая модель линейки Sky/Air: 2К съёмка, двусторонняя голосовая связь «Рация», антибликовый CPL-фильтр и дополнительная камера Full HD (сзади или в салоне) в комплекте. 4G-доступ 24/7, умный парковочный режим.",
-   resolution:"Full HD / 2K 2560×1440", angle:"160°", screen:"без экрана", gps:"встроенный GPS",
-   price:"~15 990 ₽",
-   url:"https://trendvision.ru/products/trendvision-online-air-4g/",
-   photo:"",
-   specs:{processor:null,display_type:null,screen_size:null,max_sd:"128 ГБ",power_element:null,power_type:"TrendVision HardWare Kit (прямое подключение)",gsensor:true,motion:false,timelapse:false,wifi_gen:null,cpl:true,app:"CloudDVR — просмотр в реальном времени, GPS-трек, уведомления, «Электронное ограждение», двусторонняя связь",features:"4G удалённый доступ 24/7, функция «Рация», CPL-фильтр и доп. камера в комплекте, умный парковочный режим"}},
   {name:"TrendVision Online Cloud 4G",       brand:"TrendVision",
    type:"4G-регистратор",  form:"без экрана",  q:1,
    magnetic:false, smartphone:true,  rear_cam:true,  touch:false, rotation:false, ir_cam:false, remote:true,
