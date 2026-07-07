@@ -7,7 +7,6 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>VBR Bot</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -47,14 +46,6 @@ html, body {
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-}
-
-body.tg-webapp {
-  min-height: var(--tg-viewport-height, 100dvh);
-}
-
-body.tg-webapp #bottom-nav {
-  padding-bottom: calc(18px + env(safe-area-inset-bottom));
 }
 
 /* ── HEADER ─────────────────────────────────────── */
@@ -7205,7 +7196,7 @@ body.tg-webapp #bottom-nav {
   <div class="nav-hint">Выберите вариант и нажмите «Далее» или дважды кликните по нему</div>
 </div>
 
-<script src="./devices.js"></script>
+<script src="./devices.js?v=1.0.1"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -8389,7 +8380,6 @@ function show(id) {
     }
   });
   renderCompareBar();
-  updateTelegramUI();
 }
 
 // ════════════════════════════════════════════════════════
@@ -10192,134 +10182,6 @@ function renderModePopular() {
   }).join("");
 }
 
-// ════════════════════════════════════════════════════════
-//  TELEGRAM INIT
-// ════════════════════════════════════════════════════════
-
-function telegramApp() {
-  return window.Telegram?.WebApp || null;
-}
-
-function isTelegramMiniApp() {
-  const tg = telegramApp();
-  return !!(tg && tg.initData);
-}
-
-function applyTelegramTheme() {
-  const tg = telegramApp();
-  if (!tg) return;
-  const theme = tg.themeParams || {};
-  const root = document.documentElement;
-
-  if (theme.button_color) {
-    root.style.setProperty("--blue", theme.button_color);
-  }
-  if (theme.button_text_color) {
-    root.style.setProperty("--tg-button-text", theme.button_text_color);
-  }
-  if (theme.bg_color) {
-    root.style.setProperty("--tg-bg", theme.bg_color);
-  }
-  if (theme.text_color) {
-    root.style.setProperty("--tg-text", theme.text_color);
-  }
-  if (theme.hint_color) {
-    root.style.setProperty("--tg-hint", theme.hint_color);
-  }
-
-  try {
-    tg.setHeaderColor(theme.secondary_bg_color || theme.bg_color || "#FFFFFF");
-    tg.setBackgroundColor(theme.bg_color || "#F2F2F7");
-  } catch(e) {}
-}
-
-function updateTelegramViewport() {
-  const tg = telegramApp();
-  if (!tg) return;
-  const h = tg.viewportStableHeight || tg.viewportHeight;
-  if (h) document.documentElement.style.setProperty("--tg-viewport-height", `${h}px`);
-}
-
-function handleTelegramBack() {
-  if (currentScreenId === "s-compare") {
-    closeCompare();
-    return;
-  }
-  if (currentScreenId === "s-mode") {
-    goHome();
-    return;
-  }
-  if (currentScreenId === "s-question") {
-    if (qIdx > 0) goBack();
-    else goHome();
-    return;
-  }
-  if (currentScreenId === "s-results") {
-    goHome();
-    return;
-  }
-  if (currentScreenId === "s-search") {
-    const area = document.getElementById('srch-results-area');
-    if (area && area.querySelector('.dev-hero')) backToSearchResults();
-    else goHome();
-    return;
-  }
-  goHome();
-}
-
-function updateTelegramUI() {
-  const tg = telegramApp();
-  if (!tg || !isTelegramMiniApp()) return;
-  const showBack = currentScreenId !== "s-intro" && currentScreenId !== "s-loading";
-  try {
-    if (showBack) tg.BackButton.show();
-    else tg.BackButton.hide();
-  } catch(e) {}
-}
-
-function setupTelegramExternalLinks() {
-  const tg = telegramApp();
-  if (!tg || !isTelegramMiniApp()) return;
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest("a[href]");
-    if (!link) return;
-    const href = link.getAttribute("href") || "";
-    if (!/^https?:\/\//i.test(href)) return;
-    event.preventDefault();
-    try {
-      tg.openLink(link.href, { try_instant_view: false });
-    } catch(e) {
-      window.open(link.href, "_blank", "noopener");
-    }
-  });
-}
-
-function initTelegramWebApp() {
-  const tg = telegramApp();
-  if (!tg) return;
-
-  if (isTelegramMiniApp()) {
-    document.body.classList.add("tg-webapp");
-  }
-
-  try {
-    tg.ready();
-    tg.expand();
-    tg.disableVerticalSwipes?.();
-  } catch(e) {}
-
-  applyTelegramTheme();
-  updateTelegramViewport();
-  updateTelegramUI();
-  setupTelegramExternalLinks();
-
-  try {
-    tg.onEvent("themeChanged", applyTelegramTheme);
-    tg.onEvent("viewportChanged", updateTelegramViewport);
-    tg.BackButton.onClick(handleTelegramBack);
-  } catch(e) {}
-}
-
 document.getElementById("btn-start").addEventListener("click", openModeChoice);
 document.getElementById("btn-start-quiz").addEventListener("click", startQuiz);
 window.addEventListener("scroll", hideFloatingHints, {passive: true});
@@ -10353,7 +10215,6 @@ window.addEventListener("resize", () => {
 layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
-initTelegramWebApp();
 
 </script>
 </body>
