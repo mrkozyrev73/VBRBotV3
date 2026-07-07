@@ -9,11 +9,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 :root {
-  --blue: #007AFF;
-  --blue-strong: #0066D6;
-  --blue-rgb: 0,122,255;
-  --blue-bg: #EAF4FF;
-  --blue-soft: #F7FBFF;
+  --blue: #6847FF;
+  --blue-strong: #5B36DD;
+  --blue-rgb: 104,71,255;
+  --blue-bg: #F1EDFF;
+  --blue-soft: #F8F6FF;
   --blue-border: rgba(var(--blue-rgb), .24);
   --text: #1C1C1E;
   --text-1: #1C1C1E;
@@ -31,6 +31,10 @@
   --amber-text: #A85E00;
   --red-bg: #FFE8E8;
   --red-text: #B42020;
+  --violet: #6847FF;
+  --violet-bg: rgba(104,71,255,.08);
+  --violet-text: #5B36DD;
+  --violet-border: rgba(104,71,255,.22);
 }
 
 html, body {
@@ -191,16 +195,35 @@ body.tg-webapp #bottom-nav {
 .support-contact-sub   { font-size: 12px; color: var(--text-2); margin-top: 2px; }
 .support-contact-arrow { display: none; }
 
-/* No-exact-match notice */
+/* No-exact-match notice — dark violet plaque, matching the "Не знаю, что выбрать" quiz-card */
 .no-exact-notice {
   display: flex; align-items: flex-start; gap: 14px;
-  background: var(--amber-bg); border: 1px solid var(--amber-text);
+  position: relative; overflow: hidden; isolation: isolate;
+  background:
+    radial-gradient(circle at 91% 79%, rgba(121, 82, 255, .55) 0 13%, transparent 34%),
+    linear-gradient(135deg, #4d2bc9 0%, #5d35db 48%, #3f22b5 100%);
+  border: 0; box-shadow: 0 14px 30px rgba(64, 36, 173, .12);
   border-radius: 18px; padding: 18px 20px;
   margin-bottom: 4px;
 }
-.no-exact-notice-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
-.no-exact-notice-text { font-size: 14px; color: var(--amber-text); line-height: 1.5; }
-.no-exact-notice-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+.no-exact-notice::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0;
+  border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(circle at 92% 82%, transparent 0 17%, rgba(255,255,255,.13) 17.2% 17.5%, transparent 17.8% 24%, rgba(255,255,255,.10) 24.2% 24.5%, transparent 24.8%),
+    radial-gradient(circle at 8px 8px, rgba(255,255,255,.20) 1.7px, transparent 2.1px) right 30px top 22px / 24px 24px,
+    radial-gradient(circle at 8px 8px, rgba(255,255,255,.18) 1.7px, transparent 2.1px) left 26px bottom 22px / 24px 24px;
+  opacity: .62;
+}
+.no-exact-notice-icon {
+  width: 34px; height: 34px; flex-shrink: 0; position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: rgba(255,255,255,.14); color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+.no-exact-notice-text { position: relative; z-index: 1; font-size: 14px; color: rgba(255,255,255,.92); line-height: 1.5; }
+.no-exact-notice-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 3px; color: #fff; }
 .smart-hint {
   display: flex;
   align-items: center;
@@ -236,6 +259,11 @@ body.tg-webapp #bottom-nav {
   margin-bottom: 3px;
 }
 .smart-hint-text b { color: var(--blue); }
+.smart-hint-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
 .smart-hint-btn {
   border: 0;
   border-radius: 12px;
@@ -256,6 +284,7 @@ body.tg-webapp #bottom-nav {
   background: var(--blue);
   transition: width 0.4s cubic-bezier(.4,0,.2,1);
 }
+#header .progress-bar { display: none !important; }
 
 /* ── SCREENS ─────────────────────────────────────── */
 .screen { display: none; }
@@ -761,7 +790,6 @@ body.tg-webapp #bottom-nav {
   justify-self: start;
 }
 
-@media (max-width: 390px) {
   .intro-inner {
     padding-left: 24px;
     padding-right: 24px;
@@ -776,7 +804,6 @@ body.tg-webapp #bottom-nav {
   .intro-footer-privacy {
     font-size: 10px;
   }
-}
 
 /* ── Search screen ── */
 #s-search {
@@ -803,6 +830,10 @@ body.tg-webapp #bottom-nav {
   justify-content: space-between;
   gap: 12px;
   padding: 12px 18px 10px;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 .srch-logo {
   display: flex;
@@ -821,8 +852,8 @@ body.tg-webapp #bottom-nav {
   height: 38px;
   border-radius: 10px;
   background: #fff;
-  color: #1C1C1E;
-  box-shadow: 0 10px 28px rgba(0, 122, 255, .10);
+  color: var(--violet-text);
+  box-shadow: 0 10px 28px rgba(104, 71, 255, .14);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -848,7 +879,11 @@ body.tg-webapp #bottom-nav {
   margin-top: 1px;
 }
 .srch-body {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
   padding: 20px 18px 40px;
+  box-sizing: border-box;
 }
 .srch-input-wrap {
   display: flex;
@@ -932,6 +967,24 @@ body.tg-webapp #bottom-nav {
   border-color: var(--blue);
   background: var(--blue-bg);
 }
+.srch-match-thumb {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #fff;
+  border: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.srch-match-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+}
 .srch-match-info { flex: 1; min-width: 0; }
 .srch-match-brand {
   font-size: 10px;
@@ -965,7 +1018,7 @@ body.tg-webapp #bottom-nav {
   padding: 1px 6px;
 }
 .srch-badge.hi { background: var(--blue-bg); color: var(--blue); }
-.srch-badge.interp { background: var(--amber-bg); color: var(--amber-text); }
+.srch-badge.interp { background: var(--violet-bg); color: var(--violet-text); }
 .srch-match-arrow { color: var(--blue); flex-shrink: 0; }
 .srch-price {
   font-size: 12px;
@@ -1105,17 +1158,17 @@ body.tg-webapp #bottom-nav {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: var(--amber-bg);
-  border: 1px solid rgba(168,94,0,.28);
+  background: var(--violet-bg);
+  border: 1px solid var(--violet-border);
   border-radius: 16px;
   padding: 14px 16px;
-  color: var(--amber-text);
+  color: var(--violet-text);
 }
 .dev-no-exact-icon {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(168,94,0,.1);
+  background: rgba(104,71,255,.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1155,6 +1208,25 @@ body.tg-webapp #bottom-nav {
   align-self: stretch;
   flex-shrink: 0;
 }
+.analog-card-thumb {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  margin-left: 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  border: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.analog-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
 .analog-card-body {
   flex: 1; min-width: 0;
   padding: 14px 16px;
@@ -1171,13 +1243,22 @@ body.tg-webapp #bottom-nav {
   margin-bottom: 4px;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.analog-card-diffs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+.analog-card-diffs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 6px;
+  margin-bottom: 4px;
+}
 .analog-diff {
   font-size: 10px; font-weight: 500;
   color: var(--text-2);
   background: var(--bg);
   border-radius: 5px;
   padding: 2px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 .analog-diff.better {
   color: var(--green-text);
@@ -1191,13 +1272,32 @@ body.tg-webapp #bottom-nav {
   font-size: 14px; font-weight: 700;
   color: var(--text);
 }
+.analog-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+}
+.analog-card-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+.analog-card-side-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .analog-card-pct {
   font-size: 12px; font-weight: 700;
   color: var(--green-text);
   background: var(--green-bg);
   border-radius: 999px;
   padding: 5px 10px;
-  margin-right: 10px;
   flex-shrink: 0;
 }
 .analog-card-pct.dim {
@@ -1205,10 +1305,15 @@ body.tg-webapp #bottom-nav {
   background: var(--bg);
 }
 .analog-card .fav-btn {
-  margin-right: 10px;
   width: 32px;
   height: 32px;
 }
+.analog-card-side .cmp-btn.cmp-chip.analog-card-cmp {
+  padding: 5px 10px 5px 8px;
+  gap: 4px;
+}
+.analog-card-cmp svg { width: 12px; height: 12px; }
+.analog-card-cmp .cmp-chip-label { font-size: 11px; }
 .analog-card-explain {
   font-size: 11px;
   color: var(--text-2);
@@ -1229,7 +1334,7 @@ body.tg-webapp #bottom-nav {
   padding-bottom: 110px;
 }
 
-.q-body { padding: 22px 18px 0; }
+.q-body { width: 100%; max-width: 460px; margin: 0 auto; padding: 22px 18px 0; }
 
 .q-label {
   font-size: 11px;
@@ -1319,7 +1424,18 @@ body.tg-webapp #bottom-nav {
   padding: 12px 18px 28px;
 }
 
-.nav-row { display: flex; gap: 10px; margin-bottom: 8px; }
+.nav-row {
+  display: flex;
+  gap: 10px;
+  margin: 0 auto 8px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.nav-hint {
+  max-width: 460px;
+  margin: 0 auto;
+}
 
 .btn-back {
   flex: 1;
@@ -1363,6 +1479,12 @@ body.tg-webapp #bottom-nav {
   padding-bottom: 40px;
 }
 
+.results-container {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
 .res-header { padding: 22px 18px 16px; }
 
 .res-label {
@@ -1384,10 +1506,6 @@ body.tg-webapp #bottom-nav {
 
 .results-list { padding: 0 18px 24px; display: flex; flex-direction: column; gap: 16px; }
 
-@media (min-width: 1100px) {
-  .results-list { grid-template-columns: 1fr 1fr 1fr; }
-  .results-list .res-section-header { grid-column: 1 / -1; }
-}
 
 /* Device card */
 .dev-card {
@@ -1415,15 +1533,16 @@ body.tg-webapp #bottom-nav {
 }
 .cam-badge {
   display: inline-flex; align-items: center; gap: 4px;
-  background: rgba(255, 200, 0, 0.15);
-  border: 1px solid rgba(255, 200, 0, 0.4);
-  color: #FFC800;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.24);
+  color: #fff;
   font-size: 10px; font-weight: 700;
-  letter-spacing: .05em;
-  padding: 3px 7px;
-  border-radius: 6px;
+  letter-spacing: .04em;
+  padding: 3px 8px;
+  border-radius: 999px;
   white-space: nowrap;
 }
+.cam-badge svg { width: 11px; height: 11px; stroke: #fff; flex-shrink: 0; }
 
 .dev-body { padding: 14px 16px 18px; flex: 1; display: flex; flex-direction: column; }
 
@@ -1621,7 +1740,7 @@ body.tg-webapp #bottom-nav {
 }
 .term-tooltip-float {
   position: fixed;
-  z-index: 200;
+  z-index: 10000;
   max-width: min(300px, calc(100vw - 24px));
   padding: 9px 11px;
   border-radius: 10px;
@@ -1847,6 +1966,323 @@ body.tg-webapp #bottom-nav {
   padding: 2px 0;
 }
 
+/* ── Compare button (device cards) ─────────────────── */
+.cmp-btn {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.cmp-btn svg {
+  width: 16px;
+  height: 16px;
+}
+.cmp-btn svg rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+.cmp-btn.active {
+  color: var(--green-text);
+  background: var(--green-bg);
+  border-color: rgba(52,199,89,.35);
+}
+.cmp-btn.active svg rect {
+  fill: currentColor;
+  fill-opacity: .28;
+}
+.cmp-btn.is-disabled { opacity: .4; cursor: not-allowed; }
+.cmp-btn:active:not(.is-disabled) { transform: scale(.94); }
+
+.srch-match-actions,
+.analog-card-actions,
+.dev-card-actions,
+.dev-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.srch-match-card .cmp-btn { width: 28px; height: 28px; }
+.srch-match-card .cmp-btn svg { width: 14px; height: 14px; }
+
+.cmp-btn.cmp-chip {
+  width: auto;
+  height: auto;
+  border-radius: 999px;
+  padding: 6px 12px 6px 10px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.cmp-chip svg { width: 13px; height: 13px; }
+.cmp-chip-label {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cmp-btn.cmp-chip.cmp-chip-compact {
+  padding: 5px 10px 5px 8px;
+  gap: 4px;
+}
+.cmp-chip-compact svg { width: 12px; height: 12px; }
+.cmp-chip-compact .cmp-chip-label { font-size: 11px; }
+
+/* ── Compare bar (floating tray) ────────────────────── */
+.cmp-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 210;
+  background: var(--card);
+  border-top: 0.5px solid var(--border);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+}
+.cmp-bar-chips {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cmp-bar-chips::-webkit-scrollbar { display: none; }
+.cmp-bar-chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg);
+  border-radius: 999px;
+  padding: 5px 6px 5px 10px;
+  max-width: 150px;
+}
+.cmp-bar-chip-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmp-bar-chip button {
+  border: none;
+  background: rgba(0,0,0,.08);
+  color: var(--text-2);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.cmp-bar-btn {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cmp-bar-btn:disabled {
+  background: var(--border);
+  color: var(--text-3);
+  cursor: not-allowed;
+}
+
+/* ── Compare screen ─────────────────────────────────── */
+.cmp-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--card);
+  border-bottom: 0.5px solid var(--border);
+}
+.cmp-back {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+}
+.cmp-topbar-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.cmp-clear {
+  border: none;
+  background: none;
+  color: var(--text-2);
+  font-size: 13px;
+  padding: 0;
+  cursor: pointer;
+}
+.cmp-body {
+  padding: 16px 14px 40px;
+}
+.cmp-empty {
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.cmp-cards {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.cmp-cards.cmp-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmp-cards.cmp-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmp-card {
+  position: relative;
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  cursor: pointer;
+}
+.cmp-card:active { opacity: .8; }
+.cmp-card-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,.06);
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cmp-card-remove svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.4; }
+.cmp-card-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.cmp-card-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.cmp-card-thumb svg { width: 26px; height: 26px; fill: none; stroke: var(--text-3); stroke-width: 1.6; }
+.cmp-card-brand {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-2);
+  margin-bottom: 2px;
+}
+.cmp-card-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cmp-card-price {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+.cmp-hint {
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.cmp-rows {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 2px 14px;
+}
+.cmp-row {
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--border);
+}
+.cmp-row:last-child { border-bottom: none; }
+.cmp-row-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 8px;
+}
+.cmp-row-label svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cmp-row-cells {
+  display: grid;
+  gap: 8px;
+}
+.cmp-row-cells.cmp-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmp-row-cells.cmp-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmp-cell {
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmp-cell.best {
+  background: var(--green-bg);
+  color: var(--green-text);
+  font-weight: 700;
+}
+
 /* Support section */
 .support-section {
   margin-top: 20px;
@@ -1991,6 +2427,16 @@ body.tg-webapp #bottom-nav {
 }
 .show-more-card:active { opacity: .75; }
 
+/* Компактный вариант кнопки «Показать ещё» для списка ручного поиска —
+   там строки короче, чем карточки устройств на экране результатов. */
+#intro-srch-results .show-more-card {
+  min-height: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
 /* Full specs collapsible */
 .specs-full {
   border: 1px solid var(--border);
@@ -2021,12 +2467,18 @@ body.tg-webapp #bottom-nav {
 /* Compromise section */
 .compromise-wrap {
   display: flex; flex-direction: column; gap: 10px;
-  background: var(--amber-bg); border: 1px solid var(--amber-text);
+  background: var(--violet-bg); border: 1px solid var(--violet-border);
   border-radius: 18px; padding: 18px 16px;
 }
 .compromise-title {
-  font-size: 13px; font-weight: 700; color: var(--amber-text);
+  font-size: 13px; font-weight: 700; color: var(--violet-text);
   text-transform: uppercase; letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 6px;
+}
+.compromise-title svg {
+  width: 15px; height: 15px; stroke: var(--violet-text); fill: none;
+  stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
 }
 .compromise-row {
   display: grid;
@@ -2037,7 +2489,7 @@ body.tg-webapp #bottom-nav {
   border: 1px solid var(--border);
 }
 .compromise-text { font-size: 14px; color: var(--text); line-height: 1.4; min-width: 0; }
-.compromise-count { font-size: 13px; font-weight: 700; color: var(--green-text); white-space: nowrap; }
+.compromise-count { font-size: 13px; font-weight: 700; color: var(--violet-text); white-space: nowrap; }
 .compromise-btn {
   padding: 7px 14px; border-radius: 10px;
   background: var(--blue); color: #fff;
@@ -2046,7 +2498,6 @@ body.tg-webapp #bottom-nav {
 }
 .compromise-btn:active { opacity: .75; }
 
-@media (max-width: 760px) {
   .compromise-wrap {
     padding: 16px 14px;
   }
@@ -2072,9 +2523,7 @@ body.tg-webapp #bottom-nav {
     justify-self: end;
     max-width: 116px;
   }
-}
 
-@media (max-width: 430px) {
   .compromise-row {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2086,7 +2535,6 @@ body.tg-webapp #bottom-nav {
     width: auto;
     max-width: 100%;
   }
-}
 
 /* Skip notice (mirror dashcam auto-skip) */
 .skip-notice {
@@ -2278,7 +2726,7 @@ body.tg-webapp #bottom-nav {
 
 /* ── Model comparison animation ── */
 .compare-loader {
-  width: min(100%, 360px);
+  width: min(100%, 420px);
   margin: 4px auto 18px;
   padding: 18px;
   background: var(--card);
@@ -2405,7 +2853,8 @@ body.tg-webapp #bottom-nav {
   background: var(--card);
   border-radius: 16px;
   padding: 14px 16px;
-  width: 100%;
+  width: min(100%, 420px);
+  margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2491,8 +2940,8 @@ body.tg-webapp #bottom-nav {
 
 /* ── Ad banner (loading) ── */
 .loading-ad {
-  width: calc(100vw - 24px);
-  max-width: none;
+  width: min(100%, 420px);
+  margin: 0 auto;
   padding: 16px 0 16px;
 }
 .ad-banner-lg {
@@ -2544,798 +2993,8 @@ body.tg-webapp #bottom-nav {
 }
 
 /* ── DESKTOP (700px+) ────────────────────────────── */
-@media (min-width: 700px) {
 
-  /* ── Header ── */
-  .header-main {
-    max-width: 1200px; margin: 0 auto;
-    padding: 14px 48px 10px;
-    gap: 12px;
-    justify-content: flex-start;
-  }
-  .btn-hd-donate { display: none; }
-  .hd-support-block {
-    display: flex;
-    margin-left: auto;
-  }
-  .hd-privacy-block { display: flex; }
-  .hd-contact-block { display: flex; }
-  .hd-counter { min-width: 64px; text-align: right; flex-shrink: 0; }
 
-  /* ── Intro: desktop command panel ── */
-  #s-intro { padding: 40px 24px; }
-  #s-intro::before { width: 320px; height: 320px; }
-  #s-intro::after  { width: 320px; height: 320px; }
-
-  .intro-inner {
-    max-width: 1040px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: minmax(0, 450px) minmax(340px, 460px);
-    grid-template-areas:
-      "left right"
-      "footer footer";
-    column-gap: 58px;
-    row-gap: 22px;
-    align-items: center;
-    justify-content: center;
-    padding: 46px 52px 26px;
-    background: white;
-    border-radius: 28px;
-    box-shadow: 0 12px 56px rgba(var(--blue-rgb), .14);
-    text-align: center;
-  }
-  .intro-left {
-    grid-area: left;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .intro-right {
-    grid-area: right;
-    position: relative;
-    min-height: 330px;
-    display: flex;
-    align-items: center;
-  }
-  .intro-right::before {
-    display: none;
-  }
-  .intro-right::after {
-    display: none;
-  }
-  .intro-icon {
-    margin: 0 0 20px;
-    width: 76px;
-    height: 76px;
-    border-radius: 18px;
-  }
-  .intro-icon svg { width: 42px; height: 42px; }
-  .intro-title {
-    font-size: 24px;
-  }
-  .intro-tagline {
-    font-size: 13px;
-    margin-bottom: 14px;
-  }
-  .intro-db-sticker {
-    margin: 0 0 24px;
-    padding: 9px 13px;
-    font-size: 12px;
-  }
-  .intro-headline {
-    font-size: 38px;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 14px;
-  }
-  .intro-desc {
-    font-size: 15px;
-    margin-bottom: 20px;
-  }
-  .intro-actions {
-    width: 330px;
-    align-items: stretch;
-    margin-bottom: 0;
-  }
-  .btn-start {
-    height: 54px;
-    font-size: 17px;
-    border-radius: 14px;
-    margin-bottom: 0;
-  }
-  .intro-donate {
-    height: 44px;
-    border-radius: 13px;
-  }
-  .intro-partners {
-    text-align: center;
-  }
-  .intro-search-card {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 0;
-    min-height: 300px;
-    padding: 22px 24px 20px;
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    box-shadow: 0 10px 34px rgba(var(--blue-rgb), .08);
-    background: rgba(255,255,255,.88);
-    overflow: hidden;
-  }
-  .intro-search-card > * {
-    position: relative;
-    z-index: 3;
-  }
-  .intro-search-card::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 220px;
-    transform: translate(-50%, -50%);
-    width: 292px;
-    height: 292px;
-    border: 2px solid rgba(var(--blue-rgb), .055);
-    border-radius: 50%;
-    box-shadow: 0 0 0 24px rgba(var(--blue-rgb), .025);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .intro-search-card::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 232px;
-    transform: translate(-50%, -50%);
-    width: 198px;
-    height: 98px;
-    border: 2px solid rgba(var(--blue-rgb), .15);
-    border-radius: 28px;
-    background:
-      radial-gradient(circle at 50% 56%, rgba(var(--blue-rgb), .16) 0 15px, transparent 16px),
-      radial-gradient(circle at 50% 56%, transparent 0 34px, rgba(var(--blue-rgb), .14) 35px 36px, transparent 37px),
-      radial-gradient(circle at 88% 26%, rgba(var(--blue-rgb), .18) 0 8px, transparent 9px),
-      radial-gradient(circle at 10% 86%, rgba(var(--blue-rgb), .14) 0 8px, transparent 9px),
-      linear-gradient(rgba(var(--blue-rgb), .08), rgba(var(--blue-rgb), .08)) 50% 96px / 96px 8px no-repeat,
-      linear-gradient(rgba(var(--blue-rgb), .07), rgba(var(--blue-rgb), .07)) 50% 0 / 92px 14px no-repeat,
-      linear-gradient(rgba(var(--blue-rgb), .07), rgba(var(--blue-rgb), .07)) 50% 12px / 54px 16px no-repeat;
-    box-shadow: 0 18px 48px rgba(var(--blue-rgb), .04);
-    opacity: .78;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .intro-search-card-title { font-size: 15px; }
-  .intro-search-card-sub { font-size: 13px; margin-bottom: 14px; }
-  .intro-search-wrap {
-    height: 50px;
-    border-radius: 14px;
-    padding-left: 16px;
-    background: rgba(242,242,247,.92);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.03);
-  }
-  .intro-srch-input { font-size: 15px; }
-  .intro-srch-arrow { width: 36px; height: 36px; border-radius: 11px; }
-  .intro-cards {
-    display: none;
-  }
-  .intro-footer {
-    grid-area: footer;
-    margin-top: 0;
-    justify-content: center;
-  }
-  #s-intro.intro-searching .intro-inner {
-    grid-template-areas:
-      "left right";
-    align-items: start;
-  }
-  #s-intro.intro-searching .intro-left {
-    min-height: 392px;
-  }
-  #s-intro.intro-searching .intro-right::before,
-  #s-intro.intro-searching .intro-right::after {
-    display: none;
-  }
-  #s-intro.intro-searching .intro-left::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 338px;
-    transform: translate(-50%, -50%);
-    width: 340px;
-    height: 178px;
-    border: 2px solid rgba(var(--blue-rgb), .1);
-    border-radius: 38px;
-    background:
-      radial-gradient(circle at 50% 50%, rgba(var(--blue-rgb), .1) 0 38px, transparent 39px),
-      radial-gradient(circle at 50% 50%, rgba(var(--blue-rgb), .16) 0 14px, transparent 15px),
-      linear-gradient(rgba(var(--blue-rgb), .08), rgba(var(--blue-rgb), .08)) 50% 142px / 116px 8px no-repeat,
-      linear-gradient(rgba(var(--blue-rgb), .06), rgba(var(--blue-rgb), .06)) 50% 24px / 168px 8px no-repeat;
-    box-shadow: 0 18px 48px rgba(var(--blue-rgb), .05);
-    opacity: .78;
-    pointer-events: none;
-  }
-  #s-intro.intro-searching .intro-left::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 338px;
-    transform: translate(-50%, -50%);
-    width: 74px;
-    height: 74px;
-    border: 2px solid rgba(var(--blue-rgb), .14);
-    border-radius: 50%;
-    box-shadow:
-      0 0 0 18px rgba(var(--blue-rgb), .03),
-      136px -44px 0 -30px rgba(var(--blue-rgb), .13),
-      -138px 50px 0 -32px rgba(var(--blue-rgb), .12);
-    opacity: .8;
-    pointer-events: none;
-  }
-  #s-intro.intro-searching .intro-headline,
-  #s-intro.intro-searching .intro-desc,
-  #s-intro.intro-searching #btn-start {
-    display: none;
-  }
-  #s-intro.intro-searching .intro-search-card {
-    margin-top: 0;
-    min-height: auto;
-  }
-  #s-intro.intro-searching .intro-search-card::before,
-  #s-intro.intro-searching .intro-search-card::after {
-    display: none;
-  }
-
-  /* ── Intro redesign desktop overrides ── */
-  #s-intro {
-    padding: 40px 48px;
-    align-items: center;
-  }
-  #s-intro::before {
-    left: 28px;
-    bottom: 120px;
-    width: 178px;
-    height: 108px;
-  }
-  #s-intro::after {
-    top: 18px;
-    right: 124px;
-    width: 178px;
-    height: 150px;
-  }
-  .intro-inner {
-    max-width: 1180px;
-    min-height: min(720px, calc(100dvh - 80px));
-    padding: 30px 12px 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "brand"
-      "main"
-      "favorites"
-      "footer";
-    row-gap: 0;
-    background: transparent;
-    border-radius: 0;
-    box-shadow: none;
-    text-align: left;
-  }
-  .intro-brand {
-    grid-area: brand;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 22px;
-    margin-bottom: 56px;
-    text-align: left;
-  }
-  .intro-brand-copy {
-    align-items: flex-start;
-  }
-  .intro-icon {
-    width: 62px;
-    height: 62px;
-    border-radius: 12px;
-    margin: 0;
-  }
-  .intro-icon svg {
-    width: 36px;
-    height: 36px;
-  }
-  .intro-title {
-    font-size: 28px;
-    margin-bottom: 12px;
-  }
-  .intro-tagline {
-    font-size: 14px;
-  }
-  .intro-main {
-    grid-area: main;
-    display: grid;
-    grid-template-columns: minmax(420px, 1fr) minmax(420px, 600px);
-    align-items: center;
-    gap: 74px;
-    width: 100%;
-  }
-  .intro-left,
-  .intro-right {
-    grid-area: auto;
-    align-items: flex-start;
-    text-align: left;
-  }
-  .intro-main > .intro-left {
-    grid-column: 1;
-  }
-  .intro-main > .intro-right {
-    grid-column: 2;
-    min-width: 0;
-  }
-  .intro-db-sticker {
-    margin: 0 0 60px;
-    padding: 9px 16px;
-    font-size: 14px;
-  }
-  .intro-headline {
-    font-size: 44px;
-    line-height: 1.15;
-    letter-spacing: -1px;
-    margin-bottom: 18px;
-    max-width: 560px;
-  }
-  .intro-headline span {
-    display: inline;
-    white-space: normal;
-  }
-  .intro-headline .accent {
-    display: block;
-  }
-  .intro-headline-extra {
-    font-size: 20px;
-    margin-bottom: 32px;
-  }
-  .intro-desc {
-    font-size: 17px;
-    line-height: 1.55;
-  }
-  .intro-actions {
-    width: 100%;
-    gap: 28px;
-    margin: 0 0 36px;
-  }
-  .intro-action-head {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-  }
-  .intro-action-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-  }
-  .intro-action-icon svg {
-    width: 31px;
-    height: 31px;
-  }
-  .intro-action-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .intro-action-sub {
-    font-size: 16px;
-    color: var(--text-2);
-  }
-  .btn-start {
-    height: 70px;
-    border-radius: 10px;
-    font-size: 22px;
-  }
-  .intro-or {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    margin-bottom: 36px;
-    color: var(--text-2);
-    font-size: 13px;
-    font-style: normal;
-  }
-  .intro-or span {
-    height: 1px;
-    flex: 1;
-    background: var(--border);
-  }
-  .intro-or em {
-    font-style: normal;
-  }
-  .intro-search-card {
-    width: 100%;
-    min-height: auto;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-    overflow: visible;
-  }
-  .intro-search-card::before,
-  .intro-search-card::after {
-    display: none;
-  }
-  .intro-search-card-hdr {
-    gap: 22px;
-    margin-bottom: 28px;
-  }
-  .intro-search-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-  }
-  .intro-search-icon svg {
-    width: 30px;
-    height: 30px;
-  }
-  .intro-search-card-title {
-    font-size: 20px;
-  }
-  .intro-search-card-sub {
-    font-size: 16px;
-  }
-  .intro-search-wrap {
-    height: 70px;
-    border-radius: 10px;
-    padding: 0 16px 0 24px;
-    background: rgba(255,255,255,.54);
-  }
-  .intro-srch-input {
-    font-size: 18px;
-  }
-  .intro-srch-arrow {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-  }
-  .favorite-panel {
-    grid-area: favorites;
-    max-width: 600px;
-    margin-left: auto;
-  }
-  .intro-footer {
-    grid-area: footer;
-    margin-top: auto;
-    padding: 34px 82px 30px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) minmax(0, 1fr);
-    column-gap: 40px;
-    row-gap: 0;
-    border-top: 1px solid var(--border);
-    font-size: 15px;
-  }
-  .intro-footer-link,
-  .intro-footer-mail,
-  .intro-footer-privacy {
-    width: 100%;
-    justify-content: center;
-    order: 0;
-  }
-  .intro-footer-link.donate {
-    grid-column: 1;
-    order: 0;
-    justify-content: flex-start;
-  }
-  .intro-footer-mail {
-    grid-column: 3;
-    order: 0;
-    justify-content: flex-end;
-    color: var(--text);
-  }
-  .intro-footer-privacy {
-    grid-column: 2;
-    order: 0;
-    white-space: nowrap;
-  }
-  .intro-footer-privacy::before,
-  .intro-footer-privacy::after {
-    display: none;
-  }
-  .intro-footer-privacy,
-  .intro-footer-mail {
-    border-left: 1px solid var(--border);
-  }
-  #s-intro.intro-searching .intro-inner {
-    grid-template-areas:
-      "brand"
-      "main"
-      "favorites"
-      "footer";
-  }
-  #s-intro.intro-searching .intro-left {
-    min-height: 0;
-  }
-  #s-intro.intro-searching .intro-left::before,
-  #s-intro.intro-searching .intro-left::after {
-    display: none;
-  }
-  #s-intro.intro-searching .intro-headline,
-  #s-intro.intro-searching .intro-desc,
-  #s-intro.intro-searching .intro-actions {
-    display: none;
-  }
-
-  /* ── Questions ── */
-  #s-question { padding-top: 88px; padding-bottom: 110px; }
-  .q-body { max-width: 880px; width: 100%; margin: 0 auto; padding: 40px 48px 0; }
-  .q-label { font-size: 12px; margin-bottom: 10px; }
-  .q-title { font-size: 34px; }
-  .q-subtitle { font-size: 15px; margin-bottom: 28px; }
-  .options { display: flex; flex-direction: column; gap: 16px; }
-  .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .skip-notice {
-    max-width: 720px;
-    margin: 0 0 4px;
-    padding: 14px 16px;
-    border-radius: 14px;
-    align-items: center;
-  }
-  .skip-notice-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    line-height: 30px;
-  }
-  .skip-notice-text {
-    font-size: 14px;
-    line-height: 1.42;
-  }
-  .skip-notice-text strong {
-    font-size: 14px;
-  }
-  .opt { padding: 22px 22px; border-radius: 18px; gap: 16px; }
-  .opt-title { font-size: 17px; }
-  .opt-desc  { font-size: 14px; }
-
-  /* ── Bottom nav: aligned to q-body ── */
-  #bottom-nav { padding: 16px 0 24px; }
-  .nav-row { max-width: 880px; width: 100%; margin: 0 auto; padding: 0 48px; gap: 12px; }
-  .nav-hint { max-width: 880px; margin: 6px auto 0; font-size: 13px; padding: 0 48px; }
-  .btn-back { flex: 0 0 160px; height: 56px; font-size: 16px; border-radius: 16px; }
-  .btn-next { flex: 1;          height: 56px; font-size: 17px; border-radius: 16px; }
-
-  /* ── Loading: centered comparison, ad below ── */
-  #s-loading { padding-top: 82px; }
-  .loading-wrap {
-    flex-direction: column;
-    align-items: center;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 42px 48px 56px;
-    gap: 28px;
-    min-height: unset;
-  }
-  .loading-content {
-    width: 100%;
-    align-items: center;
-  }
-  .compare-loader {
-    width: min(100%, 460px);
-    margin: 0 auto 24px;
-    padding: 22px;
-    border-radius: 26px;
-  }
-  .compare-model {
-    min-height: 148px;
-    padding: 15px 13px 12px;
-    border-radius: 18px;
-  }
-  .loading-title { font-size: 26px; }
-  .loading-sub   { font-size: 16px; margin-bottom: 24px; }
-  .search-card {
-    max-width: 520px;
-    border-radius: 20px;
-    padding: 18px 20px;
-  }
-  .search-icon-wrap { width: 48px; height: 48px; border-radius: 14px; }
-  .search-icon-wrap svg { width: 24px; height: 24px; }
-  .search-card-label { font-size: 16px; }
-
-  .loading-ad {
-    width: 100%;
-    max-width: 520px;
-    flex-shrink: 0;
-    padding: 0;
-  }
-  .ad-banner-lg {
-    min-height: 150px;
-    border-radius: 22px;
-    padding: 28px 24px;
-    justify-content: center; gap: 20px;
-  }
-  .ad-icon-circle { width: 54px; height: 54px; }
-  .ad-icon-circle svg { width: 26px; height: 26px; }
-  .ad-text-lg { font-size: 15px; }
-
-  /* ── Search / comparison ── */
-  #s-search {
-    padding-top: 0;
-  }
-  .srch-topbar-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 14px 48px 12px;
-  }
-  .srch-body {
-    max-width: 1120px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 24px 48px 56px;
-  }
-  #srch-results-area {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 16px;
-    align-items: start;
-  }
-  .srch-section-label,
-  .srch-no-results,
-  .dev-profile-back,
-  .dev-hero,
-  .dev-section-hdr,
-  .search-support-card {
-    grid-column: 1 / -1;
-  }
-  .srch-section-label {
-    margin: 24px 0 0;
-  }
-  .srch-match-card {
-    min-height: 96px;
-    margin-bottom: 0;
-    border-radius: 16px;
-    padding: 14px 16px;
-    align-items: flex-start;
-  }
-  .srch-match-name {
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .srch-price {
-    margin-top: 6px;
-  }
-  .dev-profile-back {
-    margin-bottom: 4px;
-  }
-  .dev-hero {
-    max-width: 720px;
-    width: 100%;
-    justify-self: center;
-    margin-bottom: 8px;
-  }
-  .search-support-card {
-    max-width: 720px;
-    width: 100%;
-    justify-self: center;
-  }
-  .dev-hero-body {
-    padding: 20px 24px 24px;
-  }
-  .dev-hero-specs {
-    margin-bottom: 18px;
-  }
-  .analog-card {
-    min-height: 98px;
-    margin-bottom: 0;
-    border-radius: 16px;
-  }
-  .analog-card-body {
-    padding: 14px 16px;
-  }
-  .analog-card-name {
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
-  /* ── Results ── */
-  #s-results { padding-top: 88px; }
-  .results-container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
-  .res-header   { padding: 32px 0 18px; }
-  .chips-wrap   { padding: 0 0 16px; }
-  .results-list { padding: 0 0 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .results-list .res-section-header { grid-column: 1 / -1; }
-  .restart-wrap { padding: 20px 0 0; }
-  .res-title { font-size: 32px; }
-  .res-sub   { font-size: 15px; }
-  .res-section-header { font-size: 12px; margin: 24px 0 12px; }
-  .support-section { display: none; } /* донат перенесён в хедер */
-  .no-exact-notice   { grid-column: 1 / -1; }
-  .smart-hint        { grid-column: 1 / -1; }
-  .sort-bar          { grid-column: 1 / -1; }
-  .compromise-wrap   { grid-column: 1 / -1; }
-
-  /* ── Restart button: constrained, not full-screen-width ── */
-  .btn-restart { border-radius: 20px; height: 58px; font-size: 16px; }
-}
-
-@media (min-width: 1100px) {
-  #s-results {
-    padding-top: 88px;
-  }
-  .results-container {
-    max-width: 1180px;
-    display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
-    gap: 34px;
-    align-items: start;
-  }
-  .res-header,
-  .chips-wrap,
-  .restart-wrap {
-    grid-column: 1;
-  }
-  .res-header {
-    position: static;
-    padding: 34px 0 0;
-  }
-  .res-title {
-    font-size: 28px;
-    line-height: 1.12;
-  }
-  .chips-wrap {
-    position: static;
-    padding: 18px;
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    background: rgba(255,255,255,.74);
-  }
-  .results-list {
-    grid-column: 2;
-    grid-row: 1 / span 4;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    padding-top: 34px;
-  }
-  .results-list .dev-card {
-    height: 100%;
-  }
-  .results-list .dev-body,
-  .results-list .card-collapsible {
-    min-height: 0;
-  }
-  .results-list .card-collapsible {
-    height: 100%;
-  }
-  .results-list .specs-full {
-    margin-top: auto;
-  }
-  .results-list .btn-site {
-    margin-top: 14px;
-  }
-  .results-list .review-links {
-    margin-top: 14px;
-  }
-  .sort-bar,
-  .smart-hint,
-  .no-exact-notice,
-  .compromise-wrap,
-  .results-list .res-section-header {
-    grid-column: 1 / -1;
-  }
-  .restart-wrap {
-    position: static;
-    padding: 4px 0 0;
-  }
-  .btn-restart {
-    height: 52px;
-    border-radius: 16px;
-  }
-}
-
-@media (max-width: 699px) {
   #s-intro {
     min-height: 100svh;
   }
@@ -3380,7 +3039,7 @@ body.tg-webapp #bottom-nav {
     font-size: 12px;
   }
   .intro-headline {
-    font-size: clamp(23px, 6.2vw, 28px);
+    font-size: 26.66px;
     line-height: 1.1;
     max-width: 340px;
     margin-left: auto;
@@ -3479,9 +3138,7 @@ body.tg-webapp #bottom-nav {
     width: auto !important;
     font-size: 10.5px !important;
   }
-}
 
-@media (max-width: 390px) {
   .intro-headline {
     font-size: 23px !important;
     max-width: 310px;
@@ -3490,9 +3147,7 @@ body.tg-webapp #bottom-nav {
     padding-left: 22px;
     padding-right: 22px;
   }
-}
 
-@media (max-width: 699px) {
   #s-intro {
     padding: 0;
     min-height: 100svh;
@@ -3514,9 +3169,7 @@ body.tg-webapp #bottom-nav {
     margin-top: clamp(10px, 1.6svh, 16px) !important;
     padding-top: clamp(9px, 1.35svh, 13px) !important;
   }
-}
 
-@media (max-width: 699px) and (max-height: 760px) {
   .intro-inner {
     padding-top: 18px;
     padding-bottom: calc(18px + env(safe-area-inset-bottom));
@@ -3554,9 +3207,7 @@ body.tg-webapp #bottom-nav {
   .intro-search-card {
     padding: 12px 12px;
   }
-}
 
-@media (max-width: 699px) {
   #s-intro {
     min-height: 100svh;
     align-items: stretch;
@@ -3599,111 +3250,24 @@ body.tg-webapp #bottom-nav {
     padding-top: clamp(9px, 1.35svh, 13px) !important;
     row-gap: 9px !important;
   }
-}
 
-@media (max-width: 699px) and (max-height: 760px) {
   .intro-inner {
     justify-content: flex-start;
     padding-top: 16px;
     padding-bottom: calc(16px + env(safe-area-inset-bottom));
     row-gap: 10px;
   }
-}
 
-@media (min-width: 700px) {
-  #s-intro.intro-searching {
-    align-items: flex-start;
-    justify-content: center;
-    padding: 46px 48px 32px;
-  }
-  #s-intro.intro-searching .intro-inner {
-    max-width: 900px !important;
-    width: min(900px, calc(100vw - 96px)) !important;
-    min-height: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
-    gap: 42px !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
-  #s-intro.intro-searching .intro-brand {
-    width: 100%;
-    flex-direction: row;
-    align-items: center !important;
-    justify-content: flex-start;
-    gap: 18px;
-    text-align: left;
-    margin: 0 !important;
-  }
-  #s-intro.intro-searching .intro-brand-copy {
-    align-items: flex-start;
-    text-align: left;
-  }
-  #s-intro.intro-searching .intro-icon {
-    width: 62px;
-    height: 62px;
-    margin: 0;
-    border-radius: 16px;
-  }
-  #s-intro.intro-searching .intro-title {
-    font-size: 26px;
-    margin-bottom: 5px;
-  }
-  #s-intro.intro-searching .intro-tagline {
-    margin: 0;
-    font-size: 13px;
-  }
-  #s-intro.intro-searching .intro-main {
-    width: 100% !important;
-    display: block !important;
-  }
-  #s-intro.intro-searching .intro-left,
-  #s-intro.intro-searching .intro-actions,
-  #s-intro.intro-searching .intro-or,
-  #s-intro.intro-searching .intro-footer {
-    display: none !important;
-  }
-  #s-intro.intro-searching .intro-right {
-    width: 100% !important;
-    min-height: 0 !important;
-    display: block !important;
-  }
-  #s-intro.intro-searching .intro-search-card {
-    width: 100% !important;
-    max-width: 760px !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-  #s-intro.intro-searching .intro-search-card-hdr {
-    margin-bottom: 22px;
-  }
-  #s-intro.intro-searching .intro-search-wrap {
-    background: #fff;
-    border: 1.5px solid var(--blue);
-    box-shadow: none;
-  }
-  #s-intro.intro-searching #intro-srch-results {
-    max-height: calc(100dvh - 245px);
-    overflow-y: auto;
-  }
-  #s-intro.intro-searching .srch-match-card {
-    background: #fff;
-  }
-}
 
-@media (max-width: 699px) {
   .smart-hint {
     align-items: flex-start;
     flex-wrap: wrap;
   }
+  .smart-hint-actions {
+    width: 100%;
+  }
   .smart-hint-btn {
+    flex: 1 1 0;
     width: 100%;
   }
   .support-top {
@@ -3718,7 +3282,6 @@ body.tg-webapp #bottom-nav {
     padding: 8px 12px;
     font-size: 11.5px;
   }
-}
 
 .search-support-card,
 .search-support-card .support-top,
@@ -3728,6 +3291,3423 @@ body.tg-webapp #bottom-nav {
 .hd-btn-donate,
 .btn-hd-donate {
   box-shadow: none !important;
+}
+
+/* ── Home v2 + choose mode ───────────────────────── */
+#s-intro.v2-home,
+#s-mode {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 105% -8%, rgba(111, 76, 255, .12) 0 0, transparent 280px),
+    linear-gradient(180deg, #F7FBFF 0%, #FFFFFF 54%, #F7FAFF 100%);
+  position: relative;
+  overflow: hidden auto;
+}
+#s-intro.v2-home::before,
+#s-mode::before {
+  content: '';
+  position: absolute;
+  right: 18px;
+  top: 62px;
+  width: 170px;
+  height: 170px;
+  background-image: radial-gradient(circle, rgba(104,71,255,.18) 1.4px, transparent 1.5px);
+  background-size: 15px 15px;
+  opacity: .55;
+  pointer-events: none;
+}
+#s-intro.v2-home::after,
+#s-mode::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  bottom: 128px;
+  width: 150px;
+  height: 96px;
+  background-image: radial-gradient(circle, rgba(104,71,255,.14) 1.4px, transparent 1.5px);
+  background-size: 15px 15px;
+  opacity: .55;
+  pointer-events: none;
+}
+#s-intro.v2-home.on,
+#s-mode.on {
+  display: flex;
+  justify-content: center;
+}
+.home-v2-inner,
+.mode-inner {
+  width: 100%;
+  max-width: 520px;
+  min-height: 100dvh;
+  padding: 42px 32px 26px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.vbr-wordmark {
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -1.2px;
+  font-weight: 950;
+  color: #111827;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.vbr-wordmark span {
+  font-size: .46em;
+  color: #6847FF;
+  vertical-align: super;
+  letter-spacing: -.02em;
+  margin-left: 4px;
+}
+.home-v2-hero {
+  margin-top: 64px;
+}
+.home-v2-title {
+  font-size: 43.86px;
+  line-height: 1.12;
+  letter-spacing: -1.8px;
+  font-weight: 900;
+  color: #111827;
+}
+.home-v2-title .accent {
+  display: block;
+  color: #6847FF;
+}
+.home-v2-subtitle {
+  max-width: 340px;
+  margin-top: 26px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: #687087;
+}
+.home-v2-sticker {
+  align-self: flex-start;
+  margin-top: 34px;
+  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(104, 71, 255, .18);
+  border-radius: 999px;
+  background: rgba(104, 71, 255, .07);
+  color: #111827;
+  font-size: 16px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.home-v2-sticker::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6847FF;
+  box-shadow: 0 0 0 6px rgba(104, 71, 255, .13);
+}
+.home-v2-features {
+  margin-top: 44px;
+  display: grid;
+  gap: 24px;
+}
+.home-v2-feature {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+.home-v2-feature-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(104, 71, 255, .08);
+  color: #6847FF;
+}
+.home-v2-feature-icon svg {
+  width: 34px;
+  height: 34px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-v2-feature-title {
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 850;
+  color: #111827;
+}
+.home-v2-feature-text {
+  margin-top: 5px;
+  color: #697189;
+  font-size: 15px;
+  line-height: 1.42;
+}
+.home-v2-spacer {
+  flex: 1;
+  min-height: 28px;
+}
+.home-v2-start {
+  width: auto;
+  align-self: flex-start;
+  padding: 0 32px;
+  height: 68px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #7657FF 0%, #4E36E8 100%);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  box-shadow: 0 18px 36px rgba(104,71,255,.22);
+  cursor: pointer;
+}
+.home-v2-start:active,
+.mode-primary-btn:active,
+.mode-search-go:active {
+  opacity: .86;
+  transform: scale(.99);
+}
+.home-v2-footer,
+.mode-footer {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(105,113,137,.14);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+  align-items: center;
+}
+.home-v2-footer a,
+.home-v2-footer button,
+.mode-footer a,
+.mode-footer button {
+  border: 0;
+  background: none;
+  color: #50596F;
+  font: inherit;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.home-v2-footer svg,
+.mode-footer svg {
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-v2-footer .donate,
+.mode-footer .donate {
+  justify-self: start;
+  color: #111827;
+}
+.home-v2-footer .donate svg,
+.mode-footer .donate svg {
+  color: #F04444;
+}
+.home-v2-footer .mail,
+.mode-footer .mail {
+  justify-self: end;
+}
+.home-v2-footer .privacy,
+.mode-footer .privacy {
+  grid-column: 1 / -1;
+  justify-self: center;
+  color: #8A91A4;
+  font-size: 14px;
+}
+.mode-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mode-menu {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(105,113,137,.16);
+  border-radius: 14px;
+  background: rgba(255,255,255,.68);
+  color: #111827;
+  display: grid;
+  place-items: center;
+}
+.mode-title {
+  margin-top: 62px;
+  font-size: 38px;
+  line-height: 1.12;
+  letter-spacing: -1.2px;
+  font-weight: 900;
+  color: #111827;
+}
+.mode-subtitle {
+  margin-top: 14px;
+  font-size: 18px;
+  color: #687087;
+}
+.mode-content {
+  margin-top: 34px;
+  display: grid;
+  gap: 24px;
+}
+.mode-quiz-card {
+  min-height: 300px;
+  padding: 34px 32px 28px;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(255,255,255,.24), transparent 34%),
+    linear-gradient(135deg, #5C31D9 0%, #7B55FF 100%);
+  box-shadow: 0 22px 56px rgba(92,49,217,.26);
+}
+.mode-quiz-card::after {
+  content: '';
+  position: absolute;
+  right: -34px;
+  top: 60px;
+  width: 230px;
+  height: 180px;
+  background: url("assets/ui/vbr-choice-device.png") center / contain no-repeat;
+  filter: drop-shadow(0 24px 34px rgba(20,16,48,.28));
+}
+.mode-quiz-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: rgba(255,255,255,.13);
+}
+.mode-quiz-icon svg {
+  width: 34px;
+  height: 34px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mode-quiz-title {
+  max-width: 360px;
+  margin-top: 24px;
+  font-size: 25px;
+  line-height: 1.35;
+  font-weight: 850;
+  position: relative;
+  z-index: 1;
+}
+.mode-quiz-text {
+  max-width: 310px;
+  margin-top: 18px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.86);
+  position: relative;
+  z-index: 1;
+}
+.mode-primary-btn {
+  width: 100%;
+  margin-top: 34px;
+  height: 62px;
+  border: 0;
+  border-radius: 14px;
+  background: #fff;
+  color: #5B38E5;
+  font-size: 21px;
+  font-weight: 850;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+.mode-quiz-note {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,.88);
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
+.mode-search-card {
+  padding: 26px 24px;
+  border: 1px solid rgba(105,113,137,.16);
+  border-radius: 24px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 16px 44px rgba(30,48,76,.08);
+}
+.mode-search-head {
+  display: grid;
+  grid-template-columns: 62px minmax(0,1fr);
+  gap: 18px;
+  align-items: center;
+}
+.mode-ai-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #6847FF;
+  background: rgba(104,71,255,.09);
+}
+.mode-ai-icon svg {
+  width: 31px;
+  height: 31px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mode-search-title {
+  font-size: 23px;
+  font-weight: 850;
+  color: #111827;
+}
+.mode-search-sub {
+  margin-top: 6px;
+  color: #596278;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.mode-search-wrap {
+  margin-top: 26px;
+  height: 62px;
+  border: 1.5px solid rgba(104,71,255,.28);
+  border-radius: 14px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 12px 0 18px;
+}
+.mode-search-wrap:focus-within {
+  border-color: #6847FF;
+}
+.mode-search-wrap .intro-srch-input {
+  font-size: 16px;
+}
+.mode-search-go {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7657FF 0%, #4E36E8 100%);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+#s-mode.mode-searching .mode-quiz-card {
+  display: none;
+}
+#s-mode.mode-searching .mode-content {
+  margin-top: 24px;
+}
+#s-mode.mode-searching #intro-srch-results {
+  max-height: min(58dvh, 620px);
+  overflow-y: auto;
+  padding-top: 10px;
+}
+
+
+  .home-v2-inner,
+  .mode-inner {
+    padding: 20px 22px 14px;
+    min-height: 100dvh;
+  }
+  .vbr-wordmark {
+    font-size: 24px;
+  }
+  .home-v2-hero {
+    margin-top: 26px;
+  }
+  .home-v2-title {
+    font-size: 28px;
+    line-height: 1.09;
+    letter-spacing: -1px;
+  }
+  .home-v2-subtitle {
+    margin-top: 13px;
+    font-size: 13.5px;
+    line-height: 1.32;
+    max-width: 300px;
+  }
+  .home-v2-sticker {
+    margin-top: 16px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .home-v2-features {
+    margin-top: 21px;
+    gap: 11px;
+  }
+  .home-v2-feature {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 11px;
+  }
+  .home-v2-feature-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .home-v2-feature-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .home-v2-feature-title {
+    font-size: 13px;
+  }
+  .home-v2-feature-text {
+    margin-top: 2px;
+    font-size: 11.5px;
+    line-height: 1.25;
+  }
+  .home-v2-spacer {
+    min-height: 10px;
+  }
+  .home-v2-start {
+    height: 52px;
+    border-radius: 14px;
+    font-size: 16px;
+    box-shadow: 0 12px 24px rgba(104,71,255,.18);
+  }
+  .home-v2-footer,
+  .mode-footer {
+    margin-top: 13px;
+    padding-top: 12px;
+    gap: 8px 10px;
+  }
+  .home-v2-footer,
+  .mode-footer {
+    font-size: 11.5px;
+  }
+  .home-v2-footer svg,
+  .mode-footer svg {
+    width: 19px;
+    height: 19px;
+  }
+  .home-v2-footer .privacy,
+  .mode-footer .privacy {
+    font-size: 10.5px;
+  }
+  .mode-title {
+    font-size: 28px;
+    margin-top: 26px;
+  }
+  .mode-subtitle {
+    font-size: 15px;
+    margin-top: 8px;
+  }
+  .mode-content {
+    margin-top: 18px;
+    gap: 14px;
+  }
+  .mode-quiz-card {
+    min-height: 224px;
+    padding: 18px;
+    border-radius: 22px;
+  }
+  .mode-quiz-card::after {
+    right: -58px;
+    top: 72px;
+    width: 176px;
+    height: 138px;
+    opacity: .9;
+  }
+  .mode-quiz-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+  }
+  .mode-quiz-icon svg {
+    width: 27px;
+    height: 27px;
+  }
+  .mode-quiz-title {
+    margin-top: 14px;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+  .mode-quiz-text {
+    margin-top: 9px;
+    font-size: 12.5px;
+    line-height: 1.35;
+  }
+  .mode-quiz-title,
+  .mode-quiz-text {
+    max-width: 230px;
+  }
+  .mode-primary-btn {
+    height: 48px;
+    margin-top: 17px;
+    border-radius: 13px;
+    font-size: 16px;
+  }
+  .mode-quiz-note {
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .mode-search-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  .mode-search-head {
+    grid-template-columns: 46px minmax(0,1fr);
+    gap: 14px;
+  }
+  .mode-ai-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+  }
+  .mode-ai-icon svg {
+    width: 25px;
+    height: 25px;
+  }
+  .mode-search-title {
+    font-size: 18px;
+  }
+  .mode-search-sub {
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+  .mode-search-wrap {
+    height: 48px;
+    margin-top: 14px;
+    padding-left: 14px;
+  }
+  .mode-search-wrap .intro-srch-input {
+    font-size: 14px;
+  }
+  .mode-search-go {
+    width: 36px;
+    height: 36px;
+  }
+
+  .home-v2-inner,
+  .mode-inner {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+  .vbr-wordmark {
+    font-size: 24px;
+  }
+  .home-v2-hero {
+    margin-top: 24px;
+  }
+  .home-v2-title {
+    font-size: 27px;
+    line-height: 1.08;
+  }
+  .home-v2-subtitle {
+    margin-top: 12px;
+    font-size: 13.5px;
+    line-height: 1.3;
+  }
+  .home-v2-sticker {
+    margin-top: 16px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+  .home-v2-features {
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .home-v2-feature {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 11px;
+  }
+  .home-v2-feature-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .home-v2-feature-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+  .home-v2-feature-title {
+    font-size: 13px;
+  }
+  .home-v2-feature-text {
+    font-size: 11.5px;
+    line-height: 1.25;
+  }
+  .home-v2-spacer {
+    min-height: 12px;
+  }
+  .home-v2-start {
+    height: 52px;
+    font-size: 16px;
+  }
+  .home-v2-footer,
+  .mode-footer {
+    margin-top: 14px;
+    padding-top: 13px;
+    gap: 8px 10px;
+    font-size: 12px;
+  }
+  .home-v2-footer .privacy,
+  .mode-footer .privacy {
+    font-size: 10.5px;
+  }
+  .mode-title {
+    margin-top: 26px;
+    font-size: 28px;
+  }
+  .mode-subtitle {
+    font-size: 14px;
+  }
+  .mode-content {
+    margin-top: 18px;
+    gap: 14px;
+  }
+  .mode-quiz-card {
+    min-height: 222px;
+    padding: 18px;
+  }
+  .mode-quiz-card::after {
+    width: 150px;
+    height: 120px;
+    top: 72px;
+  }
+  .mode-quiz-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+  .mode-quiz-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+  .mode-quiz-title {
+    margin-top: 14px;
+    font-size: 17px;
+  }
+  .mode-quiz-text {
+    margin-top: 9px;
+    font-size: 12.5px;
+  }
+  .mode-primary-btn {
+    height: 48px;
+    margin-top: 18px;
+    font-size: 16px;
+  }
+  .mode-quiz-note {
+    margin-top: 9px;
+    font-size: 11px;
+  }
+  .mode-search-card {
+    padding: 16px;
+  }
+  .mode-search-title {
+    font-size: 16px;
+  }
+  .mode-search-sub {
+    font-size: 12.5px;
+  }
+  .mode-search-wrap {
+    height: 48px;
+    margin-top: 14px;
+  }
+  .mode-search-go {
+    width: 36px;
+    height: 36px;
+  }
+
+/* ── Home/mode responsive stabilization ─────────────── */
+:root {
+  --app-header-h: 68px;
+  --vbr-violet: #6847FF;
+  --vbr-violet-2: #4E36E8;
+  --vbr-page: #F7FBFF;
+  --vbr-ink: #101828;
+  --vbr-muted: #667085;
+}
+
+#header {
+  display: block;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.header-main {
+  min-height: var(--app-header-h);
+  padding: 10px 16px;
+}
+
+.hd-logo {
+  background: #111827;
+  border-radius: 14px;
+}
+
+.hd-name {
+  font-size: 15px;
+  color: var(--vbr-ink);
+}
+
+.hd-name .hd-brand {
+  display: inline;
+  font-size: 12px;
+  color: #697189;
+}
+
+.hd-sub {
+  font-size: 12px;
+  color: #697189;
+}
+
+.hd-support-block,
+.hd-privacy-block,
+.hd-contact-block,
+.btn-hd-donate {
+  display: none !important;
+}
+
+#s-intro.v2-home,
+#s-mode {
+  padding-top: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 105% 0%, rgba(104,71,255,.11), transparent 250px),
+    linear-gradient(180deg, #F7FBFF 0%, #FFFFFF 50%, #F6FAFF 100%);
+}
+
+#s-intro.v2-home::before,
+#s-mode::before {
+  top: 26px;
+}
+
+.home-v2-inner,
+.mode-inner {
+  min-height: 100dvh;
+  padding: 22px 22px 16px;
+  max-width: 460px;
+}
+
+.vbr-page-brand,
+.mode-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.mode-brand {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.vbr-brand-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+  color: #697189;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.vbr-brand-copy strong {
+  color: var(--vbr-ink);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vbr-brand-copy span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mode-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.mode-menu {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.home-v2-hero {
+  margin-top: 22px;
+}
+
+.home-v2-title {
+  font-size: 29px;
+  line-height: 1.12;
+  letter-spacing: -.8px;
+  max-width: 360px;
+}
+
+.home-v2-title .accent {
+  display: block;
+}
+
+.home-v2-subtitle {
+  margin-top: 18px;
+  max-width: 330px;
+  font-size: 15px;
+  line-height: 1.38;
+}
+
+.home-v2-sticker {
+  margin-top: 22px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.home-v2-features {
+  margin-top: 30px;
+  gap: 18px;
+}
+
+.home-v2-feature {
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.home-v2-feature-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.home-v2-feature-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.home-v2-feature-title {
+  font-size: 14px;
+}
+
+.home-v2-feature-text {
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.32;
+}
+
+.home-v2-spacer {
+  min-height: 26px;
+}
+
+.home-v2-start {
+  height: 50px;
+  border-radius: 14px;
+  font-size: 16px;
+  box-shadow: 0 12px 24px rgba(104,71,255,.16);
+}
+
+.home-v2-footer,
+.mode-footer {
+  margin-top: 18px;
+  padding-top: 16px;
+  gap: 7px 10px;
+}
+
+.home-v2-footer a,
+.home-v2-footer button,
+.mode-footer a,
+.mode-footer button {
+  font-size: 11.5px;
+  gap: 7px;
+}
+
+.home-v2-footer svg,
+.mode-footer svg {
+  width: 18px;
+  height: 18px;
+}
+
+.home-v2-footer .privacy,
+.mode-footer .privacy {
+  font-size: 10.5px;
+}
+
+.mode-title {
+  margin-top: 0;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.mode-subtitle {
+  margin-top: 7px;
+  font-size: 14px;
+}
+
+.mode-content {
+  margin-top: 12px;
+  gap: 11px;
+}
+
+.mode-quiz-card {
+  min-height: 156px;
+  padding: 14px;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(92,49,217,.14);
+}
+
+.mode-quiz-card::after {
+  right: -46px;
+  top: 50px;
+  width: 128px;
+  height: 94px;
+  opacity: .78;
+}
+
+.mode-quiz-icon,
+.mode-ai-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+}
+
+.mode-quiz-icon svg,
+.mode-ai-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mode-quiz-title {
+  max-width: 220px;
+  margin-top: 9px;
+  font-size: 15px;
+  line-height: 1.26;
+}
+
+.mode-quiz-text {
+  max-width: 205px;
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.mode-primary-btn {
+  height: 40px;
+  margin-top: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.mode-quiz-note {
+  margin-top: 7px;
+  font-size: 10px;
+}
+
+.mode-search-card {
+  padding: 14px;
+  border-radius: 18px;
+}
+
+.mode-search-head {
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 11px;
+}
+
+.mode-search-title {
+  font-size: 16px;
+}
+
+.mode-search-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.mode-search-wrap {
+  height: 44px;
+  margin-top: 12px;
+  padding: 0 8px 0 12px;
+  gap: 9px;
+}
+
+.mode-search-wrap .intro-srch-input {
+  font-size: 13px;
+}
+
+.mode-search-go {
+  width: 34px;
+  height: 34px;
+}
+
+#s-mode.mode-searching .mode-popular {
+  display: none;
+}
+
+.mode-popular {
+  margin-top: 16px;
+  text-align: left;
+  padding: 26px 24px;
+  border: 1px solid rgba(105,113,137,.16);
+  border-radius: 24px;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 16px 44px rgba(30,48,76,.08);
+}
+
+.mode-popular-title {
+  margin-bottom: 6px;
+  color: #667085;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.mode-popular-list {
+  display: grid;
+  border-top: 1px solid rgba(104, 71, 255, .10);
+}
+
+.mode-popular-row {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(104, 71, 255, .10);
+  background: transparent;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 18px;
+  gap: 10px;
+  align-items: center;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mode-popular-thumb {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(104, 71, 255, .12);
+  border-radius: 11px;
+  background: rgba(104, 71, 255, .06);
+  color: var(--vbr-violet);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.mode-popular-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mode-popular-name {
+  min-width: 0;
+  color: var(--vbr-ink);
+  font-size: 12.5px;
+  font-weight: 750;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mode-popular-meta {
+  margin-top: 2px;
+  color: #667085;
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mode-popular-arrow {
+  color: #6F55FF;
+  font-size: 22px;
+  line-height: 1;
+  justify-self: end;
+}
+
+#s-mode.mode-searching #intro-srch-results {
+  max-height: calc(100dvh - var(--app-header-h) - 220px);
+}
+
+  .home-v2-inner,
+  .mode-inner {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .home-v2-title {
+    font-size: 24px;
+  }
+  .home-v2-subtitle {
+    font-size: 12.5px;
+  }
+  .mode-quiz-card {
+    min-height: 174px;
+  }
+
+  .home-v2-inner {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+  .home-v2-hero {
+    margin-top: 16px;
+  }
+  .home-v2-title {
+    font-size: 26px;
+    line-height: 1.08;
+  }
+  .home-v2-subtitle {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.28;
+  }
+  .home-v2-sticker {
+    margin-top: 14px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+  .home-v2-features {
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .home-v2-feature {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 11px;
+  }
+  .home-v2-feature-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .home-v2-feature-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+  .home-v2-feature-title {
+    font-size: 13px;
+  }
+  .home-v2-feature-text {
+    font-size: 11.5px;
+    line-height: 1.25;
+  }
+  .home-v2-spacer {
+    min-height: 12px;
+  }
+  .home-v2-footer {
+    margin-top: 13px;
+    padding-top: 12px;
+  }
+
+
+/* ── Mode page final compact layout ─────────────────── */
+#s-mode .mode-inner {
+  justify-content: flex-start;
+  padding-top: 22px;
+  padding-bottom: 14px;
+}
+
+#s-mode .mode-title {
+  margin-top: 20px;
+}
+
+#s-mode .mode-content {
+  margin-top: 12px;
+  gap: 12px;
+}
+
+#s-mode .mode-quiz-card {
+  min-height: 0;
+  height: 164px;
+  padding: 13px 14px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto;
+  column-gap: 12px;
+  align-items: start;
+  box-shadow: 0 8px 18px rgba(92,49,217,.12);
+}
+
+#s-mode .mode-quiz-card::after {
+  right: 18px;
+  top: 26px;
+  width: 132px;
+  height: 94px;
+  opacity: .96;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 14px 18px rgba(20,16,48,.20));
+}
+
+#s-mode .mode-quiz-icon {
+  grid-row: 1 / span 2;
+  position: relative;
+  z-index: 1;
+}
+
+#s-mode .mode-quiz-title {
+  grid-column: 2;
+  max-width: 184px;
+  margin-top: 0;
+  font-size: 14.5px;
+  line-height: 1.22;
+}
+
+#s-mode .mode-quiz-text {
+  grid-column: 2;
+  max-width: 178px;
+  margin-top: 4px;
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+#s-mode .mode-primary-btn {
+  grid-column: 1 / -1;
+  height: 38px;
+  margin-top: 8px;
+  font-size: 13.5px;
+  position: relative;
+  z-index: 1;
+}
+
+#s-mode .mode-quiz-note {
+  grid-column: 1 / -1;
+  display: none;
+}
+
+#s-mode .mode-search-card {
+  padding: 13px;
+}
+
+#s-mode .mode-search-wrap {
+  height: 42px;
+  margin-top: 11px;
+}
+
+#s-mode .mode-search-go {
+  width: 32px;
+  height: 32px;
+}
+
+#s-mode .mode-popular {
+  margin-top: 16px;
+}
+
+#s-mode .mode-popular-row {
+  grid-template-columns: 34px minmax(0, 1fr) 16px;
+  gap: 9px;
+  padding: 6px 0;
+}
+
+#s-mode .mode-popular-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+#s-mode .mode-popular-name {
+  font-size: 12px;
+}
+
+#s-mode .mode-popular-meta {
+  font-size: 10px;
+}
+
+#s-mode .home-v2-spacer {
+  min-height: 8px;
+  flex: 1 1 8px;
+}
+
+
+/* ── Home and mode final visual balance ────────────── */
+  #s-intro.v2-home .home-v2-inner {
+    padding-top: clamp(24px, 4.8dvh, 38px);
+    padding-bottom: clamp(18px, 3.2dvh, 26px);
+  }
+
+  #s-intro.v2-home .home-v2-hero {
+    margin-top: clamp(30px, 5.2dvh, 42px);
+    text-align: left;
+  }
+
+  #s-intro.v2-home .home-v2-sticker {
+    align-self: flex-start;
+  }
+
+  #s-intro.v2-home .home-v2-features {
+    margin-top: clamp(24px, 4dvh, 32px);
+  }
+
+  #s-intro.v2-home .favorite-panel {
+    margin-top: clamp(24px, 4.8dvh, 42px);
+  }
+
+  #s-intro.v2-home .home-v2-spacer {
+    flex: 0 0 clamp(24px, 4.8dvh, 42px);
+    min-height: clamp(24px, 4.8dvh, 42px);
+  }
+
+  #s-intro.v2-home .home-v2-start {
+    margin-top: 0;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 30.1px;
+    top: 24px;
+    width: 158px;
+    height: 112px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 18px;
+    top: 32px;
+    width: 142px;
+    height: 102px;
+  }
+
+/* ── Unified header, footer and first flow polish ───── */
+.hd-wordmark {
+  flex: 0 0 auto;
+}
+
+#header .header-left {
+  gap: 14px;
+  min-width: 0;
+}
+
+#header .hd-name {
+  color: var(--vbr-ink);
+  font-weight: 850;
+  letter-spacing: -.2px;
+}
+
+#header .hd-sub {
+  color: #687087;
+}
+
+#intro-db-sticker::before {
+  animation: liveDotPulse 1.35s ease-in-out infinite;
+}
+
+@keyframes liveDotPulse {
+  0%, 100% {
+    opacity: .58;
+    transform: scale(.82);
+    box-shadow: 0 0 0 5px rgba(104, 71, 255, .12);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.08);
+    box-shadow: 0 0 0 8px rgba(104, 71, 255, .18);
+  }
+}
+
+.home-v2-footer .privacy,
+.mode-footer .privacy {
+  justify-content: center;
+  gap: 7px;
+}
+
+.home-v2-footer .privacy svg,
+.mode-footer .privacy svg {
+  width: 15px;
+  height: 15px;
+  opacity: .75;
+  stroke-width: 1.8;
+}
+
+#s-mode .mode-footer,
+#s-mode .home-v2-spacer {
+  display: none !important;
+}
+
+#s-mode .mode-title {
+  font-size: 34px;
+  margin-top: 22px;
+  line-height: 1.04;
+}
+
+#s-mode.mode-searching .mode-title,
+#s-mode.mode-searching .mode-quiz-card,
+#s-mode.mode-searching .mode-quiz-card.mode-quiz-card-v3 {
+  display: none !important;
+}
+
+#s-mode.mode-searching .mode-content {
+  margin-top: 18px;
+}
+
+#s-mode .mode-quiz-card {
+  overflow: hidden;
+}
+
+#s-mode .mode-quiz-card::after {
+  right: 21.5px;
+  top: 32px;
+  width: 180.6px;
+  height: 129px;
+  background-position: center;
+  background-size: contain;
+}
+
+#s-mode .mode-primary-btn {
+  z-index: 2;
+}
+
+#s-mode .mode-search-card {
+  box-shadow: 0 14px 34px rgba(35, 45, 80, .05);
+}
+
+#s-mode .mode-popular-row {
+  min-height: 58px;
+  align-items: center;
+}
+
+#s-mode .mode-popular-thumb {
+  display: grid;
+  place-items: center;
+  color: #6847FF;
+  background: rgba(104, 71, 255, .08);
+  border: 1px solid rgba(104, 71, 255, .16);
+  font-size: 0;
+}
+
+#s-mode .mode-popular-thumb svg {
+  width: 21px;
+  height: 21px;
+}
+
+#s-mode .mode-popular-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+#s-mode .mode-popular-name,
+#s-mode .mode-popular-meta {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#s-mode .mode-popular-name {
+  font-size: 12.5px;
+  line-height: 1.18;
+}
+
+#s-mode .mode-popular-meta {
+  font-size: 10.5px;
+  line-height: 1.2;
+  color: #697189;
+}
+
+  .vbr-page-brand,
+  .mode-brand {
+    min-height: 42px;
+    align-items: flex-start;
+  }
+
+  #header .header-main {
+    min-height: 64px;
+    align-items: center;
+  }
+
+  #header .hd-wordmark,
+  .vbr-page-brand .vbr-wordmark,
+  .mode-brand .vbr-wordmark {
+    font-size: 28px;
+  }
+
+  #header .hd-name,
+  .vbr-brand-copy strong {
+    font-size: 11.5px;
+  }
+
+  #header .hd-sub,
+  .vbr-brand-copy span {
+    font-size: 10.5px;
+  }
+
+  #s-mode .mode-inner {
+    padding-top: clamp(24px, 4.8dvh, 38px);
+    padding-bottom: clamp(14px, 2.5dvh, 22px);
+  }
+
+  #s-mode .mode-title {
+    font-size: 33px;
+    margin-top: clamp(28px, 5dvh, 40px);
+  }
+
+  #s-mode .mode-content {
+    margin-top: 14px;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 162px;
+    padding: 14px 14px 12px;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 188px;
+    font-size: 14.5px;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 172px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 25.8px;
+    top: 30px;
+    width: 184.9px;
+    height: 129px;
+  }
+
+  #s-mode .mode-search-card {
+    padding: 14px;
+  }
+
+
+/* ── Final design pass: unified purple system ───────── */
+:root {
+  --blue: #6847FF;
+  --blue-strong: #5532EA;
+  --blue-rgb: 104,71,255;
+  --blue-bg: #F1ECFF;
+  --blue-soft: #F8F6FF;
+  --blue-border: rgba(104,71,255,.24);
+}
+
+#header {
+  background: linear-gradient(110deg, rgba(248,251,255,.97), rgba(246,243,255,.94));
+  border-bottom: 1px solid rgba(104,71,255,.12);
+}
+
+#header .header-main {
+  width: min(100%, 460px);
+  margin: 0 auto;
+  min-height: 74px;
+  padding: 14px 22px 12px;
+}
+
+#header .btn-hd-donate,
+#header .hd-support-block,
+#header .hd-privacy-block,
+#header .hd-contact-block {
+  display: none !important;
+}
+
+#header .hd-counter {
+  flex: 0 0 auto;
+  color: #687087;
+  font-size: 15px;
+}
+
+#header .progress-fill {
+  background: #6847FF;
+}
+
+#s-mode .mode-top {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+#s-mode .mode-menu {
+  display: none !important;
+}
+
+.screen:not(#s-intro):not(#s-mode) {
+  background:
+    radial-gradient(circle at 88% 6%, rgba(104,71,255,.09), transparent 280px),
+    linear-gradient(180deg, #F8FBFF 0%, #F2F1F8 48%, #F1F1F7 100%);
+}
+
+.sort-btn.active,
+.opt.sel {
+  border-color: #6847FF;
+  background: #F1ECFF;
+  color: #6847FF;
+}
+
+.q-next,
+.primary,
+.mode-search-go,
+.srch-go,
+.btn-main,
+.restart-btn {
+  background: #6847FF;
+}
+
+.res-card,
+.dev-card,
+.selected-card,
+.donate-card,
+.suggestions-box {
+  border-color: rgba(104,71,255,.10);
+  box-shadow: 0 14px 34px rgba(35,45,80,.045);
+}
+
+.res-section-header.upgrade,
+.smart-hint-title,
+.opt-title {
+  color: #6847FF;
+}
+
+.vbr-page-brand,
+.mode-brand,
+#header .header-left {
+  align-items: center;
+}
+
+.home-v2-footer {
+  row-gap: 10px;
+}
+
+.home-v2-footer .privacy {
+  font-size: 12px;
+  line-height: 1.2;
+  color: #8A90A3;
+}
+
+.home-v2-footer .privacy svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 1.8;
+}
+
+#s-mode .mode-title {
+  font-size: 30.1px;
+  margin-top: 4px;
+}
+
+#s-mode .mode-content {
+  margin-top: 14px;
+}
+
+#s-mode .mode-quiz-card {
+  height: 156px;
+  padding: 13px 14px 12px;
+  border-radius: 24px;
+  box-shadow: 0 10px 20px rgba(92,49,217,.10);
+}
+
+#s-mode .mode-quiz-title {
+  max-width: 196px;
+  font-size: 14px;
+  line-height: 1.22;
+}
+
+#s-mode .mode-quiz-text {
+  max-width: 188px;
+  font-size: 10.7px;
+  line-height: 1.28;
+}
+
+#s-mode .mode-quiz-card::after {
+  right: 16px;
+  top: 31px;
+  width: 202.1px;
+  height: 146.2px;
+  background-position: right top;
+  filter: drop-shadow(0 14px 16px rgba(22,15,58,.20));
+}
+
+#s-mode .mode-primary-btn {
+  height: 38px;
+  margin-top: 8px;
+}
+
+#s-mode .mode-search-card {
+  border-radius: 24px;
+  border-color: rgba(104,71,255,.14);
+}
+
+#s-mode .mode-popular-title {
+  color: #687087;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+#s-mode .mode-popular-row {
+  grid-template-columns: 36px minmax(0, 1fr) 16px;
+  min-height: 54px;
+  padding: 7px 0;
+}
+
+#s-mode .mode-popular-name {
+  font-size: 12.5px;
+  line-height: 1.18;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+#s-mode .mode-popular-meta {
+  font-size: 10.5px;
+  line-height: 1.18;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+
+  #header .header-main {
+    min-height: 68px;
+    padding: 12px 16px 10px;
+  }
+
+  #header .header-left {
+    gap: 10px;
+  }
+
+  #header .hd-wordmark,
+  .vbr-page-brand .vbr-wordmark,
+  .mode-brand .vbr-wordmark {
+    font-size: 28px;
+  }
+
+  #header .hd-name,
+  .vbr-brand-copy strong {
+    font-size: 11.5px;
+    line-height: 1.15;
+  }
+
+  #header .hd-sub,
+  .vbr-brand-copy span {
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+
+  #s-mode .mode-inner {
+    padding-top: 22px;
+  }
+
+  #s-mode .mode-title {
+    font-size: 30px;
+    margin-top: 2px;
+  }
+
+  #s-mode .mode-search-title {
+    font-size: 18px;
+  }
+
+  #s-mode .mode-search-sub {
+    font-size: 12.5px;
+    line-height: 1.28;
+  }
+
+  #s-mode .mode-search-wrap {
+    height: 44px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 12px;
+    top: 36px;
+    width: 156px;
+    height: 112px;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 180px;
+    font-size: 13.5px;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 170px;
+  }
+
+
+/* ── New visual system for mode/search/results cards ── */
+#s-mode .mode-quiz-card {
+  position: relative;
+  height: 176px;
+  padding: 18px 16px 18px;
+  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  overflow: hidden;
+}
+
+#s-mode .mode-quiz-card::after {
+  top: 28px;
+  right: 8px;
+  bottom: 20px;
+  width: min(48%, 230px);
+  height: auto;
+  background-position: right center;
+  background-size: contain;
+  opacity: .98;
+}
+
+#s-mode .mode-quiz-title,
+#s-mode .mode-quiz-text {
+  position: relative;
+  z-index: 1;
+}
+
+#s-mode .mode-quiz-title {
+  max-width: 210px;
+}
+
+#s-mode .mode-quiz-text {
+  max-width: 200px;
+}
+
+#s-mode .mode-primary-btn {
+  height: 42px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-radius: 18px;
+}
+
+#s-mode .mode-search-card,
+.intro-search-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.88)),
+    radial-gradient(circle at 12% 0%, rgba(104,71,255,.08), transparent 240px);
+  border: 1px solid rgba(104,71,255,.16);
+  box-shadow: 0 16px 36px rgba(36,32,76,.055);
+}
+
+#s-mode .mode-search-wrap,
+.intro-search-wrap,
+.srch-input-wrap {
+  background: rgba(255,255,255,.78);
+  border: 2px solid rgba(104,71,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+#s-mode .mode-search-wrap:focus-within,
+.intro-search-wrap:focus-within,
+.srch-input-wrap:focus-within {
+  border-color: rgba(104,71,255,.62);
+  box-shadow: 0 0 0 5px rgba(104,71,255,.08);
+}
+
+.srch-section-label,
+.res-section-header,
+.dev-section-hdr {
+  color: #6847FF;
+  letter-spacing: .11em;
+}
+
+.srch-section-label::after,
+.res-section-header::after,
+.dev-section-hdr::after {
+  background: rgba(104,71,255,.12);
+}
+
+.srch-match-card {
+  min-height: 0;
+  padding: 9px 11px;
+  border-radius: 14px;
+  border: 1px solid rgba(104,71,255,.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.9)),
+    radial-gradient(circle at 0 0, rgba(104,71,255,.08), transparent 210px);
+  box-shadow: 0 6px 16px rgba(35,45,80,.04);
+  margin-bottom: 8px;
+}
+
+.srch-match-card.is-exact {
+  border-color: rgba(104,71,255,.34);
+  background:
+    linear-gradient(180deg, rgba(250,248,255,.98), rgba(255,255,255,.94)),
+    radial-gradient(circle at 0 0, rgba(104,71,255,.13), transparent 230px);
+}
+
+.srch-match-brand {
+  color: #7860F6;
+  font-size: 10.5px;
+  font-weight: 850;
+  letter-spacing: .09em;
+}
+
+.srch-match-name {
+  color: #101828;
+  font-size: 15px;
+  letter-spacing: -.2px;
+}
+
+.srch-match-badges {
+  gap: 5px;
+}
+
+.srch-badge,
+.dev-hero-spec,
+.spec-tag,
+.answer-chip {
+  border: 1px solid rgba(104,71,255,.10);
+  background: rgba(104,71,255,.075);
+  color: #61566F;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.srch-badge.hi,
+.spec-tag.has,
+.spec-tag.better {
+  background: rgba(30,150,75,.10);
+  color: #187A3C;
+  border-color: rgba(30,150,75,.08);
+}
+
+.spec-tag.qual,
+.spec-tag.interp,
+.srch-badge.interp {
+  background: rgba(104,71,255,.12);
+  color: #5B36DD;
+  border-color: rgba(104,71,255,.10);
+}
+
+.spec-tag.miss {
+  background: rgba(255,90,90,.10);
+  color: #B4232A;
+  border-color: rgba(255,90,90,.08);
+}
+
+.srch-match-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: #6847FF;
+  background: rgba(104,71,255,.08);
+}
+.srch-match-arrow svg { width: 14px; height: 14px; }
+.srch-match-card .fav-btn { width: 28px; height: 28px; }
+.srch-match-card .fav-btn svg { width: 14px; height: 14px; }
+
+.dev-card,
+.dev-hero,
+.analog-card,
+.selected-card {
+  border: 1px solid rgba(104,71,255,.12);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92)),
+    radial-gradient(circle at 10% 0%, rgba(104,71,255,.08), transparent 280px);
+  box-shadow: 0 16px 36px rgba(35,45,80,.055);
+}
+
+.dev-card {
+  overflow: hidden;
+}
+
+.dev-card-header,
+.dev-hero-header {
+  background: linear-gradient(135deg, #6B43F5 0%, #7B5CFF 56%, #8F73FF 100%);
+  padding: 15px 18px;
+}
+
+.dev-card-header-brand,
+.dev-hero-header-brand,
+.dev-card-header-type,
+.dev-hero-header-type {
+  color: rgba(255,255,255,.78);
+}
+
+.brand-pill {
+  background: rgba(104,71,255,.10);
+  color: #6847FF;
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+.match-pill {
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.match-bar-track {
+  height: 8px;
+  background: rgba(104,71,255,.08);
+}
+
+.match-bar-fill {
+  height: 8px;
+}
+
+.match-explain,
+.spec-cell,
+.specs-full-toggle,
+.collapse-btn {
+  border: 1px solid rgba(104,71,255,.08);
+  background: rgba(104,71,255,.055);
+  border-radius: 16px;
+}
+
+.spec-cell-label {
+  color: rgba(16,24,40,.42);
+}
+
+.spec-cell-val {
+  color: #101828;
+}
+
+.btn-site,
+.btn-rutube,
+.btn-youtube {
+  border-color: rgba(104,71,255,.12);
+  background: rgba(255,255,255,.76);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+.home-v2-footer {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+.home-v2-footer a,
+.home-v2-footer button,
+.home-v2-footer .privacy {
+  min-height: 28px;
+}
+
+.home-v2-footer svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 1.9;
+}
+
+.home-v2-footer .privacy {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  justify-self: center;
+  margin-top: 2px;
+  gap: 6px;
+}
+
+.home-v2-footer .privacy svg {
+  width: 13px;
+  height: 13px;
+  opacity: .65;
+}
+
+  #s-mode .mode-quiz-card {
+    height: 176px;
+    padding-bottom: 18px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 30px;
+    right: 8px;
+    bottom: 19px;
+    width: 48%;
+  }
+
+  #s-mode .mode-primary-btn {
+    height: 42px;
+  }
+
+  .srch-match-card {
+    border-radius: 14px;
+  }
+
+  .dev-card,
+  .dev-hero,
+  .selected-card {
+    border-radius: 22px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    width: 44%;
+    right: 6px;
+  }
+
+
+/* ── Requested visual cleanup: compact hero, purple cards, neat footer icons ── */
+#s-mode .mode-quiz-card {
+  min-height: 0;
+  isolation: isolate;
+  padding-bottom: 18px;
+}
+
+#s-mode .mode-quiz-card::after {
+  z-index: 0;
+  top: 48px;
+  right: 14px;
+  bottom: 28px;
+  width: min(45%, 236px);
+  height: auto;
+  background-position: right center;
+  background-size: contain;
+}
+
+#s-mode .mode-quiz-icon,
+#s-mode .mode-quiz-title,
+#s-mode .mode-quiz-text,
+#s-mode .mode-primary-btn,
+#s-mode .mode-quiz-foot {
+  position: relative;
+  z-index: 1;
+}
+
+#s-mode .mode-primary-btn {
+  position: relative;
+  z-index: 2;
+  box-shadow: none;
+}
+
+#s-mode .mode-quiz-title {
+  max-width: min(224px, 57%);
+}
+
+#s-mode .mode-quiz-text {
+  max-width: min(214px, 57%);
+}
+
+.home-v2-footer {
+  padding-top: 14px;
+  border-top-color: rgba(104, 71, 255, .12);
+}
+
+.home-v2-footer a,
+.home-v2-footer button,
+.home-v2-footer .privacy {
+  gap: 9px;
+  color: #566079;
+}
+
+.home-v2-footer svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  flex: 0 0 auto;
+}
+
+.home-v2-footer .donate svg {
+  color: #F04444;
+}
+
+.home-v2-footer .mail svg,
+.home-v2-footer .privacy svg {
+  color: #7B8499;
+}
+
+.home-v2-footer .privacy {
+  font-size: 12.5px;
+  opacity: .82;
+}
+
+.home-v2-footer .privacy svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.8;
+}
+
+.res-card,
+.smart-hint,
+.empty-note,
+.suggestions-box,
+.donate-card {
+  border-radius: 22px;
+  border: 1px solid rgba(104, 71, 255, .14);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.88)),
+    radial-gradient(circle at 4% 0%, rgba(104,71,255,.08), transparent 240px);
+  box-shadow: 0 14px 32px rgba(38, 35, 74, .045);
+}
+
+.empty-note,
+.suggestions-box {
+  border-color: rgba(255, 179, 71, .30);
+  background:
+    linear-gradient(180deg, rgba(255,249,236,.98), rgba(255,246,227,.88)),
+    radial-gradient(circle at 0 0, rgba(255,196,87,.18), transparent 260px);
+}
+
+.smart-hint {
+  border-color: rgba(104, 71, 255, .22);
+  background:
+    linear-gradient(180deg, rgba(244,241,255,.96), rgba(255,255,255,.88)),
+    radial-gradient(circle at 0 0, rgba(104,71,255,.12), transparent 260px);
+}
+
+.suggestion-row,
+.suggestion-item {
+  border-radius: 16px;
+  border: 1px solid rgba(104, 71, 255, .10);
+  box-shadow: none;
+}
+
+.suggestion-apply,
+.smart-hint button,
+.smart-hint .hint-action {
+  background: #6847FF;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.dev-card,
+.dev-hero,
+.selected-card,
+.analog-card {
+  border-radius: 24px;
+  border: 1px solid rgba(104, 71, 255, .13);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92)),
+    radial-gradient(circle at 0 0, rgba(104,71,255,.075), transparent 260px);
+  box-shadow: 0 16px 34px rgba(34, 31, 70, .052);
+}
+
+.dev-card-header,
+.dev-hero-header {
+  background:
+    radial-gradient(circle at 86% 0%, rgba(255,255,255,.20), transparent 150px),
+    linear-gradient(135deg, #6237EC 0%, #7353FF 58%, #8B73FF 100%);
+}
+
+.dev-card-header-brand,
+.dev-card-header-type,
+.dev-hero-header-brand,
+.dev-hero-header-type {
+  color: rgba(255,255,255,.76);
+  letter-spacing: .08em;
+}
+
+.brand-pill,
+.answer-chip,
+.feature-chip,
+.spec-tag,
+.dev-hero-spec,
+.srch-badge {
+  border: 1px solid rgba(104, 71, 255, .12);
+  background: rgba(104, 71, 255, .08);
+  color: #6047D9;
+}
+
+.spec-tag.has,
+.spec-tag.better,
+.feature-chip.good,
+.srch-badge.hi {
+  color: #177C43;
+  background: rgba(23, 124, 67, .10);
+  border-color: rgba(23, 124, 67, .08);
+}
+
+.spec-tag.miss,
+.feature-chip.bad {
+  color: #B4232A;
+  background: rgba(244, 63, 94, .10);
+  border-color: rgba(244, 63, 94, .08);
+}
+
+.match-explain,
+.spec-cell,
+.all-spec-row,
+.specs-full-toggle,
+.collapse-btn,
+.btn-site,
+.btn-rutube,
+.btn-youtube {
+  border-radius: 16px;
+  border-color: rgba(104, 71, 255, .10);
+  background: rgba(104, 71, 255, .055);
+}
+
+.btn-site,
+.btn-rutube,
+.btn-youtube {
+  min-height: 46px;
+  box-shadow: none;
+}
+
+.match-pill {
+  box-shadow: none;
+}
+
+.match-bar-track {
+  background: rgba(104, 71, 255, .08);
+}
+
+.match-bar-fill.good {
+  background: linear-gradient(90deg, #6847FF, #23C16B);
+}
+
+.match-bar-fill.warn {
+  background: linear-gradient(90deg, #F59E0B, #6847FF);
+}
+
+.srch-match-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.srch-match-arrow {
+  flex: 0 0 auto;
+  color: #6847FF;
+}
+
+  #s-mode .mode-quiz-card {
+    height: 172px;
+    padding: 16px 14px 16px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 46px;
+    right: 12px;
+    bottom: 30px;
+    width: min(45%, 184px);
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: min(210px, 58%);
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: min(198px, 58%);
+  }
+
+  #s-mode .mode-primary-btn {
+    height: 43px;
+    margin-top: 10px;
+  }
+
+  .home-v2-footer {
+    padding-top: 12px;
+    row-gap: 8px;
+  }
+
+  .home-v2-footer svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .home-v2-footer .privacy svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 8px;
+    width: 42%;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 178px;
+    font-size: 13.6px;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 168px;
+  }
+
+
+/* ── Quiz choice card: reference-like large device placement ── */
+#s-mode .mode-quiz-card {
+  height: 268px;
+  padding: 26px 28px 28px;
+  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  column-gap: 22px;
+  row-gap: 10px;
+  border-radius: 34px;
+  box-shadow: 0 14px 28px rgba(88, 48, 214, .10);
+}
+
+#s-mode .mode-quiz-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 77% 38%, rgba(255,255,255,.17), transparent 21%),
+    radial-gradient(circle at 83% 36%, transparent 0 24%, rgba(255,255,255,.12) 24.4% 24.9%, transparent 25.2% 36%, rgba(255,255,255,.08) 36.4% 36.9%, transparent 37.2%),
+    radial-gradient(circle at 94% 12%, rgba(255,255,255,.18) 1.5px, transparent 2px);
+  background-size: auto, auto, 26px 26px;
+  opacity: .62;
+}
+
+#s-mode .mode-quiz-card::after {
+  top: 47px;
+  right: 38px;
+  bottom: 82px;
+  width: min(43%, 376px);
+  height: auto;
+  background-position: right center;
+  background-size: contain;
+  filter: drop-shadow(0 22px 20px rgba(17, 13, 45, .24));
+}
+
+#s-mode .mode-quiz-icon {
+  width: 86px;
+  height: 86px;
+  border-radius: 22px;
+  grid-row: 1 / 3;
+  align-self: start;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+#s-mode .mode-quiz-icon svg {
+  width: 44px;
+  height: 44px;
+}
+
+#s-mode .mode-quiz-title {
+  grid-column: 2;
+  max-width: min(425px, 52%);
+  font-size: 28px;
+  line-height: 1.14;
+  letter-spacing: -.04em;
+}
+
+#s-mode .mode-quiz-text {
+  grid-column: 2;
+  max-width: min(430px, 52%);
+  font-size: 18px;
+  line-height: 1.38;
+  opacity: .96;
+}
+
+#s-mode .mode-primary-btn {
+  grid-column: 1 / -1;
+  height: 62px;
+  margin-top: 12px;
+  border-radius: 22px;
+  font-size: 18px;
+  color: #6847FF;
+  background: #fff;
+}
+
+#s-mode .mode-quiz-foot {
+  display: none;
+}
+
+  #s-mode .mode-quiz-card {
+    height: 214px;
+    padding: 24px 26px 24px;
+    grid-template-columns: 72px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 7px;
+    border-radius: 28px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 56px;
+    right: 24px;
+    bottom: 78px;
+    width: min(40%, 176px);
+  }
+
+  #s-mode .mode-quiz-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+  }
+
+  #s-mode .mode-quiz-icon svg {
+    width: 35px;
+    height: 35px;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 60%;
+    font-size: 31px;
+    line-height: 1.12;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 57%;
+    font-size: 18.06px;
+    line-height: 1.28;
+  }
+
+  #s-mode .mode-primary-btn {
+    height: 50px;
+    margin-top: 7px;
+    border-radius: 18px;
+    font-size: 24px;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 206px;
+    padding: 22px 20px 22px;
+    grid-template-columns: 54px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 60px;
+    right: 18px;
+    bottom: 74px;
+    width: min(39%, 150px);
+  }
+
+  #s-mode .mode-quiz-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  #s-mode .mode-quiz-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 61%;
+    font-size: 20px;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 58%;
+    font-size: 13px;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 202px;
+    padding: 20px 17px 20px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 14px;
+    width: 37%;
+  }
+
+  #s-mode .mode-quiz-title {
+    font-size: 18px;
+  }
+
+  #s-mode .mode-quiz-text {
+    font-size: 12.2px;
+  }
+
+
+/* ── Final fix for the purple quiz banner image/button ── */
+#s-mode .mode-quiz-card {
+  height: 286px;
+  padding: 22px 22px 26px;
+  align-content: start;
+  row-gap: 8px;
+}
+
+#s-mode .mode-quiz-card::after {
+  top: 54px;
+  right: 12.9px;
+  bottom: 92px;
+  width: clamp(220px, 47%, 520px);
+  background-size: 142% auto;
+  background-position: center center;
+}
+
+#s-mode .mode-quiz-title {
+  max-width: min(430px, 56%);
+}
+
+#s-mode .mode-quiz-text {
+  max-width: min(430px, 56%);
+}
+
+#s-mode .mode-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: end;
+  min-height: 54px;
+  margin-top: 12px;
+}
+
+  #s-mode .mode-quiz-card {
+    height: 300px;
+    padding: 22px 20px 26px;
+    grid-template-columns: 58px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 8px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 76px;
+    right: -18px;
+    bottom: 96px;
+    width: 255px;
+    background-size: 150% auto;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 60%;
+    font-size: 26.66px;
+    line-height: 1.12;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 58%;
+    font-size: 15.7px;
+    line-height: 1.32;
+  }
+
+  #s-mode .mode-primary-btn {
+    height: 54px;
+    min-height: 54px;
+    margin-top: 12px;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 288px;
+    padding: 20px 18px 24px;
+    grid-template-columns: 50px minmax(0, 1fr);
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 78px;
+    right: -22px;
+    bottom: 92px;
+    width: 220px;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 61%;
+    font-size: 20px;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 59%;
+    font-size: 12.8px;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 278px;
+    padding: 18px 16px 22px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 82px;
+    right: -26px;
+    bottom: 90px;
+    width: 198px;
+  }
+
+/* ── Corrected asset pass: real cropped device image ── */
+#s-mode .mode-quiz-card::after {
+  top: 46px;
+  right: 22px;
+  bottom: 96px;
+  width: clamp(230px, 39%, 470px);
+  background-size: contain;
+  background-position: right center;
+}
+
+#s-mode .mode-quiz-title {
+  max-width: min(430px, 48%);
+}
+
+#s-mode .mode-quiz-text {
+  max-width: min(430px, 48%);
+}
+
+  #s-mode .mode-quiz-card {
+    height: 298px;
+    padding-bottom: 25px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 58px;
+    right: 22px;
+    bottom: 94px;
+    width: min(42%, 250px);
+    background-size: contain;
+  }
+
+  #s-mode .mode-quiz-title {
+    max-width: 48%;
+  }
+
+  #s-mode .mode-quiz-text {
+    max-width: 48%;
+  }
+
+  #s-mode .mode-quiz-card {
+    height: 286px;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    top: 62px;
+    right: 16px;
+    bottom: 91px;
+    width: min(42%, 205px);
+  }
+
+  #s-mode .mode-quiz-title,
+  #s-mode .mode-quiz-text {
+    max-width: 51%;
+  }
+
+  #s-mode .mode-quiz-card::after {
+    right: 12px;
+    width: min(40%, 178px);
+  }
+
+/* ── Minimal no-photo quiz banner: final override ── */
+#s-mode .mode-quiz-card.mode-quiz-card-v3 {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  display: grid !important;
+  grid-template-columns: 76px minmax(0, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  grid-template-areas:
+    "icon copy"
+    "button button" !important;
+  align-items: center;
+  width: 100%;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  padding: 28px !important;
+  column-gap: 22px !important;
+  row-gap: 24px !important;
+  border: 0;
+  border-radius: 34px !important;
+  background:
+    radial-gradient(circle at 91% 79%, rgba(121, 82, 255, .55) 0 13%, transparent 34%),
+    linear-gradient(135deg, #4d2bc9 0%, #5d35db 48%, #3f22b5 100%) !important;
+  box-shadow: 0 14px 30px rgba(64, 36, 173, .12) !important;
+}
+
+#s-mode .mode-quiz-card.mode-quiz-card-v3::after {
+  content: none !important;
+  display: none !important;
+}
+
+#s-mode .mode-quiz-card.mode-quiz-card-v3::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 92% 82%, transparent 0 17%, rgba(255,255,255,.13) 17.2% 17.5%, transparent 17.8% 24%, rgba(255,255,255,.10) 24.2% 24.5%, transparent 24.8%),
+    radial-gradient(circle at 8px 8px, rgba(255,255,255,.20) 1.7px, transparent 2.1px) right 38px top 28px / 24px 24px,
+    radial-gradient(circle at 8px 8px, rgba(255,255,255,.18) 1.7px, transparent 2.1px) left 34px bottom 28px / 24px 24px;
+  opacity: .62;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-bg,
+#s-mode .mode-quiz-card-v3 .mode-quiz-note,
+#s-mode .mode-quiz-card-v3 .mode-quiz-device {
+  display: none !important;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+  grid-area: icon;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 76px !important;
+  height: 76px !important;
+  border-radius: 28px !important;
+  background: rgba(255,255,255,.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon svg {
+  width: 44px !important;
+  height: 44px !important;
+  stroke: #fff;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-copy {
+  grid-area: copy;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: auto !important;
+  align-self: center !important;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-title {
+  max-width: 900px !important;
+  margin: 0;
+  color: #fff;
+  font-size: 28px !important;
+  line-height: 1.16 !important;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-shadow: 0 10px 24px rgba(40, 22, 132, .14);
+}
+
+#s-mode .mode-quiz-card-v3 .mode-quiz-text {
+  display: block;
+  max-width: 980px !important;
+  margin: 16px 0 0 !important;
+  color: rgba(255,255,255,.92);
+  font-size: 16px !important;
+  line-height: 1.42 !important;
+  font-weight: 500;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-primary-btn {
+  grid-area: button;
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  width: 100%;
+  height: 60px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 28px;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #5b36dd !important;
+  box-shadow: none !important;
+  font-size: 24px !important;
+  font-weight: 850;
+}
+
+#s-mode .mode-quiz-card-v3 .mode-primary-btn::after {
+  content: "→";
+  justify-self: end;
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    grid-template-columns: 68.8px minmax(0, 1fr) !important;
+    padding: 21.5px !important;
+    column-gap: 17.2px !important;
+    row-gap: 21.5px !important;
+    border-radius: 30.1px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title {
+    font-size: 26.23px !important;
+    line-height: 1.13 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    margin-top: 10px !important;
+    font-size: 15.91px !important;
+    line-height: 1.34 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-primary-btn {
+    height: 60.2px !important;
+    padding: 0 20px;
+    font-size: 24.94px !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+    padding: 18px 16px !important;
+    row-gap: 16px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 17px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon svg {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title {
+    font-size: 22px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    font-size: 13.2px !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    padding: 16px 14px 18px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+    width: 46px !important;
+    height: 46px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title {
+    font-size: 19px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    font-size: 12px !important;
+  }
+
+/* ══════════════════════════════════════════════════════════
+   VBR fix pass — экран «С чего начнём»:
+   минималистичная кнопка назад, компактная типографика,
+   помещается на экран iPhone без прокрутки
+   ══════════════════════════════════════════════════════════ */
+
+.mode-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mode-title-row .mode-title {
+  margin: 0 !important;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mode-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-2);
+  box-shadow: 0 2px 8px rgba(20,16,48,.07);
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.mode-back-btn:active { background: var(--bg); transform: scale(.93); }
+.mode-back-btn svg { width: 19px; height: 19px; }
+
+  #s-mode { height: 100dvh; overflow-y: auto; }
+
+  #s-mode .mode-inner {
+    padding: 16px 18px !important;
+    justify-content: center !important;
+  }
+
+  /* Пока идёт ручной поиск, высота контента меняется вместе с числом
+     найденных карточек — center сдвигал бы поле поиска вверх/вниз при
+     каждом изменении. Фиксируем сверху один раз при первом вводе. */
+  #s-mode.mode-searching .mode-inner {
+    justify-content: flex-start !important;
+  }
+
+  .mode-back-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+  .mode-back-btn svg { width: 17px; height: 17px; }
+
+  #s-mode .mode-title {
+    font-size: 20px !important;
+    margin-top: 0 !important;
+  }
+
+  #s-mode .mode-content {
+    margin-top: 18px !important;
+    gap: 22px !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    padding: 18px 16px !important;
+    row-gap: 14px !important;
+    column-gap: 13px !important;
+    border-radius: 22px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title {
+    font-size: 16px !important;
+    line-height: 1.26 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    margin-top: 7px !important;
+    font-size: 12px !important;
+    line-height: 1.32 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-primary-btn {
+    height: 44px !important;
+    min-height: 0 !important;
+    font-size: 14.5px !important;
+    padding: 0 16px !important;
+  }
+
+  #s-mode .mode-search-card {
+    padding: 15px !important;
+  }
+  #s-mode .mode-search-title {
+    font-size: 14.5px !important;
+  }
+  #s-mode .mode-search-sub {
+    font-size: 11.5px !important;
+    line-height: 1.28 !important;
+  }
+  #s-mode .mode-search-wrap {
+    height: 42px !important;
+    margin-top: 10px !important;
+  }
+  #s-mode .mode-popular {
+    margin-top: 16px !important;
+    padding: 15px !important;
+  }
+  #s-mode .mode-popular-title {
+    font-size: 11px !important;
+    margin-bottom: 5px !important;
+  }
+  #s-mode .mode-popular-row {
+    min-height: 44px !important;
+    padding: 5px 0 !important;
+  }
+
+/* ── Bulletproof centering: force full-width + centered content
+   (защита от ситуаций, когда контент "прилипает" к левому краю) ── */
+#s-mode.on {
+  justify-content: center !important;
+}
+#s-mode .mode-inner {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: stretch !important;
+}
+#s-mode .mode-title-row,
+#s-mode .mode-content,
+#s-mode .mode-quiz-card,
+#s-mode .mode-search-card,
+#s-mode .mode-footer {
+  width: 100% !important;
+}
+#s-intro.v2-home.on {
+  justify-content: center !important;
+}
+.home-v2-inner {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: stretch !important;
+}
+
+/* ── Мобильные отступы экрана результатов = как на страницах 1 и 2 (18px) ── */
+  #s-results .res-header,
+  #s-results .chips-wrap,
+  #s-results .results-list,
+  #s-results .restart-wrap {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+/* ══════════════════════════════════════════════════════════
+   ДЕСКТОП — страница 1 (главная). Отдельная раскладка под
+   широкий экран, мобильная версия выше не меняется.
+   ══════════════════════════════════════════════════════════ */
+.vbr-page-actions { display: none; }
+.mode-page-header { display: none; }
+
+@media (min-width: 900px) {
+  #s-intro.v2-home,
+  #s-mode {
+    padding: 56px 40px;
+  }
+  .home-v2-inner,
+  .mode-inner,
+  #s-intro.v2-home .home-v2-inner,
+  #s-mode .mode-inner {
+    max-width: 1180px;
+    padding: 0 !important;
+  }
+
+  /* — шапка: бренд слева, донат/почта справа — */
+  .vbr-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .vbr-page-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .vbr-page-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity .15s;
+  }
+  .vbr-page-action:hover { opacity: .72; }
+  .vbr-page-action svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .vbr-page-action-donate svg { color: #E9394A; stroke: #E9394A; }
+
+  /* — контент в две колонки — */
+  .home-v2-columns {
+    display: flex;
+    align-items: center;
+    gap: 72px;
+    margin-top: 40px;
+  }
+  .home-v2-col-left {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-v2-hero { margin-top: 0; }
+  .home-v2-title {
+    font-size: 46px;
+    line-height: 1.14;
+    max-width: none;
+  }
+  .home-v2-subtitle {
+    font-size: 17px;
+    max-width: 440px;
+    margin-top: 18px;
+  }
+  .home-v2-sticker { margin-top: 22px; }
+
+  .home-v2-spacer { min-height: 32px; }
+  .home-v2-start {
+    width: auto;
+    align-self: flex-start;
+    padding: 0 44px;
+  }
+
+  .home-v2-features {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-top: 0;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .home-v2-feature {
+    grid-template-columns: 60px minmax(0, 1fr);
+    gap: 20px;
+    padding: 20px 0;
+  }
+  .home-v2-feature:not(:last-child) {
+    border-bottom: 1px solid rgba(105,113,137,.14);
+  }
+  .home-v2-feature:first-child { padding-top: 4px; }
+  .home-v2-feature-icon { width: 56px; height: 56px; }
+  .home-v2-feature-icon svg { width: 26px; height: 26px; }
+  .home-v2-feature-title { font-size: 16px; }
+  .home-v2-feature-text { font-size: 13.5px; line-height: 1.4; }
+
+  /* — футер: почта/донат уже в шапке, здесь только приватность — */
+  .home-v2-footer {
+    margin-top: 40px;
+    padding-top: 0;
+    border-top: 0;
+    display: block;
+    text-align: center;
+  }
+  .home-v2-footer .donate,
+  .home-v2-footer .mail {
+    display: none;
+  }
+  .home-v2-footer .privacy {
+    justify-content: center;
+  }
+
+  /* — страница 2 («С чего начнём») — шапка на той же высоте, что и на 1-й — */
+  #s-mode .mode-inner {
+    justify-content: flex-start !important;
+    padding: 0 !important;
+  }
+
+  .mode-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 0;
+  }
+
+  #s-mode .mode-title-row { margin-top: 40px; }
+
+  #s-mode .mode-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  #s-mode .mode-col-left {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #s-mode .mode-popular {
+    flex: 1 1 0;
+    min-width: 0;
+    align-self: stretch;
+    margin-top: 0 !important;
+    padding: 24px;
+    background: rgba(255,255,255,.82);
+    border: 1px solid rgba(105,113,137,.16);
+    border-radius: 24px;
+    box-shadow: 0 16px 44px rgba(30,48,76,.08);
+  }
+
+  /* — общая шапка на экранах вопросов/результатов/поиска: та же геометрия, что на 1 и 2 странице (56px сверху, 40px по бокам) — */
+  #header {
+    padding: 0 40px;
+  }
+  #header .header-main {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 0;
+    padding: 56px 0 24px;
+  }
+  #header .hd-support-block,
+  #header .hd-contact-block {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  #header .hd-support-block svg,
+  #header .hd-contact-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  #header .hd-support-block svg { color: #E9394A; stroke: #E9394A; }
+  #header .hd-contact-title { display: none; }
+  #header .hd-contact-block {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  /* — экран вопроса — */
+  .q-body,
+  .nav-row,
+  .nav-hint {
+    max-width: 640px;
+  }
+  #s-question {
+    padding-top: 150px;
+  }
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: stretch;
+  }
+  .options-grid .opt {
+    height: 100%;
+  }
+
+  /* — экран результатов: сетка карточек — */
+  #s-results {
+    padding-top: 150px;
+  }
+  .results-container {
+    max-width: 960px;
+  }
+  #s-results .results-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0 18px 24px;
+  }
+  #s-results .results-list > .res-section-header {
+    grid-column: 1 / -1;
+    margin: 8px 0 0;
+  }
+  #s-results .results-list > .no-exact-notice,
+  #s-results .results-list > .compromise-wrap {
+    grid-column: 1 / -1;
+  }
+  #s-results .compromise-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+  }
+  #s-results .compromise-wrap .compromise-title {
+    grid-column: 1 / -1;
+  }
+  #s-results .compromise-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  /* — экран поиска/профиля устройства — */
+  .srch-topbar-inner,
+  .srch-body {
+    max-width: 640px;
+  }
+
+  /* — экран загрузки: та же высота шапки + единая карточка поиска — */
+  #s-loading {
+    padding-top: 150px;
+  }
+  .loading-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 40px 36px 8px;
+    box-shadow: 0 20px 50px rgba(30,48,76,.08);
+  }
+  .compare-loader {
+    width: 100%;
+    max-width: none;
+  }
+  .search-card,
+  .loading-ad {
+    width: 100%;
+    max-width: none;
+  }
+  .loading-ad {
+    padding-bottom: 32px;
+  }
 }
 </style>
 </head>
@@ -3740,26 +6720,9 @@ body.tg-webapp #bottom-nav {
 <div id="header" style="display:none">
   <div class="header-main">
     <div class="header-left" onclick="goHome()">
-      <div class="hd-logo">
-        <!-- dashcam icon -->
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
-          <!-- body -->
-          <rect x="1" y="7" width="16" height="11" rx="2.5"/>
-          <!-- lens outer (darker overlay) -->
-          <circle cx="8.5" cy="12.5" r="3.4" fill="rgba(0,0,0,0.35)"/>
-          <!-- lens inner -->
-          <circle cx="8.5" cy="12.5" r="2" fill="white"/>
-          <!-- screen panel right -->
-          <rect x="13.5" y="9.5" width="2" height="5" rx="0.8" fill="rgba(0,0,0,0.3)"/>
-          <!-- mount arm -->
-          <rect x="7" y="4" width="3" height="3.5" rx="1" fill="white"/>
-          <!-- power wire -->
-          <path d="M17 12.5h4" stroke="white" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-          <circle cx="22" cy="12.5" r="1" fill="white"/>
-        </svg>
-      </div>
+      <div class="vbr-wordmark hd-wordmark">VBR <span>БОТ</span></div>
       <div>
-        <div class="hd-name">VBR Bot<span class="hd-brand"> · Проект PRO ГАДЖЕТЫ</span></div>
+        <div class="hd-name">Авторский проект PRO ГАДЖЕТЫ</div>
         <div class="hd-sub">Ваш путеводитель в мире регистраторов!</div>
       </div>
     </div>
@@ -3791,93 +6754,187 @@ body.tg-webapp #bottom-nav {
 </div>
 
 <!-- ── INTRO ───────────────────────────────────────── -->
-<div id="s-intro" class="screen on">
-  <div class="intro-inner">
-
-    <div class="intro-brand">
-      <div class="intro-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8zm8 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-        </svg>
-      </div>
-      <div class="intro-brand-copy">
-        <div class="intro-title">VBR <span class="accent">БОТ</span></div>
-        <div class="intro-tagline">Ваш путеводитель в мире видеорегистраторов</div>
-      </div>
-    </div>
-
-    <div class="intro-main">
-      <div class="intro-left">
-        <div class="intro-db-sticker" id="intro-db-sticker">База обновляется</div>
-        <div class="intro-headline"><span>Подберем лучший регистратор</span><span class="accent">для ваших задач.</span></div>
-        <div class="intro-headline-extra">Быстро. Удобно. Бесплатно.</div>
-        <div class="intro-desc">Ответьте на несколько вопросов —<br><span class="accent">VBR БОТ</span> сравнит модели и покажет те,<br>которые подходят именно вам.</div>
-      </div>
-
-      <div class="intro-right">
-        <div class="intro-actions">
-          <div class="intro-action-head">
-            <div class="intro-action-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 18h.01"/><path d="M9.1 9a3 3 0 1 1 5.8 1.4c-.7 1.2-1.9 1.5-2.5 2.4-.3.4-.4.8-.4 1.2"/><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L4 20l.8-4.7A8.5 8.5 0 1 1 21 11.5z"/></svg>
-            </div>
-            <div>
-              <div class="intro-action-title">Ответьте на несколько вопросов</div>
-              <div class="intro-action-sub">и получите подборку подходящих моделей</div>
-            </div>
-          </div>
-          <button class="btn-start" id="btn-start">Начать подбор →</button>
-        </div>
-
-        <div class="intro-or"><span></span><em>или</em><span></span></div>
-
-        <div class="intro-search-card">
-          <div class="intro-search-card-hdr">
-            <div class="intro-search-icon">
-              <svg viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/><circle cx="12" cy="13" r="3"/></svg>
-            </div>
-            <div>
-              <span class="intro-search-card-title">Уже выбрали модель?</span>
-              <div class="intro-search-card-sub">Введите название и найдите аналогичное устройство</div>
-            </div>
-          </div>
-          <div class="intro-search-wrap">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--text-3)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input id="intro-srch" class="intro-srch-input" type="text"
-              placeholder="Например 70Mai M500 или iBOX RoadScan 4K"
-              autocomplete="off" autocorrect="off" spellcheck="false"
-              oninput="onIntroSearch(this.value)">
-            <button id="intro-srch-clear" class="intro-srch-clear" onclick="clearIntroSearch()" style="display:none">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-            <button class="intro-srch-arrow" id="intro-srch-arrow" onclick="document.getElementById('intro-srch').focus()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-          </div>
-          <div id="intro-srch-results"></div>
+<div id="s-intro" class="screen on v2-home">
+  <div class="home-v2-inner">
+    <div class="vbr-page-header">
+      <div class="vbr-page-brand">
+        <div class="vbr-wordmark">VBR <span>БОТ</span></div>
+        <div class="vbr-brand-copy">
+          <strong>Авторский проект PRO ГАДЖЕТЫ</strong>
+          <span>Ваш путеводитель в мире регистраторов!</span>
         </div>
       </div>
-    </div>
-
-    <div class="favorite-panel" id="favorite-panel" style="display:none">
-      <div class="favorite-panel-title">
-        Избранное
-        <span class="favorite-panel-note">сохранено в браузере</span>
+      <div class="vbr-page-actions">
+        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="vbr-page-action vbr-page-action-donate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0s-1.7 4.4 0 6.1L12 19.5l8.8-8.8c1.7-1.7 1.7-4.4 0-6.1Z"/></svg>
+          <span>Донат и поддержка</span>
+        </a>
+        <button type="button" class="vbr-page-action copy-email" data-email="partners@vbrbot.ru" aria-label="Скопировать email для сотрудничества">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
+          <span>partners@vbrbot.ru</span>
+        </button>
       </div>
-      <div class="favorite-list" id="favorite-list"></div>
     </div>
 
-    <div class="intro-footer" id="intro-footer">
-      <a class="intro-footer-link donate" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">
+    <div class="home-v2-columns">
+      <div class="home-v2-col-left">
+        <section class="home-v2-hero">
+          <h1 class="home-v2-title">Подбор видеорегистраторов и комбо-устройств <span class="accent">легко и быстро</span></h1>
+          <p class="home-v2-subtitle">VBR Bot помогает выбрать лучшее устройство под ваши задачи и требования</p>
+          <div class="home-v2-sticker" id="intro-db-sticker">База обновляется</div>
+        </section>
+
+        <div class="favorite-panel" id="favorite-panel" style="display:none">
+          <div class="favorite-panel-title">
+            Избранное
+            <span class="favorite-panel-note">сохранено в браузере</span>
+          </div>
+          <div class="favorite-list" id="favorite-list"></div>
+        </div>
+
+        <div class="home-v2-spacer"></div>
+        <button class="home-v2-start" id="btn-start">Начать подбор <span>→</span></button>
+      </div>
+
+      <section class="home-v2-features" aria-label="Преимущества">
+        <div class="home-v2-feature">
+          <div class="home-v2-feature-icon">
+            <svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg>
+          </div>
+          <div>
+            <div class="home-v2-feature-title">Быстрый подбор</div>
+            <div class="home-v2-feature-text">Ответьте на несколько вопросов и получите подходящие варианты</div>
+          </div>
+        </div>
+        <div class="home-v2-feature">
+          <div class="home-v2-feature-icon">
+            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>
+          </div>
+          <div>
+            <div class="home-v2-feature-title">Большая база устройств</div>
+            <div class="home-v2-feature-text">Подробные характеристики, фильтры и сравнение моделей</div>
+          </div>
+        </div>
+        <div class="home-v2-feature">
+          <div class="home-v2-feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-5"/></svg>
+          </div>
+          <div>
+            <div class="home-v2-feature-title">Только проверенные</div>
+            <div class="home-v2-feature-text">Собираем данные из надежных источников и обновляем базу</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="home-v2-footer" id="intro-footer">
+      <a class="donate" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9.2C1.2 8.3 3.3 5 6.8 5c2 0 3.4 1.1 4.2 2.2C11.8 6.1 13.2 5 15.2 5c3.5 0 5.6 3.3 4 6.8C17 16.6 12 21 12 21z"/></svg>
         <span>Донат и поддержка</span>
       </a>
-      <div class="intro-footer-privacy">
+      <button class="mail copy-email" data-email="partners@vbrbot.ru" type="button" aria-label="Скопировать email для сотрудничества">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
+        <span>partners@vbrbot.ru</span>
+      </button>
+      <div class="privacy">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <span>Конфиденциально. Никаких личных данных.</span>
       </div>
-      <div class="intro-footer-mail copy-email" data-email="partners@vbrbot.ru" role="button" tabindex="0" aria-label="Скопировать email для сотрудничества">
+    </div>
+  </div>
+</div>
+
+<!-- ── MODE CHOICE ─────────────────────────────────── -->
+<div id="s-mode" class="screen">
+  <div class="mode-inner">
+    <div class="mode-page-header">
+      <div class="vbr-page-brand">
+        <div class="vbr-wordmark">VBR <span>БОТ</span></div>
+        <div class="vbr-brand-copy">
+          <strong>Авторский проект PRO ГАДЖЕТЫ</strong>
+          <span>Ваш путеводитель в мире регистраторов!</span>
+        </div>
+      </div>
+      <div class="vbr-page-actions">
+        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="vbr-page-action vbr-page-action-donate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0s-1.7 4.4 0 6.1L12 19.5l8.8-8.8c1.7-1.7 1.7-4.4 0-6.1Z"/></svg>
+          <span>Донат и поддержка</span>
+        </a>
+        <button type="button" class="vbr-page-action copy-email" data-email="partners@vbrbot.ru" aria-label="Скопировать email для сотрудничества">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
+          <span>partners@vbrbot.ru</span>
+        </button>
+      </div>
+    </div>
+    <div class="mode-title-row">
+      <h2 class="mode-title">С чего начнем?</h2>
+      <button class="mode-back-btn" onclick="goHome()" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
+    <p class="mode-subtitle">Выберите необходимый вариант подбора</p>
+
+    <div class="mode-content">
+      <div class="mode-col-left">
+      <section class="mode-quiz-card mode-quiz-card-v3">
+        <div class="mode-quiz-bg" aria-hidden="true"></div>
+        <div class="mode-quiz-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H5a2 2 0 0 0-2 2v2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r=".6" fill="#fff" stroke="none"/></svg>
+        </div>
+        <div class="mode-quiz-copy">
+          <div class="mode-quiz-title">Не знаю, что выбрать —<br>подберите за меня</div>
+          <div class="mode-quiz-text">Ответьте на несколько простых вопросов — VBR БОТ подберет устройство именно под ваши задачи.</div>
+        </div>
+        <button class="mode-primary-btn" id="btn-start-quiz">Начать подбор</button>
+        <div class="mode-quiz-note">⚡ Точная рекомендация меньше чем за минуту</div>
+      </section>
+
+      <section class="mode-search-card">
+        <div class="mode-search-head">
+          <div class="mode-ai-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3 14.1 8.9 20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-2.1L12 3Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
+          </div>
+          <div>
+            <div class="mode-search-title">Уже выбрали модель?</div>
+            <div class="mode-search-sub">AI поиск покажет похожие модели, сравнит их и поможет найти лучший вариант.</div>
+          </div>
+        </div>
+        <div class="mode-search-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:#8A91A4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="intro-srch" class="intro-srch-input" type="text"
+            placeholder="Начните вводить название..."
+            autocomplete="off" autocorrect="off" spellcheck="false"
+            oninput="onIntroSearch(this.value)">
+          <button id="intro-srch-clear" class="intro-srch-clear" onclick="clearIntroSearch()" style="display:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button class="mode-search-go" id="intro-srch-arrow" onclick="document.getElementById('intro-srch').focus()">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <div id="intro-srch-results"></div>
+      </section>
+
+      <div class="mode-popular" id="mode-popular">
+        <div class="mode-popular-title">Другие пользователи смотрят:</div>
+        <div class="mode-popular-list" id="mode-popular-list"></div>
+      </div>
+      </div>
+    </div>
+
+    <div class="home-v2-spacer"></div>
+    <div class="mode-footer">
+      <a class="donate" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9.2C1.2 8.3 3.3 5 6.8 5c2 0 3.4 1.1 4.2 2.2C11.8 6.1 13.2 5 15.2 5c3.5 0 5.6 3.3 4 6.8C17 16.6 12 21 12 21z"/></svg>
+        <span>Донат и поддержка</span>
+      </a>
+      <button class="mail copy-email" data-email="partners@vbrbot.ru" type="button" aria-label="Скопировать email для сотрудничества">
         <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg>
         <span>partners@vbrbot.ru</span>
+      </button>
+      <div class="privacy">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Конфиденциально. Никаких личных данных.</span>
       </div>
     </div>
   </div>
@@ -3894,7 +6951,7 @@ body.tg-webapp #bottom-nav {
           </svg>
         </span>
         <span>
-          <span class="srch-logo-title">VBR Bot</span>
+          <span class="srch-logo-title">VBR Бот</span>
           <span class="srch-logo-sub">к выбору модели</span>
         </span>
       </button>
@@ -3988,7 +7045,6 @@ body.tg-webapp #bottom-nav {
 <div id="s-results" class="screen">
   <div class="results-container">
     <div class="res-header">
-      <div class="res-label">Результат</div>
       <div class="res-title">Подходящие устройства</div>
       <div class="res-sub" id="res-sub"></div>
     </div>
@@ -4033,6 +7089,22 @@ body.tg-webapp #bottom-nav {
     </div>
   </div>
 </div>
+
+<!-- ── COMPARE SCREEN ─────────────────────────────── -->
+<div id="s-compare" class="screen">
+  <div class="cmp-topbar">
+    <button class="cmp-back" onclick="closeCompare()" aria-label="Закрыть сравнение">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Назад
+    </button>
+    <div class="cmp-topbar-title">Сравнение</div>
+    <button class="cmp-clear" onclick="clearCompare(); closeCompare();" aria-label="Очистить сравнение">Очистить</button>
+  </div>
+  <div class="cmp-body" id="compare-body"></div>
+</div>
+
+<!-- ── COMPARE BAR ────────────────────────────────── -->
+<div id="cmp-bar" class="cmp-bar" style="display:none"></div>
 
 <!-- ── BOTTOM NAV ─────────────────────────────────── -->
 <div id="bottom-nav" style="display:none">
@@ -4170,6 +7242,25 @@ let answers = {};
 let favorites = loadFavorites();
 let loadingTimers = [];
 
+const COMPARE_KEY = "vbrbot_compare_v1";
+const COMPARE_MAX = 3;
+let compareList = loadCompare();
+let compareReturnScreen = "s-intro";
+
+function loadCompare() {
+  try {
+    const raw = localStorage.getItem(COMPARE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter(Boolean).slice(0, COMPARE_MAX) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveCompare() {
+  try { localStorage.setItem(COMPARE_KEY, JSON.stringify(compareList)); } catch(e) {}
+}
+
 function loadFavorites() {
   try {
     const raw = localStorage.getItem(FAVORITES_KEY);
@@ -4210,6 +7301,7 @@ function manufacturerSearchUrl(d) {
   if (brand === "playme") return `https://playme-russia.ru/search/?q=${q}`;
   if (brand === "viofo") return `https://www.viofo.ru/search/?q=${q}`;
   if (brand === "blackvue") return `https://blackvue.ru/search/?q=${q}`;
+  if (brand === "roadgo") return `https://road-go.ru/?s=${q}`;
 
   return fallback;
 }
@@ -4223,6 +7315,352 @@ function favoriteButtonHTML(d, extraClass = "") {
   return `<button class="fav-btn ${active ? "active" : ""} ${extraClass}" onclick="toggleFavoriteByIndex(event, ${DEVICES.indexOf(d)})" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="${active ? "Убрать из избранного" : "Добавить в избранное"}" title="${active ? "В избранном" : "Добавить в избранное"}" data-tooltip="${active ? "Убрать из избранного" : "Добавить в избранное"}">
     <svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8 6.8 19.5l1-5.8-4.2-4.1 5.8-.8L12 3.5z"/></svg>
   </button>`;
+}
+
+function isInCompare(d) {
+  return compareList.includes(deviceKey(d));
+}
+
+function compareButtonHTML(d, extraClass = "") {
+  const active = isInCompare(d);
+  const disabled = !active && compareList.length >= COMPARE_MAX;
+  const tooltip = active
+    ? "Убрать из сравнения"
+    : disabled
+      ? `Можно сравнить до ${COMPARE_MAX} моделей`
+      : "Добавить к сравнению";
+  return `<button class="cmp-btn ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="${active ? "Убрать из сравнения" : "Добавить к сравнению"}" title="${tooltip}" data-tooltip="${tooltip}">
+    <svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
+  </button>`;
+}
+
+function compareChipHTML(d, extraClass = "") {
+  const active = isInCompare(d);
+  const disabled = !active && compareList.length >= COMPARE_MAX;
+  const tooltip = active
+    ? "Убрать из сравнения"
+    : disabled
+      ? `Можно сравнить до ${COMPARE_MAX} моделей`
+      : "Добавить к сравнению";
+  return `<button class="cmp-btn cmp-chip ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" aria-label="${active ? "Убрать из сравнения" : "Добавить к сравнению"}" title="${tooltip}" data-tooltip="${tooltip}">
+    <svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
+    <span class="cmp-chip-label">${active ? "В сравнении" : "Сравнить"}</span>
+  </button>`;
+}
+
+function toggleCompareByIndex(event, idx) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const d = DEVICES[idx];
+  if (!d) return;
+  const key = deviceKey(d);
+  if (compareList.includes(key)) {
+    compareList = compareList.filter(x => x !== key);
+  } else {
+    if (compareList.length >= COMPARE_MAX) {
+      if (event) showFavTooltip(event);
+      return;
+    }
+    compareList = [...compareList, key];
+  }
+  saveCompare();
+  refreshCompareUI();
+  if (event) showFavTooltip(event);
+}
+
+function removeCompareByIndex(event, idx) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const d = DEVICES[idx];
+  if (!d) return;
+  const key = deviceKey(d);
+  compareList = compareList.filter(x => x !== key);
+  saveCompare();
+  const wasOpen = document.getElementById("s-compare")?.style.display !== "none";
+  if (wasOpen && compareList.length < 2) {
+    closeCompare();
+  }
+  refreshCompareUI();
+}
+
+function clearCompare() {
+  compareList = [];
+  saveCompare();
+  refreshCompareUI();
+}
+
+function refreshCompareUI() {
+  document.querySelectorAll(".cmp-btn").forEach(btn => {
+    const match = btn.getAttribute("onclick")?.match(/,\s*(\d+)\)/);
+    if (!match) return;
+    const d = DEVICES[Number(match[1])];
+    if (!d) return;
+    const active = isInCompare(d);
+    const disabled = !active && compareList.length >= COMPARE_MAX;
+    btn.classList.toggle("active", active);
+    btn.classList.toggle("is-disabled", disabled);
+    const tooltip = active
+      ? "Убрать из сравнения"
+      : disabled
+        ? `Можно сравнить до ${COMPARE_MAX} моделей`
+        : "Добавить к сравнению";
+    btn.setAttribute("aria-label", active ? "Убрать из сравнения" : "Добавить к сравнению");
+    btn.setAttribute("title", tooltip);
+    btn.setAttribute("data-tooltip", tooltip);
+    const label = btn.querySelector(".cmp-chip-label");
+    if (label) label.textContent = active ? "В сравнении" : "Сравнить";
+  });
+  renderCompareBar();
+  if (document.getElementById("s-compare")?.style.display !== "none") {
+    renderCompareScreen();
+  }
+}
+
+function positionCompareBar(bar) {
+  const nav = document.getElementById("bottom-nav");
+  if (nav && nav.style.display !== "none" && nav.offsetHeight) {
+    bar.style.bottom = `${nav.offsetHeight}px`;
+  } else {
+    bar.style.bottom = "0px";
+  }
+}
+
+function renderCompareBar() {
+  const bar = document.getElementById("cmp-bar");
+  if (!bar) return;
+  if (!compareList.length || currentScreenId === "s-compare") {
+    bar.style.display = "none";
+    return;
+  }
+  const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
+  bar.style.display = "flex";
+  positionCompareBar(bar);
+  const canOpen = devices.length >= 2;
+  bar.innerHTML = `
+    <div class="cmp-bar-chips">
+      ${devices.map(d => `<span class="cmp-bar-chip"><span class="cmp-bar-chip-text">${d.name}</span><button aria-label="Убрать ${attrSafe(d.name)}" onclick="removeCompareByIndex(event, ${DEVICES.indexOf(d)})">×</button></span>`).join("")}
+    </div>
+    <button class="cmp-bar-btn" ${canOpen ? "" : "disabled"} onclick="openCompare()">
+      ${canOpen ? `Сравнить (${devices.length})` : `Выберите ещё ${2 - devices.length}`}
+    </button>
+  `;
+}
+
+function openCompare() {
+  if (compareList.length < 2) return;
+  compareReturnScreen = currentScreenId === "s-compare" ? compareReturnScreen : currentScreenId;
+  renderCompareScreen();
+  show("s-compare");
+}
+
+function closeCompare() {
+  show(compareReturnScreen || "s-intro");
+  renderCompareBar();
+}
+
+function compareRowBest(cells) {
+  const ranks = cells.map(c => (typeof c.rank === "number" ? c.rank : null));
+  const known = ranks.filter(r => r != null);
+  if (known.length < 2) return cells.map(() => false);
+  const max = Math.max(...known);
+  const min = Math.min(...known);
+  if (max === min) return cells.map(() => false);
+  return ranks.map(r => r === max);
+}
+
+function buildCompareRows(devices) {
+  const rows = [];
+  const ql = ['','Full HD','2K','4K'];
+
+  rows.push({
+    icon: 'M4 7a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm8 7.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
+    label: 'Съёмка',
+    cells: devices.map(d => ({text: ql[d.q] || '—', rank: d.q || 0}))
+  });
+
+  const types = devices.map(d => d.type);
+  if (types.some(Boolean)) {
+    rows.push({
+      icon: 'M4 4h16v16H4z',
+      label: 'Тип устройства',
+      cells: devices.map(d => ({text: TYPE_SHORT[d.type] || d.type || '—', rank: null}))
+    });
+  }
+
+  const forms = devices.map(d => d.form);
+  if (forms.some(Boolean)) {
+    rows.push({
+      icon: 'M4 4h16v16H4z',
+      label: 'Конструктив',
+      cells: devices.map(d => ({text: FORM_SHORT[d.form] || d.form || '—', rank: null}))
+    });
+  }
+
+  const sensors = devices.map(d => sensorInfo(d));
+  if (sensors.some(Boolean)) {
+    rows.push({
+      icon: 'M4 7a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm8 7.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
+      label: 'Сенсор',
+      cells: devices.map((d, i) => ({text: sensors[i] ? sensors[i].label : 'не указан', rank: sensorPriorityScore(d)}))
+    });
+  }
+
+  const angles = devices.map(d => primaryAngle(d));
+  if (angles.some(Boolean)) {
+    rows.push({
+      icon: 'M12 3l9 16.5H3z',
+      label: 'Угол обзора',
+      cells: devices.map((d, i) => ({text: angles[i] ? `${angles[i]}°` : '—', rank: angles[i] || 0}))
+    });
+  }
+
+  const antennas = devices.map(d => radarAntenna(d));
+  if (antennas.some(Boolean)) {
+    rows.push({
+      icon: 'M12 2v20M6 8l6-6 6 6M6 16l6 6 6-6',
+      label: 'Радар-детектор',
+      cells: devices.map((d, i) => ({text: antennas[i] ? radarAntennaLabel(d) : 'нет', rank: radarAntennaRank(d)}))
+    });
+    rows.push({
+      icon: 'M13 2 3 14h7l-1 8 11-14h-7l1-6z',
+      label: 'LNA-усилитель',
+      cells: devices.map(d => ({text: hasLNA(d) ? 'есть' : 'нет', rank: hasLNA(d) ? 1 : 0}))
+    });
+  }
+
+  rows.push({
+    icon: 'M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z',
+    label: 'GPS / база камер',
+    cells: devices.map(d => ({text: hasGPS(d) ? 'есть' : 'нет', rank: hasGPS(d) ? 1 : 0}))
+  });
+
+  const touches = devices.map(d => d.touch);
+  if (touches.some(Boolean)) {
+    rows.push({
+      icon: 'M9 11.5V6a1.5 1.5 0 0 1 3 0v5m0-2V4.5a1.5 1.5 0 0 1 3 0V11',
+      label: 'Сенсорный экран',
+      cells: devices.map(d => ({text: d.touch ? 'есть' : 'нет', rank: d.touch ? 1 : 0}))
+    });
+  }
+
+  rows.push({
+    icon: 'M23 7l-7 5 7 5V7zM1 5h15v14H1z',
+    label: 'Задняя камера',
+    cells: devices.map(d => ({text: d.rear_cam ? 'есть' : 'нет', rank: d.rear_cam ? 1 : 0}))
+  });
+
+  const irCams = devices.map(d => d.ir_cam);
+  if (irCams.some(Boolean)) {
+    rows.push({
+      icon: 'M12 4.5C7 4.5 2.7 8 1 12c1.7 4 6 7.5 11 7.5s9.3-3.5 11-7.5c-1.7-4-6-7.5-11-7.5zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+      label: 'Салонная камера (ИК)',
+      cells: devices.map(d => ({text: d.ir_cam ? 'есть' : 'нет', rank: d.ir_cam ? 1 : 0}))
+    });
+  }
+
+  const rotations = devices.map(d => d.rotation);
+  if (rotations.some(Boolean)) {
+    rows.push({
+      icon: 'M4 4v6h6M20 20v-6h-6M4.5 15a8 8 0 0 0 14.3 3M19.5 9A8 8 0 0 0 5.2 6',
+      label: 'Поворотная камера',
+      cells: devices.map(d => ({text: d.rotation ? 'есть' : 'нет', rank: d.rotation ? 1 : 0}))
+    });
+  }
+
+  const remotes = devices.map(d => d.remote);
+  if (remotes.some(Boolean)) {
+    rows.push({
+      icon: 'M5 12.5a10 10 0 0 1 14 0M8 15.8a5.5 5.5 0 0 1 8 0M12 19h.01M2 9a15 15 0 0 1 20 0',
+      label: '4G / удалённый доступ',
+      cells: devices.map(d => ({text: d.remote ? 'есть' : 'нет', rank: d.remote ? 1 : 0}))
+    });
+  }
+
+  rows.push({
+    icon: 'M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01',
+    label: 'Wi-Fi',
+    cells: devices.map(d => ({text: d.smartphone ? 'есть' : 'нет', rank: d.smartphone ? 1 : 0}))
+  });
+
+  rows.push({
+    icon: 'M6 3h12l-1.5 7H15v8l-3-3-3 3v-8H7.5z',
+    label: 'Крепление',
+    cells: devices.map(d => ({text: d.magnetic ? 'магнитное' : 'обычное', rank: d.magnetic ? 1 : 0}))
+  });
+
+  const sdCards = devices.map(d => {
+    const raw = d.specs && d.specs.max_sd;
+    const n = raw ? parseInt(String(raw).replace(/[^\d]/g, ''), 10) : null;
+    return {text: raw || null, n: (n && !isNaN(n)) ? n : null};
+  });
+  if (sdCards.some(s => s.text)) {
+    rows.push({
+      icon: 'M6 3h9l3 3v15H6z',
+      label: 'Карта памяти',
+      cells: sdCards.map(s => ({text: s.text || 'не указано', rank: s.n != null ? s.n : 0}))
+    });
+  }
+
+  const prices = devices.map(d => {
+    const n = String(d.price || '').replace(/[^\d]/g, '');
+    return n ? parseInt(n, 10) : null;
+  });
+  if (prices.some(p => p != null)) {
+    rows.push({
+      icon: 'M12 2v20M17 5.5c0-1.9-2.2-3.5-5-3.5S7 3.6 7 5.5 9.2 9 12 9s5 1.6 5 3.5-2.2 3.5-5 3.5-5-1.6-5-3.5',
+      label: 'Цена',
+      cells: devices.map((d, i) => ({text: d.price || 'не указана', rank: prices[i] != null ? (100000 - prices[i]) : 0}))
+    });
+  }
+
+  return rows.map(row => {
+    const best = compareRowBest(row.cells);
+    return {...row, cells: row.cells.map((c, i) => ({...c, best: best[i]}))};
+  });
+}
+
+function renderCompareScreen() {
+  const body = document.getElementById("compare-body");
+  if (!body) return;
+  const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
+  if (devices.length < 2) {
+    body.innerHTML = `<div class="cmp-empty">Добавьте минимум 2 модели, чтобы сравнить их.</div>`;
+    return;
+  }
+  const rows = buildCompareRows(devices);
+
+  const cardsHtml = devices.map(d => {
+    const idx = DEVICES.indexOf(d);
+    const thumbSrc = deviceImageSrc(d);
+    return `<div class="cmp-card" onclick="openDeviceFromSearch(${idx})" role="button" tabindex="0" aria-label="Открыть ${attrSafe(d.name)}">
+      <button class="cmp-card-remove" aria-label="Убрать ${attrSafe(d.name)} из сравнения" onclick="removeCompareByIndex(event, ${idx})">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="cmp-card-thumb">${thumbSrc ? `<img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">` : `<svg viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="11" rx="2"/><path d="M17 10l4-2v8l-4-2z"/></svg>`}</div>
+      <div class="cmp-card-brand">${d.brand}</div>
+      <div class="cmp-card-name">${d.name}</div>
+      <div class="cmp-card-price">${d.price || 'цена не указана'}</div>
+    </div>`;
+  }).join("");
+
+  const rowsHtml = rows.map(row => `
+    <div class="cmp-row">
+      <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${row.icon}"/></svg>${row.label}</div>
+      <div class="cmp-row-cells cmp-cols-${devices.length}">
+        ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${c.text}</div>`).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  body.innerHTML = `
+    <div class="cmp-cards cmp-cols-${devices.length}">${cardsHtml}</div>
+    ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: вернитесь назад и нажмите значок сравнения у другой модели.</div>` : ''}
+    <div class="cmp-rows">${rowsHtml}</div>
+  `;
 }
 
 function showFavTooltip(event) {
@@ -4617,11 +8055,9 @@ function getComboHornQualityHint() {
     .filter(Boolean);
 
   if (matches.length === 0) return null;
-  const target = [...matches].sort((a, b) => b.q - a.q)[0];
   return {
     text: `При повышении качества появятся варианты с рупорной антенной: ${matches.map(m => m.text).join("; ")}.`,
-    targetAnswer: target.answer,
-    targetLabel: target.label
+    options: matches.map(m => ({answer: m.answer, label: m.label}))
   };
 }
 
@@ -4642,9 +8078,18 @@ function parsePrice(p) {
 function sortItems(items) {
   if (sortMode === "match") return items;
   const arr = [...items];
-  arr.sort((a, b) => sortMode === "price_asc"
-    ? parsePrice(a.d.price) - parsePrice(b.d.price)
-    : parsePrice(b.d.price) - parsePrice(a.d.price));
+  const dir = sortMode === "price_asc" ? 1 : -1;
+  arr.sort((a, b) => {
+    const pa = parsePrice(a.d.price);
+    const pb = parsePrice(b.d.price);
+    const aUnknown = !isFinite(pa);
+    const bUnknown = !isFinite(pb);
+    // Устройства без указанной цены всегда внизу списка, независимо от направления сортировки.
+    if (aUnknown && bUnknown) return 0;
+    if (aUnknown) return 1;
+    if (bUnknown) return -1;
+    return (pa - pb) * dir;
+  });
   return arr;
 }
 
@@ -4723,14 +8168,31 @@ function getCompromises() {
     return true;
   }
 
-  // Если пользователь выбрал GPS-информер/комбо, но остальные параметры
+  // Если пользователь выбрал GPS-информер/комбо/4G, но остальные параметры
   // лучше совпадают с обычными регистраторами, показываем это как первый ход.
   const typeVal = (answers.type || "").toLowerCase();
-  if (typeVal === "gps-информер" || typeVal === "комбо 3 в 1") {
-    const typeHint = typeVal === "gps-информер"
-      ? "Заменить GPS-информер на обычный видеорегистратор"
-      : "Заменить комбо на обычный видеорегистратор";
-    trySuggestion({key: "type", val: typeVal, next: "видеорегистратор", hint: typeHint});
+  const typeRevertHints = {
+    "gps-информер": "Заменить GPS-информер на обычный видеорегистратор",
+    "комбо 3 в 1": "Заменить комбо на обычный видеорегистратор",
+    "4g-регистратор": "Заменить 4G-регистратор на обычный видеорегистратор",
+  };
+  if (typeRevertHints[typeVal]) {
+    trySuggestion({key: "type", val: typeVal, next: "видеорегистратор", hint: typeRevertHints[typeVal]});
+  }
+
+  // Форм-фактор: если выбран конкретный вариант (не «неважно»), пробуем его снять —
+  // часто именно форм-фактор, а не остальные критерии, обнуляет подборку.
+  const formVal = (answers.form || "").toLowerCase();
+  const formLabels = {
+    "с экраном": "с экраном",
+    "без экрана": "без экрана",
+    "регистратор-зеркало": "регистратор-зеркало",
+  };
+  if (formVal && formVal !== "неважно") {
+    trySuggestion({
+      key: "form", val: formVal, next: "неважно",
+      hint: `Снять требование к форм-фактору (сейчас: ${formLabels[formVal] || formVal})`
+    });
   }
 
   // Качество вверх: полезно, когда точных нет, но есть более сильные варианты при апгрейде съемки.
@@ -4811,15 +8273,16 @@ let currentScreenId = "s-intro";
 
 function show(id) {
   currentScreenId = id;
-  ["s-intro","s-question","s-loading","s-results","s-search"].forEach(s => {
+  ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     if (s === id) {
-      el.style.display = s === "s-intro" ? "flex" : "block";
+      el.style.display = (s === "s-intro" || s === "s-mode") ? "flex" : "block";
     } else {
       el.style.display = "none";
     }
   });
+  renderCompareBar();
   updateTelegramUI();
 }
 
@@ -4828,23 +8291,48 @@ function show(id) {
 // ════════════════════════════════════════════════════════
 
 function setIntroSearchMode(active) {
-  const intro = document.getElementById('s-intro');
-  if (!intro) return;
-  intro.classList.toggle('intro-searching', active);
-  if (window.matchMedia && !window.matchMedia('(min-width: 700px)').matches) return;
+  const mode = document.getElementById('s-mode');
+  if (!mode) return;
+  const wasActive = mode.classList.contains('mode-searching');
+  if (active === wasActive) return;
 
-  const selectors = ['.intro-left', '.intro-actions', '.intro-or', '.intro-footer'];
-  selectors.forEach(sel => {
-    const node = intro.querySelector(sel);
-    if (node) node.style.display = active ? 'none' : '';
-  });
+  const inner = mode.querySelector('.mode-inner');
+  if (!inner || !active) {
+    mode.classList.toggle('mode-searching', active);
+    return;
+  }
+
+  // Плавно анимируем единоразовый сдвиг окна вверх (center → flex-start)
+  // при первом вводе в ручном поиске (FLIP-техника).
+  const before = inner.getBoundingClientRect();
+  mode.classList.add('mode-searching');
+  const after = inner.getBoundingClientRect();
+  const deltaY = before.top - after.top;
+
+  if (deltaY) {
+    inner.style.transition = 'none';
+    inner.style.transform = `translateY(${deltaY}px)`;
+    inner.getBoundingClientRect(); // force reflow
+    inner.style.transition = 'transform .32s cubic-bezier(.22,.61,.36,1)';
+    inner.style.transform = 'translateY(0)';
+    const cleanup = () => {
+      inner.style.transition = '';
+      inner.style.transform = '';
+      inner.removeEventListener('transitionend', cleanup);
+    };
+    inner.addEventListener('transitionend', cleanup);
+  }
 }
+
+let lastIntroSearchQuery = "";
+let showAllIntroSearch = false;
 
 function onIntroSearch(val) {
   const clearBtn = document.getElementById("intro-srch-clear");
   const resultsEl = document.getElementById("intro-srch-results");
   const cards     = document.getElementById("intro-cards");
   const footer    = document.getElementById("intro-footer");
+  if (!clearBtn || !resultsEl) return;
 
   if (!val.trim()) {
     clearBtn.style.display = "none";
@@ -4852,6 +8340,8 @@ function onIntroSearch(val) {
     if (cards)  cards.style.display = "";
     if (footer) footer.style.display = "";
     setIntroSearchMode(false);
+    lastIntroSearchQuery = "";
+    showAllIntroSearch = false;
     return;
   }
 
@@ -4859,13 +8349,21 @@ function onIntroSearch(val) {
   if (cards)  cards.style.display = "none";
   if (footer) footer.style.display = "none";
   setIntroSearchMode(true);
-  window.scrollTo({top: 0, behavior: 'instant'});
+  const mode = document.getElementById("s-mode");
+  if (mode) mode.scrollTo({top: 0, behavior: 'instant'});
 
-  const hits = searchDevices(val.trim()).slice(0, 5);
+  if (val.trim() !== lastIntroSearchQuery) {
+    lastIntroSearchQuery = val.trim();
+    showAllIntroSearch = false;
+  }
+
+  const allHits = searchDevices(val.trim());
+  const visibleCount = showAllIntroSearch ? allHits.length : 5;
+  const hits = allHits.slice(0, visibleCount);
   if (!hits.length) {
     resultsEl.innerHTML = `<div class="srch-no-results">
       Ничего не найдено.<br>
-      <span style="color:var(--text-3);font-size:13px">Попробуйте бренд, часть модели или начните подбор по вопросам.</span>
+      <span style="color:var(--text-3);font-size:13px">Введите название бренда или модели на русском или английском языке. Бот найдет все возможные совпадения.</span>
     </div>`;
     return;
   }
@@ -4885,23 +8383,39 @@ function onIntroSearch(val) {
       d.rear_cam ? `<span class="srch-badge">Поддержка КЗВ</span>` : '',
       d.smartphone ? `<span class="srch-badge">Wi-Fi</span>` : '',
     ].filter(Boolean).join('');
+    const thumbSrc = deviceImageSrc(d);
+    const thumbHtml = thumbSrc
+      ? `<div class="srch-match-thumb"><img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.closest('.srch-match-thumb').remove()"></div>`
+      : '';
     return `<div class="srch-match-card" onclick="openDeviceFromIntro(${idx})">
+      ${thumbHtml}
       <div class="srch-match-info">
         <div class="srch-match-brand">${d.brand}</div>
         <div class="srch-match-name">${d.name}</div>
         <div class="srch-match-badges">${badges}</div>
         <div class="srch-price">${d.price}</div>
       </div>
-      ${favoriteButtonHTML(d)}
+      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareChipHTML(d, "cmp-chip-compact")}</div>
       <svg class="srch-match-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
-  }).join('');
+  }).join('') + (allHits.length > hits.length
+    ? `<button type="button" class="show-more-card" onclick="showAllIntroSearchResults()">Показать ещё ${allHits.length - hits.length}</button>`
+    : '');
   refreshFavoriteUI();
 }
 
-function clearIntroSearch() {
+function showAllIntroSearchResults() {
+  showAllIntroSearch = true;
   const inp = document.getElementById("intro-srch");
-  if (inp) { inp.value = ""; inp.focus(); }
+  onIntroSearch(inp ? inp.value : lastIntroSearchQuery);
+}
+
+function clearIntroSearch(focus = true) {
+  const inp = document.getElementById("intro-srch");
+  if (inp) {
+    inp.value = "";
+    if (focus) inp.focus();
+  }
   setIntroSearchMode(false);
   onIntroSearch("");
 }
@@ -5039,7 +8553,7 @@ const UI_TERMS = {
   touch: "Сенсорное управление",
   magnetic: "Магнитное крепление",
   horn: "Рупорная антенна",
-  patch: "ПАТЧ-антенна",
+  patch: "Патч-антенна",
   lna: "LNA-усилитель",
   sensor: "Сенсор"
 };
@@ -5047,7 +8561,7 @@ const UI_TERMS = {
 const TERM_HELP = {
   rearCam: "КЗВ — камера заднего вида. Здесь учитывается поддержка подключения, а не наличие камеры в комплекте.",
   horn: "Рупорная антенна — более сильная радарная часть по сравнению с патч-антенной.",
-  patch: "ПАТЧ-антенна — компактная радарная антенна, обычно слабее рупорной.",
+  patch: "Патч-антенна — компактная радарная антенна, обычно слабее рупорной.",
   interpolation: "Интерполяция — программное увеличение разрешения. Детализация обычно ниже, чем у нативной съёмки.",
   lna: "LNA — усилитель сигнала радарной части.",
   sensor: "Сенсор камеры влияет на детализацию и ночную съёмку. Сравнивается вместе с разрешением, а не вместо него."
@@ -5065,6 +8579,14 @@ function termTip(key) {
   const text = TERM_HELP[key];
   const safe = attrSafe(text);
   return text ? `<span class="term-tip" data-tip="${safe}" aria-label="${safe}" tabindex="0" onmouseenter="showTermTooltip(this)" onmouseleave="hideTermTooltip()" onfocus="showTermTooltip(this)" onblur="hideTermTooltip()" onclick="event.preventDefault();event.stopPropagation();showTermTooltip(this)">?</span>` : "";
+}
+
+function deviceTypeLabel(d) {
+  const t = String(d?.type || "").toLowerCase();
+  if (t === "комбо 3 в 1") return "Радар+База";
+  if (t === "gps-информер") return "База камер";
+  if (t === "видеорегистратор") return "Видеорегистратор";
+  return d?.type || "";
 }
 
 function deviceImageSrc(d) {
@@ -5182,7 +8704,8 @@ function shootingQualityScore(d) {
 function sensorClassDifferent(a, b) {
   const ar = sensorPriorityScore(a);
   const br = sensorPriorityScore(b);
-  if (!ar || !br) return false;
+  if (!ar && !br) return false;
+  if (!ar || !br) return true;
   return Math.abs(ar - br) >= 1.2;
 }
 
@@ -5215,7 +8738,7 @@ function makeSearchCard(item, isExact) {
         <div class="srch-match-badges">${badgesHTML}</div>
         <div class="srch-price">${d.price || ""}</div>
       </div>
-      ${favoriteButtonHTML(d)}
+      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareChipHTML(d, "cmp-chip-compact")}</div>
       <div class="srch-match-arrow">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </div>
@@ -5226,7 +8749,7 @@ function renderSearchResults(results, query) {
   const area = document.getElementById("srch-results-area");
   if (!results || results.length === 0) {
     area.innerHTML = query
-      ? `<div class="srch-no-results">Ничего не нашли по запросу «${query}»<br><span style="color:var(--text-3);font-size:13px">Попробуйте ввести только бренд, часть модели или пройти подбор по вопросам</span></div>`
+      ? `<div class="srch-no-results">Ничего не нашли по запросу «${query}»<br><span style="color:var(--text-3);font-size:13px">Введите название бренда или модели на русском или английском языке. Бот найдет все возможные совпадения.</span></div>`
       : "";
     return;
   }
@@ -5423,7 +8946,7 @@ function getDiffs(x, d) {
   const diffs = [];
   const ql = ['','Full HD','2K','4K'];
   if (x.q !== d.q)
-    diffs.push({text: x.q > d.q ? `${ql[x.q]} — лучше съёмка` : `${ql[x.q]} вместо ${ql[d.q]}`, type: x.q > d.q ? 'better' : 'worse'});
+    diffs.push({text: x.q > d.q ? ql[x.q] : `${ql[x.q]} вместо ${ql[d.q]}`, type: x.q > d.q ? 'better' : 'worse'});
   const xSensor = sensorInfo(x);
   const dSensor = sensorInfo(d);
   if (xSensor && dSensor && xSensor.key !== dSensor.key && (x.q === d.q || sensorClassDifferent(x, d))) {
@@ -5435,22 +8958,18 @@ function getDiffs(x, d) {
         ? (betterSensor ? 'better' : 'worse')
         : (betterSensor && x.q >= d.q ? 'better' : !betterSensor && x.q <= d.q ? 'worse' : undefined))
       : (xSony && betterSensor && x.q >= d.q ? 'better' : undefined);
-    const sensorText = tone === 'better'
-      ? `Сенсор лучше: ${xSensor.label}`
-      : tone === 'worse'
-        ? `Сенсор проще: ${xSensor.label}`
-        : `Сенсор: ${xSensor.label}`;
+    const sensorText = tone ? xSensor.label : `Сенсор: ${xSensor.label}`;
     diffs.push({
       text: sensorText,
       type: tone
     });
   } else if (xSensor && !dSensor && x.q >= d.q) {
-    diffs.push({text: `Сенсор указан: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
+    diffs.push({text: `Сенсор: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle !== dAngle)
-    diffs.push({text: xAngle > dAngle ? `Угол обзора шире: ${xAngle}°` : `Угол обзора уже: ${xAngle}°`, type: xAngle > dAngle ? 'better' : 'worse'});
+    diffs.push({text: `Обзор ${xAngle}°`, type: xAngle > dAngle ? 'better' : 'worse'});
   if (x.ir_cam !== d.ir_cam)
     diffs.push({text: x.ir_cam ? UI_TERMS.cabinCam : 'Без внутрисалонной камеры'});
   if (x.rear_cam && !d.rear_cam)
@@ -5468,7 +8987,7 @@ function getDiffs(x, d) {
   if (xAntenna && dAntenna && xAntenna !== dAntenna) {
     const betterAntenna = radarAntennaRank(x) > radarAntennaRank(d);
     diffs.push({
-      text: betterAntenna ? 'Рупорная антенна мощнее' : 'ПАТЧ-антенна слабее',
+      text: betterAntenna ? 'Рупорная антенна мощнее' : 'Патч-антенна слабее',
       type: betterAntenna ? 'better' : 'worse'
     });
   }
@@ -5541,8 +9060,9 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
 
 function renderAnalogCard(x, pct, diffs) {
   const hasPriceOnlyDiffs = diffs && diffs.length && diffs.every(diff => typeof diff !== 'string' && diff.type === 'price');
-  const diffHtml = diffs && diffs.length
-    ? `<div class="analog-card-diffs">${diffs.map(diff => {
+  const shownDiffs = diffs ? diffs.slice(0, 4) : diffs;
+  const diffHtml = shownDiffs && shownDiffs.length
+    ? `<div class="analog-card-diffs">${shownDiffs.map(diff => {
         const item = typeof diff === 'string' ? {text: diff} : diff;
         const tone = item.type === 'better' || item.type === 'price' ? ' better' : item.type === 'worse' ? ' worse' : '';
         return `<span class="analog-diff${tone}">${item.text}</span>`;
@@ -5552,17 +9072,29 @@ function renderAnalogCard(x, pct, diffs) {
     ? `<div class="analog-card-explain">${hasPriceOnlyDiffs ? 'Такие же параметры, но выгоднее:' : 'Что отличается от выбранной модели:'}</div>`
     : `<div class="analog-card-explain">Полное совпадение по ключевым параметрам.</div>`;
   const isDim = pct < 100;
+  const thumbSrc = deviceImageSrc(x);
+  const thumbHtml = thumbSrc
+    ? `<div class="analog-card-thumb"><img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.closest('.analog-card-thumb').remove()"></div>`
+    : '';
   return `<div class="analog-card" onclick="openDeviceFromSearch(${DEVICES.indexOf(x)})">
     <div class="analog-card-hdr"></div>
+    ${thumbHtml}
     <div class="analog-card-body">
       <div class="analog-card-brand">${x.brand}</div>
       <div class="analog-card-name">${x.name}</div>
       ${explanation}
       ${diffHtml}
-      <div class="analog-card-price">${x.price}</div>
+      <div class="analog-card-bottom">
+        <div class="analog-card-price">${x.price}</div>
+      </div>
     </div>
-    <div class="analog-card-pct${isDim ? ' dim' : ''}">${pct}%</div>
-    ${favoriteButtonHTML(x)}
+    <div class="analog-card-side">
+      <div class="analog-card-side-top">
+        <div class="analog-card-pct${isDim ? ' dim' : ''}">${pct}%</div>
+        ${favoriteButtonHTML(x)}
+      </div>
+      ${compareChipHTML(x, "analog-card-cmp")}
+    </div>
   </div>`;
 }
 
@@ -5768,7 +9300,7 @@ function renderDeviceProfile(d, exact, similar) {
     <div class="dev-hero">
       <div class="dev-hero-header">
         <span class="dev-hero-header-brand">${d.brand}</span>
-        <span class="dev-hero-header-type">${d.form}</span>
+        <span class="dev-hero-header-type">${deviceTypeLabel(d)}</span>
       </div>
       <div class="dev-hero-body">
         <div style="display:flex;align-items:flex-start;gap:10px;">
@@ -5776,7 +9308,7 @@ function renderDeviceProfile(d, exact, similar) {
         <div class="dev-name">${d.name}</div>
         <div class="dev-price">${d.price}</div>
           </div>
-          ${favoriteButtonHTML(d)}
+          <div class="dev-hero-actions">${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
         </div>
         ${devicePhotoHTML(d)}
         ${specChips ? `<div class="dev-hero-specs" style="margin-top:10px">${specChips}</div>` : ''}
@@ -5832,8 +9364,8 @@ function renderDeviceProfile(d, exact, similar) {
 
 function backToSearchResults() {
   if (lastSearchOrigin === 'intro') {
-    // Close s-search, restore intro with previous query
-    show('s-intro');
+    // Close s-search, restore mode choice search with previous query
+    show('s-mode');
     const inp = document.getElementById('intro-srch');
     if (inp && lastSearchQuery) {
       inp.value = lastSearchQuery;
@@ -5849,6 +9381,15 @@ function backToSearchResults() {
       document.getElementById('srch-results-area').innerHTML = '';
     }
   }
+}
+
+function openModeChoice() {
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  renderModePopular();
+  show("s-mode");
+  const mode = document.getElementById("s-mode");
+  if (mode) mode.scrollTo({top: 0, behavior: "instant"});
 }
 
 function handleSearchTopbarBack() {
@@ -5962,6 +9503,7 @@ function renderQ() {
   el("q-label").textContent = `Вопрос ${current} из ${total}`;
   el("q-title").textContent = q.title;
   el("q-sub").textContent   = q.sub;
+  el("hd-counter").style.display = "";
   el("hd-counter").textContent = `${current} / ${total}`;
   el("progress-fill").style.width = `${current/total*100}%`;
 
@@ -6064,7 +9606,7 @@ function swapLoadingText(elem, text) {
 function showResults() {
   clearLoadingTimers();
   el("bottom-nav").style.display = "none";
-  el("hd-counter").textContent = "Поиск…";
+  el("hd-counter").style.display = "none";
   el("progress-fill").style.width = "100%";
   el("loading-sub").textContent = "Сравниваем модели";
   el("loading-sub2").textContent = "Сопоставляем ключевые параметры";
@@ -6092,7 +9634,6 @@ function showResults() {
 
   const doneId = setTimeout(() => {
     clearLoadingTimers();
-    el("hd-counter").textContent = "Результат";
     sortMode = "match";
     showAllNearResults = false;
     _lastTop = getTop();
@@ -6141,7 +9682,7 @@ function _renderResults(top) {
 
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
-    cWrap.innerHTML = `<div class="compromise-title">💡 Что можно изменить</div>`;
+    cWrap.innerHTML = `<div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что можно изменить</div>`;
     compromises.forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
@@ -6194,19 +9735,24 @@ function _renderResults(top) {
     const hint = document.createElement("div");
     hint.className = "smart-hint";
     hint.innerHTML = `
-      <div class="smart-hint-icon">📡</div>
+      <div class="smart-hint-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1 1-1h4l1-1h4l1 1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="12" cy="12.5" r="2.2"/><path d="M9 6.5a4.2 4.2 0 0 1 6 0"/><path d="M7 4.2a7 7 0 0 1 10 0"/></svg></div>
       <div class="smart-hint-text">
         <strong>Подсказка по радарной части</strong>
         ${comboHornHint.text}
       </div>
-      <button class="smart-hint-btn" type="button">Показать ${comboHornHint.targetLabel}</button>`;
-    hint.querySelector(".smart-hint-btn").addEventListener("click", () => {
-      answers.quality = comboHornHint.targetAnswer;
-      sortMode = "match";
-      showAllNearResults = false;
-      _lastTop = getTop();
-      _renderResults(_lastTop);
-      window.scrollTo(0, 0);
+      <div class="smart-hint-actions">
+        ${comboHornHint.options.map((o, i) => `<button class="smart-hint-btn" type="button" data-i="${i}">Показать ${o.label}</button>`).join("")}
+      </div>`;
+    hint.querySelectorAll(".smart-hint-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const opt = comboHornHint.options[Number(btn.dataset.i)];
+        answers.quality = opt.answer;
+        sortMode = "match";
+        showAllNearResults = false;
+        _lastTop = getTop();
+        _renderResults(_lastTop);
+        window.scrollTo(0, 0);
+      });
     });
     list.appendChild(hint);
   }
@@ -6299,9 +9845,9 @@ function _renderResults(top) {
       card.className = "dev-card";
 
       const camBadge = d.type === "комбо 3 в 1"
-        ? `<span class="cam-badge">📡 РАДАР+БАЗА</span>`
+        ? `<span class="cam-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1 1-1h4l1-1h4l1 1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="12" cy="12.5" r="2.2"/><path d="M9 6.5a4.2 4.2 0 0 1 6 0"/><path d="M7 4.2a7 7 0 0 1 10 0"/></svg>Радар+база</span>`
         : d.type === "gps-информер"
-        ? `<span class="cam-badge">📍 БАЗА КАМЕР</span>`
+        ? `<span class="cam-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>База камер</span>`
         : "";
 
       const QLABELS_BADGE = {1:"Full HD", 2:"2K", 3:"4K"};
@@ -6318,13 +9864,13 @@ function _renderResults(top) {
       card.innerHTML = `
       <div class="dev-card-header">
         <span class="dev-card-header-brand">${d.brand}</span>
-        ${camBadge ? camBadge : `<span class="dev-card-header-type">${d.type}</span>`}
+        ${camBadge ? camBadge : `<span class="dev-card-header-type">${deviceTypeLabel(d)}</span>`}
       </div>
       <div class="dev-body">
         <div class="dev-meta">
           <div class="${rankClass}">${rankLabel}</div>
           <div class="match-pill ${isExact ? "hi" : mc}">${matchLabel}</div>
-          ${favoriteButtonHTML(d)}
+          <div class="dev-card-actions">${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
         </div>
         <div class="card-toggle">
           <div style="flex:1;min-width:0;">
@@ -6405,7 +9951,7 @@ function _renderResults(top) {
     const notice = document.createElement("div");
     notice.className = "no-exact-notice";
     notice.innerHTML = `
-      <div class="no-exact-notice-icon">🔍</div>
+      <div class="no-exact-notice-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
       <div class="no-exact-notice-text">
         <strong>Точного совпадения не найдено</strong>
         По вашим критериям нет устройств на 100%. Ниже — близкие варианты.
@@ -6450,6 +9996,7 @@ function goHome() {
   qIdx = 0;
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
+  clearIntroSearch(false);
   show("s-intro");
 }
 
@@ -6467,6 +10014,58 @@ function renderIntroDbSticker() {
   const brandCount = new Set(DEVICES.map(d => String(d.brand || "").trim().toLowerCase()).filter(Boolean)).size;
   const deviceCount = DEVICES.length;
   sticker.textContent = `${brandCount} ${pluralRu(brandCount, "бренд", "бренда", "брендов")} · ${deviceCount} ${pluralRu(deviceCount, "устройство", "устройства", "устройств")}`;
+}
+
+function shuffleList(items) {
+  return items
+    .map(item => ({item, sort: Math.random()}))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({item}) => item);
+}
+
+function modePopularThumbHTML(d) {
+  const src = deviceImageSrc(d);
+  if (src) {
+    return `<span class="mode-popular-thumb"><img src="${attrSafe(src)}" alt="${attrSafe(d.name)}" loading="lazy" decoding="async" onerror="this.remove()"></span>`;
+  }
+  return `<span class="mode-popular-thumb mode-popular-thumb-fallback" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+      <path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8zm8 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+    </svg>
+  </span>`;
+}
+
+function renderModePopular() {
+  const list = document.getElementById("mode-popular-list");
+  if (!list) return;
+  const priced = DEVICES
+    .map((d, idx) => ({d, idx, price: parsePrice(d.price)}))
+    .filter(item => Number.isFinite(item.price) && !/blackvue/i.test(String(item.d.brand || item.d.name || "")))
+    .sort((a, b) => b.price - a.price);
+  const topCount = Math.max(18, Math.ceil(priced.length * 0.18));
+  const pool = priced.slice(0, topCount);
+  const seenBrands = new Set();
+  const picks = [];
+  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
+  const targetCount = isDesktop ? 8 : 4;
+  for (const item of shuffleList(pool)) {
+    const brandKey = String(item.d.brand || "").trim().toLowerCase();
+    if (!brandKey || seenBrands.has(brandKey)) continue;
+    seenBrands.add(brandKey);
+    picks.push(item);
+    if (picks.length >= targetCount) break;
+  }
+  list.innerHTML = picks.map(({d, idx}) => {
+    const meta = [d.type, d.q ? ["", "Full HD", "2K", "4K"][d.q] : "", d.form].filter(Boolean).join(" · ");
+    return `<button class="mode-popular-row" type="button" onclick="openDeviceFromIntro(${idx})">
+      ${modePopularThumbHTML(d)}
+      <span class="mode-popular-copy">
+        <span class="mode-popular-name">${attrSafe(d.name)}</span>
+        <span class="mode-popular-meta">${attrSafe(meta)}</span>
+      </span>
+      <span class="mode-popular-arrow">›</span>
+    </button>`;
+  }).join("");
 }
 
 // ════════════════════════════════════════════════════════
@@ -6518,6 +10117,14 @@ function updateTelegramViewport() {
 }
 
 function handleTelegramBack() {
+  if (currentScreenId === "s-compare") {
+    closeCompare();
+    return;
+  }
+  if (currentScreenId === "s-mode") {
+    goHome();
+    return;
+  }
   if (currentScreenId === "s-question") {
     if (qIdx > 0) goBack();
     else goHome();
@@ -6589,11 +10196,37 @@ function initTelegramWebApp() {
   } catch(e) {}
 }
 
-document.getElementById("btn-start").addEventListener("click", startQuiz);
+document.getElementById("btn-start").addEventListener("click", openModeChoice);
+document.getElementById("btn-start-quiz").addEventListener("click", startQuiz);
 window.addEventListener("scroll", hideFloatingHints, {passive: true});
 document.addEventListener("scroll", hideFloatingHints, true);
 setupCopyEmailActions();
 setupTermTooltips();
+
+// ── Десктоп: «Ищут чаще остальных» переезжает в отдельную колонку ──
+function layoutModeColumns() {
+  const content = document.querySelector("#s-mode .mode-content");
+  const colLeft = document.querySelector("#s-mode .mode-col-left");
+  const popular = document.getElementById("mode-popular");
+  if (!content || !colLeft || !popular) return;
+  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
+  if (isDesktop) {
+    if (popular.parentElement !== content) content.appendChild(popular);
+  } else {
+    if (popular.parentElement !== colLeft) colLeft.appendChild(popular);
+  }
+}
+const desktopModeQuery = window.matchMedia("(min-width: 900px)");
+desktopModeQuery.addEventListener("change", () => {
+  layoutModeColumns();
+  renderModePopular();
+});
+window.addEventListener("resize", layoutModeColumns);
+window.addEventListener("resize", () => {
+  const bar = document.getElementById("cmp-bar");
+  if (bar && bar.style.display !== "none") positionCompareBar(bar);
+});
+layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
 initTelegramWebApp();
