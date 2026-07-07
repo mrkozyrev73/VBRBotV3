@@ -7196,7 +7196,7 @@ html, body {
   <div class="nav-hint">Выберите вариант и нажмите «Далее» или дважды кликните по нему</div>
 </div>
 
-<script src="./devices.js?v=1.0.1"></script>
+<script src="./devices.js?v=1.0.2"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -9069,6 +9069,20 @@ function getDiffs(x, d) {
   } else if (xSensor && !dSensor && x.q >= d.q) {
     diffs.push({text: `Сенсор: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
+  // Радарная антенна и LNA — считаются сразу после разрешения/сенсора,
+  // чтобы это ключевое отличие не срезалось лимитом в 4 показанных тега.
+  const xAntenna = radarAntenna(x);
+  const dAntenna = radarAntenna(d);
+  if (xAntenna && dAntenna && xAntenna !== dAntenna) {
+    const betterAntenna = radarAntennaRank(x) > radarAntennaRank(d);
+    diffs.push({
+      text: betterAntenna ? 'Рупорная антенна мощнее' : 'Патч-антенна слабее',
+      type: betterAntenna ? 'better' : 'worse'
+    });
+  }
+  if ((xAntenna || dAntenna) && hasLNA(x) !== hasLNA(d)) {
+    diffs.push({text: hasLNA(x) ? UI_TERMS.lna : 'Без LNA-усилителя', type: hasLNA(x) ? 'better' : 'worse'});
+  }
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle !== dAngle)
@@ -9085,18 +9099,6 @@ function getDiffs(x, d) {
     diffs.push({text: x.touch ? UI_TERMS.touch : 'Физические кнопки'});
   if (x.rotation !== d.rotation)
     diffs.push({text: x.rotation ? 'Вращение камеры' : 'Без вращения камеры'});
-  const xAntenna = radarAntenna(x);
-  const dAntenna = radarAntenna(d);
-  if (xAntenna && dAntenna && xAntenna !== dAntenna) {
-    const betterAntenna = radarAntennaRank(x) > radarAntennaRank(d);
-    diffs.push({
-      text: betterAntenna ? 'Рупорная антенна мощнее' : 'Патч-антенна слабее',
-      type: betterAntenna ? 'better' : 'worse'
-    });
-  }
-  if ((xAntenna || dAntenna) && hasLNA(x) !== hasLNA(d)) {
-    diffs.push({text: hasLNA(x) ? UI_TERMS.lna : 'Без LNA-усилителя', type: hasLNA(x) ? 'better' : 'worse'});
-  }
   if (hasGPS(x) !== hasGPS(d))
     diffs.push({text: hasGPS(x) ? 'GPS' : 'Без GPS'});
   if (x.type !== d.type)
