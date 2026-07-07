@@ -1125,7 +1125,10 @@ body.tg-webapp #bottom-nav {
 .dev-profile-desc {
   margin-top: 8px;
 }
-.specs-full + .btn-site {
+.specs-full + .btn-site,
+.specs-full + .buy-links,
+.review-links + .btn-site,
+.review-links + .buy-links {
   margin-top: 16px;
 }
 
@@ -2671,7 +2674,42 @@ body.tg-webapp #bottom-nav {
   transition: background .15s, border-color .15s;
 }
 .btn-site:active { background: var(--border); }
-.btn-site svg { width: 16px; height: 16px; stroke: var(--text-2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn-site svg { width: 16px; height: 16px; flex-shrink: 0; stroke: var(--text-2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn-site span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* Site + Yandex Market — two equal-width buttons, same row */
+.buy-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.buy-links .btn-site { width: auto; }
+.btn-market {
+  width: 100%;
+  height: 46px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 13px;
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  transition: background .15s, border-color .15s;
+  min-width: 0;
+}
+.btn-market:active { background: var(--border); }
+.btn-market-logo {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: #FFDB4D;
+  color: #1C1C1E;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+}
+.btn-market span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .review-links {
   display: grid;
@@ -9267,6 +9305,23 @@ function sortExactAnalogsForProfile(items, d) {
   });
 }
 
+function buyLinksHTML(d) {
+  const hasSite = !!d.url;
+  const hasMarket = !!d.market_url;
+  if (!hasSite && !hasMarket) return '';
+  const siteBtn = hasSite ? `<a class="btn-site" href="${attrSafe(manufacturerSearchUrl(d))}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>${hasMarket ? 'Сайт производителя' : 'Найти на сайте производителя'}</span>
+    </a>` : '';
+  const marketBtn = hasMarket ? `<a class="btn-market" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
+      <span class="btn-market-logo" aria-hidden="true">Я</span>
+      <span>Купить на Я.Маркет</span>
+    </a>` : '';
+  const hint = hasMarket ? `<div class="partner-hint">Цены на товары на маркетплейсах могут меняться, бот показывает среднюю цену за последние два месяца</div>` : '';
+  const buttons = (hasSite && hasMarket) ? `<div class="buy-links">${siteBtn}${marketBtn}</div>` : `${siteBtn}${marketBtn}`;
+  return `${buttons}${hint}`;
+}
+
 function reviewLinksHTML(d) {
   const query = encodeURIComponent((d.brand + " " + d.name + " обзор").trim());
   return `<div class="review-links">
@@ -9391,11 +9446,8 @@ function renderDeviceProfile(d, exact, similar) {
         ${profileTags ? `<div class="specs-row">${profileTags}</div>` : ''}
         ${deviceSpecGridHTML(d)}
         ${deviceFullSpecsHTML(d, DEVICES.indexOf(d))}
-        ${d.url ? `<a class="btn-site" href="${manufacturerSearchUrl(d)}" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          Найти на сайте производителя
-        </a>` : ''}
         ${reviewLinksHTML(d)}
+        ${buyLinksHTML(d)}
       </div>
     </div>
     ${supportDonateCardHTML()}`;
@@ -9995,11 +10047,8 @@ function _renderResults(top) {
               }).join("")}
             </div>
           </div>
-          ${d.url ? `<a class="btn-site" href="${manufacturerSearchUrl(d)}" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            Найти на сайте производителя
-          </a>` : ''}
           ${reviewLinksHTML(d)}
+          ${buyLinksHTML(d)}
         </div>
       </div>
     `;
