@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>VBR Bot</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
@@ -7640,6 +7643,22 @@ function buildCompareRows(devices) {
       icon: 'M6 3h9l3 3v15H6z',
       label: 'Карта памяти',
       cells: sdCards.map(s => ({text: s.text || 'не указано', rank: s.n != null ? s.n : 0}))
+    });
+  }
+
+  const powerElements = devices.map(d => d.specs && d.specs.power_element);
+  if (powerElements.some(Boolean)) {
+    const powerElementRank = (v) => {
+      if (!v) return null;
+      const s = String(v).toLowerCase();
+      if (s.includes('суперконденсат')) return 2;
+      if (s.includes('аккумулятор') || s.includes('батаре') || s.includes('battery')) return 1;
+      return null;
+    };
+    rows.push({
+      icon: 'M7 7h9a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zM20 10.5v3',
+      label: 'Элемент питания',
+      cells: powerElements.map(v => ({text: v || 'не указано', rank: powerElementRank(v)}))
     });
   }
 
