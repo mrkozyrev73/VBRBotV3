@@ -6360,7 +6360,7 @@ body.tg-webapp #bottom-nav {
 
   #s-mode .mode-content {
     margin-top: 18px !important;
-    gap: 22px !important;
+    gap: 34px !important;
   }
 
   #s-mode .mode-quiz-card.mode-quiz-card-v3 {
@@ -6626,6 +6626,11 @@ body.tg-webapp #bottom-nav {
     border-radius: 24px;
     box-shadow: 0 16px 44px rgba(30,48,76,.08);
   }
+  /* спейсер под карточками не должен растягиваться на всю высоту флекс-колонки — иначе под левой колонкой остаётся пустое место */
+  #s-mode .home-v2-spacer {
+    flex: 0 0 auto;
+    min-height: 32px;
+  }
 
   /* — общая шапка на экранах вопросов/результатов/поиска: та же геометрия, что на 1 и 2 странице (56px сверху, 40px по бокам) — */
   #header {
@@ -6637,6 +6642,12 @@ body.tg-webapp #bottom-nav {
     margin: 0 auto;
     min-height: 0;
     padding: 56px 0 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 32px;
+  }
+  #header .hd-support-block {
+    margin-left: auto;
   }
   #header .hd-support-block,
   #header .hd-contact-block {
