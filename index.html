@@ -518,7 +518,7 @@ body.tg-webapp #bottom-nav {
   flex-shrink: 0; transition: opacity .12s;
 }
 .intro-srch-arrow:active { opacity: .8; }
-#intro-srch-results { margin-top: 8px; text-align: left; }
+#intro-srch-results { margin-top: 8px; text-align: left; max-width: 100%; overflow-x: hidden; }
 
 /* ── Feature cards ── */
 .intro-cards {
@@ -961,6 +961,8 @@ body.tg-webapp #bottom-nav {
   display: flex;
   align-items: center;
   gap: 10px;
+  max-width: 100%;
+  overflow: hidden;
 }
 .srch-match-card:active { opacity: .75; }
 .srch-match-card.is-exact {
@@ -1267,6 +1269,11 @@ body.tg-webapp #bottom-nav {
 .analog-diff.worse {
   color: var(--red-text);
   background: var(--red-bg);
+}
+.analog-card-diffs > .analog-diff:only-child,
+.analog-card-diffs > .analog-diff:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  white-space: normal;
 }
 .analog-card-price {
   font-size: 14px; font-weight: 700;
@@ -3559,6 +3566,32 @@ body.tg-webapp #bottom-nav {
   margin-top: 14px;
   font-size: 18px;
   color: #687087;
+}
+.mode-subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+.mode-subtitle-row .mode-subtitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-top: 0 !important;
+}
+.mode-subtitle-back-btn {
+  display: none !important;
+}
+/* Пока идёт ручной поиск, заголовок ("С чего начнем?") скрыт, и кнопка
+   "назад" в .mode-title-row остаётся одна в пустой строке — визуально
+   выше подзаголовка, а не на одном уровне с ним. Прячем её и показываем
+   вместо неё вторую кнопку рядом с подзаголовком — так кнопка всегда
+   на одной высоте с видимым текстом. */
+#s-mode.mode-searching .mode-title-row .mode-back-btn {
+  display: none !important;
+}
+#s-mode.mode-searching .mode-subtitle-back-btn {
+  display: inline-flex !important;
 }
 .mode-content {
   margin-top: 34px;
@@ -6872,7 +6905,12 @@ body.tg-webapp #bottom-nav {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
     </div>
-    <p class="mode-subtitle">Выберите необходимый вариант подбора</p>
+    <div class="mode-subtitle-row">
+      <p class="mode-subtitle">Выберите необходимый вариант подбора</p>
+      <button class="mode-back-btn mode-subtitle-back-btn" onclick="goHome()" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+    </div>
 
     <div class="mode-content">
       <div class="mode-col-left">
@@ -8302,8 +8340,15 @@ function setIntroSearchMode(active) {
     return;
   }
 
-  // Плавно анимируем единоразовый сдвиг окна вверх (center → flex-start)
-  // при первом вводе в ручном поиске (FLIP-техника).
+  // Единоразовый сдвиг окна вверх (center → flex-start) при первом вводе
+  // в ручном поиске (FLIP-техника): заголовок и карточка квиза схлопываются
+  // синхронно с классом mode-searching, а измеренная разница позиций
+  // компенсируется transform-анимацией, чтобы сдвиг выглядел одним плавным
+  // движением, а не скачком.
+  // Пробовали дополнительно "растворять" заголовок/карточку через opacity
+  // перед схлопыванием — это давало мерцание фиолетовой карточки квиза
+  // (дорогой repaint её тени/градиента в Safari), поэтому вернули простую
+  // схему и оставили только более мягкую кривую анимации сдвига.
   const before = inner.getBoundingClientRect();
   mode.classList.add('mode-searching');
   const after = inner.getBoundingClientRect();
@@ -8313,7 +8358,7 @@ function setIntroSearchMode(active) {
     inner.style.transition = 'none';
     inner.style.transform = `translateY(${deltaY}px)`;
     inner.getBoundingClientRect(); // force reflow
-    inner.style.transition = 'transform .32s cubic-bezier(.22,.61,.36,1)';
+    inner.style.transition = 'transform .38s cubic-bezier(.4,0,.2,1)';
     inner.style.transform = 'translateY(0)';
     const cleanup = () => {
       inner.style.transition = '';
@@ -8395,7 +8440,7 @@ function onIntroSearch(val) {
         <div class="srch-match-badges">${badges}</div>
         <div class="srch-price">${d.price}</div>
       </div>
-      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareChipHTML(d, "cmp-chip-compact")}</div>
+      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareButtonHTML(d)}</div>
       <svg class="srch-match-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
   }).join('') + (allHits.length > hits.length
@@ -8738,7 +8783,7 @@ function makeSearchCard(item, isExact) {
         <div class="srch-match-badges">${badgesHTML}</div>
         <div class="srch-price">${d.price || ""}</div>
       </div>
-      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareChipHTML(d, "cmp-chip-compact")}</div>
+      <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareButtonHTML(d)}</div>
       <div class="srch-match-arrow">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </div>
