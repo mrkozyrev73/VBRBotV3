@@ -2087,7 +2087,7 @@ image:"assets/devices/navitel-r9-dual.webp",
    price:"~29 990 ₽", url:"https://neoline.ru/landing/spectrum/",
    photo:"",
    image:"assets/devices/neoline-spectrum.webp",
-   specs:{processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
+   specs:{sensor:"GalaxyCore",processor:null,display_type:null,screen_size:"3\"",max_sd:"128 ГБ",power_element:"суперконденсатор",power_type:null,gsensor:true,motion:true,timelapse:false,wifi_gen:"Wi-Fi"}},
 
   {name:"Neoline SHADOW WI-FI BLACK", brand:"Neoline",
    type:"комбо 3 в 1", form:"с экраном", q:1,

@@ -1326,12 +1326,44 @@ html, body {
   gap: 4px;
 }
 .analog-card-cmp svg { width: 12px; height: 12px; }
+
+/* Спокойное появление блоков результата на странице устройства */
+@keyframes profileFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.dev-hero,
+.dev-section-hdr,
+.dev-no-exact,
+.analog-card,
+.search-support-card {
+  animation: profileFadeIn .25s ease both;
+}
+.dev-section-hdr { animation-delay: .04s; }
+@media (prefers-reduced-motion: reduce) {
+  .dev-hero,
+  .dev-section-hdr,
+  .dev-no-exact,
+  .analog-card,
+  .search-support-card {
+    animation: none;
+  }
+}
 .analog-card-cmp .cmp-chip-label { font-size: 11px; }
 .analog-card-explain {
   font-size: 11px;
   color: var(--text-2);
   line-height: 1.35;
   margin: 3px 0 5px;
+}
+.analog-card-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-2);
+  margin: 2px 0 4px;
+}
+.analog-card-status.full {
+  color: var(--green-text);
 }
 
 .intro-footer {
@@ -2477,16 +2509,17 @@ html, body {
 .specs-full-val { color: var(--text); font-weight: 500; text-align: right; }
 .specs-full-val.nd { color: var(--text-2); font-weight: 400; font-style: italic; }
 
-/* Compromise section */
+/* Compromise section — «Что мешает точному совпадению» */
 .compromise-wrap {
-  display: flex; flex-direction: column; gap: 10px;
+  display: flex; flex-direction: column; gap: 8px;
   background: var(--violet-bg); border: 1px solid var(--violet-border);
-  border-radius: 18px; padding: 18px 16px;
+  border-radius: 18px; padding: 16px 14px;
 }
 .compromise-title {
   font-size: 13px; font-weight: 700; color: var(--violet-text);
   text-transform: uppercase; letter-spacing: 0.5px;
   display: flex; align-items: center; gap: 6px;
+  margin-bottom: 2px;
 }
 .compromise-title svg {
   width: 15px; height: 15px; stroke: var(--violet-text); fill: none;
@@ -2494,60 +2527,98 @@ html, body {
   flex-shrink: 0;
 }
 .compromise-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  display: flex;
   align-items: center;
-  gap: 10px; padding: 12px 14px;
+  gap: 10px; padding: 11px 13px;
   background: var(--card-bg); border-radius: 12px;
   border: 1px solid var(--border);
 }
-.compromise-text { font-size: 14px; color: var(--text); line-height: 1.4; min-width: 0; }
-.compromise-count { font-size: 13px; font-weight: 700; color: var(--violet-text); white-space: nowrap; }
+.compromise-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.compromise-limiter {
+  font-size: 10.5px; font-weight: 800; color: var(--violet-text);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.compromise-text { font-size: 13.5px; color: var(--text); line-height: 1.35; min-width: 0; }
+.compromise-count { font-size: 12px; font-weight: 700; color: var(--text-2); line-height: 1.3; }
+.compromise-count.exact { color: var(--green-text); }
 .compromise-btn {
-  padding: 7px 14px; border-radius: 10px;
+  padding: 8px 13px; border-radius: 10px;
   background: var(--blue); color: #fff;
-  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
   border: none; white-space: nowrap; flex-shrink: 0;
+  align-self: center;
 }
 .compromise-btn:active { opacity: .75; }
 
-  .compromise-wrap {
-    padding: 16px 14px;
-  }
-  .compromise-row {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px 10px;
-    padding: 12px;
-  }
-  .compromise-text {
-    grid-column: 1 / -1;
-    font-size: 13px;
-  }
-  .compromise-count {
-    min-width: 0;
-    white-space: normal;
-    font-size: 12px;
-    line-height: 1.25;
-  }
-  .compromise-btn {
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 12px;
-    justify-self: end;
-    max-width: 116px;
-  }
+@media (max-width: 420px) {
+  .compromise-row { flex-wrap: wrap; }
+  .compromise-info { flex-basis: 100%; }
+  .compromise-btn { margin-left: auto; }
+}
 
-  .compromise-row {
-    grid-template-columns: minmax(0, 1fr);
+/* «Подходит по X из Y требований» + Подошло / Не совпало */
+.req-match {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: var(--card-bg);
+}
+.req-match-head {
+  font-size: 13.5px; font-weight: 700; color: var(--text);
+  margin-bottom: 10px;
+}
+.req-match-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+.req-match-cols.single { grid-template-columns: 1fr; }
+.req-col { min-width: 0; }
+.req-col-label {
+  font-size: 10.5px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .05em; margin-bottom: 6px;
+}
+.req-col.good .req-col-label { color: var(--green-text); }
+.req-col.bad  .req-col-label { color: var(--red-text); }
+.req-item {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: 12.5px; color: var(--text-2); line-height: 1.4;
+  padding: 1.5px 0;
+}
+.req-mark { font-weight: 800; flex-shrink: 0; }
+.req-col.good .req-mark { color: var(--green-text); }
+.req-col.bad  .req-mark { color: var(--red-text); }
+.req-item.up .req-mark { color: var(--blue); }
+@media (max-width: 420px) {
+  .req-match-cols { grid-template-columns: 1fr; }
+}
+
+/* Компактное фото в карточке результатов */
+.dev-card .device-photo-wrap {
+  aspect-ratio: 16 / 6;
+  max-height: 170px;
+  margin: 6px 0 12px;
+}
+.dev-card .device-photo-wrap img { padding: 10px; }
+
+/* Спокойное появление блоков результата подбора */
+@keyframes resFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#s-results .res-header,
+#s-results .chips-wrap,
+#s-results .results-list > * {
+  animation: resFadeIn .25s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  #s-results .res-header,
+  #s-results .chips-wrap,
+  #s-results .results-list > * {
+    animation: none;
   }
-  .compromise-count,
-  .compromise-btn {
-    justify-self: start;
-  }
-  .compromise-btn {
-    width: auto;
-    max-width: 100%;
-  }
+}
 
 /* Skip notice (mirror dashcam auto-skip) */
 .skip-notice {
@@ -2587,17 +2658,29 @@ html, body {
 .opt.disabled:active { transform: none; }
 .opt.disabled .opt-title { color: var(--text-2); }
 
-/* Answer chips */
-.chips-wrap { padding: 0 18px 18px; }
-.chips-label {
-  font-size: 11px; font-weight: 600;
-  color: var(--text-3);
-  text-transform: uppercase; letter-spacing: .06em;
-  margin-bottom: 8px;
+/* Answer chips — компактный сворачиваемый блок «Ваши требования · N» */
+.chips-wrap { padding: 0 18px 14px; }
+.chips-toggle {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 13px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12.5px; font-weight: 600; color: var(--text-2);
+  cursor: pointer;
 }
+.chips-toggle b { color: var(--blue); font-weight: 700; }
+.chips-toggle svg { color: var(--blue); flex-shrink: 0; }
+.chips-toggle-arrow {
+  font-size: 15px; line-height: 1; color: var(--text-3);
+  transition: transform .2s; display: inline-block;
+}
+.chips-wrap.open .chips-toggle-arrow { transform: rotate(90deg); }
 .answer-chips-row {
-  display: flex; flex-wrap: wrap; gap: 6px;
+  display: none; flex-wrap: wrap; gap: 6px;
+  margin-top: 10px;
 }
+.chips-wrap.open .answer-chips-row { display: flex; }
 .answer-chip {
   background: var(--blue-bg); color: var(--blue);
   border-radius: 20px; font-size: 12px; font-weight: 600;
@@ -2739,6 +2822,63 @@ html, body {
 .btn-rutube-logo,
 .btn-youtube-logo { width: 18px; height: 18px; flex-shrink: 0; border-radius: 5px; }
 .btn-youtube-logo { border-radius: 4px; }
+
+/* Compact "useful links" block: secondary review/site links + primary CTA */
+.dev-links-block {
+  margin-top: 18px;
+}
+.dev-links-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-2);
+  margin-bottom: 8px;
+}
+.dev-links-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.btn-link-secondary {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  height: 38px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 8px;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, opacity .15s;
+}
+.btn-link-secondary:active { opacity: .65; }
+.btn-link-secondary svg { width: 16px; height: 16px; flex-shrink: 0; border-radius: 4px; stroke: var(--text-2); }
+.btn-link-secondary span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.btn-buy-primary {
+  width: 100%;
+  height: 50px;
+  background: var(--blue);
+  border: none;
+  border-radius: 14px;
+  font-size: 15px; font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  box-shadow: 0 10px 24px rgba(var(--blue-rgb),.22);
+  transition: opacity .15s;
+}
+.btn-buy-primary:active { opacity: .82; }
+.btn-buy-primary .btn-market-logo {
+  background: rgba(255,255,255,.22);
+  color: #fff;
+}
 
 /* Restart */
 .restart-wrap { padding: 14px 18px 0; }
@@ -6749,8 +6889,14 @@ html, body {
     margin: 8px 0 0;
   }
   #s-results .results-list > .no-exact-notice,
-  #s-results .results-list > .compromise-wrap {
+  #s-results .results-list > .compromise-wrap,
+  #s-results .results-list > .sort-bar,
+  #s-results .results-list > .smart-hint,
+  #s-results .results-list > .show-more-card {
     grid-column: 1 / -1;
+  }
+  #s-results .results-list > .show-more-card {
+    min-height: 56px;
   }
   #s-results .compromise-wrap {
     display: grid;
@@ -6759,9 +6905,6 @@ html, body {
   }
   #s-results .compromise-wrap .compromise-title {
     grid-column: 1 / -1;
-  }
-  #s-results .compromise-row {
-    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 
   /* — экран поиска/профиля устройства — */
@@ -6818,6 +6961,423 @@ html, body {
   .loading-ad {
     padding-bottom: 32px;
   }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MODE PAGE UX PASS — «С чего начнём?»: два равнозначных
+   сценария (подбор / знаю модель), компактнее и спокойнее
+   ══════════════════════════════════════════════════════════ */
+
+/* — заголовок: минимум вертикального пространства — */
+#s-mode .mode-subtitle {
+  margin-top: 5px;
+  font-size: 13.5px;
+}
+#s-mode .mode-content {
+  margin-top: 14px !important;
+  gap: 12px !important;
+}
+
+/* — оранжевая карточка подбора: ниже примерно на 20–25% — */
+#s-mode .mode-quiz-card.mode-quiz-card-v3 {
+  padding: 14px 14px !important;
+  row-gap: 10px !important;
+  column-gap: 12px !important;
+  border-radius: 20px !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 13px !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-title {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-text {
+  margin-top: 4px !important;
+  font-size: 11.5px !important;
+  line-height: 1.3 !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-primary-btn {
+  height: 42px !important;
+  font-size: 14px !important;
+  border-radius: 12px !important;
+}
+
+/* — разделитель «ИЛИ»: альтернативные сценарии, не шаги — */
+.mode-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 26px;
+}
+.mode-or-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.mode-or-word {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+#s-mode.mode-searching .mode-or { display: none !important; }
+
+/* — карточка ручного поиска: второй полноценный сценарий — */
+#s-mode .mode-search-card {
+  background:
+    linear-gradient(180deg, rgba(28,35,52,.97), rgba(22,28,41,.9)),
+    radial-gradient(circle at 12% 0%, rgba(var(--blue-rgb),.09), transparent 240px);
+  border: 1px solid rgba(var(--blue-rgb),.20);
+}
+/* — поле поиска: спокойное в покое, оранжевый акцент на действии — */
+#s-mode .mode-search-wrap {
+  border-color: rgba(var(--blue-rgb),.16);
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+#s-mode .mode-search-wrap:hover {
+  border-color: rgba(var(--blue-rgb),.42);
+}
+#s-mode .mode-search-wrap:focus-within,
+#s-mode .mode-search-wrap:active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(var(--blue-rgb),.10);
+}
+
+/* — «Другие пользователи выбирают»: лёгкая витрина без тяжёлого контейнера — */
+#s-mode .mode-popular {
+  margin-top: 6px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.mode-popular-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
+.mode-popular-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--blue);
+  background: rgba(var(--blue-rgb),.09);
+}
+.mode-popular-icon svg { width: 16px; height: 16px; }
+.mode-popular-copy-head { min-width: 0; }
+#s-mode .mode-popular-title {
+  font-size: 13px !important;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0 !important;
+  line-height: 1.2;
+}
+.mode-popular-sub {
+  font-size: 10.5px;
+  color: var(--text-2);
+  margin-top: 1px;
+  line-height: 1.2;
+}
+/* — мини-карточки моделей: hover/active без bounce и glow — */
+#s-mode .mode-popular-row {
+  padding: 5px 6px !important;
+  border-radius: 12px;
+  transition: background .18s ease;
+}
+#s-mode .mode-popular-thumb img { transition: transform .18s ease; }
+#s-mode .mode-popular-arrow { transition: transform .18s ease; }
+@media (hover: hover) {
+  #s-mode .mode-popular-row:hover { background: rgba(var(--blue-rgb),.06); }
+  #s-mode .mode-popular-row:hover .mode-popular-thumb img { transform: scale(1.03); }
+  #s-mode .mode-popular-row:hover .mode-popular-arrow { transform: translateX(4px); }
+}
+#s-mode .mode-popular-row:active { background: rgba(var(--blue-rgb),.09); }
+
+/* — маркировка партнёрского размещения (активируется только при
+     наличии promoted-моделей в данных, см. renderModePopular) — */
+.mode-popular-promo {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(var(--blue-rgb),.10);
+  border: 1px solid rgba(var(--blue-rgb),.20);
+  color: var(--blue);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
+/* — спокойная последовательность появления — */
+@keyframes modeFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#s-mode .mode-title-row,
+#s-mode .mode-subtitle-row { animation: modeFadeIn .24s ease both; }
+#s-mode .mode-quiz-card    { animation: modeFadeIn .24s ease .06s both; }
+#s-mode .mode-or           { animation: modeFadeIn .24s ease .12s both; }
+#s-mode .mode-search-card  { animation: modeFadeIn .24s ease .16s both; }
+#s-mode .mode-popular      { animation: modeFadeIn .24s ease .22s both; }
+@media (prefers-reduced-motion: reduce) {
+  #s-mode .mode-title-row,
+  #s-mode .mode-subtitle-row,
+  #s-mode .mode-quiz-card,
+  #s-mode .mode-or,
+  #s-mode .mode-search-card,
+  #s-mode .mode-popular { animation: none; }
+}
+
+/* — desktop: горизонтальная карточка [иконка][текст][кнопка] — */
+@media (min-width: 900px) {
+  #s-mode .mode-content { gap: 32px !important; }
+  #s-mode .mode-col-left { gap: 14px; }
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    grid-template-columns: 52px minmax(0, 1fr) auto !important;
+    grid-template-rows: auto !important;
+    grid-template-areas: "icon copy button" !important;
+    align-items: center !important;
+    padding: 18px 20px !important;
+    column-gap: 16px !important;
+    row-gap: 0 !important;
+    border-radius: 22px !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 16px !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title { font-size: 20px !important; }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    margin-top: 5px !important;
+    font-size: 13px !important;
+    max-width: none !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-primary-btn {
+    width: auto !important;
+    min-width: 200px;
+    height: 50px !important;
+    padding: 0 22px !important;
+    font-size: 16px !important;
+    column-gap: 12px;
+  }
+  /* правая колонка популярных моделей: возвращаем контейнер */
+  #s-mode .mode-popular {
+    margin-top: 0 !important;
+    padding: 20px !important;
+    background:
+      linear-gradient(180deg, rgba(22,28,41,.96), rgba(22,28,41,.88)) !important;
+    border: 1px solid rgba(var(--blue-rgb),.14) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 16px 36px rgba(36,32,76,.055) !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   INTRO SCENE — стартовая сцена главной страницы.
+   Играет один раз за сессию (класс .scene-play ставит JS после
+   ухода сплэша), затем классы снимаются и страница статична.
+   Только transform / opacity / clip-path.
+   ══════════════════════════════════════════════════════════ */
+@keyframes introFade   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes introRise   { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes introRiseSm { from { opacity: 0; transform: translateY(6px);  } to { opacity: 1; transform: translateY(0); } }
+@keyframes introSlideL { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes introBot    { from { opacity: 0; transform: translateX(-7px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes introAccent {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateX(-4px); }
+  to   { opacity: 1; clip-path: inset(0 0 0 0);    transform: translateX(0); }
+}
+/* одна мягкая волна по декоративным точкам, затем — полная статика */
+@keyframes introDotsWave {
+  0%   { opacity: .55; transform: scale(1); }
+  45%  { opacity: .95; transform: scale(1.07); }
+  100% { opacity: .55; transform: scale(1); }
+}
+/* один импульс точки счётчика: «база загружена и готова» */
+@keyframes introDbDotPulse {
+  0%   { transform: scale(1);    opacity: 1; }
+  45%  { transform: scale(1.28); opacity: .82; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+/* однократное движение стрелки кнопки */
+@keyframes introArrowNudge {
+  0%   { transform: translateX(0); }
+  45%  { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
+/* точка счётчика больше не пульсирует бесконечно */
+#intro-db-sticker::before { animation: none; }
+#intro-db-sticker.db-ready::before { animation: introDbDotPulse .3s ease 1; }
+
+/* стрелка кнопки: transform-ready + спокойный hover на desktop */
+.home-v2-start span { display: inline-block; transition: transform .18s ease; }
+.home-v2-start { transition: filter .18s ease; }
+@media (hover: hover) {
+  .home-v2-start:hover { filter: brightness(1.06); }
+  .home-v2-start:hover span { transform: translateX(5px); }
+}
+.home-v2-start.arrow-nudge span { animation: introArrowNudge .35s ease .05s 1; }
+
+/* ── сцена: шапка → волна → заголовок → акцент → описание →
+       база → кнопка → преимущества → подвал ── */
+#s-intro.scene-play .vbr-page-brand { animation: introRiseSm .45s ease both; }
+#s-intro.scene-play .vbr-wordmark span { display: inline-block; animation: introBot .3s ease .2s both; }
+#s-intro.scene-play .vbr-brand-copy strong,
+#s-intro.scene-play .vbr-brand-copy span { animation: introFade .35s ease .3s both; }
+
+#s-intro.scene-play.v2-home::before { animation: introDotsWave .8s ease .25s 1 both; }
+#s-intro.scene-play.v2-home::after  { animation: introDotsWave .8s ease .5s  1 both; }
+
+#s-intro.scene-play .hv-line { display: inline-block; animation: introRise .26s ease both; }
+#s-intro.scene-play .hv-line:nth-of-type(1) { animation-delay: .35s; }
+#s-intro.scene-play .hv-line:nth-of-type(2) { animation-delay: .42s; }
+#s-intro.scene-play .hv-line:nth-of-type(3) { animation-delay: .49s; }
+#s-intro.scene-play .home-v2-title .accent { animation: introAccent .3s ease .6s both; }
+
+#s-intro.scene-play .home-v2-subtitle { animation: introRiseSm .22s ease .75s both; }
+#s-intro.scene-play .home-v2-sticker  { animation: introRiseSm .22s ease .9s both; }
+#s-intro.scene-play .home-v2-start    { animation: introRise .28s ease 1.05s both; }
+
+#s-intro.scene-play .home-v2-feature { animation: introSlideL .26s ease both; }
+#s-intro.scene-play .home-v2-feature:nth-child(1) { animation-delay: 1.25s; }
+#s-intro.scene-play .home-v2-feature:nth-child(2) { animation-delay: 1.33s; }
+#s-intro.scene-play .home-v2-feature:nth-child(3) { animation-delay: 1.41s; }
+
+#s-intro.scene-play .home-v2-footer { animation: introRiseSm .3s ease 1.5s both; }
+
+/* возврат на главную внутри сессии: короткое спокойное появление */
+#s-intro.intro-return .home-v2-inner { animation: introFade .2s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  #s-intro.scene-play .vbr-page-brand,
+  #s-intro.scene-play .vbr-wordmark span,
+  #s-intro.scene-play .vbr-brand-copy strong,
+  #s-intro.scene-play .vbr-brand-copy span,
+  #s-intro.scene-play.v2-home::before,
+  #s-intro.scene-play.v2-home::after,
+  #s-intro.scene-play .hv-line,
+  #s-intro.scene-play .home-v2-title .accent,
+  #s-intro.scene-play .home-v2-subtitle,
+  #s-intro.scene-play .home-v2-sticker,
+  #s-intro.scene-play .home-v2-start,
+  #s-intro.scene-play .home-v2-feature,
+  #s-intro.scene-play .home-v2-footer,
+  #s-intro.intro-return .home-v2-inner,
+  #intro-db-sticker.db-ready::before,
+  .home-v2-start.arrow-nudge span { animation: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ORANGE SURFACE PASS — единый визуальный язык VBR БОТ.
+   Оранжевый = действие / акцент, поверхности = тёмные.
+   CTA-кнопки сохраняют оранжевую заливку. Белый — только текст.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 1. Карточка «Не знаю, что выбрать»: тёмная поверхность,
+        тонкая orange-рамка, локальный градиент, оранжевая иконка ── */
+#s-mode .mode-quiz-card.mode-quiz-card-v3 {
+  background:
+    radial-gradient(circle at 90% -10%, rgba(var(--blue-rgb),.16), transparent 200px),
+    linear-gradient(180deg, #1A2130, var(--card)) !important;
+  border: 1px solid rgba(var(--blue-rgb),.30) !important;
+  box-shadow: 0 14px 30px rgba(0,0,0,.26) !important;
+}
+#s-mode .mode-quiz-card.mode-quiz-card-v3::before {
+  background:
+    radial-gradient(circle at 92% 82%, transparent 0 17%, rgba(var(--blue-rgb),.18) 17.2% 17.5%, transparent 17.8% 24%, rgba(var(--blue-rgb),.14) 24.2% 24.5%, transparent 24.8%),
+    radial-gradient(circle at 8px 8px, rgba(var(--blue-rgb),.30) 1.7px, transparent 2.1px) right 38px top 28px / 24px 24px,
+    radial-gradient(circle at 8px 8px, rgba(var(--blue-rgb),.24) 1.7px, transparent 2.1px) left 34px bottom 28px / 24px 24px;
+  opacity: .55;
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon {
+  background: rgba(var(--blue-rgb),.13);
+  box-shadow: inset 0 0 0 1px rgba(var(--blue-rgb),.28);
+}
+#s-mode .mode-quiz-card-v3 .mode-quiz-icon svg { stroke: var(--blue); }
+#s-mode .mode-quiz-card-v3 .mode-quiz-title { color: var(--text); text-shadow: none; }
+#s-mode .mode-quiz-card-v3 .mode-quiz-text { color: var(--text-2); }
+/* CTA остаётся главным оранжевым действием */
+#s-mode .mode-quiz-card-v3 .mode-primary-btn {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-strong) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 24px rgba(var(--blue-rgb),.26) !important;
+}
+
+/* ── 2. «Такого устройства в базе нет»: важный системный вывод
+        на тёмной поверхности, orange — локально ── */
+.no-exact-notice {
+  background:
+    radial-gradient(circle at 92% -10%, rgba(var(--blue-rgb),.15), transparent 190px),
+    linear-gradient(180deg, #1A2130, var(--card));
+  border: 1px solid rgba(var(--blue-rgb),.28);
+  box-shadow: 0 12px 28px rgba(0,0,0,.22);
+}
+.no-exact-notice::before {
+  background:
+    radial-gradient(circle at 92% 82%, transparent 0 17%, rgba(var(--blue-rgb),.16) 17.2% 17.5%, transparent 17.8% 24%, rgba(var(--blue-rgb),.12) 24.2% 24.5%, transparent 24.8%),
+    radial-gradient(circle at 8px 8px, rgba(var(--blue-rgb),.26) 1.7px, transparent 2.1px) right 30px top 22px / 24px 24px,
+    radial-gradient(circle at 8px 8px, rgba(var(--blue-rgb),.22) 1.7px, transparent 2.1px) left 26px bottom 22px / 24px 24px;
+  opacity: .5;
+}
+.no-exact-notice-icon {
+  background: rgba(var(--blue-rgb),.12);
+  color: var(--blue);
+  box-shadow: inset 0 0 0 1px rgba(var(--blue-rgb),.28);
+}
+.no-exact-notice-text { color: var(--text-2); }
+.no-exact-notice-text strong { color: var(--text); }
+.no-exact-accent { color: var(--blue); }
+
+/* ── 3. Шапки карточек устройств: тёмные, бренд — orange-акцент,
+        divider с коротким оранжевым участком слева ── */
+.dev-card-header,
+.dev-hero-header {
+  background:
+    linear-gradient(90deg, var(--blue) 0, var(--blue) 34px, var(--border) 34px)
+    left bottom / 100% 1px no-repeat;
+  padding: 13px 18px 11px;
+}
+.dev-card-header-brand,
+.dev-hero-header-brand {
+  color: var(--blue);
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.dev-card-header-type,
+.dev-hero-header-type {
+  color: var(--text-2);
+  letter-spacing: .02em;
+}
+.cam-badge {
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+}
+.cam-badge svg { stroke: var(--blue); }
+
+@media (prefers-reduced-motion: reduce) {
+  .no-exact-notice, .dev-card-header, .dev-hero-header { transition: none; }
 }
 
 /* ── SPLASH LOGO ANIMATION ─────────────────────────── */
@@ -6965,6 +7525,8 @@ html, body {
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var holdMs = reduced ? 550 : 1750;
   setTimeout(function () {
+    // Сигнал главной странице: сплэш уходит — можно начинать стартовую сцену
+    try { document.dispatchEvent(new CustomEvent('vbr:splash-out')); } catch (e) {}
     splash.classList.add('splash-out');
     splash.addEventListener('transitionend', function onEnd() {
       splash.removeEventListener('transitionend', onEnd);
@@ -7042,7 +7604,7 @@ html, body {
     <div class="home-v2-columns">
       <div class="home-v2-col-left">
         <section class="home-v2-hero">
-          <h1 class="home-v2-title">Подбор видеорегистраторов и комбо-устройств <span class="accent">легко и быстро</span></h1>
+          <h1 class="home-v2-title"><span class="hv-line">Подбор</span> <span class="hv-line">видеорегистраторов и</span> <span class="hv-line">комбо-устройств</span> <span class="accent">легко и быстро</span></h1>
           <p class="home-v2-subtitle">VBR Bot помогает выбрать лучшее устройство под ваши задачи и требования</p>
           <div class="home-v2-sticker" id="intro-db-sticker">База обновляется</div>
         </section>
@@ -7136,7 +7698,7 @@ html, body {
       </button>
     </div>
     <div class="mode-subtitle-row">
-      <p class="mode-subtitle">Выберите необходимый вариант подбора</p>
+      <p class="mode-subtitle">Выберите вариант</p>
       <button class="mode-back-btn mode-subtitle-back-btn" onclick="goHome()" aria-label="Назад">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
@@ -7150,12 +7712,18 @@ html, body {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </div>
         <div class="mode-quiz-copy">
-          <div class="mode-quiz-title">Не знаю, что выбрать —<br>подберите за меня</div>
-          <div class="mode-quiz-text">Ответьте на несколько простых вопросов — VBR БОТ подберет устройство именно под ваши задачи.</div>
+          <div class="mode-quiz-title">Не знаю, что выбрать</div>
+          <div class="mode-quiz-text">Ответьте на несколько вопросов — подберём модели под ваши задачи.</div>
         </div>
         <button class="mode-primary-btn" id="btn-start-quiz">Начать подбор</button>
         <div class="mode-quiz-note">⚡ Точная рекомендация меньше чем за минуту</div>
       </section>
+
+      <div class="mode-or" aria-hidden="true">
+        <span class="mode-or-line"></span>
+        <span class="mode-or-word">или</span>
+        <span class="mode-or-line"></span>
+      </div>
 
       <section class="mode-search-card">
         <div class="mode-search-head">
@@ -7164,13 +7732,13 @@ html, body {
           </div>
           <div>
             <div class="mode-search-title">Уже выбрали модель?</div>
-            <div class="mode-search-sub">AI поиск покажет похожие модели, сравнит их и поможет найти лучший вариант.</div>
+            <div class="mode-search-sub">Найдём похожие и покажем отличия.</div>
           </div>
         </div>
         <div class="mode-search-wrap">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--text-2)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input id="intro-srch" class="intro-srch-input" type="text"
-            placeholder="Начните вводить название..."
+            placeholder="Поиск модели..."
             autocomplete="off" autocorrect="off" spellcheck="false"
             oninput="onIntroSearch(this.value)">
           <button id="intro-srch-clear" class="intro-srch-clear" onclick="clearIntroSearch()" style="display:none">
@@ -7184,7 +7752,15 @@ html, body {
       </section>
 
       <div class="mode-popular" id="mode-popular">
-        <div class="mode-popular-title">Другие пользователи смотрят:</div>
+        <div class="mode-popular-head">
+          <span class="mode-popular-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <div class="mode-popular-copy-head">
+            <div class="mode-popular-title">Другие пользователи выбирают</div>
+            <div class="mode-popular-sub">Популярные модели прямо сейчас</div>
+          </div>
+        </div>
         <div class="mode-popular-list" id="mode-popular-list"></div>
       </div>
       </div>
@@ -7313,11 +7889,15 @@ html, body {
 <div id="s-results" class="screen">
   <div class="results-container">
     <div class="res-header">
-      <div class="res-title">Подходящие устройства</div>
+      <div class="res-title" id="res-title">Подходящие устройства</div>
       <div class="res-sub" id="res-sub"></div>
     </div>
     <div class="chips-wrap" id="chips-wrap" style="display:none;">
-      <div class="chips-label">Вы указывали эти параметры:</div>
+      <button class="chips-toggle" type="button" onclick="this.closest('.chips-wrap').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="17" x2="9" y2="17"/></svg>
+        <span>Ваши требования · <b id="chips-count">0</b></span>
+        <span class="chips-toggle-arrow">›</span>
+      </button>
       <div class="answer-chips-row" id="answer-chips-row"></div>
     </div>
     <div class="results-list" id="results-list"></div>
@@ -8382,19 +8962,37 @@ function sortItems(items) {
 // ════════════════════════════════════════════════════════
 
 const COMPROMISE_HINTS = {
-  smartphone: { да: "Отказаться от Wi-Fi",           нет: "Разрешить Wi-Fi" },
-  magnetic:   { да: "Убрать магнитное крепление",    нет: "Разрешить магнитное крепление" },
-  touch:      { да: "Убрать сенсорное управление",   нет: "Разрешить сенсорное управление" },
-  ir_cam:     { да: "Убрать внутрисалонную камеру",  нет: "Разрешить внутрисалонную камеру" },
-  remote:     { да: "Убрать 4G/удалённый доступ",    нет: "Разрешить 4G/удалённый доступ" },
+  smartphone: { да: "Убрать требование «Wi-Fi»",                нет: "Не исключать Wi-Fi" },
+  magnetic:   { да: "Убрать требование «магнитное крепление»",  нет: "Не исключать магнитное крепление" },
+  touch:      { да: "Убрать требование «сенсорное управление»", нет: "Не исключать сенсорное управление" },
+  ir_cam:     { да: "Убрать требование «внутрисалонная камера»",нет: "Не исключать внутрисалонную камеру" },
+  remote:     { да: "Убрать требование «4G/удалённый доступ»",  нет: "Не исключать 4G" },
 };
 
 const COMPROMISE_FLIP_HINTS = {
-  smartphone: { да: "Заменить Wi-Fi на вариант без Wi-Fi", нет: "Заменить на модель с Wi-Fi" },
-  magnetic:   { да: "Заменить магнит на обычное крепление", нет: "Заменить на магнитное крепление" },
-  touch:      { да: "Заменить сенсорное управление на физические кнопки", нет: "Заменить физические кнопки на сенсорное управление" },
-  ir_cam:     { да: "Заменить на вариант без внутрисалонной камеры", нет: "Добавить внутрисалонную камеру" },
-  remote:     { да: "Заменить на вариант без 4G", нет: "Добавить 4G/удалённый доступ" },
+  smartphone: { да: "Рассмотреть модели без Wi-Fi", нет: "Рассмотреть модели с Wi-Fi" },
+  magnetic:   { да: "Рассмотреть модели без магнитного крепления", нет: "Рассмотреть модели с магнитным креплением" },
+  touch:      { да: "Рассмотреть модели с физическими кнопками", нет: "Рассмотреть модели с сенсорным управлением" },
+  ir_cam:     { да: "Рассмотреть модели без внутрисалонной камеры", нет: "Рассмотреть модели с внутрисалонной камерой" },
+  remote:     { да: "Рассмотреть модели без 4G", нет: "Рассмотреть модели с 4G" },
+};
+
+// Что именно ограничивает подбор (короткий верхний ярлык рекомендации)
+const COMPROMISE_LIMITERS = {
+  smartphone: { да: "Wi-Fi ограничивает выбор",                нет: "Отказ от Wi-Fi ограничивает выбор" },
+  magnetic:   { да: "Магнит ограничивает выбор",               нет: "Отказ от магнита ограничивает выбор" },
+  touch:      { да: "Сенсорное управление ограничивает выбор", нет: "Отказ от сенсора ограничивает выбор" },
+  ir_cam:     { да: "Салонная камера ограничивает выбор",      нет: "Отказ от салонной камеры ограничивает выбор" },
+  remote:     { да: "4G ограничивает выбор",                   нет: "Отказ от 4G ограничивает выбор" },
+};
+
+// Конкретный текст кнопки — пользователь понимает действие до нажатия
+const COMPROMISE_CTAS = {
+  smartphone: { да: "Убрать Wi-Fi",   нет: "Разрешить Wi-Fi" },
+  magnetic:   { да: "Убрать магнит",  нет: "Разрешить магнит" },
+  touch:      { да: "Убрать сенсор",  нет: "Разрешить сенсор" },
+  ir_cam:     { да: "Убрать камеру салона", нет: "Разрешить камеру салона" },
+  remote:     { да: "Убрать 4G",      нет: "Разрешить 4G" },
 };
 
 function compromisePool() {
@@ -8428,7 +9026,7 @@ function getCompromises() {
   const suggestions = [];
   const currentStats = evaluateCompromise();
 
-  function trySuggestion({key, val, next, hint}) {
+  function trySuggestion({key, val, next, hint, limiter, cta}) {
     const saved = answers[key];
     answers[key] = next;
     const stats = evaluateCompromise();
@@ -8441,7 +9039,7 @@ function getCompromises() {
       (stats.count > currentStats.count && stats.bestPct >= currentStats.bestPct);
     if (!isUseful) return false;
     suggestions.push({
-      key, val, hint,
+      key, val, hint, limiter, cta,
       count: stats.count,
       exactCount: stats.exactCount,
       bestQ: stats.bestQ,
@@ -8455,32 +9053,40 @@ function getCompromises() {
   // Если пользователь выбрал GPS-информер/комбо/4G, но остальные параметры
   // лучше совпадают с обычными регистраторами, показываем это как первый ход.
   const typeVal = (answers.type || "").toLowerCase();
-  const typeRevertHints = {
-    "gps-информер": "Заменить GPS-информер на обычный видеорегистратор",
-    "комбо 3 в 1": "Заменить комбо на обычный видеорегистратор",
-    "4g-регистратор": "Заменить 4G-регистратор на обычный видеорегистратор",
+  const typeNames = {
+    "gps-информер": "GPS-информер",
+    "комбо 3 в 1": "Комбо 3 в 1",
+    "4g-регистратор": "4G-регистратор",
   };
-  if (typeRevertHints[typeVal]) {
-    trySuggestion({key: "type", val: typeVal, next: "видеорегистратор", hint: typeRevertHints[typeVal]});
+  if (typeNames[typeVal]) {
+    trySuggestion({
+      key: "type", val: typeVal, next: "видеорегистратор",
+      hint: "Рассмотреть обычные видеорегистраторы",
+      limiter: `${typeNames[typeVal]} ограничивает выбор`,
+      cta: "Выбрать регистратор"
+    });
   }
 
   // Форм-фактор: если выбран конкретный вариант (не «неважно»), пробуем его снять —
   // часто именно форм-фактор, а не остальные критерии, обнуляет подборку.
   const formVal = (answers.form || "").toLowerCase();
-  const formLabels = {
-    "с экраном": "с экраном",
-    "без экрана": "без экрана",
-    "регистратор-зеркало": "регистратор-зеркало",
+  const formCtas = {
+    "с экраном": "Убрать экран",
+    "без экрана": "Разрешить экран",
+    "регистратор-зеркало": "Убрать зеркало",
   };
   if (formVal && formVal !== "неважно") {
     trySuggestion({
       key: "form", val: formVal, next: "неважно",
-      hint: `Снять требование к форм-фактору (сейчас: ${formLabels[formVal] || formVal})`
+      hint: `Убрать требование «${formVal}»`,
+      limiter: "Форм-фактор ограничивает выбор",
+      cta: formCtas[formVal] || "Убрать форм-фактор"
     });
   }
 
   // Качество вверх: полезно, когда точных нет, но есть более сильные варианты при апгрейде съемки.
   const qVal = (answers.quality || "").toLowerCase();
+  const QUAL_NAMES = { хорошее: "Full HD", отличное: "2K", превосходное: "4K" };
   const qUp = { хорошее: "отличное", отличное: "превосходное" };
   const qUpLabels = { отличное: "2K", превосходное: "4K" };
   let nextQuality = qUp[qVal];
@@ -8493,7 +9099,9 @@ function getCompromises() {
       const targetQuality = nextQuality;
       suggestions.push({
         key: "quality", val: qVal,
-        hint: `Поднять качество до ${qUpLabels[targetQuality]}`,
+        hint: `Рассмотреть модели с ${qUpLabels[targetQuality]}`,
+        limiter: `${QUAL_NAMES[qVal] || "Качество съёмки"} ограничивает выбор`,
+        cta: `Выбрать ${qUpLabels[targetQuality]}`,
         count: stats.count,
         exactCount: stats.exactCount,
         bestQ: stats.bestQ,
@@ -8511,9 +9119,11 @@ function getCompromises() {
     if (!val || val === "неважно") continue;
     const relaxHint = COMPROMISE_HINTS[k]?.[val];
     const flipHint = COMPROMISE_FLIP_HINTS[k]?.[val];
+    const limiter = COMPROMISE_LIMITERS[k]?.[val];
+    const cta = COMPROMISE_CTAS[k]?.[val];
     const opposite = val === "да" ? "нет" : "да";
-    const hasFlip = flipHint ? trySuggestion({key: k, val, next: opposite, hint: flipHint}) : false;
-    if (!hasFlip && relaxHint) trySuggestion({key: k, val, next: "неважно", hint: relaxHint});
+    const hasFlip = flipHint ? trySuggestion({key: k, val, next: opposite, hint: flipHint, limiter, cta}) : false;
+    if (!hasFlip && relaxHint) trySuggestion({key: k, val, next: "неважно", hint: relaxHint, limiter, cta});
   }
 
   // Качество: попробовать снизить на одну ступень
@@ -8527,7 +9137,9 @@ function getCompromises() {
     answers.quality = saved;
     if (stats.count > 0) suggestions.push({
       key: "quality", val: qVal,
-      hint: `Снизить качество до ${qDownLabels[lower]}`,
+      hint: `Рассмотреть модели с ${qDownLabels[lower]}`,
+      limiter: `${QUAL_NAMES[qVal] || "Качество съёмки"} ограничивает выбор`,
+      cta: `Выбрать ${qDownLabels[lower]}`,
       count: stats.count,
       exactCount: stats.exactCount,
       bestQ: stats.bestQ,
@@ -8545,7 +9157,9 @@ function getCompromises() {
       seenSuggestions.add(signature);
       return true;
     })
-    .sort((a, b) => b.exactCount - a.exactCount || b.bestQ - a.bestQ || b.bestPct - a.bestPct || b.count - a.count || a.bestPrice - b.bestPrice)
+    // Сортировка по полезности: сначала изменения, дающие точное совпадение,
+    // затем — сильнее всего расширяющие выдачу, при равенстве — минимальные по смыслу.
+    .sort((a, b) => b.exactCount - a.exactCount || b.count - a.count || b.bestPct - a.bestPct || a.bestPrice - b.bestPrice)
     .slice(0, 3);
 }
 
@@ -9076,6 +9690,7 @@ function _renderResultsFromItems(items, subtitle) {
   answers = savedAnswers;
   // Override quiz-specific UI that _renderResults sets
   el("chips-wrap").style.display = "none";
+  el("res-title").textContent = "Подходящие устройства";
   if (subtitle) el("res-sub").textContent = subtitle;
 }
 
@@ -9279,6 +9894,10 @@ function getDiffs(x, d) {
   if ((xAntenna || dAntenna) && hasLNA(x) !== hasLNA(d)) {
     diffs.push({text: hasLNA(x) ? UI_TERMS.lna : 'Без LNA-усилителя', type: hasLNA(x) ? 'better' : 'worse'});
   }
+  // Разница в цене — весомый практический аргумент, показываем сразу после
+  // ключевых технических отличий, чтобы не срезалась лимитом показанных тегов.
+  const priceDelta = priceDiff(x, d);
+  if (priceDelta) diffs.push(priceDelta);
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle !== dAngle)
@@ -9359,8 +9978,7 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
   </div>`;
 }
 
-function renderAnalogCard(x, pct, diffs) {
-  const hasPriceOnlyDiffs = diffs && diffs.length && diffs.every(diff => typeof diff !== 'string' && diff.type === 'price');
+function renderAnalogCard(x, pct, diffs, delayIndex = 0) {
   const shownDiffs = diffs ? diffs.slice(0, 4) : diffs;
   const diffHtml = shownDiffs && shownDiffs.length
     ? `<div class="analog-card-diffs">${shownDiffs.map(diff => {
@@ -9369,20 +9987,23 @@ function renderAnalogCard(x, pct, diffs) {
         return `<span class="analog-diff${tone}">${item.text}</span>`;
       }).join('')}</div>`
     : '';
-  const explanation = diffs && diffs.length
-    ? `<div class="analog-card-explain">${hasPriceOnlyDiffs ? 'Такие же параметры, но выгоднее:' : 'Что отличается от выбранной модели:'}</div>`
-    : `<div class="analog-card-explain">Полное совпадение по ключевым параметрам.</div>`;
   const isDim = pct < 100;
+  const statusText = `${pct}% · ${matchLabel(pct)}`;
+  const explanation = pct >= 100
+    ? `<div class="analog-card-explain">Полное совпадение по ключевым параметрам.</div>`
+    : '';
   const thumbSrc = deviceImageSrc(x);
   const thumbHtml = thumbSrc
     ? `<div class="analog-card-thumb"><img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>`
     : '';
-  return `<div class="analog-card" onclick="openDeviceFromSearch(${DEVICES.indexOf(x)})">
+  const delay = Math.min(delayIndex * 40, 240);
+  return `<div class="analog-card" style="animation-delay:${delay}ms" onclick="openDeviceFromSearch(${DEVICES.indexOf(x)})">
     <div class="analog-card-hdr"></div>
     ${thumbHtml}
     <div class="analog-card-body">
       <div class="analog-card-brand">${x.brand}</div>
       <div class="analog-card-name">${x.name}</div>
+      <div class="analog-card-status${isDim ? '' : ' full'}">${statusText}</div>
       ${explanation}
       ${diffHtml}
       <div class="analog-card-bottom">
@@ -9392,7 +10013,6 @@ function renderAnalogCard(x, pct, diffs) {
     <div class="analog-card-side">
       <div class="analog-card-side-top">
         <div class="analog-card-pct${isDim ? ' dim' : ''}">${pct}%</div>
-        ${favoriteButtonHTML(x)}
       </div>
       ${compareChipHTML(x, "analog-card-cmp")}
     </div>
@@ -9466,14 +10086,38 @@ function cheaperExactAlternatives(d, exactItems) {
     .slice(0, 3);
 }
 
-function exactAnalogSavingsDiff(x, d) {
+// Разница в цене между аналогом (x) и выбранной моделью (d).
+// Возвращает {text, type} или null, если цена одной из моделей неизвестна/некорректна.
+function priceDiff(x, d) {
   const basePrice = parsePrice(d.price);
   const candidatePrice = parsePrice(x.price);
-  if (!Number.isFinite(basePrice) || !Number.isFinite(candidatePrice)) return [];
-  const savings = basePrice - candidatePrice;
-  return savings > 0
-    ? [{text: `Дешевле примерно на ${savings.toLocaleString('ru-RU')} ₽`, type: 'price'}]
-    : [];
+  if (!Number.isFinite(basePrice) || !Number.isFinite(candidatePrice)) return null;
+  const delta = basePrice - candidatePrice;
+  if (delta === 0) return null;
+  const amount = Math.abs(delta).toLocaleString('ru-RU');
+  return delta > 0
+    ? {text: `Дешевле на ${amount} ₽`, type: 'better'}
+    : {text: `Дороже на ${amount} ₽`, type: 'worse'};
+}
+
+function exactAnalogSavingsDiff(x, d) {
+  const diff = priceDiff(x, d);
+  return diff ? [diff] : [];
+}
+
+// Человекочитаемая интерпретация процента совпадения (не меняет сам расчёт).
+function matchLabel(pct) {
+  if (pct >= 100) return 'Полный аналог';
+  if (pct >= 90) return 'Очень похож';
+  if (pct >= 75) return 'Похож';
+  return 'Есть отличия';
+}
+
+function pluralizeRu(n, one, few, many) {
+  const mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
 }
 
 function sortExactAnalogsForProfile(items, d) {
@@ -9570,6 +10214,60 @@ function deviceSpecGridHTML(d) {
   </div>`;
 }
 
+// Понятные пользователю ключевые возможности устройства (не технические
+// обозначения вроде кода сенсора) — максимум 5 штук, в порядке приоритета.
+function hasParkingMode(d) {
+  return /парковк/i.test(`${d.desc || ""}`);
+}
+
+function keyFeatureTagsHTML(d) {
+  const camCount = 1 + (d.rear_cam ? 1 : 0) + (d.ir_cam ? 1 : 0);
+  const candidates = [
+    QNAMES[d.q] || null,
+    camCount >= 2 ? `${camCount} камеры` : null,
+    d.rear_cam ? 'Задняя камера' : null,
+    d.ir_cam ? 'Салонная камера' : null,
+    hasGPS(d) ? 'GPS' : null,
+    d.smartphone ? 'Wi-Fi' : null,
+    radarAntenna(d) ? 'Радар-детектор' : null,
+    hasParkingMode(d) ? 'Режим парковки' : null,
+    d.rotation ? 'Поворотная камера' : null,
+  ].filter(Boolean);
+  return candidates.slice(0, 5).map(t => `<span class="spec-tag">${t}</span>`).join('');
+}
+
+// Компактный, свёрнутый по умолчанию список параметров, которые реально
+// участвуют в поиске аналогов — без технических кодов сенсора и т.п.
+function matchCriteriaHTML(d) {
+  const antenna = radarAntennaLabel(d);
+  const list = [
+    'Тип устройства',
+    'Форм-фактор',
+    d.q ? 'Качество съёмки' : null,
+    sensorLabel(d) ? 'Сенсор камеры' : null,
+    hasGPS(d) ? 'GPS' : null,
+    d.smartphone ? 'Wi-Fi' : null,
+    d.magnetic ? UI_TERMS.magnetic : null,
+    d.rear_cam ? UI_TERMS.rearCam : null,
+    d.touch ? UI_TERMS.touch : null,
+    d.ir_cam ? UI_TERMS.cabinCam : null,
+    d.rotation ? 'Вращение камеры' : null,
+    d.remote ? '4G/удалённый доступ' : null,
+    antenna ? antenna : null,
+    (antenna || hasLNA(d)) ? UI_TERMS.lna : null,
+    hasInterpolation(d) ? 'Интерполяция' : null,
+  ].filter(Boolean);
+  if (!list.length) return '';
+  return `<div class="specs-full match-criteria-block">
+    <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
+      По каким параметрам ищем аналоги · ${list.length} <span class="specs-full-arrow">›</span>
+    </button>
+    <div class="specs-full-body">
+      ${list.map(label => `<div class="specs-full-row"><span class="specs-full-label">✓ ${label}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
 function deviceFullSpecsHTML(d, idSuffix = "") {
   const rows = fullSpecRows(d);
 
@@ -9577,7 +10275,7 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
 
   return `<div class="specs-full dev-profile-specs-full" id="profile-specs-${idSuffix}">
     <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
-      📋 Все характеристики · ${rows.length} <span class="specs-full-arrow">›</span>
+      📋 Все ${rows.length} ${pluralizeRu(rows.length, 'характеристика', 'характеристики', 'характеристик')} <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
       ${rows.map(([label, val]) => `<div class="specs-full-row">
@@ -9588,27 +10286,51 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
   </div>`;
 }
 
+// Компактный блок полезных ссылок: вторичные (обзоры/сайт) + основной CTA "Купить".
+function usefulLinksHTML(d) {
+  const query = encodeURIComponent((d.brand + " " + d.name + " обзор").trim());
+  const hasSite = !!d.url;
+  const hasMarket = !!d.market_url;
+
+  const secondaryBtns = [
+    `<a class="btn-link-secondary" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
+      <svg class="btn-youtube-logo" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="18" rx="5" fill="#FF0033"/><path d="M10 5.4v7.2L16 9l-6-3.6z" fill="white"/></svg>
+      <span>YouTube</span>
+    </a>`,
+    `<a class="btn-link-secondary" href="https://rutube.ru/search/?query=${query}" target="_blank" rel="noopener">
+      <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="5" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
+      <span>Rutube</span>
+    </a>`,
+    hasSite ? `<a class="btn-link-secondary" href="${attrSafe(manufacturerSearchUrl(d))}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>Сайт</span>
+    </a>` : ''
+  ].filter(Boolean).join('');
+
+  const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
+      <span class="btn-market-logo" aria-hidden="true">Я</span>
+      Купить
+    </a>` : '';
+  const hint = hasMarket ? `<div class="partner-hint">Цены на товары на маркетплейсах могут меняться, бот показывает среднюю цену за последние два месяца</div>` : '';
+
+  return `<div class="dev-links-block">
+    <div class="dev-links-title">Полезные ссылки</div>
+    <div class="dev-links-row">${secondaryBtns}</div>
+    ${buyBtn}
+    ${hint}
+  </div>`;
+}
+
 function renderDeviceProfile(d, exact, similar) {
   const area = document.getElementById('srch-results-area');
-  const ql = ['','Full HD','2K','4K'];
   const exactShown = sortExactAnalogsForProfile(exact, d).slice(0, 6);
-  const betterSimilar = similar.filter(a => isBetterAlternative(a, d));
-  const regularSimilar = similar.filter(a => !isBetterAlternative(a, d));
-  const profileTags = positiveFeatureTagsHTML(d);
-
-  const specChips = [
-    isKnownSpecValue(d.resolution) ? `<span class="dev-hero-spec">${d.resolution}</span>` : '',
-    sensorLabel(d) ? `<span class="dev-hero-spec">${sensorLabel(d)}</span>` : '',
-    isKnownSpecValue(d.angle) ? `<span class="dev-hero-spec">${d.angle}</span>` : '',
-    isKnownSpecValue(d.screen) && d.screen !== 'без экрана' ? `<span class="dev-hero-spec">${d.screen}</span>` : '',
-    hasGPS(d)    ? `<span class="dev-hero-spec">GPS</span>` : '',
-    radarAntennaLabel(d) ? `<span class="dev-hero-spec">${radarAntennaLabel(d)}</span>` : '',
-    hasLNA(d) ? `<span class="dev-hero-spec">LNA-усилитель</span>` : '',
-    hasInterpolation(d) ? `<span class="dev-hero-spec">Интерполяция</span>` : '',
-    d.smartphone ? `<span class="dev-hero-spec">Wi-Fi + приложение</span>` : '',
-    d.rear_cam   ? `<span class="dev-hero-spec">Поддержка КЗВ</span>` : '',
-    d.ir_cam     ? `<span class="dev-hero-spec">Внутрисалонная камера</span>` : '',
-  ].filter(Boolean).join('');
+  // Внутри каждой секции карточки сортируются по проценту, который
+  // реально показан на карточке (similarPct) — иначе порядок (по upgradeScore)
+  // и отображаемое число расходятся, и список выглядит "случайным".
+  const bySimilarPctDesc = (a, b) => similarPct(b, d) - similarPct(a, d);
+  const betterSimilar = similar.filter(a => isBetterAlternative(a, d)).sort(bySimilarPctDesc);
+  const regularSimilar = similar.filter(a => !isBetterAlternative(a, d)).sort(bySimilarPctDesc);
+  const keyTags = keyFeatureTagsHTML(d);
 
   let html = `
     <div class="dev-profile-back" onclick="backToSearchResults()">
@@ -9629,20 +10351,17 @@ function renderDeviceProfile(d, exact, similar) {
           <div class="dev-hero-actions">${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
         </div>
         ${devicePhotoHTML(d)}
-        ${specChips ? `<div class="dev-hero-specs" style="margin-top:10px">${specChips}</div>` : ''}
         ${d.desc ? `<div class="dev-desc dev-profile-desc">${d.desc}</div>` : ''}
-        ${profileTags ? `<div class="specs-row">${profileTags}</div>` : ''}
-        ${deviceSpecGridHTML(d)}
+        ${keyTags ? `<div class="specs-row">${keyTags}</div>` : ''}
+        ${matchCriteriaHTML(d)}
         ${deviceFullSpecsHTML(d, DEVICES.indexOf(d))}
-        ${reviewLinksHTML(d)}
-        ${buyLinksHTML(d)}
+        ${usefulLinksHTML(d)}
       </div>
-    </div>
-    ${supportDonateCardHTML()}`;
+    </div>`;
 
   if (exact.length > 0) {
     html += `<div class="dev-section-hdr exact">Полные аналоги <span class="dev-section-pct">100%</span></div>`;
-    html += `<div class="analog-card-grid">${exactShown.map(a => renderAnalogCard(a, 100, exactAnalogSavingsDiff(a, d))).join('')}</div>`;
+    html += `<div class="analog-card-grid">${exactShown.map((a, i) => renderAnalogCard(a, 100, exactAnalogSavingsDiff(a, d), i)).join('')}</div>`;
   } else if (similar.length > 0) {
     html += `<div class="dev-no-exact">
       <div class="dev-no-exact-icon">!</div>
@@ -9655,12 +10374,12 @@ function renderDeviceProfile(d, exact, similar) {
 
   if (betterSimilar.length > 0) {
     html += `<div class="dev-section-hdr upgrade">Похожие, но лучше</div>`;
-    html += `<div class="analog-card-grid">${betterSimilar.map(a => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d))).join('')}</div>`;
+    html += `<div class="analog-card-grid">${betterSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i)).join('')}</div>`;
   }
 
   if (regularSimilar.length > 0) {
     html += `<div class="dev-section-hdr similar">${similarSectionTitle(d)}</div>`;
-    html += `<div class="analog-card-grid">${regularSimilar.map(a => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d))).join('')}</div>`;
+    html += `<div class="analog-card-grid">${regularSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i)).join('')}</div>`;
   } else if (exact.length === 0 && betterSimilar.length === 0) {
     html += `<div class="dev-no-exact">
       <div class="dev-no-exact-icon">?</div>
@@ -9670,6 +10389,9 @@ function renderDeviceProfile(d, exact, similar) {
       </div>
     </div>`;
   }
+
+  // Поддержка проекта — после того, как пользователь увидел результат подбора.
+  html += supportDonateCardHTML();
 
   show('s-search');
   area.innerHTML = html;
@@ -9957,36 +10679,121 @@ function showResults() {
   loadingTimers.push(doneId);
 }
 
-function _renderResults(top) {
-  // ── Answer chips ──────────────────────────────────
-  const chipDefs = [
+// Реально выбранные пользователем требования (без «неважно») — единый источник
+// для чипов, счётчиков и блоков «Подошло / Не совпало» в карточках.
+function getUserRequirements() {
+  const defs = [
     {k:"type",       fn: v => v && v !== "неважно" ? v : null},
     {k:"form",       fn: v => v && v !== "неважно" ? v : null},
     {k:"quality",    fn: v => ({хорошее:"Full HD", отличное:"2K", превосходное:"4K"}[v] || null)},
-    {k:"smartphone", fn: v => v === "да" ? "Wi-Fi" : v === "нет" ? "без Wi-Fi" : null},
-    {k:"magnetic",   fn: v => v === "да" ? "Магнит" : v === "нет" ? "без магнита" : null},
+    {k:"smartphone", fn: v => v === "да" ? "Wi-Fi" : v === "нет" ? "Без Wi-Fi" : null},
+    {k:"magnetic",   fn: v => v === "да" ? "Магнит" : v === "нет" ? "Без магнита" : null},
     {k:"touch",      fn: v => v === "да" ? "Сенсорное управление" : v === "нет" ? "Физические кнопки" : null},
     {k:"ir_cam",     fn: v => v === "да" ? "Внутрисалонная камера" : v === "нет" ? "Без внутрисалонной камеры" : null},
-    {k:"remote",     fn: v => v === "да" ? "4G/удалённо" : v === "нет" ? "без 4G" : null},
+    {k:"remote",     fn: v => v === "да" ? "4G/удалённо" : v === "нет" ? "Без 4G" : null},
   ];
-  const chips = chipDefs
-    .map(c => { const label = c.fn(answers[c.k] || "неважно"); return label ? `<span class="answer-chip">${label}</span>` : ""; })
-    .filter(Boolean).join("");
-  const chipsEl = el("answer-chips-row");
-  chipsEl.innerHTML = chips;
-  el("chips-wrap").style.display = chips ? "block" : "none";
+  return defs
+    .map(c => { const label = c.fn(answers[c.k] || "неважно"); return label ? {key: c.k, label} : null; })
+    .filter(Boolean);
+}
+
+// Человекочитаемая интерпретация процента совпадения (расчёт не меняется).
+function matchStatusLabel(pct) {
+  if (pct >= 100) return "Точное совпадение";
+  if (pct >= 90)  return "Почти идеально";
+  if (pct >= 75)  return "Хорошо подходит";
+  if (pct >= 50)  return "Частично подходит";
+  return "Много отличий";
+}
+
+// Сравнение модели именно с ОТВЕТАМИ пользователя: какие требования
+// совпали, какие нет. Не тянет сюда характеристики, которые не выбирались.
+function reqMatchData(item, isUpgrade = false) {
+  const reqs = getUserRequirements();
+  const mm = item.mm || [];
+  const mmByKey = new Map(mm.map(m => [m.key, m]));
+  const QUAL_BY_RANK = {1:"Full HD", 2:"2K", 3:"4K"};
+  const matched = [], missed = [];
+  reqs.forEach(r => {
+    const m = mmByKey.get(r.key);
+    if (!m) {
+      if (isUpgrade && r.key === "quality") {
+        missed.push({label: `Съёмка лучше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`, tone: "up"});
+      } else {
+        matched.push(r.label);
+      }
+      return;
+    }
+    if (m.type === "overspec")      missed.push({label: `Съёмка выше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`, tone: "up"});
+    else if (m.type === "quality")  missed.push({label: "Съёмка ниже запрошенной", tone: "down"});
+    else if (m.type === "extra")    missed.push({label: EXTRA_LABELS[r.key] || r.label, tone: "down"});
+    else                            missed.push({label: MISS_LABELS[r.key] || r.label, tone: "down"});
+  });
+  return {matched, missed, total: reqs.length, matchedCount: matched.length};
+}
+
+function reqMatchHTML(item, isExact, isUpgrade = false) {
+  const rm = reqMatchData(item, isUpgrade);
+  if (!rm.total) return "";
+  const head = isExact && !isUpgrade
+    ? `Соответствует всем ${rm.total} ${pluralRu(rm.total, "требованию", "требованиям", "требованиям")}`
+    : `Подходит по ${rm.matchedCount} из ${rm.total} ${pluralRu(rm.total, "требования", "требований", "требований")}`;
+  const good = rm.matched.length
+    ? `<div class="req-col good"><div class="req-col-label">Подошло</div>${rm.matched.map(l => `<div class="req-item"><span class="req-mark">✓</span><span>${l}</span></div>`).join("")}</div>`
+    : "";
+  const bad = rm.missed.length
+    ? `<div class="req-col bad"><div class="req-col-label">Не совпало</div>${rm.missed.map(m => `<div class="req-item${m.tone === "up" ? " up" : ""}"><span class="req-mark">×</span><span>${m.label}</span></div>`).join("")}</div>`
+    : "";
+  const single = (!good || !bad) ? " single" : "";
+  return `<div class="req-match">
+    <div class="req-match-head">${head}</div>
+    <div class="req-match-cols${single}">${good}${bad}</div>
+  </div>`;
+}
+
+// Ступенчатое появление: заголовок → требования → вывод системы →
+// рекомендации → карточки. Только opacity+translateY, задержки не блокируют клики.
+function applyResultsStagger() {
+  const header = document.querySelector("#s-results .res-header");
+  if (header) header.style.animationDelay = "0ms";
+  const chipsWrap = el("chips-wrap");
+  if (chipsWrap) chipsWrap.style.animationDelay = "60ms";
+  const list = el("results-list");
+  [...list.children].forEach((n, i) => {
+    n.style.animationDelay = `${Math.min(120 + i * 45, 380)}ms`;
+  });
+}
+
+function _renderResults(top) {
+  // ── Answer chips: компактный блок «Ваши требования · N» ──
+  const userReqs = getUserRequirements();
+  const chips = userReqs.map(r => `<span class="answer-chip">${r.label}</span>`).join("");
+  el("answer-chips-row").innerHTML = chips;
+  el("chips-count").textContent = userReqs.length;
+  const chipsWrap = el("chips-wrap");
+  chipsWrap.style.display = chips ? "block" : "none";
+  chipsWrap.classList.remove("open"); // по умолчанию свёрнут
 
   const exact    = top.filter(t => t.mm.length === 0);
   const near     = top.filter(t => t.mm.length > 0);
   const upgrades = getUpgrades(exact);
+  const bestPct  = top.length ? Math.max(...top.map(t => t.pct)) : 0;
 
-  let subParts = [];
-  if (exact.length > 0)    subParts.push(`<b>${exact.length}</b> на 100%`);
-  if (upgrades.length > 0) subParts.push(`<b>${upgrades.length}</b> с апгрейдом`);
-  if (near.length > 0)     subParts.push(`<b>${near.length}</b> похожих`);
-  el("res-sub").innerHTML = subParts.length
-    ? subParts.join(" · ")
-    : `Лучшие ${top.length} вариантов по совпадению`;
+  // ── Заголовок результата ──
+  const titleEl = el("res-title");
+  if (exact.length > 0) {
+    titleEl.textContent = "Нашли точное совпадение";
+    let subParts = [`<b>${exact.length}</b> ${pluralRu(exact.length, "модель полностью соответствует", "модели полностью соответствуют", "моделей полностью соответствуют")} вашим требованиям`];
+    if (upgrades.length > 0) subParts.push(`<b>${upgrades.length}</b> с апгрейдом`);
+    if (near.length > 0)     subParts.push(`<b>${near.length}</b> похожих`);
+    el("res-sub").innerHTML = subParts.join(" · ");
+  } else if (top.length > 0) {
+    titleEl.textContent = `Нашли ${top.length} ${pluralRu(top.length, "подходящую модель", "подходящие модели", "подходящих моделей")}`;
+    el("res-sub").innerHTML = `Лучшее совпадение — <b>${bestPct}%</b>`;
+  } else {
+    titleEl.textContent = "Точных совпадений нет";
+    el("res-sub").innerHTML = "";
+  }
 
   const list = el("results-list");
   list.innerHTML = "";
@@ -9997,17 +10804,21 @@ function _renderResults(top) {
 
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
-    cWrap.innerHTML = `<div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что можно изменить</div>`;
+    cWrap.innerHTML = `<div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что мешает точному совпадению</div>`;
     compromises.forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
+      // Реальный эффект изменения: точные совпадения важнее близких моделей.
       const countText = s.exactCount > 0
-        ? `+${s.exactCount} ${pluralRu(s.exactCount, "вариант", "варианта", "вариантов")} на 100%`
-        : `${s.count} ${pluralRu(s.count, "похожий вариант", "похожих варианта", "похожих вариантов")}`;
+        ? `${pluralRu(s.exactCount, "Появится", "Появятся", "Появятся")} ${s.exactCount} ${pluralRu(s.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
+        : `+${s.count} ${pluralRu(s.count, "подходящая модель", "подходящие модели", "подходящих моделей")}`;
       row.innerHTML = `
-        <div class="compromise-text">${s.hint}</div>
-        <div class="compromise-count">${countText}</div>
-        <button class="compromise-btn">Применить</button>`;
+        <div class="compromise-info">
+          ${s.limiter ? `<div class="compromise-limiter">${s.limiter}</div>` : ""}
+          <div class="compromise-text">${s.hint}</div>
+          <div class="compromise-count${s.exactCount > 0 ? " exact" : ""}">${countText}</div>
+        </div>
+        <button class="compromise-btn">${s.cta || "Изменить"}</button>`;
       row.querySelector(".compromise-btn").addEventListener("click", () => {
         s.action();
         sortMode = "match";
@@ -10026,9 +10837,9 @@ function _renderResults(top) {
     const sortBar = document.createElement("div");
     sortBar.className = "sort-bar";
     const sortDefs = [
-      {mode:"match",     label:"По совпадению"},
-      {mode:"price_asc", label:"Цена ↑"},
-      {mode:"price_desc",label:"Цена ↓"},
+      {mode:"match",     label:"Лучшие для вас"},
+      {mode:"price_asc", label:"Сначала дешевле"},
+      {mode:"price_desc",label:"Сначала дороже"},
     ];
     sortDefs.forEach(({mode, label}) => {
       const btn = document.createElement("button");
@@ -10083,6 +10894,7 @@ function _renderResults(top) {
       <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">Вы слишком непринципиальны в выборе.</div>
       <div style="font-size:15px;color:var(--text-2);line-height:1.6;">Вам подойдёт абсолютно любой регистратор.</div>`;
     list.appendChild(lazy);
+    applyResultsStagger();
     show("s-results");
     return;
   }
@@ -10098,6 +10910,7 @@ function _renderResults(top) {
       <div style="font-size:15px;color:var(--text-2);line-height:1.6;">Попробуйте изменить формат корпуса или выбрать «Неважно» в одном из первых вопросов.</div>`;
     list.appendChild(empty);
     appendCompromiseBlock();
+    applyResultsStagger();
     show("s-results");
     return;
   }
@@ -10114,7 +10927,7 @@ function _renderResults(top) {
         header.textContent = "Подходит и лучше";
       } else {
         header.className = `res-section-header ${isExact ? "exact" : "near"}`;
-        header.textContent = isExact ? "Подходит на 100%" : "Похожие варианты";
+        header.textContent = isExact ? "Точное совпадение" : "Похожие варианты";
       }
       list.appendChild(header);
     }
@@ -10126,36 +10939,6 @@ function _renderResults(top) {
       const {d, pct, mm} = item;
       const mc = matchClass(pct);
 
-      const specsData = [
-        {k:"smartphone", l:"Wi-Fi"},
-        {k:"magnetic",   l:"Магнит"},
-        {k:"rear_cam",   l:`Поддержка КЗВ${termTip("rearCam")}`},
-        {k:"touch",      l:"Сенсорное управление"},
-        {k:"rotation",   l:"Вращение"},
-        {k:"ir_cam",     l:"Внутрисалонная камера"},
-        {k:"remote",     l:"4G/удалённо"},
-      ];
-      const specTags = specsData
-        .filter(s => d[s.k])
-        .map(s => `<span class="spec-tag has">✓ ${s.l}</span>`)
-        .join("");
-      const antenna = radarAntenna(d);
-      const sensor = sensorLabel(d);
-      const radarTags = [
-        sensor ? `<span class="spec-tag qual">${sensor}${termTip("sensor")}</span>` : "",
-        antenna ? `<span class="spec-tag ${antenna === "horn" ? "better" : "qual"}">${radarAntennaLabel(d)}${termTip(antenna)}</span>` : "",
-        hasLNA(d) ? `<span class="spec-tag has">✓ LNA-усилитель${termTip("lna")}</span>` : "",
-        hasInterpolation(d) ? `<span class="spec-tag interp">Интерполяция${termTip("interpolation")}</span>` : "",
-      ].join("");
-
-      const missTags = mm.map(m => {
-        if (m.type === "missing") return `<span class="spec-tag miss">${MISS_LABELS[m.key] ?? "Нет: " + QLABELS_SHORT[m.key]}</span>`;
-        if (m.type === "extra")   return `<span class="spec-tag extra">${EXTRA_LABELS[m.key] ?? QLABELS_SHORT[m.key] + " — есть, но вы не просили"}</span>`;
-        if (m.type === "quality")  return `<span class="spec-tag qual">Качество ниже, чем вы просили</span>`;
-        if (m.type === "overspec") return `<span class="spec-tag better">Разрешение выше запрошенного</span>`;
-        return "";
-      }).join("");
-
       const card = document.createElement("div");
       card.className = "dev-card";
 
@@ -10166,15 +10949,11 @@ function _renderResults(top) {
         : "";
 
       const QLABELS_BADGE = {1:"Full HD", 2:"2K", 3:"4K"};
-      const rankLabel = isUpgrade ? "⬆" : isExact ? "✓" : "";
-      const rankClass = isUpgrade ? "rank-pill upgrade-pill"
-                      : isExact   ? "rank-pill exact-pill"
-                                  : "rank-pill hidden-pill";
-      const matchLabel = isUpgrade ? `${QLABELS_BADGE[d.q] || ""} лучше`
-                       : isExact   ? "100% подходит"
-                                   : `${pct}% подходит`;
-      const explainHtml = buildMatchExplanation(item, isExact, isUpgrade);
-      const fullSpecsRows = fullSpecRows(d);
+      // Один смысл — одно представление: статусная плашка со смысловой
+      // интерпретацией процента, без дублирующего progress bar и тегов.
+      const pillLabel = isUpgrade ? `${QLABELS_BADGE[d.q] || ""} лучше запрошенного`
+                      : isExact   ? "100% · Точное совпадение"
+                                  : `${pct}% · ${matchStatusLabel(pct)}`;
 
       card.innerHTML = `
       <div class="dev-card-header">
@@ -10183,13 +10962,11 @@ function _renderResults(top) {
       </div>
       <div class="dev-body">
         <div class="dev-meta">
-          <div class="${rankClass}">${rankLabel}</div>
-          <div class="match-pill ${isExact ? "hi" : mc}">${matchLabel}</div>
-          <div class="dev-card-actions">${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
+          <div class="match-pill ${isExact || isUpgrade ? "hi" : mc}">${pillLabel}</div>
+          <div class="dev-card-actions">${compareChipHTML(d)}</div>
         </div>
         <div class="card-toggle">
           <div style="flex:1;min-width:0;">
-            <div class="brand-pill">${d.brand}</div>
             <div class="dev-name">${d.name}</div>
             ${d.price ? `<div class="dev-price">${d.price}</div>` : ''}
           </div>
@@ -10197,46 +10974,9 @@ function _renderResults(top) {
         </div>
         <div class="card-collapsible">
           ${devicePhotoHTML(d)}
-          <div class="dev-desc">${d.desc}</div>
-          ${isUpgrade
-            ? `<div class="match-bar-wrap">
-                <div class="match-bar-row">
-                  <span class="match-bar-label">Подходит по критериям · съёмка лучше</span>
-                  <span class="match-bar-pct" style="color:var(--blue)">${QLABELS_BADGE[d.q] || ""}</span>
-                </div>
-                <div class="match-bar-track">
-                  <div class="match-bar-fill hi" style="width:100%;background:var(--blue)"></div>
-                </div>
-              </div>`
-            : `<div class="match-bar-wrap">
-                <div class="match-bar-row">
-                  <span class="match-bar-label">Совпадение с вашими критериями</span>
-                  <span class="match-bar-pct">${pct}%</span>
-                </div>
-                <div class="match-bar-track">
-                  <div class="match-bar-fill ${isExact ? "hi" : mc}" style="width:${pct}%"></div>
-                </div>
-              </div>`
-          }
-          ${explainHtml}
-          <div class="specs-row">${specTags}${radarTags}${missTags}</div>
-          ${deviceSpecGridHTML(d)}
-          <div class="specs-full" id="sf-${i}-${d.brand.replace(/\s/g,'')}">
-            <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
-              📋 Все характеристики · ${fullSpecsRows.length} <span class="specs-full-arrow">›</span>
-            </button>
-            <div class="specs-full-body">
-              ${fullSpecsRows.map(([label, val]) => {
-                const v = val;
-                return `<div class="specs-full-row">
-                  <span class="specs-full-label">${label}</span>
-                  <span class="specs-full-val">${v}</span>
-                </div>`;
-              }).join("")}
-            </div>
-          </div>
-          ${reviewLinksHTML(d)}
-          ${buyLinksHTML(d)}
+          ${reqMatchHTML(item, isExact, isUpgrade)}
+          ${deviceFullSpecsHTML(d, `res-${i}-${d.brand.replace(/\s/g,'')}`)}
+          ${usefulLinksHTML(d)}
         </div>
       </div>
     `;
@@ -10259,14 +10999,15 @@ function _renderResults(top) {
 
   // ── Рендерим блоки ───────────────────────────────
   if (exact.length === 0 && near.length > 0) {
-    // Базовое уведомление
+    // Вывод системы: собранная конфигурация не существует среди моделей базы.
+    const reqTotal = getUserRequirements().length;
     const notice = document.createElement("div");
     notice.className = "no-exact-notice";
     notice.innerHTML = `
       <div class="no-exact-notice-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
       <div class="no-exact-notice-text">
-        <strong>Точного совпадения не найдено</strong>
-        По вашим критериям нет устройств на 100%. Ниже — близкие варианты.
+        <strong>Такого устройства <span class="no-exact-accent">в базе нет</span></strong>
+        Вы выбрали сочетание из ${reqTotal} ${pluralRu(reqTotal, "параметра", "параметров", "параметров")}, которому не соответствует ни одна модель. Мы проверили всю базу — ниже видно, что мешает точному совпадению, и максимально близкие варианты.
       </div>`;
     list.appendChild(notice);
 
@@ -10279,8 +11020,8 @@ function _renderResults(top) {
     const priceHeader = document.createElement("div");
     priceHeader.className = "res-section-header";
     priceHeader.textContent = sortMode === "price_asc"
-      ? "💰 По цене: от дешёвых к дорогим"
-      : "💰 По цене: от дорогих к дешёвым";
+      ? "💰 Сначала дешевле"
+      : "💰 Сначала дороже";
     list.appendChild(priceHeader);
     renderSection(allSorted, false, false, true); // noHeader=true
   } else {
@@ -10289,6 +11030,7 @@ function _renderResults(top) {
     renderSection(near, false);
   }
 
+  applyResultsStagger();
   show("s-results");
   refreshFavoriteUI();
   window.scrollTo(0, 0);
@@ -10310,6 +11052,12 @@ function goHome() {
   el("bottom-nav").style.display = "none";
   clearIntroSearch(false);
   show("s-intro");
+  // Возврат на главную внутри сессии: короткое появление вместо полной сцены
+  const intro = el("s-intro");
+  if (intro && !intro.classList.contains("scene-play")) {
+    intro.classList.add("intro-return");
+    setTimeout(() => intro.classList.remove("intro-return"), 350);
+  }
 }
 
 function pluralRu(n, one, few, many) {
@@ -10320,12 +11068,106 @@ function pluralRu(n, one, few, many) {
   return many;
 }
 
+function getDbCounts() {
+  return {
+    brands: new Set(DEVICES.map(d => String(d.brand || "").trim().toLowerCase()).filter(Boolean)).size,
+    devices: DEVICES.length,
+  };
+}
+
+function dbStickerText(brands, devices, finalBrands, finalDevices) {
+  // склонения — по конечным значениям, чтобы слова не мигали во время счёта
+  return `${brands} ${pluralRu(finalBrands, "бренд", "бренда", "брендов")} · ${devices} ${pluralRu(finalDevices, "устройство", "устройства", "устройств")}`;
+}
+
 function renderIntroDbSticker() {
   const sticker = document.getElementById("intro-db-sticker");
   if (!sticker) return;
-  const brandCount = new Set(DEVICES.map(d => String(d.brand || "").trim().toLowerCase()).filter(Boolean)).size;
-  const deviceCount = DEVICES.length;
-  sticker.textContent = `${brandCount} ${pluralRu(brandCount, "бренд", "бренда", "брендов")} · ${deviceCount} ${pluralRu(deviceCount, "устройство", "устройства", "устройств")}`;
+  const {brands, devices} = getDbCounts();
+  sticker.textContent = dbStickerText(brands, devices, brands, devices);
+}
+
+// ════════════════════════════════════════════════════════
+//  INTRO SCENE — стартовая сцена главной страницы
+//  Играет один раз за сессию; после завершения страница
+//  полностью статична (никаких фоновых циклов).
+// ════════════════════════════════════════════════════════
+
+const INTRO_SCENE_KEY = "vbr_intro_played";
+let _introScenePlayed = false;
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+// Счётчик базы: rAF + ease-out интерполяция реальных значений (0 → N)
+function animateDbCounter() {
+  const sticker = document.getElementById("intro-db-sticker");
+  if (!sticker) return;
+  const {brands, devices} = getDbCounts();
+  const t0 = performance.now();
+  const dur = 600;
+  function frame(now) {
+    const p = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - p, 3); // ease-out
+    sticker.textContent = dbStickerText(Math.round(brands * e), Math.round(devices * e), brands, devices);
+    if (p < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      // «База загружена и готова» — один импульс точки, дальше статика
+      sticker.classList.add("db-ready");
+      setTimeout(() => sticker.classList.remove("db-ready"), 500);
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+function playIntroScene() {
+  if (_introScenePlayed) return;
+  _introScenePlayed = true;
+  const intro = document.getElementById("s-intro");
+  if (!intro) return;
+
+  let alreadyPlayed = false;
+  try { alreadyPlayed = !!sessionStorage.getItem(INTRO_SCENE_KEY); } catch (e) {}
+  if (prefersReducedMotion() || alreadyPlayed) return; // сразу конечное состояние
+
+  try { sessionStorage.setItem(INTRO_SCENE_KEY, "1"); } catch (e) {}
+
+  // Счётчик стартует с нуля вместе с появлением плашки
+  const sticker = document.getElementById("intro-db-sticker");
+  if (sticker) {
+    const {brands, devices} = getDbCounts();
+    sticker.textContent = dbStickerText(0, 0, brands, devices);
+  }
+
+  intro.classList.add("scene-play");
+  const timers = [];
+  timers.push(setTimeout(animateDbCounter, 950));
+  // Однократное движение стрелки после полного появления кнопки
+  timers.push(setTimeout(() => {
+    const btn = document.getElementById("btn-start");
+    if (btn) btn.classList.add("arrow-nudge");
+  }, 1350));
+  // Завершение сцены: снимаем классы — страница полностью успокаивается
+  timers.push(setTimeout(() => {
+    intro.classList.remove("scene-play");
+    const btn = document.getElementById("btn-start");
+    if (btn) btn.classList.remove("arrow-nudge");
+  }, 2100));
+}
+
+// Старт сцены синхронизирован с уходом сплэша (событие vbr:splash-out);
+// страховочный таймер — на случай, если событие не пришло.
+function initIntroScene() {
+  const splash = document.getElementById("splash");
+  const splashActive = splash && !splash.classList.contains("splash-gone");
+  if (splashActive) {
+    document.addEventListener("vbr:splash-out", playIntroScene, {once: true});
+    setTimeout(playIntroScene, 3000);
+  } else {
+    playIntroScene();
+  }
 }
 
 function shuffleList(items) {
@@ -10347,32 +11189,61 @@ function modePopularThumbHTML(d) {
   </span>`;
 }
 
+// Тип размещения модели в витрине «Другие пользователи выбирают»:
+// "organic" — обычная популярная модель (как сейчас);
+// "promoted" — партнёрское/рекламное размещение (поле placementType
+// у устройства в базе). Promoted-модели показываются первыми и ЯВНО
+// маркируются — оплачиваемое размещение нельзя маскировать под
+// пользовательское поведение. Пока в данных нет promoted-моделей,
+// режим визуально не активен. Сюда же в будущем можно подключить
+// реальные данные популярности вместо текущей статической выборки.
+function popularPlacementType(d) {
+  return d && d.placementType === "promoted" ? "promoted" : "organic";
+}
+
 function renderModePopular() {
   const list = document.getElementById("mode-popular-list");
   if (!list) return;
+  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
+  const targetCount = isDesktop ? 8 : 4;
+
+  // Партнёрские размещения (если есть в базе) — первыми, с маркировкой
+  const promoted = DEVICES
+    .map((d, idx) => ({d, idx}))
+    .filter(item => popularPlacementType(item.d) === "promoted")
+    .slice(0, targetCount);
+  const promotedNames = new Set(promoted.map(item => item.d.name));
+
   const priced = DEVICES
     .map((d, idx) => ({d, idx, price: parsePrice(d.price)}))
-    .filter(item => Number.isFinite(item.price) && !/blackvue/i.test(String(item.d.brand || item.d.name || "")))
+    .filter(item => Number.isFinite(item.price)
+      && !promotedNames.has(item.d.name)
+      && !/blackvue/i.test(String(item.d.brand || item.d.name || "")))
     .sort((a, b) => b.price - a.price);
   const topCount = Math.max(18, Math.ceil(priced.length * 0.18));
   const pool = priced.slice(0, topCount);
-  const seenBrands = new Set();
+  const seenBrands = new Set(promoted.map(item => String(item.d.brand || "").trim().toLowerCase()));
   const picks = [];
-  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
-  const targetCount = isDesktop ? 8 : 4;
   for (const item of shuffleList(pool)) {
     const brandKey = String(item.d.brand || "").trim().toLowerCase();
     if (!brandKey || seenBrands.has(brandKey)) continue;
     seenBrands.add(brandKey);
     picks.push(item);
-    if (picks.length >= targetCount) break;
+    if (promoted.length + picks.length >= targetCount) break;
   }
-  list.innerHTML = picks.map(({d, idx}) => {
-    const meta = [d.type, d.q ? ["", "Full HD", "2K", "4K"][d.q] : "", d.form].filter(Boolean).join(" · ");
+  list.innerHTML = [...promoted, ...picks].map(({d, idx}) => {
+    const meta = [
+      d.type,
+      d.q ? ["", "Full HD", "2K", "4K"][d.q] : "",
+      d.form,
+      d.smartphone ? "Wi-Fi" : "",
+    ].filter(Boolean).join(" · ");
+    const promoBadge = popularPlacementType(d) === "promoted"
+      ? `<span class="mode-popular-promo">Реклама</span>` : "";
     return `<button class="mode-popular-row" type="button" onclick="openDeviceFromIntro(${idx})">
       ${modePopularThumbHTML(d)}
       <span class="mode-popular-copy">
-        <span class="mode-popular-name">${attrSafe(d.name)}</span>
+        <span class="mode-popular-name">${promoBadge}${attrSafe(d.name)}</span>
         <span class="mode-popular-meta">${attrSafe(meta)}</span>
       </span>
       <span class="mode-popular-arrow">›</span>
@@ -10413,6 +11284,7 @@ window.addEventListener("resize", () => {
 layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
+initIntroScene();
 
 </script>
 </body>
