@@ -6779,9 +6779,162 @@ html, body {
     padding-bottom: 32px;
   }
 }
+
+/* ── SPLASH LOGO ANIMATION ─────────────────────────── */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  opacity: 1;
+  transition: opacity .5s cubic-bezier(.4,0,.2,1);
+}
+.splash.splash-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.splash.splash-gone {
+  display: none;
+}
+.splash-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(420px 260px at 50% 50%, rgba(var(--blue-rgb), .10), transparent 70%);
+  opacity: 0;
+  animation: splashGlow 1.8s cubic-bezier(.4,0,.2,1) forwards;
+}
+.splash-logo-stack {
+  position: relative;
+  display: inline-grid;
+}
+.splash-logo-layer {
+  grid-area: 1 / 1;
+  font-size: clamp(34px, 9vw, 56px);
+  line-height: 1;
+  letter-spacing: -1.5px;
+  font-weight: 950;
+  white-space: nowrap;
+  display: inline-block;
+}
+.splash-logo-layer .sub {
+  font-size: .46em;
+  vertical-align: super;
+  letter-spacing: -.02em;
+  margin-left: 4px;
+  display: inline-block;
+}
+.splash-logo-layer.outline {
+  color: transparent;
+  -webkit-text-stroke: 1.3px var(--text);
+  text-stroke: 1.3px var(--text);
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  animation: splashOutline 1.8s cubic-bezier(.65,0,.35,1) forwards;
+}
+.splash-logo-layer.outline .sub {
+  -webkit-text-stroke: 1.3px var(--blue);
+  text-stroke: 1.3px var(--blue);
+}
+.splash-logo-layer.fill .main {
+  color: var(--text);
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(5px);
+  animation: splashPart .6s cubic-bezier(.22,1,.36,1) .48s forwards;
+}
+.splash-logo-layer.fill .sub {
+  color: var(--blue);
+  opacity: 0;
+  transform: translateY(4px);
+  animation: splashPart .6s cubic-bezier(.22,1,.36,1) .58s forwards;
+}
+.splash-logo-layer.shine {
+  color: transparent;
+  background: linear-gradient(100deg, transparent 32%, rgba(255,255,255,.85) 48%, rgba(255,255,255,.85) 52%, transparent 68%);
+  background-size: 260% 100%;
+  background-position: -160% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  opacity: 0;
+  animation: splashShine 1.8s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes splashGlow {
+  0%   { opacity: 0; }
+  35%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+@keyframes splashOutline {
+  0%   { opacity: 0;  clip-path: inset(0 100% 0 0); }
+  8%   { opacity: 1; }
+  46%  { opacity: 1;  clip-path: inset(0 0% 0 0); }
+  64%  { opacity: .16; clip-path: inset(0 0% 0 0); }
+  100% { opacity: 0;  clip-path: inset(0 0% 0 0); }
+}
+@keyframes splashPart {
+  0%   { opacity: 0; transform: translateY(var(--sy, 5px)); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes splashShine {
+  0%   { opacity: 0; background-position: -160% 0; }
+  58%  { opacity: 0; }
+  66%  { opacity: .9; }
+  90%  { opacity: .9; }
+  100% { opacity: 0; background-position: 160% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-glow,
+  .splash-logo-layer.outline,
+  .splash-logo-layer.fill .main,
+  .splash-logo-layer.fill .sub,
+  .splash-logo-layer.shine {
+    animation: none !important;
+  }
+  .splash-logo-layer.outline,
+  .splash-logo-layer.shine {
+    display: none !important;
+  }
+  .splash-logo-layer.fill .main,
+  .splash-logo-layer.fill .sub {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .splash {
+    transition-duration: .25s;
+  }
+}
 </style>
 </head>
 <body>
+<div class="splash" id="splash" role="presentation" aria-hidden="true">
+  <div class="splash-glow"></div>
+  <div class="splash-logo-stack">
+    <span class="splash-logo-layer outline">VBR<span class="sub">БОТ</span></span>
+    <span class="splash-logo-layer fill"><span class="main">VBR</span><span class="sub">БОТ</span></span>
+    <span class="splash-logo-layer shine">VBR<span class="sub">БОТ</span></span>
+  </div>
+</div>
+<script>
+(function () {
+  var splash = document.getElementById('splash');
+  if (!splash) return;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var holdMs = reduced ? 550 : 1750;
+  setTimeout(function () {
+    splash.classList.add('splash-out');
+    splash.addEventListener('transitionend', function onEnd() {
+      splash.removeEventListener('transitionend', onEnd);
+      splash.classList.add('splash-gone');
+    });
+    setTimeout(function () { splash.classList.add('splash-gone'); }, 700);
+  }, holdMs);
+})();
+</script>
+
 <div class="fav-tooltip" id="fav-tooltip"></div>
 <div class="term-tooltip-float" id="term-tooltip"></div>
 <div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
