@@ -2514,49 +2514,131 @@ html, body {
 
 /* Compromise section — «Что мешает точному совпадению» */
 .compromise-wrap {
-  display: flex; flex-direction: column; gap: 8px;
+  display: flex; flex-direction: column; gap: 14px;
   background: var(--violet-bg); border: 1px solid var(--violet-border);
-  border-radius: 18px; padding: 16px 14px;
+  border-radius: 18px; padding: 14px 12px;
 }
 .compromise-title {
-  font-size: 13px; font-weight: 700; color: var(--violet-text);
+  font-size: 15px; font-weight: 700; color: var(--violet-text);
   text-transform: uppercase; letter-spacing: 0.5px;
-  display: flex; align-items: center; gap: 6px;
+  position: relative;
+  padding-left: 53px;        /* текст в одной колонке с текстом строк ниже */
   margin-bottom: 2px;
 }
 .compromise-title svg {
-  width: 15px; height: 15px; stroke: var(--violet-text); fill: none;
+  width: 16px; height: 16px; stroke: var(--violet-text); fill: none;
   stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
-  flex-shrink: 0;
+  position: absolute; left: 11px; top: 2px;
 }
+/* подзаголовок — как текст блока «Такого устройства в базе нет», в той же колонке */
+.compromise-sub {
+  font-size: 14px; font-weight: 400; line-height: 1.5;
+  color: var(--text-2);
+  padding-left: 53px;
+}
+/* ── Единый компонент рекомендации (match-obstacle-card).
+      Один визуальный язык на всех экранах: responsive меняет
+      только компоновку, не типографику и не цвета. ── */
+/* Сетка управляет текстом, а не текст геометрией:
+   единый класс, единая DOM-структура, единая типографика. */
 .compromise-row {
-  display: flex;
+  /* [плашка-иконка | текст | узкая кнопка] в один ряд — на всех ширинах */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "icon info btn";
   align-items: center;
-  gap: 10px; padding: 11px 13px;
-  background: var(--card-bg); border-radius: 12px;
+  column-gap: 10px;
+  row-gap: 8px;
+  padding: 7px 11px;
+  background: var(--card-bg);
+  border-radius: 11px;
   border: 1px solid var(--border);
 }
-.compromise-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.compromise-icon {
+  grid-area: icon;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: rgba(61,219,255,.07);
+  border: 1px solid rgba(61,219,255,.14);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.compromise-icon svg {
+  width: 16px; height: 16px;
+  stroke: var(--violet-text); fill: none;
+}
+.compromise-info {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;                  /* плотный ритм между строками */
+  min-width: 0;
+}
 .compromise-limiter {
-  font-size: 10.5px; font-weight: 800; color: var(--violet-text);
-  text-transform: uppercase; letter-spacing: .05em;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .02em;
+  color: var(--violet-text); /* единый cyan-токен */
+  overflow-wrap: break-word;
 }
-.compromise-text { font-size: 13.5px; color: var(--text); line-height: 1.35; min-width: 0; }
-.compromise-count { font-size: 12px; font-weight: 700; color: var(--text-2); line-height: 1.3; }
-.compromise-count.exact { color: var(--green-text); }
+.compromise-text {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text);
+  min-width: 0;
+}
+.compromise-count,
+.compromise-count.exact {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-2);      /* вторичная информация, без цветовых акцентов */
+}
 .compromise-btn {
-  padding: 8px 13px; border-radius: 10px;
-  background: var(--blue); color: #fff;
-  font-size: 12.5px; font-weight: 600; cursor: pointer;
-  border: none; white-space: nowrap; flex-shrink: 0;
-  align-self: center;
+  grid-area: btn;
+  width: auto;               /* узкая — по ширине текста, справа */
+  justify-self: end;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 13px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #FF894B 0%, var(--blue) 55%, var(--blue-strong) 100%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;       /* кнопка всегда в одну строку */
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(var(--blue-rgb), .24);
 }
-.compromise-btn:active { opacity: .75; }
-
-@media (max-width: 420px) {
-  .compromise-row { flex-wrap: wrap; }
-  .compromise-info { flex-basis: 100%; }
-  .compromise-btn { margin-left: auto; }
+.compromise-btn-arrow {
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 400;
+  opacity: .95;
+  transform: translateY(-1px);
+}
+.compromise-btn:active { opacity: .85; }
+/* узкие экраны: ещё компактнее, чтобы длинная подпись не зажимала текст */
+@media (max-width: 480px) {
+  .compromise-row { column-gap: 8px; padding: 6px 10px; }
+  .compromise-icon { width: 28px; height: 28px; }
+  .compromise-icon svg { width: 14px; height: 14px; }
+  .compromise-title { padding-left: 46px; }
+  .compromise-title svg { left: 10px; }
+  .compromise-sub { padding-left: 46px; }
+  .compromise-btn { height: 31px; padding: 0 11px; font-size: 11px; gap: 5px; }
+  .compromise-btn-arrow { font-size: 14px; }
+  .compromise-limiter { font-size: 11px; }
+  .compromise-text { font-size: 11px; }
+  .compromise-count { font-size: 10px; }
 }
 
 /* «Подходит по X из Y требований» + Подошло / Не совпало */
@@ -2703,6 +2785,35 @@ html, body {
 }
 .card-toggle-arrow { display: none; }
 .card-collapsible { display: flex; flex-direction: column; flex: 1; }
+
+/* Карточка результата кликабельна — открывает профиль устройства */
+.dev-card.is-clickable { cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease; }
+.dev-card.is-clickable .card-toggle-arrow {
+  display: block; align-self: center; margin-left: 8px; flex-shrink: 0;
+  font-size: 26px; line-height: 1; color: var(--text-2);
+}
+.dev-card.is-clickable:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+@media (hover: hover) {
+  .dev-card.is-clickable:hover { border-color: var(--blue-border); box-shadow: 0 0 0 1px var(--blue-border); }
+  .dev-card.is-clickable:hover .card-toggle-arrow { color: var(--blue); }
+}
+
+/* Пометка о радарной антенне на карточке результата */
+.dev-antenna-note {
+  display: inline-flex; align-items: center; gap: 6px;
+  align-self: flex-start;
+  margin: 0 0 10px;
+  font-size: 12.5px; font-weight: 700; line-height: 1.15;
+  color: var(--text-2);
+}
+.dev-antenna-note svg { width: 15px; height: 15px; flex-shrink: 0; }
+.dev-antenna-note.hi {
+  color: var(--blue);
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-border);
+  padding: 4px 11px;
+  border-radius: 999px;
+}
 
 /* Extended specs grid */
 .dev-specs-grid {
@@ -6905,13 +7016,12 @@ html, body {
   #s-results .results-list > .show-more-card {
     min-height: 56px;
   }
+  /* карточки рекомендаций — одной колонкой на всю ширину:
+     горизонтальная компоновка «текст | кнопка» требует полной ширины */
   #s-results .compromise-wrap {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 16px;
-  }
-  #s-results .compromise-wrap .compromise-title {
-    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   /* — экран поиска/профиля устройства — */
@@ -7359,9 +7469,10 @@ html, body {
         divider с коротким оранжевым участком слева ── */
 .dev-card-header,
 .dev-hero-header {
-  background:
-    linear-gradient(90deg, var(--blue) 0, var(--blue) 34px, var(--border) 34px)
-    left bottom / 100% 1px no-repeat;
+  /* полная спокойная линия-разделитель (короткий оранжевый участок
+     выглядел обрубком) */
+  background: none;
+  border-bottom: 1px solid var(--border);
   padding: 13px 18px 11px;
 }
 .dev-card-header-brand,
@@ -7714,6 +7825,120 @@ html, body {
   .isr-row:hover .isr-arrow { transform: none !important; }
 }
 
+/* ══════════════════════════════════════════════════════════
+   UX MICRO PASS — четыре точечных улучшения:
+   возврат в поиск, popover процента, фидбек рекомендаций,
+   «Почему подходит?»
+   ══════════════════════════════════════════════════════════ */
+
+/* возврат в поиск: без повторной entrance-анимации карточки поиска */
+#s-mode.mode-searching .mode-search-card { animation: none; }
+
+/* — popover «Как считаем совпадение?» — */
+.match-pill { cursor: pointer; }
+.match-pop {
+  position: fixed;
+  z-index: 900;
+  width: min(262px, calc(100vw - 16px));
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.35);
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .18s ease-out, transform .18s ease-out;
+  pointer-events: none;
+}
+.match-pop.on { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.match-pop-title { font-size: 12.5px; font-weight: 800; color: var(--text); }
+.match-pop-text { margin-top: 5px; font-size: 12px; line-height: 1.45; color: var(--text-2); }
+.match-pop-count { margin-top: 7px; font-size: 12px; font-weight: 700; color: var(--green-text); }
+
+/* — фидбек применения рекомендации — */
+.compromise-btn { transition: transform .12s ease, opacity .12s ease; }
+.compromise-btn:active { transform: scale(.97); }
+.compromise-row.done {
+  border-color: rgba(61,220,132,.32);
+  box-shadow: 0 0 0 3px rgba(61,220,132,.05);
+}
+.compromise-done {
+  grid-column: 1 / -1;       /* занять всю ширину строки-сетки после применения */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  animation: whyIn .2s ease-out both;
+}
+.compromise-done-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--green-bg);
+  color: var(--green-text);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+.compromise-done-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.compromise-done-sub { margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--text-2); }
+.compromise-done-sub.exact { color: var(--green-text); }
+
+/* мягкая смена выдачи после применения рекомендации */
+#s-results .results-container { transition: opacity .18s ease, transform .18s ease; }
+#s-results .results-container.results-swap-out { opacity: 0; transform: translateY(-4px); }
+#s-results .results-container.results-swap-in { animation: resultsSwapIn .26s ease-out both; }
+@keyframes resultsSwapIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* — «Почему подходит?» — вторичный аналитический элемент (cyan) — */
+.req-match-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.why-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--violet-text);
+  cursor: pointer;
+  border-bottom: 1px dashed rgba(61,219,255,.4);
+  flex-shrink: 0;
+}
+.why-btn.open { border-bottom-color: transparent; }
+.why-text {
+  display: none;
+  margin: 2px 0 10px;
+  padding: 8px 10px;
+  border-left: 2px solid rgba(61,219,255,.45);
+  background: var(--violet-bg);
+  border-radius: 0 10px 10px 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.why-text.open { display: block; animation: whyIn .22s ease-out both; }
+@keyframes whyIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .match-pop, #s-results .results-container { transition: none; }
+  .compromise-done, .why-text.open,
+  #s-results .results-container.results-swap-in { animation: none !important; }
+  .compromise-btn:active { transform: none; }
+}
+
 /* ── Кнопка «Поделиться» в карточке устройства (deep-link #m=…) ── */
 .share-btn {
   position: relative;
@@ -7734,6 +7959,220 @@ html, body {
 .share-btn:active { opacity: .7; }
 @media (hover: hover) {
   .share-btn:hover { color: var(--blue); border-color: var(--blue-border); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   DESKTOP LAYOUT PASS — отдельная desktop-композиция из тех же
+   компонентов. Три ширины: narrow 800 / standard 1180 / wide 1400.
+   Mobile-раскладка не затрагивается.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --dt-narrow: 800px;
+  --dt-standard: 1180px;
+  --dt-wide: 1400px;
+  --dt-pad: 48px;
+  --dt-top: 150px; /* единый отступ контента под фиксированной шапкой */
+}
+@media (min-width: 1600px) {
+  :root { --dt-pad: 64px; }
+}
+
+@media (min-width: 900px) {
+  /* overflow-x: hidden на html/body ломает position: sticky —
+     clip даёт тот же эффект без создания scroll-контейнера */
+  html, body { overflow-x: clip; }
+
+  /* — CTA не растягиваются на всю ширину контейнера — */
+  #s-results .restart-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
+  }
+  #s-results .btn-restart {
+    width: auto;
+    min-width: 340px;
+    padding: 0 44px;
+  }
+
+  /* — «Поддержать проект» и «Сотрудничество» рядом, без «или» — */
+  .support-inner {
+    max-width: var(--dt-standard);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+  .support-inner .support-or { display: none; }
+  .support-inner .support-top,
+  .support-inner .support-contact-row {
+    margin: 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* — рекомендации на desktop: текст слева, кнопка справа на одной линии — */
+  #s-results .no-exact-notice { padding: 20px 22px 22px; }
+  #s-results .no-exact-notice-text { font-size: 14px; line-height: 1.5; }
+  /* desktop: строгая сетка [текст | кнопка 220px] — одинаковая геометрия,
+     кнопки всех карточек на одной вертикальной линии */
+  #s-results .compromise-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "icon info btn";
+    align-items: center;
+    gap: 12px;
+    padding: 7px 14px;       /* тонкая строка, минимум вертикального воздуха */
+    min-height: 0;
+  }
+  #s-results .compromise-icon { width: 34px; height: 34px; }
+  #s-results .compromise-icon svg { width: 17px; height: 17px; }
+  #s-results .compromise-title { padding-left: 60px; }
+  #s-results .compromise-title svg { left: 14px; }
+  #s-results .compromise-sub { padding-left: 60px; }
+  #s-results .compromise-info { max-width: 620px; gap: 2px; }
+  #s-results .compromise-limiter { font-size: 13px; }
+  #s-results .compromise-text { font-size: 12px; }
+  #s-results .compromise-count { font-size: 11px; }
+  #s-results .compromise-btn {
+    width: auto;             /* узкая — по ширине текста, правый край выровнен */
+    height: 36px;
+    margin: 0;
+    padding: 0 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    justify-self: end;
+  }
+
+  /* — «С чего начнём?»: смысловая асимметрия 7/5 — */
+  #s-mode .mode-col-left { flex: 7 1 0; }
+  #s-mode .mode-popular { flex: 5 1 0; }
+
+  /* — вопросы подбора: narrow-форма, чуть шире мобильной — */
+  .q-body, .nav-row, .nav-hint { max-width: 760px; }
+
+  /* — сравнение: wide-контейнер вместо полной ширины окна — */
+  .cmp-body {
+    max-width: var(--dt-wide);
+    margin-inline: auto;
+    padding-inline: var(--dt-pad);
+  }
+  .cmp-topbar { padding-inline: var(--dt-pad); }
+}
+
+/* — результаты подбора: wide, основная колонка + аналитический сайдбар — */
+@media (min-width: 1100px) {
+  /* шапка и контент выровнены по одним вертикальным линиям */
+  #header { padding: 0 var(--dt-pad); }
+  #header .header-main { max-width: var(--dt-wide); }
+
+  #s-results { padding-inline: var(--dt-pad); }
+  .results-container { max-width: var(--dt-wide); margin-inline: auto; }
+  /* мобильные внутренние поля 18px на desktop не нужны —
+     заголовок, карточки и сайдбар начинаются от края контейнера */
+  #s-results .res-header,
+  #s-results .results-list,
+  #s-results .restart-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .results-container.with-sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-areas:
+      "header  sidebar"
+      "list    sidebar"
+      "restart sidebar";
+    column-gap: 32px;
+    align-items: start;
+  }
+  .results-container.with-sidebar > .res-header   { grid-area: header; }
+  .results-container.with-sidebar > .results-list { grid-area: list; }
+  .results-container.with-sidebar > .restart-wrap { grid-area: restart; }
+  .results-container.with-sidebar > .results-sidebar { grid-area: sidebar; }
+
+  .results-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: var(--dt-top);
+    padding-top: 22px; /* = верхний отступ .res-header: чип и заголовок на одной линии */
+    max-height: calc(100vh - var(--dt-top) - 24px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    padding-bottom: 8px;
+  }
+  /* блоки не сжимаются под max-height — сайдбар прокручивается целиком */
+  .results-sidebar > * { flex-shrink: 0; }
+  .results-sidebar::-webkit-scrollbar { width: 6px; }
+  .results-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+  .results-sidebar .chips-wrap { padding: 0 !important; }
+  .results-sidebar .no-exact-notice { margin: 0; }
+  /* в узкой колонке — mobile-компоновка того же компонента:
+     текст, под ним одинаковая полноширинная кнопка */
+  #s-results .results-sidebar .compromise-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "icon info btn";
+    align-items: center;
+    column-gap: 9px;
+    padding: 7px 11px;
+    min-height: 0;
+  }
+  #s-results .results-sidebar .compromise-icon { width: 30px; height: 30px; }
+  #s-results .results-sidebar .compromise-icon svg { width: 15px; height: 15px; }
+  #s-results .results-sidebar .compromise-info { max-width: none; }
+  #s-results .results-sidebar .compromise-limiter,
+  #s-results .results-sidebar .compromise-text { font-size: 12px; }
+  #s-results .results-sidebar .compromise-count { font-size: 11px; }
+  #s-results .results-sidebar .compromise-btn {
+    width: auto;
+    justify-self: end;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
+}
+
+/* — страница устройства: standard-контейнер, hero 5/7 — */
+@media (min-width: 1100px) {
+  .srch-topbar-inner { max-width: var(--dt-standard); }
+  .srch-body {
+    max-width: var(--dt-standard);
+    padding-inline: var(--dt-pad);
+  }
+  #srch-results-area .dev-hero,
+  #srch-results-area .dev-profile-back,
+  #srch-results-area .dev-section-hdr,
+  #srch-results-area .dev-no-exact,
+  #srch-results-area .srch-section-label,
+  #srch-results-area .srch-no-results {
+    max-width: none;
+  }
+  /* hero: фото слева (5), информация и действия справа (7) */
+  #srch-results-area .dev-hero-body {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2px 36px;
+    align-items: start;
+  }
+  #srch-results-area .dev-hero-body > * {
+    grid-column: 2;
+    min-width: 0;
+  }
+  #srch-results-area .dev-hero-body > .device-photo-wrap {
+    grid-column: 1;
+    grid-row: 1 / span 12;
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    max-height: 460px;
+    align-self: start;
+  }
+  /* карточки поисковой выдачи s-search остаются по центру одной колонкой */
+  #srch-results-area .srch-match-card { max-width: 640px; margin-inline: auto; }
 }
 
 /* ── SPLASH LOGO ANIMATION ─────────────────────────── */
@@ -7890,6 +8329,13 @@ html, body {
 <div class="fav-tooltip" id="fav-tooltip"></div>
 <div class="term-tooltip-float" id="term-tooltip"></div>
 <div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
+
+<!-- Контекстное пояснение процента совпадения (не модальное окно) -->
+<div class="match-pop" id="match-pop" style="display:none" role="tooltip">
+  <div class="match-pop-title">Как считаем совпадение?</div>
+  <div class="match-pop-text">Сравниваем характеристики модели с параметрами, которые вы выбрали при подборе.</div>
+  <div class="match-pop-count"></div>
+</div>
 
 <!-- ── HEADER (hidden on intro) ───────────────────── -->
 <div id="header" style="display:none">
@@ -8253,6 +8699,8 @@ html, body {
       </button>
       <div class="answer-chips-row" id="answer-chips-row"></div>
     </div>
+    <!-- Desktop: правая аналитическая колонка (требования → вывод → рекомендации) -->
+    <aside class="results-sidebar" id="results-sidebar" style="display:none;"></aside>
     <div class="results-list" id="results-list"></div>
     <div class="restart-wrap">
     <button class="btn-restart" onclick="restartQuiz()">
@@ -9097,13 +9545,10 @@ function scoreDevice(dev) {
     m++;
     if (q.key === "quality") {
       const reqQ = QRANK[a] || 0;
-      if (dev.q === reqQ) {
-        s += 1;          // точное совпадение — полный балл
-      } else if (dev.q > reqQ) {
-        s += 0.5;        // устройство лучше чем запрошено — половина балла
-        mm.push({key: q.key, type: "overspec"});
+      if (dev.q >= reqQ) {
+        s += 1;          // «не ниже запрошенного» — полное совпадение (2K/4K удовлетворяют Full HD)
       } else {
-        mm.push({key: q.key, type: "quality"}); // хуже — не подходит
+        mm.push({key: q.key, type: "quality"}); // ниже запрошенного — не подходит
       }
     } else {
       const ok = a === "да" ? dev[q.key] : !dev[q.key];
@@ -9437,34 +9882,10 @@ function getCompromises() {
     });
   }
 
-  // Качество вверх: полезно, когда точных нет, но есть более сильные варианты при апгрейде съемки.
+  // Качество трактуется как «не ниже запрошенного»: 2K/4K полностью удовлетворяют запрос Full HD.
+  // Повышать планку смысла нет (это сузит выдачу), поэтому предлагаем только понижение — ниже.
   const qVal = (answers.quality || "").toLowerCase();
   const QUAL_NAMES = { хорошее: "Full HD", отличное: "2K", превосходное: "4K" };
-  const qUp = { хорошее: "отличное", отличное: "превосходное" };
-  const qUpLabels = { отличное: "2K", превосходное: "4K" };
-  let nextQuality = qUp[qVal];
-  while (nextQuality) {
-    const saved = answers.quality;
-    answers.quality = nextQuality;
-    const stats = evaluateCompromise();
-    answers.quality = saved;
-    if (stats.count > 0 && (stats.exactCount > 0 || stats.bestQ > currentStats.bestQ || stats.bestPct >= Math.max(45, currentStats.bestPct))) {
-      const targetQuality = nextQuality;
-      suggestions.push({
-        key: "quality", val: qVal,
-        hint: `Рассмотреть модели с ${qUpLabels[targetQuality]}`,
-        limiter: `${QUAL_NAMES[qVal] || "Качество съёмки"} ограничивает выбор`,
-        cta: `Выбрать ${qUpLabels[targetQuality]}`,
-        count: stats.count,
-        exactCount: stats.exactCount,
-        bestQ: stats.bestQ,
-        bestPct: stats.bestPct,
-        bestPrice: stats.bestPrice,
-        action: () => { answers.quality = targetQuality; }
-      });
-    }
-    nextQuality = qUp[nextQuality];
-  }
 
   // Перебираем булевы критерии: сначала пробуем конкретную замену, затем ослабление.
   for (const k of BOOLS) {
@@ -9488,11 +9909,13 @@ function getCompromises() {
     answers.quality = lower;
     const stats = evaluateCompromise();
     answers.quality = saved;
-    if (stats.count > 0) suggestions.push({
+    // Показываем понижение только если оно реально расширяет выдачу (больше моделей/точных),
+    // иначе подсказка бесполезна.
+    if (stats.count > currentStats.count || stats.exactCount > currentStats.exactCount) suggestions.push({
       key: "quality", val: qVal,
       hint: `Рассмотреть модели с ${qDownLabels[lower]}`,
       limiter: `${QUAL_NAMES[qVal] || "Качество съёмки"} ограничивает выбор`,
-      cta: `Выбрать ${qDownLabels[lower]}`,
+      cta: `Допустить ${qDownLabels[lower]}`,
       count: stats.count,
       exactCount: stats.exactCount,
       bestQ: stats.bestQ,
@@ -9694,10 +10117,22 @@ function clearIntroSearch(focus = true) {
   onIntroSearch("");
 }
 
+// Полное состояние ручного поиска на момент открытия карточки —
+// чтобы «Назад к результатам» возвращал ровно туда, откуда ушли.
+let introSearchSaved = null;
+
 function openDeviceFromIntro(idx) {
   // Save query so back button can restore it
   const inp = document.getElementById("intro-srch");
   if (inp && inp.value.trim()) lastSearchQuery = inp.value.trim();
+  const resultsEl = document.getElementById("intro-srch-results");
+  const mode = document.getElementById("s-mode");
+  introSearchSaved = {
+    query: inp ? inp.value : "",
+    showAll: showAllIntroSearch,
+    listScroll: resultsEl ? resultsEl.scrollTop : 0,
+    pageScroll: mode ? mode.scrollTop : 0,
+  };
   lastSearchOrigin = 'intro';
   openDeviceFromSearch(idx);
 }
@@ -10162,6 +10597,55 @@ function showShareToast(text) {
   }, 1800);
 }
 
+// ── Popover «Как считаем совпадение?» на плашке процента ──
+function toggleMatchPopover(event, pill) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  const pop = document.getElementById("match-pop");
+  if (!pop || !pill) return;
+  if (pop.classList.contains("on") && pop._anchor === pill) { hideMatchPopover(); return; }
+  pop._anchor = pill;
+
+  const matched = pill.getAttribute("data-matched");
+  const total = Number(pill.getAttribute("data-total") || 0);
+  const countEl = pop.querySelector(".match-pop-count");
+  if (matched !== null && total > 0) {
+    countEl.textContent = `Совпало ${matched} из ${total} ${pluralRu(total, "требования", "требований", "требований")}.`;
+    countEl.style.display = "";
+  } else {
+    countEl.style.display = "none";
+  }
+
+  pop.style.display = "block";
+  pop.classList.remove("on");
+  const r = pill.getBoundingClientRect();
+  const pw = pop.offsetWidth, ph = pop.offsetHeight;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let left = Math.min(Math.max(8, r.left), vw - pw - 8); // не создаём horizontal scroll
+  let top = r.bottom + 8;
+  if (top + ph > vh - 8) top = Math.max(8, r.top - ph - 8);
+  pop.style.left = left + "px";
+  pop.style.top = top + "px";
+  requestAnimationFrame(() => pop.classList.add("on"));
+}
+
+function hideMatchPopover() {
+  const pop = document.getElementById("match-pop");
+  if (!pop) return;
+  pop.classList.remove("on");
+  pop._anchor = null;
+  setTimeout(() => { if (!pop.classList.contains("on")) pop.style.display = "none"; }, 200);
+}
+
+document.addEventListener("pointerdown", e => {
+  const pop = document.getElementById("match-pop");
+  if (pop && pop.classList.contains("on")
+      && !pop.contains(e.target)
+      && !(pop._anchor && pop._anchor.contains(e.target))) {
+    hideMatchPopover();
+  }
+});
+window.addEventListener("scroll", hideMatchPopover, {passive: true, capture: true});
+
 async function shareDevice(event, idx) {
   if (event) { event.preventDefault(); event.stopPropagation(); }
   const d = DEVICES[idx];
@@ -10253,6 +10737,20 @@ function radarAntennaRank(d) {
   if (antenna === "horn") return 2;
   if (antenna === "patch") return 1;
   return 0;
+}
+
+// Видимая пометка о радарной антенне на карточке результата.
+// Рупорная — акцентная плашка (объясняет, почему модель выше в выдаче и дороже),
+// патч — нейтральная подпись.
+function cardAntennaBadgeHTML(d) {
+  const antenna = radarAntenna(d);
+  if (!antenna) return "";
+  const label = radarAntennaLabel(d);
+  const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M8.5 9.5a5 5 0 0 1 7 0"/><path d="M5.7 6.7a9 9 0 0 1 12.6 0"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>';
+  if (antenna === "horn") {
+    return `<div class="dev-antenna-note hi">${icon}${label} · мощнее патч-антенны</div>`;
+  }
+  return `<div class="dev-antenna-note">${icon}${label}</div>`;
 }
 
 function compatibleProfileCandidate(x, d) {
@@ -10884,11 +11382,32 @@ function renderDeviceProfile(d, exact, similar) {
 }
 
 function backToSearchResults() {
+  // Профиль открыт из результатов подбора — возвращаемся именно к ним.
+  if (lastSearchOrigin === 'results') {
+    show('s-results');
+    const res = document.getElementById('s-results');
+    if (res) res.scrollTo(0, 0);
+    return;
+  }
   if (lastSearchOrigin === 'intro') {
     // Close s-search, restore mode choice search with previous query
     show('s-mode');
     const inp = document.getElementById('intro-srch');
-    if (inp && lastSearchQuery) {
+    const st = introSearchSaved;
+    if (inp && st && st.query.trim()) {
+      // Восстанавливаем ровно то состояние, из которого открыли карточку:
+      // запрос, «Показать ещё» и позиции прокрутки, без повторных анимаций.
+      inp.value = st.query;
+      showAllIntroSearch = st.showAll;
+      lastIntroSearchQuery = st.query.trim(); // чтобы onIntroSearch не сбросил showAll
+      onIntroSearch(st.query);
+      requestAnimationFrame(() => {
+        const resultsEl = document.getElementById('intro-srch-results');
+        if (resultsEl) resultsEl.scrollTop = st.listScroll;
+        const mode = document.getElementById('s-mode');
+        if (mode) mode.scrollTo({top: st.pageScroll, behavior: 'instant'});
+      });
+    } else if (inp && lastSearchQuery) {
       inp.value = lastSearchQuery;
       onIntroSearch(lastSearchQuery);
     }
@@ -11254,12 +11773,64 @@ function reqMatchData(item, isUpgrade = false) {
   return {matched, missed, total: reqs.length, matchedCount: matched.length};
 }
 
+// «Почему подходит?» — короткое человеческое объяснение, собранное
+// из реальных совпадений/отличий модели с ответами пользователя.
+// Никаких заготовленных текстов в базе и никакого AI.
+const WHY_NICE_LABELS = {
+  "Магнит": "магнитное крепление",
+  "Без магнита": "обычное крепление",
+  "Без Wi-Fi": "отсутствие Wi-Fi",
+  "Без внутрисалонной камеры": "отсутствие салонной камеры",
+};
+
+function _whyJoin(list) {
+  if (list.length <= 1) return list.join("");
+  return list.slice(0, -1).join(", ") + " и " + list[list.length - 1];
+}
+
+function whySuitableText(item, isExact, isUpgrade = false) {
+  const rm = reqMatchData(item, isUpgrade);
+  if (!rm.total) return "";
+  if (isExact && !isUpgrade && rm.missed.length === 0) {
+    return "Полностью соответствует выбранным вами ключевым параметрам.";
+  }
+  // функции и качество важнее типа/форм-фактора (те совпадают всегда):
+  // тип упоминаем, только если содержательных совпадений мало
+  const PRIORITY = ["Full HD", "2K", "4K", "Wi-Fi", "Магнит", "Сенсорное управление", "Внутрисалонная камера", "Физические кнопки", "Без Wi-Fi", "Без магнита", "Без внутрисалонной камеры"];
+  const featureGood = rm.matched
+    .filter(l => PRIORITY.includes(l))
+    .sort((a, b) => PRIORITY.indexOf(a) - PRIORITY.indexOf(b));
+  const otherGood = rm.matched.filter(l => !PRIORITY.includes(l));
+  const good = (featureGood.length >= 2 ? featureGood.slice(0, 4) : [...featureGood, ...otherGood].slice(0, 3))
+    .map(l => WHY_NICE_LABELS[l] || l);
+  const bad = rm.missed
+    .slice(0, 2)
+    .map(m => m.label.charAt(0).toLowerCase() + m.label.slice(1));
+
+  // именительный падеж после двоеточия — без проблем со склонениями
+  let text = good.length
+    ? `Совпадает с вашим выбором: ${_whyJoin(good)}.`
+    : "Совпадений с выбранными требованиями немного.";
+  if (bad.length === 1) text += ` Главное отличие — ${bad[0]}.`;
+  else if (bad.length > 1) text += ` Но есть отличия: ${_whyJoin(bad)}.`;
+  return text;
+}
+
+function toggleWhySuitable(btn) {
+  const wrap = btn.closest(".req-match");
+  const txt = wrap && wrap.querySelector(".why-text");
+  if (!txt) return;
+  const open = txt.classList.toggle("open");
+  btn.classList.toggle("open", open);
+}
+
 function reqMatchHTML(item, isExact, isUpgrade = false) {
   const rm = reqMatchData(item, isUpgrade);
   if (!rm.total) return "";
   const head = isExact && !isUpgrade
     ? `Соответствует всем ${rm.total} ${pluralRu(rm.total, "требованию", "требованиям", "требованиям")}`
     : `Подходит по ${rm.matchedCount} из ${rm.total} ${pluralRu(rm.total, "требования", "требований", "требований")}`;
+  const whyText = whySuitableText(item, isExact, isUpgrade);
   const good = rm.matched.length
     ? `<div class="req-col good"><div class="req-col-label">Подошло</div>${rm.matched.map(l => `<div class="req-item"><span class="req-mark">✓</span><span>${l}</span></div>`).join("")}</div>`
     : "";
@@ -11268,14 +11839,53 @@ function reqMatchHTML(item, isExact, isUpgrade = false) {
     : "";
   const single = (!good || !bad) ? " single" : "";
   return `<div class="req-match">
-    <div class="req-match-head">${head}</div>
+    <div class="req-match-head"><span>${head}</span>${whyText ? `<button class="why-btn" type="button" onclick="toggleWhySuitable(this)">Почему подходит?</button>` : ""}</div>
+    ${whyText ? `<div class="why-text">${whyText}</div>` : ""}
     <div class="req-match-cols${single}">${good}${bad}</div>
   </div>`;
 }
 
+// ── Desktop-раскладка результатов: 8/4 с правой аналитической колонкой.
+// На широких экранах требования, системный вывод и рекомендации переезжают
+// в sticky-сайдбар; на mobile порядок блоков остаётся исходным.
+const RESULTS_DESKTOP_MQ = "(min-width: 1100px)";
+
+function layoutResultsColumns() {
+  const container = document.querySelector("#s-results .results-container");
+  const sidebar = document.getElementById("results-sidebar");
+  const list = document.getElementById("results-list");
+  const chips = document.getElementById("chips-wrap");
+  if (!container || !sidebar || !list) return;
+  const isDesktop = window.matchMedia(RESULTS_DESKTOP_MQ).matches;
+
+  // блоки прошлого рендера в сайдбаре больше не актуальны
+  sidebar.querySelectorAll(".no-exact-notice, .compromise-wrap").forEach(n => n.remove());
+
+  if (isDesktop) {
+    // порядок в сайдбаре: требования → «в базе нет» → «что мешает»
+    if (chips && chips.parentElement !== sidebar) sidebar.appendChild(chips);
+    const notice = list.querySelector(":scope > .no-exact-notice");
+    if (notice) sidebar.appendChild(notice);
+    const cw = list.querySelector(":scope > .compromise-wrap");
+    if (cw) sidebar.appendChild(cw);
+  } else if (chips && chips.parentElement === sidebar) {
+    container.insertBefore(chips, sidebar); // вернуть под заголовок
+  }
+  const hasSidebar = isDesktop && [...sidebar.children].some(n => n.style.display !== "none");
+  sidebar.style.display = hasSidebar ? "" : "none";
+  container.classList.toggle("with-sidebar", hasSidebar);
+}
+
+const resultsDesktopQuery = window.matchMedia(RESULTS_DESKTOP_MQ);
+resultsDesktopQuery.addEventListener("change", () => {
+  // при смене брейкпоинта перестраиваем выдачу из сохранённого состояния
+  if (currentScreenId === "s-results" && _lastTop) _renderResults(_lastTop);
+});
+
 // Ступенчатое появление: заголовок → требования → вывод системы →
 // рекомендации → карточки. Только opacity+translateY, задержки не блокируют клики.
 function applyResultsStagger() {
+  layoutResultsColumns(); // сперва раскладываем колонки, затем задержки
   const header = document.querySelector("#s-results .res-header");
   if (header) header.style.animationDelay = "0ms";
   const chipsWrap = el("chips-wrap");
@@ -11324,30 +11934,77 @@ function _renderResults(top) {
     const compromises = getCompromises();
     if (compromises.length === 0) return;
 
+    // Тематические иконки ограничений (cyan, в круглой плашке)
+    const COMPROMISE_ICONS = {
+      touch: '<path d="M12 3v3.2"/><path d="M7.2 4.8 9 7.4"/><path d="M16.8 4.8 15 7.4"/><path d="M10.4 21v-8.6a1.6 1.6 0 0 1 3.2 0v3.4l3.3.9a2 2 0 0 1 1.4 2.4L17.6 21"/>',
+      ir_cam: '<circle cx="12" cy="10" r="5.5"/><circle cx="12" cy="10" r="2"/><path d="M12 15.5V19"/><path d="M8.5 19h7"/>',
+      form: '<path d="M4 9V6a2 2 0 0 1 2-2h3"/><path d="M15 4h3a2 2 0 0 1 2 2v3"/><path d="M20 15v3a2 2 0 0 1-2 2h-3"/><path d="M9 20H6a2 2 0 0 1-2-2v-3"/>',
+      quality: '<path d="M12 4l1.9 4.3L18.2 10l-4.3 1.9L12 16.2l-1.9-4.3L5.8 10l4.3-1.7z"/><path d="M18.5 15.5l.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9z"/>',
+      smartphone: '<path d="M4.8 10a10.2 10.2 0 0 1 14.4 0"/><path d="M7.8 13.4a6 6 0 0 1 8.4 0"/><circle cx="12" cy="17" r="1.5" fill="currentColor" stroke="none"/>',
+      magnetic: '<path d="M7 3v8a5 5 0 0 0 10 0V3"/><path d="M7 3h4v4H7z"/><path d="M13 3h4v4h-4z"/>',
+      type: '<path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12" r="3.4"/>',
+      remote: '<path d="M12 21v-9"/><path d="M8.4 8.4a5.1 5.1 0 0 1 7.2 0"/><path d="M5.5 5.5a9.2 9.2 0 0 1 13 0"/><circle cx="12" cy="11" r="1.4" fill="currentColor" stroke="none"/>',
+    };
+    const defaultIcon = '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/>';
+
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
-    cWrap.innerHTML = `<div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что мешает точному совпадению</div>`;
+    cWrap.innerHTML = `
+      <div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что мешает точному совпадению</div>
+      <div class="compromise-sub">Ослабьте одно из требований — появятся более подходящие модели.</div>`;
     compromises.forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
       // Реальный эффект изменения: точные совпадения важнее близких моделей.
       const countText = s.exactCount > 0
-        ? `${pluralRu(s.exactCount, "Появится", "Появятся", "Появятся")} ${s.exactCount} ${pluralRu(s.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
-        : `+${s.count} ${pluralRu(s.count, "подходящая модель", "подходящие модели", "подходящих моделей")}`;
+        ? `${pluralRu(s.exactCount, "Появится", "Появятся", "Появятся")} <b>${s.exactCount}</b> ${pluralRu(s.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
+        : `+<b>${s.count}</b> ${pluralRu(s.count, "подходящая модель", "подходящие модели", "подходящих моделей")}`;
       row.innerHTML = `
+        <div class="compromise-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${COMPROMISE_ICONS[s.key] || defaultIcon}</svg></div>
         <div class="compromise-info">
           ${s.limiter ? `<div class="compromise-limiter">${s.limiter}</div>` : ""}
           <div class="compromise-text">${s.hint}</div>
           <div class="compromise-count${s.exactCount > 0 ? " exact" : ""}">${countText}</div>
         </div>
-        <button class="compromise-btn">${s.cta || "Изменить"}</button>`;
+        <button class="compromise-btn">${s.cta || "Изменить"}<span class="compromise-btn-arrow">›</span></button>`;
       row.querySelector(".compromise-btn").addEventListener("click", () => {
+        if (row.classList.contains("done")) return;
+        // Реальный пересчёт сразу; дальше — только визуальная подача результата
         s.action();
         sortMode = "match";
         showAllNearResults = false;
         _lastTop = getTop();
-        _renderResults(_lastTop);
-        window.scrollTo(0, 0);
+        const exactAfter = _lastTop.filter(t => t.mm.length === 0).length;
+
+        // Состояние успеха на карточке рекомендации (реальные числа, без ложных обещаний)
+        row.classList.add("done");
+        row.innerHTML = `
+          <div class="compromise-done">
+            <span class="compromise-done-check">✓</span>
+            <div>
+              <div class="compromise-done-title">Требование изменено</div>
+              <div class="compromise-done-sub${exactAfter > 0 ? " exact" : ""}">${
+                exactAfter > 0
+                  ? `Найдено ${exactAfter} ${pluralRu(exactAfter, "точное совпадение", "точных совпадения", "точных совпадений")}`
+                  : "Подбор обновлён"
+              }</div>
+            </div>
+          </div>`;
+
+        // Мягкая смена выдачи: без ощущения перезагрузки страницы
+        const rc = document.querySelector("#s-results .results-container");
+        setTimeout(() => {
+          if (rc) rc.classList.add("results-swap-out");
+          setTimeout(() => {
+            _renderResults(_lastTop);
+            window.scrollTo(0, 0);
+            if (rc) {
+              rc.classList.remove("results-swap-out");
+              rc.classList.add("results-swap-in");
+              setTimeout(() => rc.classList.remove("results-swap-in"), 320);
+            }
+          }, 180);
+        }, 850);
       });
       cWrap.appendChild(row);
     });
@@ -11462,7 +12119,11 @@ function _renderResults(top) {
       const mc = matchClass(pct);
 
       const card = document.createElement("div");
-      card.className = "dev-card";
+      const devIndex = DEVICES.indexOf(d);
+      card.className = "dev-card is-clickable";
+      card.setAttribute("role", "link");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-label", `Открыть карточку: ${d.name}`);
 
       const camBadge = d.type === "комбо 3 в 1"
         ? `<span class="cam-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1 1-1h4l1-1h4l1 1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="12" cy="12.5" r="2.2"/><path d="M9 6.5a4.2 4.2 0 0 1 6 0"/><path d="M7 4.2a7 7 0 0 1 10 0"/></svg>Радар+база</span>`
@@ -11476,6 +12137,7 @@ function _renderResults(top) {
       const pillLabel = isUpgrade ? `${QLABELS_BADGE[d.q] || ""} лучше запрошенного`
                       : isExact   ? "100% · Точное совпадение"
                                   : `${pct}% · ${matchStatusLabel(pct)}`;
+      const rmPill = reqMatchData(item, isUpgrade);
 
       card.innerHTML = `
       <div class="dev-card-header">
@@ -11484,7 +12146,7 @@ function _renderResults(top) {
       </div>
       <div class="dev-body">
         <div class="dev-meta">
-          <div class="match-pill ${isExact || isUpgrade ? "hi" : mc}">${pillLabel}</div>
+          <div class="match-pill ${isExact || isUpgrade ? "hi" : mc}" role="button" tabindex="0" onclick="toggleMatchPopover(event, this)" data-matched="${rmPill.matchedCount}" data-total="${rmPill.total}" title="Как считаем совпадение?">${pillLabel}</div>
           <div class="dev-card-actions">${compareChipHTML(d)}</div>
         </div>
         <div class="card-toggle">
@@ -11492,8 +12154,9 @@ function _renderResults(top) {
             <div class="dev-name">${d.name}</div>
             ${d.price ? `<div class="dev-price">${d.price}</div>` : ''}
           </div>
-          <span class="card-toggle-arrow">⌄</span>
+          <span class="card-toggle-arrow" aria-hidden="true">›</span>
         </div>
+        ${cardAntennaBadgeHTML(d)}
         <div class="card-collapsible">
           ${devicePhotoHTML(d)}
           ${reqMatchHTML(item, isExact, isUpgrade)}
@@ -11502,6 +12165,22 @@ function _renderResults(top) {
         </div>
       </div>
     `;
+
+      // Клик по карточке открывает профиль устройства («проваливаемся» в карточку).
+      // Клики по внутренним кнопкам/ссылкам (сравнение, «как считаем», характеристики,
+      // покупка) не должны навигировать — они исключены.
+      card.addEventListener("click", (e) => {
+        if (e.target.closest('a, button, input, label, select, .match-pill')) return;
+        lastSearchOrigin = "results";
+        openDeviceFromSearch(devIndex);
+      });
+      card.addEventListener("keydown", (e) => {
+        if ((e.key === "Enter" || e.key === " ") && e.target === card) {
+          e.preventDefault();
+          lastSearchOrigin = "results";
+          openDeviceFromSearch(devIndex);
+        }
+      });
 
       list.appendChild(card);
     }); // end forEach
