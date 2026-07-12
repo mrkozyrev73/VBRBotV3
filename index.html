@@ -7710,6 +7710,28 @@ html, body {
   .isr-row:hover .isr-arrow { transform: none !important; }
 }
 
+/* ── Кнопка «Поделиться» в карточке устройства (deep-link #m=…) ── */
+.share-btn {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color .15s ease, border-color .15s ease;
+}
+.share-btn svg { width: 16px; height: 16px; }
+.share-btn:active { opacity: .7; }
+@media (hover: hover) {
+  .share-btn:hover { color: var(--blue); border-color: var(--blue-border); }
+}
+
 /* ── SPLASH LOGO ANIMATION ─────────────────────────── */
 .splash {
   position: fixed;
@@ -9498,6 +9520,7 @@ let currentScreenId = "s-intro";
 
 function show(id) {
   currentScreenId = id;
+  if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
@@ -10038,9 +10061,125 @@ function _renderResultsFromItems(items, subtitle) {
 let lastSearchQuery = '';
 let lastSearchOrigin = 'intro'; // 'intro' or 'profile'
 
+// ════════════════════════════════════════════════════════
+//  SHARE / DEEP LINK — ссылка вида #m=<slug> открывает модель
+// ════════════════════════════════════════════════════════
+
+let _deviceSlugMap = null;
+
+function _baseDeviceSlug(d) {
+  return `${d.brand} ${d.name}`.toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[^a-zа-я0-9]+/gi, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Слаги строятся один раз и гарантированно уникальны:
+// при коллизии (в базе есть задублированные позиции) добавляется -2, -3…
+function buildDeviceSlugs() {
+  _deviceSlugMap = new Map();
+  const seen = new Map();
+  DEVICES.forEach(d => {
+    let s = _baseDeviceSlug(d);
+    const n = (seen.get(s) || 0) + 1;
+    seen.set(s, n);
+    if (n > 1) s = `${s}-${n}`;
+    d.__slug = s;
+    _deviceSlugMap.set(s, d);
+  });
+}
+
+function deviceSlug(d) {
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  return d.__slug || _baseDeviceSlug(d);
+}
+
+function findDeviceBySlug(slug) {
+  if (!slug) return null;
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  return _deviceSlugMap.get(slug) || null;
+}
+
+function deviceShareUrl(d) {
+  return `${location.origin}${location.pathname}#m=${deviceSlug(d)}`;
+}
+
+let _currentDeviceSlug = null;
+
+function setDeviceHash(d) {
+  const slug = deviceSlug(d);
+  _currentDeviceSlug = slug;
+  try {
+    history.replaceState(null, "", "#m=" + slug);
+    if (location.hash !== "#m=" + slug) location.hash = "m=" + slug; // фолбэк
+  } catch (e) {
+    try { location.hash = "m=" + slug; } catch (e2) {}
+  }
+}
+
+function clearDeviceHash() {
+  _currentDeviceSlug = null;
+  if (!/^#m=/.test(location.hash)) return;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  if (/^#m=/.test(location.hash)) {
+    try { location.hash = ""; } catch (e) {}
+  }
+}
+
+// Открытие модели из хэша при загрузке страницы или смене хэша
+function openDeviceFromHash() {
+  const m = location.hash.match(/^#m=([^&]+)/);
+  if (!m) return false;
+  let slug = m[1];
+  try { slug = decodeURIComponent(slug); } catch (e) {}
+  if (slug === _currentDeviceSlug) return true; // уже открыта (защита от повторного рендера)
+  const d = findDeviceBySlug(slug);
+  if (!d) return false;
+  lastSearchOrigin = "intro";
+  openDeviceFromSearch(DEVICES.indexOf(d));
+  return true;
+}
+
+function shareButtonHTML(d) {
+  return `<button class="share-btn" onclick="shareDevice(event, ${DEVICES.indexOf(d)})" aria-label="Поделиться ссылкой на модель" title="Поделиться ссылкой" data-tooltip="Поделиться ссылкой">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"/><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"/></svg>
+  </button>`;
+}
+
+function showShareToast(text) {
+  const t = document.getElementById("copy-toast");
+  if (!t) return;
+  const defaultText = "email скопирован в буфер обмена";
+  t.textContent = text;
+  t.classList.add("on");
+  setTimeout(() => {
+    t.classList.remove("on");
+    setTimeout(() => { t.textContent = defaultText; }, 300);
+  }, 1800);
+}
+
+async function shareDevice(event, idx) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  const d = DEVICES[idx];
+  if (!d) return;
+  const url = deviceShareUrl(d);
+  const title = `${d.brand} ${d.name} — VBR БОТ`;
+  if (navigator.share) {
+    try { await navigator.share({title, url}); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showShareToast("Ссылка на модель скопирована");
+  } catch (e) {
+    window.prompt("Скопируйте ссылку:", url);
+  }
+}
+
 function openDeviceFromSearch(idx) {
   const d = DEVICES[idx];
   if (!d) return;
+  setDeviceHash(d); // ссылкой на карточку можно поделиться
 
   // If called from an analog card (not from intro), keep origin as-is
   // lastSearchOrigin and lastSearchQuery are set by openDeviceFromIntro before this call
@@ -10689,7 +10828,7 @@ function renderDeviceProfile(d, exact, similar) {
         <div class="dev-name">${d.name}</div>
         <div class="dev-price">${d.price}</div>
           </div>
-          <div class="dev-hero-actions">${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
+          <div class="dev-hero-actions">${shareButtonHTML(d)}${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
         </div>
         ${devicePhotoHTML(d)}
         ${d.desc ? `<div class="dev-desc dev-profile-desc">${d.desc}</div>` : ''}
@@ -11664,6 +11803,9 @@ layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
 initIntroScene();
+// Deep-link: если открыли ссылку вида #m=<модель> — сразу показываем карточку
+window.addEventListener("hashchange", openDeviceFromHash);
+openDeviceFromHash();
 
 </script>
 </body>
