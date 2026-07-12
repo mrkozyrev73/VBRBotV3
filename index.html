@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<!-- inline background на <html>: убирает светлую вспышку до применения стилей -->
+<html lang="ru" style="background:#0B0E14">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0B0E14">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -7380,6 +7383,333 @@ html, body {
   .no-exact-notice, .dev-card-header, .dev-hero-header { transition: none; }
 }
 
+/* ══════════════════════════════════════════════════════════
+   SEARCH SCENE PASS — экран «Идёт поиск…» как сцена из 4 фаз:
+   анализ ответов → сравнение базы → проверка совпадений →
+   отбор лучших. Управляется JS через data-phase на #s-loading.
+   Рекламный блок (.loading-ad) не затрагивается.
+   ══════════════════════════════════════════════════════════ */
+
+@keyframes searchRise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes searchCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* мягкое одноразовое сканирование активной карточки */
+@keyframes searchScan {
+  0%   { opacity: .9; transform: translateX(-130%); }
+  70%  { opacity: .9; }
+  100% { opacity: 0; transform: translateX(300%); }
+}
+
+/* ── появление экрана: заголовок, статус, карточки, статус-карта ── */
+#s-loading .loading-title { animation: searchRise .26s ease .05s both; }
+#s-loading .loading-sub   { animation: searchRise .24s ease .12s both; }
+#s-loading .search-card   { animation: searchRise .26s ease .18s both; }
+#s-loading .compare-model { animation: searchCardIn .24s ease both; }
+#s-loading .compare-model:nth-child(1) { animation-delay: .06s; }
+#s-loading .compare-model:nth-child(2) { animation-delay: .15s; }
+#s-loading .compare-model:nth-child(3) { animation-delay: .24s; }
+
+/* ── глушим прежние бесконечные анимации скелетонов ── */
+#s-loading .compare-model::before,
+#s-loading .compare-score::after,
+#s-loading .compare-check,
+#s-loading .sdot::after { animation: none; }
+
+/* ── спокойное базовое состояние карточек ── */
+#s-loading .compare-model {
+  transition: border-color .3s ease, background-color .3s ease;
+}
+#s-loading .compare-model::before { transition: background-color .3s ease; }
+#s-loading .compare-line,
+#s-loading .compare-brand { transition: opacity .3s ease; }
+#s-loading .compare-score::after {
+  width: 100%;
+  transform: scaleX(.55);
+  transform-origin: left center;
+  opacity: .55;
+  transition: transform .35s ease, opacity .35s ease;
+}
+#s-loading .compare-check {
+  opacity: 0;
+  transform: scale(.72);
+  transition: opacity .25s ease .3s, transform .25s ease .3s;
+}
+/* слой сканирования (одноразовый, только transform/opacity) */
+#s-loading .compare-model .compare-scan {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 46%;
+  background: linear-gradient(90deg, transparent, rgba(var(--blue-rgb), .14), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── активная карточка своей фазы: фазы 1–3 ↔ карточки 1–3 ── */
+#s-loading[data-phase="1"] .compare-model:nth-child(1),
+#s-loading[data-phase="2"] .compare-model:nth-child(2),
+#s-loading[data-phase="3"] .compare-model:nth-child(3) {
+  border-color: var(--blue-border);
+  background: var(--blue-soft);
+}
+#s-loading[data-phase="1"] .compare-model:nth-child(1)::before,
+#s-loading[data-phase="2"] .compare-model:nth-child(2)::before,
+#s-loading[data-phase="3"] .compare-model:nth-child(3)::before {
+  background: var(--blue);
+}
+#s-loading[data-phase="1"] .compare-model:nth-child(1) .compare-line,
+#s-loading[data-phase="2"] .compare-model:nth-child(2) .compare-line,
+#s-loading[data-phase="3"] .compare-model:nth-child(3) .compare-line {
+  opacity: .85;
+}
+#s-loading[data-phase="1"] .compare-model:nth-child(1) .compare-score::after,
+#s-loading[data-phase="2"] .compare-model:nth-child(2) .compare-score::after,
+#s-loading[data-phase="3"] .compare-model:nth-child(3) .compare-score::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+#s-loading[data-phase="1"] .compare-model:nth-child(1) .compare-check,
+#s-loading[data-phase="2"] .compare-model:nth-child(2) .compare-check,
+#s-loading[data-phase="3"] .compare-model:nth-child(3) .compare-check {
+  opacity: 1;
+  transform: scale(1);
+}
+#s-loading[data-phase="1"] .compare-model:nth-child(1) .compare-scan,
+#s-loading[data-phase="2"] .compare-model:nth-child(2) .compare-scan,
+#s-loading[data-phase="3"] .compare-model:nth-child(3) .compare-scan {
+  animation: searchScan .42s ease .12s 1 both;
+}
+
+/* ── фазовый индикатор: 4 сегмента-этапа ── */
+#s-loading .search-dots {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+#s-loading .sdot::after {
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: .55;
+  transition: transform .3s ease, opacity .3s ease;
+}
+/* пройденные + активный сегменты заполнены (пройденные — чуть тише) */
+#s-loading[data-phase="1"] .sdot:nth-child(-n+1)::after,
+#s-loading[data-phase="2"] .sdot:nth-child(-n+2)::after,
+#s-loading[data-phase="3"] .sdot:nth-child(-n+3)::after,
+#s-loading[data-phase="4"] .sdot:nth-child(-n+4)::after {
+  transform: scaleX(1);
+  opacity: .55;
+}
+#s-loading[data-phase="1"] .sdot:nth-child(1)::after,
+#s-loading[data-phase="2"] .sdot:nth-child(2)::after,
+#s-loading[data-phase="3"] .sdot:nth-child(3)::after,
+#s-loading[data-phase="4"] .sdot:nth-child(4)::after {
+  opacity: 1;
+}
+
+/* ── смена статуса: старый вверх, новый снизу ── */
+#s-loading .loading-sub.loading-text-out {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+#s-loading .loading-sub.loading-text-in {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: none;
+}
+
+/* ── «Готово»: маленький зелёный индикатор, без большой галочки ── */
+#s-loading.search-done .loading-sub {
+  color: var(--green-text);
+  font-weight: 600;
+}
+#s-loading.search-done .loading-sub::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #s-loading .loading-title,
+  #s-loading .loading-sub,
+  #s-loading .search-card,
+  #s-loading .compare-model,
+  #s-loading .compare-model .compare-scan { animation: none !important; }
+  #s-loading .compare-model,
+  #s-loading .compare-model::before,
+  #s-loading .compare-line,
+  #s-loading .compare-brand,
+  #s-loading .compare-score::after,
+  #s-loading .compare-check,
+  #s-loading .sdot::after,
+  #s-loading .loading-sub { transition: none !important; }
+  #s-loading .loading-sub.loading-text-out,
+  #s-loading .loading-sub.loading-text-in { transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   SEARCH DROPDOWN PASS — выпадающий список ручного поиска:
+   единый список строк вместо набора карточек. Применяется
+   ТОЛЬКО к выдаче под полем «Уже выбрали модель?».
+   ══════════════════════════════════════════════════════════ */
+
+.isr-list {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+#intro-srch-results.isr-enter .isr-list {
+  animation: isrIn .2s ease both;
+}
+@keyframes isrIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* строка результата: [фото][бренд/название/хар-ки/цена][›] */
+.isr-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 24px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background-color .16s ease;
+}
+.isr-list > :last-child { border-bottom: 0; }
+@media (hover: hover) {
+  .isr-row:hover { background: rgba(var(--blue-rgb), .05); }
+  .isr-row:hover .isr-arrow { transform: translateX(3px); }
+}
+.isr-row:active { background: rgba(var(--blue-rgb), .08); }
+
+.isr-thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  background: var(--photo-window); /* светлая подложка только у фото товара */
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.isr-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+  display: block;
+}
+
+.isr-info { min-width: 0; }
+.isr-brand {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(var(--blue-rgb), .72);
+}
+.isr-name {
+  margin-top: 1px;
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--text);
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.isr-meta {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.isr-price {
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.isr-arrow {
+  width: 22px;
+  height: 22px;
+  color: var(--blue);
+  justify-self: end;
+  transition: transform .16s ease;
+  flex-shrink: 0;
+}
+
+/* лёгкий stagger строк — только при первом открытии списка */
+.isr-anim { animation: isrRowIn .18s ease both; }
+@keyframes isrRowIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* пустое состояние: обычное, не ошибка */
+.isr-empty { padding: 22px 16px; text-align: center; }
+.isr-empty-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.isr-empty-sub { margin-top: 4px; font-size: 12px; color: var(--text-2); }
+
+/* «Показать ещё» как строка списка */
+.isr-list .show-more-card {
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* внутренняя прокрутка: ~4–5 строк, спокойный тонкий scrollbar */
+#s-mode.mode-searching #intro-srch-results {
+  max-height: min(520px, 60vh) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+#intro-srch-results::-webkit-scrollbar { width: 6px; }
+#intro-srch-results::-webkit-scrollbar-track { background: transparent; }
+#intro-srch-results::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+/* desktop: фото немного крупнее, имя в одну строку */
+@media (min-width: 900px) {
+  .isr-row { grid-template-columns: 66px minmax(0, 1fr) 24px; }
+  .isr-thumb { width: 66px; height: 66px; }
+  .isr-name { -webkit-line-clamp: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #intro-srch-results.isr-enter .isr-list,
+  .isr-anim { animation: none !important; }
+  .isr-row, .isr-arrow { transition: none !important; }
+  .isr-row:hover .isr-arrow { transform: none !important; }
+}
+
 /* ── SPLASH LOGO ANIMATION ─────────────────────────── */
 .splash {
   position: fixed;
@@ -7406,100 +7736,68 @@ html, body {
   opacity: 0;
   animation: splashGlow 1.8s cubic-bezier(.4,0,.2,1) forwards;
 }
-.splash-logo-stack {
-  position: relative;
-  display: inline-grid;
+.splash-logo-svg {
+  width: clamp(110px, 31vw, 170px);
+  height: auto;
+  overflow: visible;
 }
-.splash-logo-layer {
-  grid-area: 1 / 1;
-  font-size: clamp(34px, 9vw, 56px);
-  line-height: 1;
-  letter-spacing: -1.5px;
-  font-weight: 950;
-  white-space: nowrap;
-  display: inline-block;
+/* ── этап 1: обводка контуров, буква за буквой (пути с pathLength="100":
+      контуры объединены — только наружные линии и внутренние пустоты) ── */
+.splash-stroke use {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 101;
+  stroke-dashoffset: 101;
+  animation: splashDraw .7s cubic-bezier(.5,0,.3,1) forwards;
 }
-.splash-logo-layer .sub {
-  font-size: .46em;
-  vertical-align: super;
-  letter-spacing: -.02em;
-  margin-left: 4px;
-  display: inline-block;
-}
-.splash-logo-layer.outline {
-  color: transparent;
-  -webkit-text-stroke: 1.3px var(--text);
-  text-stroke: 1.3px var(--text);
-  opacity: 0;
-  clip-path: inset(0 100% 0 0);
-  animation: splashOutline 1.8s cubic-bezier(.65,0,.35,1) forwards;
-}
-.splash-logo-layer.outline .sub {
-  -webkit-text-stroke: 1.3px var(--blue);
-  text-stroke: 1.3px var(--blue);
-}
-.splash-logo-layer.fill .main {
-  color: var(--text);
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(5px);
-  animation: splashPart .6s cubic-bezier(.22,1,.36,1) .48s forwards;
-}
-.splash-logo-layer.fill .sub {
-  color: var(--blue);
+.splash-stroke .st-sub { stroke: var(--blue); }
+.splash-stroke .st1 { animation-delay: .05s; }
+.splash-stroke .st2 { animation-delay: .17s; }
+.splash-stroke .st3 { animation-delay: .29s; }
+.splash-stroke .st4 { animation-delay: .45s; animation-duration: .55s; }
+.splash-stroke .st5 { animation-delay: .53s; animation-duration: .55s; }
+.splash-stroke .st6 { animation-delay: .61s; animation-duration: .55s; }
+/* после заполнения контур мягко отходит на второй план */
+.splash-stroke { animation: splashStrokeDim .45s ease 1.2s forwards; }
+
+/* ── этап 2: заполнение букв ── */
+.splash-fill {
   opacity: 0;
   transform: translateY(4px);
-  animation: splashPart .6s cubic-bezier(.22,1,.36,1) .58s forwards;
+  animation: splashFillIn .5s cubic-bezier(.22,1,.36,1) .95s forwards;
 }
-.splash-logo-layer.shine {
-  color: transparent;
-  background: linear-gradient(100deg, transparent 32%, rgba(255,255,255,.85) 48%, rgba(255,255,255,.85) 52%, transparent 68%);
-  background-size: 260% 100%;
-  background-position: -160% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  opacity: 0;
-  animation: splashShine 1.8s cubic-bezier(.4,0,.2,1) forwards;
-}
+.splash-fill use { fill: var(--text); }
+.splash-fill .sf-sub { fill: var(--blue); }
 
 @keyframes splashGlow {
   0%   { opacity: 0; }
   35%  { opacity: 1; }
   100% { opacity: 1; }
 }
-@keyframes splashOutline {
-  0%   { opacity: 0;  clip-path: inset(0 100% 0 0); }
-  8%   { opacity: 1; }
-  46%  { opacity: 1;  clip-path: inset(0 0% 0 0); }
-  64%  { opacity: .16; clip-path: inset(0 0% 0 0); }
-  100% { opacity: 0;  clip-path: inset(0 0% 0 0); }
+@keyframes splashDraw {
+  to { stroke-dashoffset: 0; }
 }
-@keyframes splashPart {
-  0%   { opacity: 0; transform: translateY(var(--sy, 5px)); }
-  100% { opacity: 1; transform: translateY(0); }
+@keyframes splashStrokeDim {
+  to { opacity: .14; }
 }
-@keyframes splashShine {
-  0%   { opacity: 0; background-position: -160% 0; }
-  58%  { opacity: 0; }
-  66%  { opacity: .9; }
-  90%  { opacity: .9; }
-  100% { opacity: 0; background-position: 160% 0; }
+@keyframes splashFillIn {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .splash-glow,
-  .splash-logo-layer.outline,
-  .splash-logo-layer.fill .main,
-  .splash-logo-layer.fill .sub,
-  .splash-logo-layer.shine {
+  .splash-stroke,
+  .splash-stroke .st,
+  .splash-fill {
     animation: none !important;
   }
-  .splash-logo-layer.outline,
-  .splash-logo-layer.shine {
+  .splash-stroke {
     display: none !important;
   }
-  .splash-logo-layer.fill .main,
-  .splash-logo-layer.fill .sub {
+  .splash-fill {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -7512,11 +7810,37 @@ html, body {
 <body>
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
   <div class="splash-glow"></div>
-  <div class="splash-logo-stack">
-    <span class="splash-logo-layer outline">VBR<span class="sub">БОТ</span></span>
-    <span class="splash-logo-layer fill"><span class="main">VBR</span><span class="sub">БОТ</span></span>
-    <span class="splash-logo-layer shine">VBR<span class="sub">БОТ</span></span>
-  </div>
+  <!-- SVG-логотип: буквы — готовые пути с объединёнными контурами (только
+       наружные линии и внутренние пустоты, без внутренних членений глифов).
+       Сначала обводка (stroke-dashoffset), затем заливка. -->
+  <svg class="splash-logo-svg" viewBox="0 0 320 120" aria-hidden="true">
+    <defs>
+      <path id="sl-v" d="M23.5 88 2 24H21.7L29.1 48.8Q31.5 56.9 33.5 65.2Q34.5 69.3 35.4 73.4Q36.4 69.3 37.3 65.2Q39.1 56.9 41.5 48.8L48.6 24H68L47.2 88Z" pathLength="100"/>
+      <path id="sl-b" d="M76.1 88V24H103.8Q111.1 24 116.1 26Q121.1 27.9 123.6 31.5Q126.2 35.1 126.2 40Q126.2 43.5 124.6 46.4Q123.1 49.3 120.3 51.3Q117.5 53.2 113.8 54V54.7Q117.9 54.8 121.3 56.7Q124.7 58.6 126.7 62Q128.7 65.4 128.7 69.9Q128.7 75.1 126 79.2Q123.3 83.3 118.2 85.7Q113.2 88 106.2 88ZM93.4 74.2H101.6Q105.9 74.2 108.2 72.5Q110.4 70.8 110.4 67.6Q110.4 65.4 109.3 63.8Q108.3 62.2 106.4 61.4Q104.5 60.6 101.9 60.6H93.4ZM93.4 49.8H100.6Q102.8 49.8 104.6 49.1Q106.3 48.4 107.3 47.1Q108.3 45.7 108.3 43.7Q108.3 40.8 106.2 39.2Q104.1 37.6 100.8 37.6H93.4Z" pathLength="100"/>
+      <path id="sl-r" d="M136.9 88V24H164.4Q171.6 24 176.9 26.6Q182.3 29.2 185.3 34.1Q188.2 38.9 188.2 45.7Q188.2 52.6 185.2 57.3Q182.4 61.7 177.3 64.2L190.4 88H171.5L160.2 66.9H154.2V88ZM154.2 53.4H160.3Q163.4 53.4 165.6 52.6Q167.8 51.8 169 50.1Q170.1 48.5 170.1 45.7Q170.1 43 169 41.2Q167.8 39.5 165.6 38.7Q163.4 37.9 160.3 37.9H154.2Z" pathLength="100"/>
+      <path id="sl-b2" d="M199.4 54V24.9H220V31.1H207.3V36.5H213.1Q216 36.5 218.1 37.5Q220.2 38.4 221.3 40.2Q222.5 42.1 222.5 44.8Q222.5 47.6 221.3 49.7Q220.2 51.8 218.1 52.9Q216 54 213.1 54ZM207.3 48.1H211.6Q213.1 48.1 214 47.2Q214.9 46.3 214.9 45Q214.9 43.6 214 42.8Q213.1 41.9 211.6 41.9H207.3Z" pathLength="100"/>
+      <path id="sl-o2" d="M239.9 54.4Q236 54.4 232.7 52.7Q229.5 51 227.7 47.6Q225.8 44.3 225.8 39.5Q225.8 34.6 227.7 31.3Q229.5 27.9 232.7 26.2Q236 24.5 239.9 24.5Q243.9 24.5 247.1 26.2Q250.3 27.9 252.2 31.3Q254.1 34.6 254.1 39.5Q254.1 44.3 252.2 47.6Q250.3 51 247.1 52.7Q243.9 54.4 239.9 54.4ZM239.9 47.5Q241.9 47.5 243.2 46.6Q244.6 45.7 245.3 43.9Q245.9 42.1 245.9 39.5Q245.9 36.9 245.3 35Q244.6 33.2 243.2 32.3Q241.9 31.4 239.9 31.4Q238 31.4 236.6 32.3Q235.3 33.2 234.6 35Q233.9 36.9 233.9 39.5Q233.9 42.1 234.6 43.9Q235.3 45.7 236.6 46.6Q238 47.5 239.9 47.5Z" pathLength="100"/>
+      <path id="sl-t2" d="M257.5 31.3V24.9H282.8V31.3H274.1V54H266.2V31.3Z" pathLength="100"/>
+    </defs>
+    <g transform="translate(18.1 0)">
+      <g class="splash-stroke">
+      <use href="#sl-v" class="st st1"/>
+      <use href="#sl-b" class="st st2"/>
+      <use href="#sl-r" class="st st3"/>
+      <use href="#sl-b2" class="st st4 st-sub"/>
+      <use href="#sl-o2" class="st st5 st-sub"/>
+      <use href="#sl-t2" class="st st6 st-sub"/>
+      </g>
+      <g class="splash-fill">
+      <use href="#sl-v" fill="#E7EBF3"/>
+      <use href="#sl-b" fill="#E7EBF3"/>
+      <use href="#sl-r" fill="#E7EBF3"/>
+      <use href="#sl-b2" class="sf-sub" fill="#FF7A3D"/>
+      <use href="#sl-o2" class="sf-sub" fill="#FF7A3D"/>
+      <use href="#sl-t2" class="sf-sub" fill="#FF7A3D"/>
+      </g>
+    </g>
+  </svg>
 </div>
 <script>
 (function () {
@@ -7830,6 +8154,7 @@ html, body {
             <div class="compare-line short"></div>
             <div class="compare-score"></div>
             <div class="compare-check">✓</div>
+            <div class="compare-scan" aria-hidden="true"></div>
           </div>
           <div class="compare-model">
             <div class="compare-brand"></div>
@@ -7837,6 +8162,7 @@ html, body {
             <div class="compare-line short"></div>
             <div class="compare-score"></div>
             <div class="compare-check">✓</div>
+            <div class="compare-scan" aria-hidden="true"></div>
           </div>
           <div class="compare-model">
             <div class="compare-brand"></div>
@@ -7844,6 +8170,7 @@ html, body {
             <div class="compare-line short"></div>
             <div class="compare-score"></div>
             <div class="compare-check">✓</div>
+            <div class="compare-scan" aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -7861,9 +8188,9 @@ html, body {
         </div>
         <div class="search-card-body">
           <div class="search-card-label" id="loading-sub2">Сравниваем модели и параметры</div>
+          <!-- Фазовый индикатор: 4 смысловых этапа подбора (не прогресс-бар) -->
           <div class="search-dots">
-            <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
-            <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
+            <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
           </div>
         </div>
       </div>
@@ -9230,6 +9557,24 @@ function setIntroSearchMode(active) {
 
 let lastIntroSearchQuery = "";
 let showAllIntroSearch = false;
+let introSearchListOpen = false; // entrance-анимация только при «нет списка → появился»
+
+// Краткая строка ключевых характеристик для выпадающего поиска (максимум 4).
+// Только визуальный выбор уже существующих данных устройства.
+function introSearchMetaLine(d) {
+  const items = [];
+  const q = ["", "Full HD", "2K", "4K"][d.q] || "";
+  if (q) items.push(q);
+  const type = String(d.type || "").toLowerCase();
+  if (type === "комбо 3 в 1") items.push("комбо 3 в 1");
+  else if (type === "gps-информер") items.push("база камер");
+  else if (type === "4g-регистратор") items.push("4G");
+  if (d.gps && d.gps !== "нет") items.push("GPS");
+  if (d.smartphone) items.push("Wi-Fi");
+  if (d.rear_cam) items.push("КЗВ");
+  if (d.ir_cam) items.push("салонная камера");
+  return items.slice(0, 4).join(" · ");
+}
 
 function onIntroSearch(val) {
   const clearBtn = document.getElementById("intro-srch-clear");
@@ -9246,6 +9591,7 @@ function onIntroSearch(val) {
     setIntroSearchMode(false);
     lastIntroSearchQuery = "";
     showAllIntroSearch = false;
+    introSearchListOpen = false;
     return;
   }
 
@@ -9264,50 +9610,45 @@ function onIntroSearch(val) {
   const allHits = searchDevices(val.trim());
   const visibleCount = showAllIntroSearch ? allHits.length : 5;
   const hits = allHits.slice(0, visibleCount);
+
+  // Entrance-анимация контейнера — только при переходе «нет списка → появился»,
+  // не при каждом введённом символе.
+  const firstOpen = !introSearchListOpen;
+  introSearchListOpen = true;
+  resultsEl.classList.toggle("isr-enter", firstOpen);
+
   if (!hits.length) {
-    resultsEl.innerHTML = `<div class="srch-no-results">
-      Ничего не найдено.<br>
-      <span style="color:var(--text-3);font-size:13px">Введите название бренда или модели на русском или английском языке. Бот найдет все возможные совпадения.</span>
-    </div>`;
+    resultsEl.innerHTML = `<div class="isr-list"><div class="isr-empty">
+      <div class="isr-empty-title">Ничего не нашли</div>
+      <div class="isr-empty-sub">Попробуйте изменить запрос</div>
+    </div></div>`;
     return;
   }
-  resultsEl.innerHTML = hits.map(({d}) => {
+  const rowsHtml = hits.map(({d}, i) => {
     const idx = DEVICES.indexOf(d);
-    const qLabel = ['','Full HD','2K','4K'][d.q] || '';
-    const antennaLabel = radarAntennaLabel(d);
-    const sensor = sensorLabel(d);
-    const badges = [
-      qLabel && `<span class="srch-badge">${qLabel}</span>`,
-      sensor && `<span class="srch-badge hi">${sensor.replace(/^Sony\s+/i, "")}</span>`,
-      d.gps && d.gps !== 'нет' ? `<span class="srch-badge">GPS</span>` : '',
-      antennaLabel ? `<span class="srch-badge hi">${antennaLabel}</span>` : '',
-      hasLNA(d) ? `<span class="srch-badge">LNA</span>` : '',
-      hasInterpolation(d) ? `<span class="srch-badge interp">Интерполяция</span>` : '',
-      d.ir_cam  ? `<span class="srch-badge">Внутрисалонная</span>` : '',
-      d.rear_cam ? `<span class="srch-badge">Поддержка КЗВ</span>` : '',
-      d.smartphone ? `<span class="srch-badge">Wi-Fi</span>` : '',
-    ].filter(Boolean).join('');
+    const meta = introSearchMetaLine(d);
     const thumbSrc = deviceImageSrc(d);
     const thumbHtml = thumbSrc
-      ? `<div class="srch-match-thumb"><img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>`
+      ? `<img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
       : '';
-    return `<div class="srch-match-card" onclick="openDeviceFromIntro(${idx})">
-      ${thumbHtml}
-      <div class="srch-match-info">
-        <div class="srch-match-brand">${d.brand}</div>
-        <div class="srch-match-name">${d.name}</div>
-        <div class="srch-match-badges">${badges}</div>
-        <div class="srch-price">${d.price}</div>
+    const animAttr = firstOpen
+      ? ` class="isr-row isr-anim" style="animation-delay:${Math.min(i * 35, 140)}ms"`
+      : ` class="isr-row"`;
+    return `<div${animAttr} onclick="openDeviceFromIntro(${idx})" role="button" tabindex="0">
+      <div class="isr-thumb">${thumbHtml}</div>
+      <div class="isr-info">
+        <div class="isr-brand">${d.brand}</div>
+        <div class="isr-name">${d.name}</div>
+        ${meta ? `<div class="isr-meta">${meta}</div>` : ''}
+        ${d.price ? `<div class="isr-price">${d.price}</div>` : ''}
       </div>
-      <div class="srch-match-right">
-        <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareButtonHTML(d)}</div>
-        <svg class="srch-match-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
+      <svg class="isr-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
-  }).join('') + (allHits.length > hits.length
+  }).join('');
+  const showMoreHtml = allHits.length > hits.length
     ? `<button type="button" class="show-more-card" onclick="showAllIntroSearchResults()">Показать ещё ${allHits.length - hits.length}</button>`
-    : '');
-  refreshFavoriteUI();
+    : '';
+  resultsEl.innerHTML = `<div class="isr-list">${rowsHtml}${showMoreHtml}</div>`;
 }
 
 function showAllIntroSearchResults() {
@@ -10640,43 +10981,81 @@ function swapLoadingText(elem, text) {
   loadingTimers.push(id);
 }
 
-function showResults() {
+// ════════════════════════════════════════════════════════
+//  SEARCH SCENE — сцена процесса поиска (~4800 мс).
+//  Реальный расчёт выполняется мгновенно в начале и сохраняется;
+//  дальше проигрывается визуальное объяснение логики VBR БОТ:
+//  анализ ответов → сравнение базы → проверка совпадений → отбор.
+//  Фазы — смысловые, а не технический прогресс.
+// ════════════════════════════════════════════════════════
+
+let currentSearchPhase = 0;
+
+// Смена статуса: старый уходит вверх, новый приходит снизу (150–220 мс)
+function swapSearchStatus(elm, text) {
+  if (!elm) return;
+  elm.classList.add("loading-text-out");
+  const id = setTimeout(() => {
+    elm.textContent = text;
+    elm.classList.remove("loading-text-out");
+    elm.classList.add("loading-text-in");
+    requestAnimationFrame(() => requestAnimationFrame(() => elm.classList.remove("loading-text-in")));
+  }, 180);
+  loadingTimers.push(id);
+}
+
+function setSearchPhase(n) {
+  currentSearchPhase = n;
+  const loading = el("s-loading");
+  loading.setAttribute("data-phase", String(n)); // единый источник состояния
+  const statuses = {
+    1: "Анализируем ваши ответы",
+    2: `Сравниваем ${DEVICES.length} ${pluralRu(DEVICES.length, "устройство", "устройства", "устройств")}`,
+    3: "Проверяем совпадения",
+    4: "Отбираем лучшие варианты",
+  };
+  swapSearchStatus(el("loading-sub"), statuses[n]);
+}
+
+function resetSearchScene() {
   clearLoadingTimers();
+  currentSearchPhase = 0;
+  const loading = el("s-loading");
+  loading.removeAttribute("data-phase");
+  loading.classList.remove("search-done");
+  const sub = el("loading-sub");
+  sub.textContent = "";
+  sub.classList.remove("loading-text-out", "loading-text-in");
+}
+
+function showResults() {
+  // Полный сброс — повторный подбор всегда начинается с первой фазы
+  resetSearchScene();
   el("bottom-nav").style.display = "none";
   el("hd-counter").style.display = "none";
   el("progress-fill").style.width = "100%";
-  el("loading-sub").textContent = "Сравниваем модели";
-  el("loading-sub2").textContent = "Сопоставляем ключевые параметры";
-  el("loading-sub").classList.remove("loading-text-out");
+
+  // Результат считается сразу и сохраняется — сцена ниже его не меняет
+  sortMode = "match";
+  showAllNearResults = false;
+  _lastTop = getTop();
+
+  el("loading-sub2").textContent = "Этапы подбора";
   el("loading-sub2").classList.remove("loading-text-out");
   show("s-loading");
 
-  const steps = [
-    {t:0,    top:"Сравниваем модели", card:"Сопоставляем ключевые параметры"},
-    {t:900,  top:"Проверяем базу",     card:"Смотрим " + DEVICES.length + " устройств"},
-    {t:2000, top:"Анализируем",        card:"Считаем процент совпадения"},
-    {t:3100, top:"Почти готово",       card:"Выбираем лучшие варианты"},
-    {t:4200, top:"Готово",             card:"Загружаем результаты"},
-  ];
-
-  steps.forEach(s => {
-    const id = setTimeout(() => {
-      const topEl  = el("loading-sub");
-      const cardEl = el("loading-sub2");
-      swapLoadingText(topEl,  s.top);
-      swapLoadingText(cardEl, s.card);
-    }, s.t);
-    loadingTimers.push(id);
+  // Централизованный таймлайн сцены (~4800 мс)
+  [400, 1300, 2300, 3300].forEach((t, i) => {
+    loadingTimers.push(setTimeout(() => setSearchPhase(i + 1), t));
   });
-
-  const doneId = setTimeout(() => {
-    clearLoadingTimers();
-    sortMode = "match";
-    showAllNearResults = false;
-    _lastTop = getTop();
-    _renderResults(_lastTop);
-  }, 5000);
-  loadingTimers.push(doneId);
+  loadingTimers.push(setTimeout(() => {
+    el("s-loading").classList.add("search-done");
+    swapSearchStatus(el("loading-sub"), "Готово");
+  }, 4300));
+  loadingTimers.push(setTimeout(() => {
+    resetSearchScene();
+    _renderResults(_lastTop); // переход к заранее рассчитанным результатам
+  }, 4800));
 }
 
 // Реально выбранные пользователем требования (без «неважно») — единый источник
