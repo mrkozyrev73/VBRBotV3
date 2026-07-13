@@ -835,7 +835,7 @@ html, body {
 .srch-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
   border: none;
   background: none;
@@ -845,35 +845,41 @@ html, body {
   text-align: left;
 }
 .srch-logo-mark {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
-  background: var(--violet-bg);
-  color: var(--violet-text);
-  box-shadow: 0 10px 28px rgba(var(--blue-rgb), .14);
+  background: rgba(var(--blue-rgb), .12);
+  color: var(--blue);
+  border: 1px solid rgba(var(--blue-rgb), .22);
+  box-shadow: 0 10px 28px rgba(var(--blue-rgb), .10);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .srch-logo-mark svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .srch-logo-title {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 15.5px;
+  font-weight: 850;
   color: var(--text);
   line-height: 1.2;
-  letter-spacing: -0.2px;
+  letter-spacing: 0;
 }
 .srch-logo-sub {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-2);
   line-height: 1.25;
   margin-top: 1px;
+  letter-spacing: 0;
 }
 .srch-body {
   width: 100%;
@@ -8440,6 +8446,19 @@ html, body {
 }
 .app-nav-badge.show { display: block; }
 
+@media (min-width: 900px) {
+  .app-nav {
+    justify-content: center;
+    padding-left: max(var(--dt-pad), calc((100vw - var(--dt-wide)) / 2));
+    padding-right: max(var(--dt-pad), calc((100vw - var(--dt-wide)) / 2));
+  }
+
+  .app-nav-item {
+    flex: 1 1 calc(var(--dt-wide) / 5);
+    max-width: calc(var(--dt-wide) / 5);
+  }
+}
+
 /* ── Каталог / Избранное (общие строки) ── */
 .catalog-wrap, .fav-page-wrap, .about-wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 0; }
 .fav-page-wrap { max-width: none; padding: 0; }
@@ -9482,6 +9501,133 @@ html, body {
   .about-pro-text { font-size: 11.5px; }
   .about-social { width: 68px; }
 }
+
+/* Final page rhythm: main app sections share title size and top offset. */
+@media (max-width: 899px) {
+  :root {
+    --mobile-page-x: 32px;
+  }
+
+  #s-catalog .catalog-wrap,
+  #s-favorites .fav-page-wrap,
+  #s-compare,
+  #s-mode .mode-inner {
+    padding-top: 18px !important;
+  }
+
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-compare .cmp-body,
+  #s-favorites .section-head,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-about {
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
+  }
+
+  #s-catalog .catalog-filter-strip {
+    margin-left: calc(var(--mobile-page-x) * -1) !important;
+    margin-right: calc(var(--mobile-page-x) * -1) !important;
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
+  }
+
+  #s-catalog .catalog-head,
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    padding-top: 0 !important;
+  }
+
+  #s-mode.on {
+    align-items: flex-start;
+    justify-content: center !important;
+  }
+
+  #s-mode .mode-inner {
+    min-height: auto !important;
+    padding: 18px var(--mobile-page-x) calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 18px) !important;
+    justify-content: flex-start !important;
+  }
+
+  #s-mode .mode-title-row {
+    min-height: 34px;
+    margin-top: 0 !important;
+    align-items: center;
+  }
+
+  #s-catalog .catalog-title,
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2,
+  #s-mode .mode-title {
+    margin: 0 !important;
+    font-size: 22px !important;
+    line-height: 1.1 !important;
+    font-weight: 850 !important;
+    letter-spacing: -.5px !important;
+  }
+
+  #s-catalog .catalog-search {
+    margin-top: 8px !important;
+  }
+
+  #s-mode .mode-subtitle-row {
+    margin-top: 5px !important;
+    min-height: 18px;
+    align-items: center;
+  }
+
+  #s-mode .mode-subtitle {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+
+  #s-mode .mode-back-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+  }
+
+  #s-mode .mode-content {
+    margin-top: 16px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --mobile-page-x: 18px;
+  }
+
+  #s-mode .mode-inner {
+    padding-top: 18px !important;
+  }
+}
+
+@media (min-width: 900px) {
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    padding-top: 28px !important;
+  }
+
+  #s-mode .mode-title-row {
+    margin-top: 28px !important;
+  }
+
+  #s-catalog .catalog-title,
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2,
+  #s-mode .mode-title {
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    letter-spacing: -.8px !important;
+  }
+
+  #s-catalog .catalog-search {
+    margin-top: 6px !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -9791,12 +9937,12 @@ html, body {
       <button class="srch-logo" onclick="handleSearchTopbarBack()" aria-label="Вернуться к поиску">
         <span class="srch-logo-mark">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8zm8 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            <path d="m13 2-8 12h6l-1 8 8-12h-6z"/>
           </svg>
         </span>
         <span>
-          <span class="srch-logo-title">VBR Бот</span>
-          <span class="srch-logo-sub">к выбору модели</span>
+          <span class="srch-logo-title">VBR БОТ</span>
+          <span class="srch-logo-sub">подбор модели</span>
         </span>
       </button>
     </div>
@@ -10952,6 +11098,41 @@ const CATALOG_SORTS = [
   {id:"quality", label:"Сначала 4K"},
   {id:"radar", label:"С радаром"},
 ];
+const CATALOG_BRAND_ALIASES = {
+  "70mai": "70 май семидесяти май сяоми xiaomi",
+  "blackvue": "блэквью блэк вью black vue",
+  "daocam": "даокам дао кам",
+  "ddpai": "ддпай дд паи",
+  "fujida": "фуджида фуджи фуджида",
+  "ibox": "айбокс и бокс ibox",
+  "inspector": "инспектор",
+  "intego": "интего",
+  "mio": "мио",
+  "navitel": "навител",
+  "neoline": "неолайн нео лайн",
+  "playme": "плейми плей ми",
+  "roadgid": "роадгид роудгид родгид",
+  "roadgo": "роадго роудго родго",
+  "sho me": "шо ми шоми шоу ми",
+  "silverstone f1": "сильверстоун сильвер стоун silver stone",
+  "trendvision": "трендвижн тренд вижн трендвизион",
+  "viofo": "виофо вайофо",
+};
+const CATALOG_TERM_ALIASES = {
+  "a15": "а15",
+  "a12": "а12",
+  "bullet": "буллет булет",
+  "cam": "кам камера",
+  "combo": "комбо",
+  "dash": "даш",
+  "duo": "дуо",
+  "line": "лайн линия",
+  "mirror": "миррор зеркало",
+  "pro": "про",
+  "uno": "уно",
+  "wifi": "вайфай wi fi",
+  "wi fi": "вайфай wifi",
+};
 
 function catalogSortedDevices() {
   return DEVICES.slice().sort((a, b) => {
@@ -10963,8 +11144,37 @@ function catalogSortedDevices() {
 function catalogFilterById(id) {
   return CATALOG_FILTERS.find(f => f.id === id);
 }
+function catalogSearchNormalize(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[№#]/g, " ")
+    .replace(/[-_/+]+/g, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+function catalogSearchTextForDevice(d) {
+  const brandKey = catalogSearchNormalize(d.brand);
+  const base = catalogSearchNormalize([
+    d.brand,
+    d.name,
+    d.type,
+    d.form,
+    d.resolution,
+    d.gps,
+    d.specs?.wifi_gen,
+    d.specs?.sensor,
+    d.specs?.processor,
+  ].filter(Boolean).join(" "));
+  const aliases = [CATALOG_BRAND_ALIASES[brandKey] || ""];
+  Object.entries(CATALOG_TERM_ALIASES).forEach(([term, alias]) => {
+    if (base.includes(term)) aliases.push(alias);
+  });
+  return catalogSearchNormalize(`${base} ${aliases.join(" ")}`);
+}
 function catalogParseQuery(raw) {
-  const source = String(raw || "").trim().toLowerCase();
+  const source = String(raw || "").trim().toLowerCase().replace(/ё/g, "е");
   if (!source) return {text: "", maxPrice: null};
   let text = source;
   let maxPrice = null;
@@ -10990,10 +11200,9 @@ function catalogParseQuery(raw) {
     }
   }
 
-  text = text
+  text = catalogSearchNormalize(text
     .replace(/\b(до|цена|стоимость|руб(?:\.|лей|ля)?|₽)\b/gi, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/\s+/g, " "));
   return {text, maxPrice};
 }
 function catalogMatchesQuery(d, parsedQuery) {
@@ -11003,7 +11212,10 @@ function catalogMatchesQuery(d, parsedQuery) {
     if (!Number.isFinite(price) || price > query.maxPrice) return false;
   }
   if (!query.text) return true;
-  return `${d.brand || ""} ${d.name || ""}`.toLowerCase().includes(query.text);
+  const words = catalogSearchNormalize(query.text).split(" ").filter(Boolean);
+  if (!words.length) return true;
+  const searchText = catalogSearchTextForDevice(d);
+  return words.every(word => searchText.includes(word));
 }
 function catalogApplyFilters(items, filterIds = _catalogFilters) {
   return filterIds.reduce((acc, id) => {
@@ -12646,6 +12858,19 @@ function openSectionFromHash() {
 
 function openRouteFromHash() {
   return openDeviceFromHash() || openCompareFromHash() || openFavoritesFromHash() || openSectionFromHash();
+}
+
+function isReloadNavigation() {
+  const perf = typeof performance !== "undefined" ? performance : null;
+  const nav = perf && perf.getEntriesByType
+    ? performance.getEntriesByType("navigation")[0]
+    : null;
+  if (nav && nav.type) return nav.type === "reload";
+  return perf && perf.navigation && perf.navigation.type === 1;
+}
+
+function shouldResetRouteOnReload() {
+  return isReloadNavigation() && Boolean(location.hash);
 }
 
 function shareButtonHTML(d) {
@@ -14601,7 +14826,11 @@ renderFavoritePanel();
 initIntroScene();
 // Deep-link: #m=<модель>, #cmp=<модель,модель> или разделы #catalog/#favorites/#compare/#about.
 window.addEventListener("hashchange", openRouteFromHash);
-openRouteFromHash();
+if (shouldResetRouteOnReload()) {
+  clearAppHash();
+} else {
+  openRouteFromHash();
+}
 
 </script>
 </body>
