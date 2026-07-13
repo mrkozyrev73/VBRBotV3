@@ -8270,6 +8270,669 @@ html, body {
     transition-duration: .25s;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   ПОСТОЯННОЕ НИЖНЕЕ МЕНЮ + НОВЫЕ РАЗДЕЛЫ (Каталог / Избранное / О проекте)
+   ══════════════════════════════════════════════════════════ */
+:root { --app-nav-h: 58px; }
+
+/* контент не должен перекрываться нижним меню */
+.screen { padding-bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 10px); }
+#s-question { padding-bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 132px); }
+
+/* квиз-навигация «Назад/Далее» — над постоянным меню */
+#bottom-nav { bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom)); padding: 12px 18px 14px; z-index: 49; }
+
+.app-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 250;
+  display: flex; align-items: stretch;
+  background: var(--card);
+  border-top: 0.5px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 22px rgba(0,0,0,.20);
+}
+/* въезд меню в общей последовательной анимации интро (после блоков-преимуществ) */
+.app-nav.nav-enter { animation: navRise .42s cubic-bezier(.22,1,.36,1) 1.55s both; }
+@keyframes navRise { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .app-nav.nav-enter { animation: none; } }
+.app-nav-item {
+  flex: 1; height: var(--app-nav-h);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--text-2); -webkit-tap-highlight-color: transparent;
+  transition: color .15s ease;
+}
+.app-nav-item.active { color: var(--blue); }
+.app-nav-ic { position: relative; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.app-nav-ic svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
+.app-nav-lb { font-size: 11px; font-weight: 600; line-height: 1; letter-spacing: -.01em; }
+.app-nav-badge {
+  position: absolute; top: -6px; right: -9px;
+  min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box;
+  border-radius: 999px; background: var(--blue); color: #fff;
+  font-size: 10px; font-weight: 800; line-height: 16px; text-align: center;
+  display: none;
+}
+.app-nav-badge.show { display: block; }
+
+/* ── Каталог / Избранное (общие строки) ── */
+.catalog-wrap, .fav-page-wrap, .about-wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 0; }
+.fav-page-wrap { max-width: none; padding: 0; }
+.fav-page-wrap #fav-page-list {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.catalog-title, .fav-page-title, .about-title {
+  font-size: 24px; font-weight: 800; letter-spacing: -.5px; margin: 6px 2px 14px; color: var(--text);
+}
+.catalog-wrap { padding-top: 12px; }
+.catalog-head { position: sticky; top: 0; z-index: 6; background: var(--bg); padding-top: 4px; padding-bottom: 8px; }
+.catalog-search {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 0 14px; height: 46px;
+}
+.catalog-search svg { width: 20px; height: 20px; color: var(--text-2); flex-shrink: 0; }
+.catalog-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text); font-size: 16px; }
+.catalog-search input::placeholder { color: var(--text-2); }
+.catalog-clear { background: none; border: 0; color: var(--text-2); cursor: pointer; font-size: 22px; line-height: 1; display: none; }
+.catalog-filter-strip {
+  display: flex; gap: 8px;
+  margin: 10px -16px 0;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.catalog-filter-strip::-webkit-scrollbar { display: none; }
+.catalog-chip {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(var(--blue-rgb), .04);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.catalog-chip:hover { color: var(--text); border-color: var(--blue-border); }
+.catalog-chip.active {
+  color: #fff;
+  background: var(--blue);
+  border-color: transparent;
+}
+.catalog-chip-reset { color: var(--blue); border-color: rgba(var(--blue-rgb), .2); }
+.catalog-count-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 9px 2px 0;
+}
+.catalog-count { font-size: 13px; color: var(--text-2); }
+.catalog-reset {
+  display: none;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.catalog-reset.show { display: inline-flex; }
+.catalog-list { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 0; }
+.catalog-brand-group { display: grid; gap: 8px; padding-top: 10px; }
+.catalog-brand-head {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 2px 2px 0;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.catalog-brand-head span {
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.catalog-brand-list { display: grid; gap: 8px; }
+.catalog-row {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr) auto auto;
+  align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  min-height: 84px;
+  padding: 9px 10px; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease;
+}
+.catalog-row:hover { border-color: var(--blue-border); box-shadow: 0 0 0 1px var(--blue-border); }
+.catalog-row-info { flex: 1; min-width: 0; }
+.catalog-row .mode-popular-thumb,
+.catalog-row .isr-thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+}
+.catalog-row-brand { font-size: 10.5px; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: .055em; }
+.catalog-row-name { margin-top: 1px; font-size: 14.5px; font-weight: 800; color: var(--text); line-height: 1.18; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.catalog-row-meta { font-size: 12px; color: var(--text-2); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.catalog-row-price { font-size: 12.5px; font-weight: 750; color: var(--text-2); white-space: nowrap; }
+.catalog-row-fav {
+  width: 32px;
+  height: 32px;
+}
+.catalog-row-fav svg {
+  width: 16px;
+  height: 16px;
+}
+.catalog-row-arrow { color: var(--text-2); font-size: 22px; line-height: 1; flex-shrink: 0; }
+.catalog-empty { text-align: center; color: var(--text-2); padding: 44px 20px; font-size: 15px; }
+.fav-row-remove {
+  background: none; border: 1px solid var(--border); color: var(--text-2);
+  border-radius: 10px; width: 34px; height: 34px; cursor: pointer; font-size: 18px; line-height: 1; flex-shrink: 0;
+}
+.fav-row-remove:hover { color: var(--blue); border-color: var(--blue-border); }
+
+@media (max-width: 430px) {
+  .catalog-wrap { padding-inline: 14px; }
+  .catalog-filter-strip { margin-inline: -14px; padding-inline: 14px; }
+  .catalog-row {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    min-height: 82px;
+  }
+  .catalog-row .mode-popular-thumb { width: 56px; height: 56px; }
+  .catalog-row-price {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -2px;
+    font-size: 12px;
+  }
+  .catalog-row-fav {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+/* пустое состояние избранного */
+.fav-empty { text-align: center; padding: 52px 20px; }
+.fav-empty-heart { width: 56px; height: 56px; margin: 0 auto 16px; color: var(--text-2); }
+.fav-empty-heart svg { width: 56px; height: 56px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.fav-empty-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.fav-empty-text { font-size: 14px; color: var(--text-2); line-height: 1.55; margin: 0 auto 22px; max-width: 320px; }
+.fav-empty-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.fav-empty-btn {
+  height: 46px; padding: 0 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--border); background: var(--card); color: var(--text);
+}
+.fav-empty-btn.primary { background: var(--blue); color: #fff; border-color: transparent; }
+
+/* ── Общая строка действий разделов: «Назад / Очистить» без шапки ── */
+.sec-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; max-width: 760px; margin: 0 auto; padding: 10px 12px 0; }
+.sec-actions.only-back { justify-content: flex-start; }
+.sec-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; background: none; border: 0; cursor: pointer; font-size: 14px; font-weight: 600; border-radius: 10px; font-family: inherit; }
+.sec-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.sec-back { color: var(--text-2); }
+.sec-back:hover { color: var(--text); }
+.sec-clear { color: var(--text-2); }
+.sec-clear:hover { color: var(--blue); }
+.sec-clear:disabled { opacity: .4; cursor: default; }
+.section-head {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.section-title h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: -.5px;
+}
+.section-count {
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.section-action {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.section-action:hover { color: var(--blue); }
+.section-action[hidden] { display: none; }
+
+/* ── О проекте: продолжение главной страницы ── */
+#s-about {
+  min-height: 100dvh;
+  padding: 14px 18px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 14px);
+  background: var(--bg);
+}
+#s-about.on { display: flex !important; justify-content: center; }
+.about-wrap {
+  width: 100%;
+  max-width: 520px;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.about-hero { margin-top: 6px; }
+.about-title {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -1.4px;
+  font-weight: 900;
+  color: var(--text);
+}
+.about-lead {
+  max-width: 420px;
+  margin-top: 14px;
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.36;
+}
+.about-lead strong {
+  display: block;
+  color: var(--text);
+  font-weight: 700;
+}
+.about-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+.about-author {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(105,113,137,.14);
+}
+.about-author-icon,
+.about-action-icon,
+.about-pro-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--blue-rgb), .08);
+  color: var(--blue);
+  flex-shrink: 0;
+}
+.about-author-icon {
+  width: 46px;
+  height: 46px;
+}
+.about-author-icon svg,
+.about-action-icon svg,
+.about-pro-mark svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.about-author-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.about-author-title,
+.about-action-title,
+.about-pro-title {
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 850;
+  color: var(--text);
+}
+.about-author-text,
+.about-action-text,
+.about-pro-text {
+  margin-top: 5px;
+  color: var(--text-2);
+  font-size: 12.8px;
+  line-height: 1.34;
+}
+.about-actions {
+  display: grid;
+  gap: 0;
+}
+.about-action {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(105,113,137,.14);
+}
+.about-action:first-child { padding-top: 0; }
+.about-action-icon {
+  width: 34px;
+  height: 34px;
+}
+.about-action-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2;
+}
+.about-action-link,
+.about-action-btn {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  min-width: 78px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--blue-rgb), .2);
+  background: rgba(var(--blue-rgb), .08);
+  color: var(--text);
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease, opacity .15s ease;
+}
+.about-action-link.copy-email { min-width: 132px; }
+.about-action-btn {
+  background: var(--blue);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(var(--blue-rgb), .18);
+}
+.about-action-link:hover {
+  color: var(--blue);
+  border-color: var(--blue-border);
+  background: rgba(var(--blue-rgb), .1);
+}
+.about-action-btn:hover { background: var(--blue-strong); }
+.about-action-link:active,
+.about-action-btn:active,
+.about-social:active { opacity: .78; transform: scale(.99); }
+.about-pro {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(105,113,137,.14);
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+.about-pro-mark {
+  width: 42px;
+  height: 42px;
+}
+.about-pro-mark svg {
+  width: 20px;
+  height: 20px;
+}
+.about-socials {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.about-social {
+  width: 98px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(var(--blue-rgb), .04);
+  color: var(--text-2);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 750;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.about-social svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+.about-social:hover {
+  color: var(--blue);
+  border-color: var(--blue-border);
+  background: rgba(var(--blue-rgb), .08);
+}
+
+@media (min-width: 900px) {
+  #s-about {
+    height: 100dvh;
+    overflow: hidden;
+    padding: 36px 40px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 24px);
+  }
+  .about-wrap {
+    max-width: 1180px;
+    min-height: 0;
+    height: calc(100dvh - 36px - 24px - var(--app-nav-h) - env(safe-area-inset-bottom));
+  }
+  .about-layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(430px, 520px);
+    gap: 64px;
+    align-items: center;
+  }
+  .about-hero { margin-top: 0; align-self: center; }
+  .about-title {
+    font-size: 44px;
+    line-height: 1.1;
+    letter-spacing: -1.6px;
+  }
+  .about-lead {
+    max-width: 500px;
+    margin-top: 14px;
+    font-size: 15.5px;
+    line-height: 1.36;
+  }
+  .about-grid { margin-top: 0; gap: 14px; }
+  .about-author {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+    padding-bottom: 14px;
+  }
+  .about-author-icon,
+  .about-pro-mark {
+    width: 36px;
+    height: 36px;
+  }
+  .about-author-icon svg,
+  .about-pro-mark svg {
+    width: 18px;
+    height: 18px;
+  }
+  .about-action {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    min-height: 54px;
+    padding: 10px 0;
+  }
+  .about-action-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .about-action-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .about-pro {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+@media (max-width: 899px) {
+  #s-about {
+    overflow-y: auto;
+    padding: 16px 18px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 12px);
+  }
+  .about-wrap {
+    min-height: calc(100dvh - var(--app-nav-h) - env(safe-area-inset-bottom) - 28px);
+    justify-content: center;
+  }
+  .about-layout {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.6vh, 24px);
+  }
+  .about-hero { margin-top: 0; }
+  .about-title {
+    font-size: 31px;
+    line-height: 1.08;
+    letter-spacing: -1px;
+  }
+  .about-lead {
+    max-width: none;
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .about-lead strong { display: inline; }
+  .about-grid {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2.2vh, 22px);
+  }
+  .about-author {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+    padding-bottom: 13px;
+  }
+  .about-author-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .about-author-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .about-author-title,
+  .about-action-title,
+  .about-pro-title {
+    font-size: 14px;
+  }
+  .about-author-text,
+  .about-action-text,
+  .about-pro-text {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.28;
+  }
+  .about-actions { margin-top: 0; }
+  .about-action {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+    min-height: 50px;
+    padding: 8px 0;
+  }
+  .about-action-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .about-action-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  .about-action-link,
+  .about-action-btn {
+    grid-column: auto;
+    justify-self: end;
+    margin-top: 0;
+    min-width: 66px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 11.5px;
+  }
+  .about-action-link.copy-email { min-width: 126px; }
+  .about-pro {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .about-pro-mark {
+    width: 30px;
+    height: 30px;
+  }
+  .about-pro-mark svg {
+    width: 15px;
+    height: 15px;
+  }
+  .about-socials {
+    grid-column: auto;
+    justify-content: flex-end;
+    margin-top: 0;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .about-social {
+    width: 74px;
+    height: 28px;
+    gap: 5px;
+    border-radius: 9px;
+    font-size: 11.5px;
+  }
+  .about-social svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  #s-about { padding: 14px 16px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 10px); }
+  .about-wrap { min-height: calc(100dvh - var(--app-nav-h) - env(safe-area-inset-bottom) - 24px); }
+  .about-title { font-size: 29px; }
+  .about-lead { margin-top: 13px; font-size: 13.2px; }
+  .about-layout { gap: 16px; }
+  .about-grid { gap: 14px; }
+  .about-author-text,
+  .about-action-text,
+  .about-pro-text { font-size: 11.5px; }
+  .about-social { width: 68px; }
+}
 </style>
 </head>
 <body>
@@ -8328,7 +8991,7 @@ html, body {
 
 <div class="fav-tooltip" id="fav-tooltip"></div>
 <div class="term-tooltip-float" id="term-tooltip"></div>
-<div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
+<div class="copy-toast" id="copy-toast">Почта скопирована</div>
 
 <!-- Контекстное пояснение процента совпадения (не модальное окно) -->
 <div class="match-pop" id="match-pop" style="display:none" role="tooltip">
@@ -8404,14 +9067,6 @@ html, body {
           <p class="home-v2-subtitle">VBR Bot помогает выбрать лучшее устройство под ваши задачи и требования</p>
           <div class="home-v2-sticker" id="intro-db-sticker">База обновляется</div>
         </section>
-
-        <div class="favorite-panel" id="favorite-panel" style="display:none">
-          <div class="favorite-panel-title">
-            Избранное
-            <span class="favorite-panel-note">сохранено в браузере</span>
-          </div>
-          <div class="favorite-list" id="favorite-list"></div>
-        </div>
 
         <div class="home-v2-spacer"></div>
         <button class="home-v2-start" id="btn-start">Начать подбор <span>→</span></button>
@@ -8741,21 +9396,120 @@ html, body {
 
 <!-- ── COMPARE SCREEN ─────────────────────────────── -->
 <div id="s-compare" class="screen">
-  <div class="cmp-topbar">
-    <button class="cmp-back" onclick="closeCompare()" aria-label="Закрыть сравнение">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Назад
-    </button>
-    <div class="cmp-topbar-title">Сравнение</div>
-    <button class="cmp-clear" onclick="clearCompare(); closeCompare();" aria-label="Очистить сравнение">Очистить</button>
+  <div class="section-head">
+    <div class="section-title">
+      <h2>Сравнение</h2>
+      <span class="section-count" id="compare-count"></span>
+    </div>
+    <button class="section-action" id="compare-clear" type="button" onclick="clearCompareSection()">Очистить</button>
   </div>
   <div class="cmp-body" id="compare-body"></div>
 </div>
 
-<!-- ── COMPARE BAR ────────────────────────────────── -->
-<div id="cmp-bar" class="cmp-bar" style="display:none"></div>
+<!-- ── CATALOG ─────────────────────────────────────── -->
+<div id="s-catalog" class="screen">
+  <div class="catalog-wrap">
+    <div class="catalog-head">
+      <h2 class="catalog-title">Каталог</h2>
+      <div class="catalog-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="catalog-search-input" type="text" placeholder="Найти регистратор" autocomplete="off" autocorrect="off" spellcheck="false" oninput="onCatalogSearch(this.value)">
+        <button class="catalog-clear" id="catalog-clear" type="button" onclick="clearCatalogSearch()" aria-label="Очистить">×</button>
+      </div>
+      <div class="catalog-filter-strip" id="catalog-filter-strip" aria-label="Быстрый выбор"></div>
+      <div class="catalog-count-row">
+        <div class="catalog-count" id="catalog-count"></div>
+        <button class="catalog-reset" id="catalog-reset" type="button" onclick="resetCatalogFilters()">Сбросить</button>
+      </div>
+    </div>
+    <div class="catalog-list" id="catalog-list"></div>
+  </div>
+</div>
 
-<!-- ── BOTTOM NAV ─────────────────────────────────── -->
+<!-- ── FAVORITES ───────────────────────────────────── -->
+<div id="s-favorites" class="screen">
+  <div class="fav-page-wrap">
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Избранное</h2>
+        <span class="section-count" id="favorites-count"></span>
+      </div>
+      <button class="section-action" id="favorites-clear" type="button" onclick="clearAllFavorites()">Очистить</button>
+    </div>
+    <div id="fav-page-list"></div>
+  </div>
+</div>
+
+<!-- ── ABOUT ───────────────────────────────────────── -->
+<div id="s-about" class="screen">
+  <div class="about-wrap">
+    <div class="about-layout">
+      <section class="about-hero" aria-labelledby="about-title">
+        <h2 class="about-title" id="about-title">О проекте</h2>
+        <p class="about-lead"><strong>VBR БОТ — бесплатный помощник по выбору видеорегистратора.</strong> Он помогает быстро найти подходящую модель среди сотен устройств без долгого изучения характеристик.</p>
+      </section>
+
+      <section class="about-grid" aria-label="О проекте VBR БОТ">
+        <div class="about-author">
+          <div class="about-author-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m15.5 15.5 4 4"/><path d="m8.5 11 1.7 1.7 3.4-3.7"/></svg></div>
+          <div>
+            <div class="about-author-title">Опыт тестирования</div>
+            <div class="about-author-text">Я создал VBR БОТ сам: логика подбора и база устройств собраны на основе опыта тестирования видеорегистраторов. Проект независимый.</div>
+          </div>
+        </div>
+
+        <div class="about-actions" aria-label="Действия">
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 12.9a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></svg></div>
+            <div>
+              <div class="about-action-title">Поддержать проект</div>
+              <div class="about-action-text">На развитие базы и проверку моделей.</div>
+            </div>
+            <a class="about-action-btn" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">Донат</a>
+          </div>
+
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg></div>
+            <div>
+              <div class="about-action-title">Сообщить об ошибке</div>
+              <div class="about-action-text">Неточность в модели или пожелание.</div>
+            </div>
+            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+          </div>
+
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M15 9h3a1 1 0 0 1 1 1v11"/><path d="M8 9h3"/><path d="M8 13h3"/></svg></div>
+            <div>
+              <div class="about-action-title">Сотрудничество</div>
+              <div class="about-action-text">Для производителей и партнёров.</div>
+            </div>
+            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+          </div>
+        </div>
+
+        <div class="about-pro">
+          <div class="about-pro-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/><path d="M4 20h16"/></svg></div>
+          <div>
+            <div class="about-pro-title">PRO ГАДЖЕТЫ</div>
+            <div class="about-pro-text">Гаджеты, тесты и техника без скучных инструкций.</div>
+          </div>
+          <div class="about-socials" aria-label="Социальные сети PRO ГАДЖЕТЫ">
+            <a class="about-social" href="https://www.youtube.com/@progadgets_official" target="_blank" rel="noopener" aria-label="YouTube PRO ГАДЖЕТЫ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.6 4.6 12 4.6 12 4.6s-5.6 0-7.5.5a3 3 0 0 0-2.1 2.1A31.2 31.2 0 0 0 2 12a31.2 31.2 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 7.5.5 7.5.5s5.6 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 22 12a31.2 31.2 0 0 0-.4-4.8ZM10 15.4V8.6l6 3.4-6 3.4Z"/></svg>
+              YouTube
+            </a>
+            <a class="about-social" href="https://vk.com/progadgets_official" target="_blank" rel="noopener" aria-label="VK PRO ГАДЖЕТЫ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.8 17.4c-5.5 0-8.7-3.8-8.8-10h2.8c.1 4.5 2.1 6.4 3.7 6.8V7.4h2.6v3.9c1.6-.2 3.2-2 3.8-3.9h2.6c-.5 2.4-2.4 4.2-3.7 5 1.3.7 3.4 2.3 4.2 5h-2.9c-.7-1.8-2.1-3.2-4-3.5v3.5h-.3Z"/></svg>
+              VK
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── QUIZ STEP NAV (Назад/Далее) ─────────────────── -->
 <div id="bottom-nav" style="display:none">
   <div class="nav-row">
     <button class="btn-back" id="btn-back" onclick="goBack()">← Назад</button>
@@ -8763,6 +9517,30 @@ html, body {
   </div>
   <div class="nav-hint">Выберите вариант и нажмите «Далее» или дважды кликните по нему</div>
 </div>
+
+<!-- ── ПОСТОЯННОЕ НИЖНЕЕ МЕНЮ ──────────────────────── -->
+<nav id="app-nav" class="app-nav" aria-label="Основная навигация">
+  <button class="app-nav-item" data-tab="home" onclick="navGo('home')" aria-label="Главная">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></span>
+    <span class="app-nav-lb">Главная</span>
+  </button>
+  <button class="app-nav-item" data-tab="catalog" onclick="navGo('catalog')" aria-label="Каталог">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3.5" y1="6" x2="3.51" y2="6"/><line x1="3.5" y1="12" x2="3.51" y2="12"/><line x1="3.5" y1="18" x2="3.51" y2="18"/></svg></span>
+    <span class="app-nav-lb">Каталог</span>
+  </button>
+  <button class="app-nav-item" data-tab="compare" onclick="navGo('compare')" aria-label="Сравнение">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg><span class="app-nav-badge" id="nav-badge-compare"></span></span>
+    <span class="app-nav-lb">Сравнение</span>
+  </button>
+  <button class="app-nav-item" data-tab="favorites" onclick="navGo('favorites')" aria-label="Избранное">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 12.9a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></svg><span class="app-nav-badge" id="nav-badge-fav"></span></span>
+    <span class="app-nav-lb">Избранное</span>
+  </button>
+  <button class="app-nav-item" data-tab="about" onclick="navGo('about')" aria-label="О проекте">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+    <span class="app-nav-lb">О проекте</span>
+  </button>
+</nav>
 
 <script src="./devices.js?v=1.0.2"></script>
 <script>
@@ -9064,8 +9842,10 @@ function refreshCompareUI() {
     if (label) label.textContent = active ? "В сравнении" : "Сравнить";
   });
   renderCompareBar();
-  if (document.getElementById("s-compare")?.style.display !== "none") {
-    renderCompareScreen();
+  updateCompareHeader();
+  if (currentScreenId === "s-compare") {
+    if (compareList.length >= 2) renderCompareScreen();
+    else renderCompareEmpty();
   }
 }
 
@@ -9078,25 +9858,24 @@ function positionCompareBar(bar) {
   }
 }
 
+// Плавающая полоса сравнения убрана — состояние отражается бейджем в нижнем меню.
 function renderCompareBar() {
-  const bar = document.getElementById("cmp-bar");
-  if (!bar) return;
-  if (!compareList.length || currentScreenId === "s-compare") {
-    bar.style.display = "none";
-    return;
+  updateNavBadges();
+}
+
+function updateNavBadges() {
+  const cmp = document.getElementById("nav-badge-compare");
+  if (cmp) {
+    const n = compareList.length;
+    cmp.textContent = n;
+    cmp.classList.toggle("show", n > 0);
   }
-  const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
-  bar.style.display = "flex";
-  positionCompareBar(bar);
-  const canOpen = devices.length >= 2;
-  bar.innerHTML = `
-    <div class="cmp-bar-chips">
-      ${devices.map(d => `<span class="cmp-bar-chip"><span class="cmp-bar-chip-text">${d.name}</span><button aria-label="Убрать ${attrSafe(d.name)}" onclick="removeCompareByIndex(event, ${DEVICES.indexOf(d)})">×</button></span>`).join("")}
-    </div>
-    <button class="cmp-bar-btn" ${canOpen ? "" : "disabled"} onclick="openCompare()">
-      ${canOpen ? `Сравнить (${devices.length})` : `Выберите ещё ${2 - devices.length}`}
-    </button>
-  `;
+  const fav = document.getElementById("nav-badge-fav");
+  if (fav) {
+    const n = favorites.length;
+    fav.textContent = n;
+    fav.classList.toggle("show", n > 0);
+  }
 }
 
 function openCompare() {
@@ -9289,6 +10068,7 @@ function buildCompareRows(devices) {
 }
 
 function renderCompareScreen() {
+  updateCompareHeader();
   const body = document.getElementById("compare-body");
   if (!body) return;
   const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
@@ -9323,7 +10103,7 @@ function renderCompareScreen() {
 
   body.innerHTML = `
     <div class="cmp-cards cmp-cols-${devices.length}">${cardsHtml}</div>
-    ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: вернитесь назад и нажмите значок сравнения у другой модели.</div>` : ''}
+    ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: откройте каталог и нажмите значок сравнения у другой модели.</div>` : ''}
     <div class="cmp-rows">${rowsHtml}</div>
   `;
 }
@@ -9406,7 +10186,7 @@ function hideFloatingHints() {
   hideTermTooltip();
 }
 
-function showCopyToast(message = "email скопирован в буфер обмена") {
+function showCopyToast(message = "Почта скопирована") {
   const toast = document.getElementById("copy-toast");
   if (!toast) return;
   toast.textContent = message;
@@ -9446,9 +10226,9 @@ function setupCopyEmailActions() {
     const email = target.getAttribute("data-email") || "partners@vbrbot.ru";
     try {
       await copyTextToClipboard(email);
-      showCopyToast("email скопирован в буфер обмена");
+      showCopyToast("Почта скопирована");
     } catch(e) {
-      showCopyToast(email);
+      showCopyToast("Не удалось скопировать почту");
     }
   });
 
@@ -9469,11 +10249,13 @@ function toggleFavoriteByIndex(event, idx) {
   const d = DEVICES[idx];
   if (!d) return;
   const key = deviceKey(d);
-  favorites = favorites.includes(key)
+  const wasFavorite = favorites.includes(key);
+  favorites = wasFavorite
     ? favorites.filter(x => x !== key)
     : [key, ...favorites].slice(0, 24);
   saveFavorites();
   refreshFavoriteUI();
+  showCopyToast(wasFavorite ? "Удалено из избранного" : "Добавлено в избранное");
   if (event) showFavTooltip(event);
 }
 
@@ -9488,6 +10270,7 @@ function removeFavoriteByIndex(event, idx) {
   favorites = favorites.filter(x => x !== key);
   saveFavorites();
   refreshFavoriteUI();
+  showCopyToast("Удалено из избранного");
 }
 
 function refreshFavoriteUI() {
@@ -9505,30 +10288,293 @@ function refreshFavoriteUI() {
   renderFavoritePanel();
 }
 
+// Избранное вынесено в отдельный раздел меню; здесь обновляем бейдж и,
+// если открыт раздел «Избранное», перерисовываем его.
 function renderFavoritePanel() {
-  const panel = document.getElementById("favorite-panel");
-  const list = document.getElementById("favorite-list");
-  if (!panel || !list) return;
-  const devices = favorites
-    .map(key => DEVICES.find(d => deviceKey(d) === key))
-    .filter(Boolean);
-  panel.style.display = devices.length ? "block" : "none";
-  list.innerHTML = devices.length ? devices.slice(0, 5).map(d => {
-    const idx = DEVICES.indexOf(d);
-    return `<div class="favorite-item" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0">
-      <span class="favorite-item-main">
-        <span class="favorite-item-name">${d.name}</span>
-      </span>
-      <span class="favorite-item-arrow">›</span>
-      <button class="favorite-remove" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Удалить из избранного" title="Удалить">×</button>
-    </div>`;
-  }).join("") : `<div class="favorite-empty">Пока ничего не сохранено.</div>`;
+  updateNavBadges();
+  updateFavoritesHeader();
+  if (currentScreenId === "s-favorites") renderFavoritesPage();
 }
 
 function openFavoriteDevice(idx) {
-  lastSearchOrigin = "intro";
+  lastSearchOrigin = "favorites";
   lastSearchQuery = "";
   openDeviceFromSearch(idx);
+}
+
+// ════════════════════════════════════════════════════════
+//  НИЖНЕЕ МЕНЮ: разделы (каталог / сравнение / избранное / о проекте)
+// ════════════════════════════════════════════════════════
+
+function navGo(tab) {
+  // покидаем квиз: прячем прогресс-шапку и шаговую навигацию «Назад/Далее»
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  if (tab === "home") return goHome();
+  if (tab === "catalog") return showCatalog();
+  if (tab === "compare") return showCompareSection();
+  if (tab === "favorites") return showFavoritesSection();
+  if (tab === "about") return showAbout();
+}
+
+// ── Каталог ──
+let _catalogQuery = "";
+let _catalogFilters = [];
+
+const CATALOG_FILTERS = [
+  {id:"popular", label:"Популярные", group:"popular", fn:d => popularPlacementType(d) === "promoted"},
+  {id:"under10000", label:"До 10 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 10000},
+  {id:"under15000", label:"До 15 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 15000},
+  {id:"under20000", label:"До 20 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 20000},
+  {id:"4k", label:"4K", group:"quality", fn:d => Number(d.q) >= 3},
+  {id:"radar", label:"С радаром", group:"type", fn:d => String(d.type || "").toLowerCase() === "комбо 3 в 1"},
+  {id:"2cam", label:"2 камеры", group:"camera", fn:d => Number.parseInt(d.specs?.camera_count || "", 10) >= 2 || d.rear_cam === true},
+  {id:"noscreen", label:"Без экрана", group:"form", fn:d => String(d.form || "").toLowerCase() === "без экрана"},
+  {id:"wifi", label:"Wi-Fi", group:"wifi", fn:d => Boolean(d.specs?.wifi_gen) || d.smartphone === true},
+  {id:"gps", label:"GPS", group:"gps", fn:d => Boolean(String(d.gps || "").trim()) && !/^(нет|н\/д)$/i.test(String(d.gps || "").trim())},
+  {id:"cpl", label:"CPL", group:"cpl", fn:d => d.specs?.cpl === true},
+];
+const CATALOG_INITIAL_FILTER_IDS = ["popular", "under10000", "4k", "radar", "2cam", "noscreen", "wifi"];
+const CATALOG_DYNAMIC_FILTER_IDS = ["under15000", "under20000", "gps", "cpl"];
+
+function catalogSortedDevices() {
+  return DEVICES.slice().sort((a, b) => {
+    const brandCmp = String(a.brand || "").localeCompare(String(b.brand || ""), "ru", {sensitivity: "base"});
+    if (brandCmp) return brandCmp;
+    return String(a.name || "").localeCompare(String(b.name || ""), "ru", {sensitivity: "base"});
+  });
+}
+function catalogFilterById(id) {
+  return CATALOG_FILTERS.find(f => f.id === id);
+}
+function catalogMatchesQuery(d, query) {
+  if (!query) return true;
+  return `${d.brand || ""} ${d.name || ""}`.toLowerCase().includes(query);
+}
+function catalogApplyFilters(items, filterIds = _catalogFilters) {
+  return filterIds.reduce((acc, id) => {
+    const filter = catalogFilterById(id);
+    return filter ? acc.filter(filter.fn) : acc;
+  }, items);
+}
+function catalogCurrentBase() {
+  const q = _catalogQuery.trim().toLowerCase();
+  return catalogSortedDevices().filter(d => catalogMatchesQuery(d, q));
+}
+function catalogCurrentItems() {
+  return catalogApplyFilters(catalogCurrentBase());
+}
+function catalogCanAddFilter(filter, baseItems = catalogCurrentBase()) {
+  if (!filter || _catalogFilters.includes(filter.id)) return false;
+  if (_catalogFilters.some(id => catalogFilterById(id)?.group === filter.group)) return false;
+  return catalogApplyFilters(baseItems, [..._catalogFilters, filter.id]).length > 0;
+}
+function renderCatalogFilters() {
+  const strip = document.getElementById("catalog-filter-strip");
+  if (!strip) return;
+  const baseItems = catalogCurrentBase();
+  const hasQuery = Boolean(_catalogQuery.trim());
+  const active = _catalogFilters.map(catalogFilterById).filter(Boolean);
+  const activeGroups = new Set(active.map(f => f.group));
+  const candidateIds = _catalogFilters.length
+    ? [...CATALOG_INITIAL_FILTER_IDS, ...CATALOG_DYNAMIC_FILTER_IDS]
+    : CATALOG_INITIAL_FILTER_IDS;
+  const candidates = candidateIds
+    .map(catalogFilterById)
+    .filter(Boolean)
+    .filter(filter => !activeGroups.has(filter.group) && catalogCanAddFilter(filter, baseItems));
+  const visible = [];
+  visible.push(`<button class="catalog-chip ${_catalogFilters.length || hasQuery ? "" : "active"}" type="button" onclick="resetCatalogFilters()">Все</button>`);
+  active.forEach(filter => {
+    visible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
+  });
+  candidates.forEach(filter => {
+    visible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
+  });
+  strip.innerHTML = visible.join("");
+}
+function catalogGroupsHTML(items) {
+  const groups = new Map();
+  items.forEach(d => {
+    const brand = String(d.brand || "Без бренда").trim() || "Без бренда";
+    if (!groups.has(brand)) groups.set(brand, []);
+    groups.get(brand).push(d);
+  });
+  return [...groups.entries()].map(([brand, devices]) => {
+    const rows = devices.map(d => {
+      const idx = DEVICES.indexOf(d);
+      return `<div class="catalog-row" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}${favoriteButtonHTML(d, "catalog-row-fav")}</div>`;
+    }).join("");
+    return `<section class="catalog-brand-group">
+      <div class="catalog-brand-head">${attrSafe(brand)} <span>· ${devices.length} ${pluralRu(devices.length, "модель", "модели", "моделей")}</span></div>
+      <div class="catalog-brand-list">${rows}</div>
+    </section>`;
+  }).join("");
+}
+function catalogRowInnerHTML(d) {
+  const meta = [TYPE_SHORT[d.type] || d.type, QNAMES[d.q] || null].filter(Boolean).join(" · ");
+  return `${modePopularThumbHTML(d)}
+    <span class="catalog-row-info">
+      <span class="catalog-row-brand">${attrSafe(d.brand || "")}</span>
+      <span class="catalog-row-name">${attrSafe(d.name || "")}</span>
+      ${meta ? `<span class="catalog-row-meta">${attrSafe(meta)}</span>` : ""}
+    </span>
+    ${d.price ? `<span class="catalog-row-price">${attrSafe(d.price)}</span>` : ""}`;
+}
+function renderCatalog() {
+  const list = document.getElementById("catalog-list");
+  const count = document.getElementById("catalog-count");
+  const reset = document.getElementById("catalog-reset");
+  if (!list) return;
+  const items = catalogCurrentItems();
+  const active = _catalogFilters.length > 0 || _catalogQuery.trim();
+  renderCatalogFilters();
+  if (count) {
+    count.textContent = active
+      ? `Подходит ${items.length} ${pluralRu(items.length, "модель", "модели", "моделей")}`
+      : `Все модели: ${items.length}`;
+  }
+  if (reset) reset.classList.toggle("show", Boolean(active));
+  list.innerHTML = items.length
+    ? catalogGroupsHTML(items)
+    : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
+}
+
+function updateCompareHeader() {
+  const count = document.getElementById("compare-count");
+  const clear = document.getElementById("compare-clear");
+  const n = compareList.length;
+  if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
+  if (clear) clear.hidden = n === 0;
+}
+
+function updateFavoritesHeader() {
+  const count = document.getElementById("favorites-count");
+  const clear = document.getElementById("favorites-clear");
+  const n = favorites.length;
+  if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
+  if (clear) clear.hidden = n === 0;
+}
+
+function onCatalogSearch(value) {
+  _catalogQuery = value || "";
+  const clear = document.getElementById("catalog-clear");
+  if (clear) clear.style.display = _catalogQuery ? "block" : "none";
+  renderCatalog();
+}
+function toggleCatalogFilter(id) {
+  const filter = catalogFilterById(id);
+  if (!filter) return;
+  if (_catalogFilters.includes(id)) {
+    _catalogFilters = _catalogFilters.filter(x => x !== id);
+  } else {
+    _catalogFilters = _catalogFilters.filter(x => catalogFilterById(x)?.group !== filter.group);
+    _catalogFilters.push(id);
+  }
+  renderCatalog();
+}
+function clearCatalogSearch() {
+  const inp = document.getElementById("catalog-search-input");
+  if (inp) inp.value = "";
+  onCatalogSearch("");
+  if (inp) inp.focus();
+}
+function resetCatalogFilters() {
+  _catalogFilters = [];
+  _catalogQuery = "";
+  const inp = document.getElementById("catalog-search-input");
+  if (inp) inp.value = "";
+  const clear = document.getElementById("catalog-clear");
+  if (clear) clear.style.display = "none";
+  renderCatalog();
+}
+function showCatalog() {
+  renderCatalog();
+  show("s-catalog");
+  const sc = document.getElementById("s-catalog");
+  if (sc) sc.scrollTo(0, 0);
+}
+function openCatalogDevice(idx) {
+  lastSearchOrigin = "catalog";
+  lastSearchQuery = "";
+  openDeviceFromSearch(idx);
+}
+
+// ── Сравнение (раздел меню) ──
+function showCompareSection() {
+  compareReturnScreen = (currentScreenId === "s-compare") ? compareReturnScreen : currentScreenId;
+  if (compareList.length >= 2) {
+    renderCompareScreen();
+  } else {
+    renderCompareEmpty();
+  }
+  show("s-compare");
+  const sc = document.getElementById("s-compare");
+  if (sc) sc.scrollTo(0, 0);
+}
+function renderCompareEmpty() {
+  updateCompareHeader();
+  const body = document.getElementById("compare-body");
+  if (!body) return;
+  body.innerHTML = `<div class="fav-empty">
+    <div class="fav-empty-heart"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg></div>
+    <div class="fav-empty-title">Пока нечего сравнивать</div>
+    <div class="fav-empty-text">Добавьте 2–3 модели кнопкой «Сравнить» в каталоге или карточке устройства.</div>
+    <div class="fav-empty-actions">
+      <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">В каталог</button>
+      <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+    </div>
+  </div>`;
+}
+
+// ── Избранное (раздел меню) ──
+function showFavoritesSection() {
+  renderFavoritesPage();
+  show("s-favorites");
+  const sf = document.getElementById("s-favorites");
+  if (sf) sf.scrollTo(0, 0);
+}
+function renderFavoritesPage() {
+  updateFavoritesHeader();
+  const list = document.getElementById("fav-page-list");
+  if (!list) return;
+  const devices = favorites.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
+  if (!devices.length) {
+    list.innerHTML = `<div class="fav-empty">
+      <div class="fav-empty-heart"><svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 12.9a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></svg></div>
+      <div class="fav-empty-title">В избранном пока пусто</div>
+      <div class="fav-empty-text">Сохраняйте понравившиеся модели — они появятся здесь и не потеряются.</div>
+      <div class="fav-empty-actions">
+        <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">Открыть каталог</button>
+        <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+      </div>
+    </div>`;
+    return;
+  }
+  list.innerHTML = `<div class="catalog-list">${devices.map(d => {
+    const idx = DEVICES.indexOf(d);
+    return `<div class="catalog-row" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<button class="fav-row-remove" type="button" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Убрать из избранного" title="Убрать">×</button></div>`;
+  }).join("")}</div>`;
+}
+
+// ── О проекте ──
+function showAbout() {
+  show("s-about");
+  const sa = document.getElementById("s-about");
+  if (sa) sa.scrollTo(0, 0);
+}
+
+// ── Очистка разделов ──
+function clearCompareSection() {
+  clearCompare(); // очищает список; refreshCompareUI перерисует пустое состояние
+  showCopyToast("Сравнение очищено");
+}
+function clearAllFavorites() {
+  if (!favorites.length) return;
+  favorites = [];
+  saveFavorites();
+  refreshFavoriteUI(); // обновит бейдж и, на открытом разделе, покажет пустое состояние
+  showCopyToast("Избранное очищено");
 }
 
 // ════════════════════════════════════════════════════════
@@ -9948,7 +10994,7 @@ let currentScreenId = "s-intro";
 function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
-  ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare"].forEach(s => {
+  ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     if (s === id) {
@@ -9957,7 +11003,20 @@ function show(id) {
       el.style.display = "none";
     }
   });
+  updateNavActive(id);
   renderCompareBar();
+}
+
+// Подсветка активной вкладки нижнего меню по текущему экрану
+const NAV_TAB_BY_SCREEN = {
+  "s-intro": "home", "s-mode": "home", "s-question": "home", "s-loading": "home", "s-results": "home",
+  "s-catalog": "catalog", "s-compare": "compare", "s-favorites": "favorites", "s-about": "about",
+};
+function updateNavActive(id) {
+  const tab = NAV_TAB_BY_SCREEN[id] || null; // s-search (карточка) — без подсветки
+  document.querySelectorAll("#app-nav .app-nav-item").forEach(item => {
+    item.classList.toggle("active", item.getAttribute("data-tab") === tab);
+  });
 }
 
 // ════════════════════════════════════════════════════════
@@ -10588,7 +11647,7 @@ function shareButtonHTML(d) {
 function showShareToast(text) {
   const t = document.getElementById("copy-toast");
   if (!t) return;
-  const defaultText = "email скопирован в буфер обмена";
+  const defaultText = "Почта скопирована";
   t.textContent = text;
   t.classList.add("on");
   setTimeout(() => {
@@ -11313,11 +12372,12 @@ function renderDeviceProfile(d, exact, similar) {
   const betterSimilar = similar.filter(a => isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const regularSimilar = similar.filter(a => !isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const keyTags = keyFeatureTagsHTML(d);
+  const backLabel = lastSearchOrigin === "results" ? "Назад к результатам" : "Назад";
 
   let html = `
     <div class="dev-profile-back" onclick="backToSearchResults()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Назад к результатам
+      ${backLabel}
     </div>
     <div class="dev-hero">
       <div class="dev-hero-header">
@@ -11387,6 +12447,19 @@ function backToSearchResults() {
     show('s-results');
     const res = document.getElementById('s-results');
     if (res) res.scrollTo(0, 0);
+    return;
+  }
+  if (lastSearchOrigin === 'catalog') {
+    show('s-catalog');
+    const c = document.getElementById('s-catalog');
+    if (c) c.scrollTo(0, 0);
+    return;
+  }
+  if (lastSearchOrigin === 'favorites') {
+    renderFavoritesPage();
+    show('s-favorites');
+    const f = document.getElementById('s-favorites');
+    if (f) f.scrollTo(0, 0);
     return;
   }
   if (lastSearchOrigin === 'intro') {
@@ -12343,6 +13416,7 @@ function playIntroScene() {
   }
 
   intro.classList.add("scene-play");
+  document.getElementById("app-nav")?.classList.add("nav-enter"); // меню въезжает в общей последовательности
   const timers = [];
   timers.push(setTimeout(animateDbCounter, 950));
   // Однократное движение стрелки после полного появления кнопки
