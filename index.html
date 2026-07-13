@@ -9511,11 +9511,13 @@ html, body {
   #s-catalog .catalog-wrap,
   #s-favorites .fav-page-wrap,
   #s-compare,
+  #s-intro.v2-home .home-v2-inner,
   #s-mode .mode-inner {
     padding-top: 18px !important;
   }
 
   #s-catalog .catalog-wrap,
+  #s-intro.v2-home .home-v2-inner,
   #s-compare .section-head,
   #s-compare .cmp-body,
   #s-favorites .section-head,
@@ -9547,6 +9549,11 @@ html, body {
     min-height: auto !important;
     padding: 18px var(--mobile-page-x) calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 18px) !important;
     justify-content: flex-start !important;
+  }
+
+  #s-intro.v2-home .home-v2-inner {
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
   }
 
   #s-mode .mode-title-row {
