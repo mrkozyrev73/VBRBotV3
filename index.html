@@ -2221,18 +2221,28 @@ html, body {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: none;
-  background: rgba(0,0,0,.06);
-  color: var(--text-2);
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(12,16,24,.72);
+  color: rgba(255,255,255,.86);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,.20);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
 }
-.cmp-card-remove svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.4; }
+.cmp-card-remove:hover {
+  color: #fff;
+  background: rgba(var(--blue-rgb), .92);
+  border-color: rgba(var(--blue-rgb), .92);
+}
+.cmp-card-remove:active { transform: scale(.94); }
+.cmp-card-remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .cmp-card-thumb {
   width: 100%;
   aspect-ratio: 1;
@@ -2278,6 +2288,106 @@ html, body {
   padding: 10px 12px;
   margin-bottom: 14px;
   line-height: 1.4;
+}
+.cmp-view-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,.025);
+}
+.cmp-view-label {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 12.5px;
+  font-weight: 750;
+}
+.cmp-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.cmp-view-btn {
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cmp-view-btn.active {
+  color: #fff;
+  background: var(--blue);
+}
+.cmp-diff-empty {
+  margin-top: 8px;
+  padding: 18px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+.cmp-sticky-head {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px;
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  background: rgba(18, 23, 34, .96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+.cmp-sticky-head.cmp-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmp-sticky-head.cmp-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmp-sticky-item {
+  min-width: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  padding: 8px 9px;
+}
+.cmp-sticky-brand {
+  display: block;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmp-sticky-name {
+  display: -webkit-box;
+  margin-top: 2px;
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .cmp-rows {
   background: var(--card);
@@ -6761,6 +6871,14 @@ html, body {
 .vbr-page-actions { display: none; }
 .mode-page-header { display: none; }
 
+@media (max-width: 899px) {
+  #s-intro.v2-home .vbr-page-actions,
+  #s-intro.v2-home .home-v2-footer .donate,
+  #s-intro.v2-home .home-v2-footer .mail {
+    display: none !important;
+  }
+}
+
 @media (min-width: 900px) {
   #s-intro.v2-home,
   #s-mode {
@@ -8321,7 +8439,7 @@ html, body {
 .fav-page-wrap #fav-page-list {
   max-width: 760px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 16px 16px 0;
 }
 .catalog-title, .fav-page-title, .about-title {
   font-size: 24px; font-weight: 800; letter-spacing: -.5px; margin: 6px 2px 14px; color: var(--text);
@@ -8347,6 +8465,9 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 .catalog-filter-strip::-webkit-scrollbar { display: none; }
+.catalog-price-filter-strip {
+  margin-top: 8px;
+}
 .catalog-chip {
   flex: 0 0 auto;
   height: 32px;
@@ -8385,6 +8506,43 @@ html, body {
   cursor: pointer;
 }
 .catalog-reset.show { display: inline-flex; }
+.catalog-sort-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px -16px 0;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.catalog-sort-row::-webkit-scrollbar { display: none; }
+.catalog-sort-label {
+  flex: 0 0 auto;
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 750;
+}
+.catalog-sort-chip {
+  flex: 0 0 auto;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.025);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.catalog-sort-chip:hover { color: var(--text); border-color: var(--blue-border); }
+.catalog-sort-chip.active {
+  color: var(--blue);
+  border-color: rgba(var(--blue-rgb), .28);
+  background: rgba(var(--blue-rgb), .09);
+}
 .catalog-list { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 0; }
 .catalog-brand-group { display: grid; gap: 8px; padding-top: 10px; }
 .catalog-brand-head {
@@ -8424,10 +8582,17 @@ html, body {
 .catalog-row-name { margin-top: 1px; font-size: 14.5px; font-weight: 800; color: var(--text); line-height: 1.18; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .catalog-row-meta { font-size: 12px; color: var(--text-2); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .catalog-row-price { font-size: 12.5px; font-weight: 750; color: var(--text-2); white-space: nowrap; }
+.catalog-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.catalog-row-cmp,
 .catalog-row-fav {
   width: 32px;
   height: 32px;
 }
+.catalog-row-cmp svg,
 .catalog-row-fav svg {
   width: 16px;
   height: 16px;
@@ -8435,10 +8600,171 @@ html, body {
 .catalog-row-arrow { color: var(--text-2); font-size: 22px; line-height: 1; flex-shrink: 0; }
 .catalog-empty { text-align: center; color: var(--text-2); padding: 44px 20px; font-size: 15px; }
 .fav-row-remove {
-  background: none; border: 1px solid var(--border); color: var(--text-2);
-  border-radius: 10px; width: 34px; height: 34px; cursor: pointer; font-size: 18px; line-height: 1; flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12,16,24,.72);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.82);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 6px 14px rgba(0,0,0,.16);
+  transition: background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
 }
-.fav-row-remove:hover { color: var(--blue); border-color: var(--blue-border); }
+.fav-row-remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.fav-row-remove:hover { color: #fff; background: rgba(var(--blue-rgb), .92); border-color: rgba(var(--blue-rgb), .92); }
+.fav-row-remove:active { transform: scale(.94); }
+.fav-list {
+  display: grid;
+  gap: 10px;
+}
+.fav-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 104px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.fav-card:hover {
+  border-color: var(--blue-border);
+  box-shadow: 0 0 0 1px var(--blue-border);
+}
+.fav-card .mode-popular-thumb,
+.fav-card .isr-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+}
+.fav-card-main { min-width: 0; }
+.fav-card-brand {
+  color: var(--blue);
+  font-size: 10.5px;
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.fav-card-name {
+  display: -webkit-box;
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 15.5px;
+  font-weight: 850;
+  line-height: 1.18;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.fav-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.fav-card-pill {
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(var(--blue-rgb), .07);
+  color: var(--text-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fav-card-price {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+}
+.fav-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.fav-card-cmp,
+.fav-card-remove {
+  width: 32px;
+  height: 32px;
+}
+@media (max-width: 430px) {
+  .fav-card {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    min-height: 96px;
+    padding: 10px;
+    gap: 10px;
+  }
+  .fav-card .mode-popular-thumb,
+  .fav-card .isr-thumb {
+    width: 64px;
+    height: 64px;
+  }
+  .fav-card-name { font-size: 14.5px; }
+  .fav-card-pill { font-size: 11px; padding-inline: 7px; }
+  .fav-card-actions { flex-direction: column; gap: 6px; }
+  .fav-card-cmp,
+  .fav-card-remove {
+    width: 30px;
+    height: 30px;
+  }
+}
+.fav-compare-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(var(--blue-rgb), .055);
+}
+.fav-compare-copy {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.fav-compare-copy strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+.fav-compare-btn {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(var(--blue-rgb), .24);
+  border-radius: 10px;
+  background: rgba(var(--blue-rgb), .09);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.fav-compare-btn:hover {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
 
 @media (max-width: 430px) {
   .catalog-wrap { padding-inline: 14px; }
@@ -8454,10 +8780,12 @@ html, body {
     margin-top: -2px;
     font-size: 12px;
   }
-  .catalog-row-fav {
+  .catalog-row-actions {
     grid-column: 3;
     grid-row: 1;
   }
+  .catalog-row-cmp,
+  .catalog-row-fav { width: 30px; height: 30px; }
 }
 
 @media (min-width: 900px) {
@@ -8479,7 +8807,17 @@ html, body {
   }
   #s-catalog .catalog-head {
     margin-inline: auto;
-    padding: 0 0 12px;
+    padding: 0 0 18px;
+    display: grid;
+    grid-template-columns: minmax(520px, 680px) minmax(360px, 1fr);
+    grid-template-areas:
+      "title count"
+      "search sort"
+      "filters filters"
+      "prices prices";
+    align-items: center;
+    column-gap: 28px;
+    row-gap: 12px;
   }
   #s-catalog .catalog-title,
   .section-title h2 {
@@ -8489,7 +8827,8 @@ html, body {
     letter-spacing: -1px;
   }
   #s-catalog .catalog-title {
-    margin: 0 0 16px;
+    grid-area: title;
+    margin: 0;
   }
   #s-compare .section-head,
   #s-favorites .section-head {
@@ -8503,15 +8842,43 @@ html, body {
     font-size: 14px;
   }
   #s-catalog .catalog-search {
-    max-width: 620px;
+    grid-area: search;
+    max-width: none;
   }
   #s-catalog .catalog-filter-strip {
+    flex-wrap: wrap;
+    overflow: visible;
     margin-inline: 0;
     padding-inline: 0;
+    margin-top: 0;
+  }
+  #s-catalog #catalog-filter-strip {
+    grid-area: filters;
+    max-width: 980px;
+  }
+  #s-catalog #catalog-price-filter-strip {
+    grid-area: prices;
+    max-width: 980px;
   }
   #s-catalog .catalog-count-row {
-    margin: 10px 0 0;
-    max-width: 620px;
+    grid-area: count;
+    justify-content: flex-end;
+    margin: 0;
+    max-width: none;
+    align-self: end;
+  }
+  #s-catalog .catalog-count {
+    font-size: 14px;
+  }
+  #s-catalog .catalog-sort-row {
+    grid-area: sort;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  #s-catalog .catalog-sort-label {
+    color: var(--text-3);
   }
   #s-catalog .catalog-list {
     max-width: var(--dt-wide);
@@ -8529,10 +8896,15 @@ html, body {
   #s-catalog .catalog-row {
     min-height: 82px;
   }
-  #s-favorites .fav-page-wrap #fav-page-list {
-    padding: 8px 0 0;
+  #s-catalog .catalog-list.catalog-list-flat {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
-  #s-favorites .catalog-list {
+  #s-favorites .fav-page-wrap #fav-page-list {
+    padding: 18px 0 0;
+  }
+  #s-favorites .fav-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
@@ -8580,6 +8952,12 @@ html, body {
   gap: 10px;
   min-width: 0;
 }
+.section-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
 .section-title h2 {
   margin: 0;
   color: var(--text);
@@ -8596,8 +8974,11 @@ html, body {
 .section-action {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: 34px;
-  border: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0 10px;
   background: none;
   color: var(--text-2);
   font: inherit;
@@ -8608,6 +8989,55 @@ html, body {
 }
 .section-action:hover { color: var(--blue); }
 .section-action[hidden] { display: none; }
+#compare-share,
+#favorites-share {
+  width: 36px;
+  padding: 0;
+  color: var(--text);
+  border-color: rgba(var(--blue-rgb), .26);
+  background: rgba(var(--blue-rgb), .08);
+}
+#compare-share svg,
+#favorites-share svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#compare-share:hover,
+#favorites-share:hover {
+  color: #fff;
+  border-color: var(--blue);
+  background: var(--blue);
+}
+@media (max-width: 430px) {
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    gap: 10px;
+  }
+  #s-compare .section-actions,
+  #s-favorites .section-actions {
+    gap: 6px;
+  }
+  #s-compare .section-action,
+  #s-favorites .section-action {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  #compare-share,
+  #favorites-share {
+    width: 32px;
+    padding: 0;
+  }
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2 {
+    font-size: 22px;
+  }
+}
 
 /* ── О проекте: продолжение главной страницы ── */
 #s-about {
@@ -9481,9 +9911,13 @@ html, body {
   <div class="section-head">
     <div class="section-title">
       <h2>Сравнение</h2>
-      <span class="section-count" id="compare-count"></span>
     </div>
-    <button class="section-action" id="compare-clear" type="button" onclick="clearCompareSection()">Очистить</button>
+    <div class="section-actions">
+      <button class="section-action" id="compare-share" type="button" onclick="shareCompare(event)" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="Поделиться сравнением" title="Поделиться" data-tooltip="Поделиться">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7 15.4 6.3M8.6 13.3l6.8 4.4"/></svg>
+      </button>
+      <button class="section-action" id="compare-clear" type="button" onclick="clearCompareSection()">Очистить</button>
+    </div>
   </div>
   <div class="cmp-body" id="compare-body"></div>
 </div>
@@ -9499,10 +9933,12 @@ html, body {
         <button class="catalog-clear" id="catalog-clear" type="button" onclick="clearCatalogSearch()" aria-label="Очистить">×</button>
       </div>
       <div class="catalog-filter-strip" id="catalog-filter-strip" aria-label="Быстрый выбор"></div>
+      <div class="catalog-filter-strip catalog-price-filter-strip" id="catalog-price-filter-strip" aria-label="Быстрый выбор по цене"></div>
       <div class="catalog-count-row">
         <div class="catalog-count" id="catalog-count"></div>
         <button class="catalog-reset" id="catalog-reset" type="button" onclick="resetCatalogFilters()">Сбросить</button>
       </div>
+      <div class="catalog-sort-row" id="catalog-sort-row" aria-label="Сортировка каталога"></div>
     </div>
     <div class="catalog-list" id="catalog-list"></div>
   </div>
@@ -9514,9 +9950,13 @@ html, body {
     <div class="section-head">
       <div class="section-title">
         <h2>Избранное</h2>
-        <span class="section-count" id="favorites-count"></span>
       </div>
-      <button class="section-action" id="favorites-clear" type="button" onclick="clearAllFavorites()">Очистить</button>
+      <div class="section-actions">
+        <button class="section-action" id="favorites-share" type="button" onclick="shareFavorites(event)" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="Поделиться избранным" title="Поделиться" data-tooltip="Поделиться">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7 15.4 6.3M8.6 13.3l6.8 4.4"/></svg>
+        </button>
+        <button class="section-action" id="favorites-clear" type="button" onclick="clearAllFavorites()">Очистить</button>
+      </div>
     </div>
     <div id="fav-page-list"></div>
   </div>
@@ -9754,6 +10194,7 @@ let loadingTimers = [];
 const COMPARE_KEY = "vbrbot_compare_v1";
 const COMPARE_MAX = 3;
 let compareList = loadCompare();
+let compareOnlyDiff = false;
 let compareReturnScreen = "s-intro";
 
 function loadCompare() {
@@ -10149,6 +10590,16 @@ function buildCompareRows(devices) {
   });
 }
 
+function compareRowHasDiff(row) {
+  const values = row.cells.map(c => String(c.text || "").trim().toLowerCase());
+  return new Set(values).size > 1;
+}
+
+function setCompareDiffMode(onlyDiff) {
+  compareOnlyDiff = Boolean(onlyDiff);
+  renderCompareScreen();
+}
+
 function renderCompareScreen() {
   updateCompareHeader();
   const body = document.getElementById("compare-body");
@@ -10158,7 +10609,8 @@ function renderCompareScreen() {
     body.innerHTML = `<div class="cmp-empty">Добавьте минимум 2 модели, чтобы сравнить их.</div>`;
     return;
   }
-  const rows = buildCompareRows(devices);
+  const allRows = buildCompareRows(devices);
+  const rows = compareOnlyDiff ? allRows.filter(compareRowHasDiff) : allRows;
 
   const cardsHtml = devices.map(d => {
     const idx = DEVICES.indexOf(d);
@@ -10174,6 +10626,13 @@ function renderCompareScreen() {
     </div>`;
   }).join("");
 
+  const stickyHeadHtml = devices.map(d => `
+    <div class="cmp-sticky-item">
+      <span class="cmp-sticky-brand">${attrSafe(d.brand || "")}</span>
+      <span class="cmp-sticky-name">${attrSafe(d.name || "")}</span>
+    </div>
+  `).join("");
+
   const rowsHtml = rows.map(row => `
     <div class="cmp-row">
       <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${row.icon}"/></svg>${row.label}</div>
@@ -10182,11 +10641,20 @@ function renderCompareScreen() {
       </div>
     </div>
   `).join("");
+  const diffPanelHtml = `<div class="cmp-view-panel">
+    <div class="cmp-view-label">Строки сравнения</div>
+    <div class="cmp-view-toggle" role="group" aria-label="Строки сравнения">
+      <button class="cmp-view-btn ${compareOnlyDiff ? "" : "active"}" type="button" onclick="setCompareDiffMode(false)">Все</button>
+      <button class="cmp-view-btn ${compareOnlyDiff ? "active" : ""}" type="button" onclick="setCompareDiffMode(true)">Отличия</button>
+    </div>
+  </div>`;
 
   body.innerHTML = `
     <div class="cmp-cards cmp-cols-${devices.length}">${cardsHtml}</div>
     ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: откройте каталог и нажмите значок сравнения у другой модели.</div>` : ''}
-    <div class="cmp-rows">${rowsHtml}</div>
+    ${diffPanelHtml}
+    <div class="cmp-sticky-head cmp-cols-${devices.length}">${stickyHeadHtml}</div>
+    ${rows.length ? `<div class="cmp-rows">${rowsHtml}</div>` : `<div class="cmp-diff-empty">У выбранных моделей нет различий в отображаемых параметрах.</div>`}
   `;
 }
 
@@ -10402,12 +10870,15 @@ function navGo(tab) {
 // ── Каталог ──
 let _catalogQuery = "";
 let _catalogFilters = [];
+let _catalogSort = "brand";
 
 const CATALOG_FILTERS = [
   {id:"popular", label:"Популярные", group:"popular", fn:d => popularPlacementType(d) === "promoted"},
   {id:"under10000", label:"До 10 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 10000},
   {id:"under15000", label:"До 15 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 15000},
   {id:"under20000", label:"До 20 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 20000},
+  {id:"under25000", label:"До 25 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 25000},
+  {id:"under30000", label:"До 30 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 30000},
   {id:"4k", label:"4K", group:"quality", fn:d => Number(d.q) >= 3},
   {id:"radar", label:"С радаром", group:"type", fn:d => String(d.type || "").toLowerCase() === "комбо 3 в 1"},
   {id:"2cam", label:"2 камеры", group:"camera", fn:d => Number.parseInt(d.specs?.camera_count || "", 10) >= 2 || d.rear_cam === true},
@@ -10416,8 +10887,16 @@ const CATALOG_FILTERS = [
   {id:"gps", label:"GPS", group:"gps", fn:d => Boolean(String(d.gps || "").trim()) && !/^(нет|н\/д)$/i.test(String(d.gps || "").trim())},
   {id:"cpl", label:"CPL", group:"cpl", fn:d => d.specs?.cpl === true},
 ];
-const CATALOG_INITIAL_FILTER_IDS = ["popular", "under10000", "4k", "radar", "2cam", "noscreen", "wifi"];
-const CATALOG_DYNAMIC_FILTER_IDS = ["under15000", "under20000", "gps", "cpl"];
+const CATALOG_INITIAL_FILTER_IDS = ["popular", "4k", "radar", "2cam", "noscreen", "wifi"];
+const CATALOG_DYNAMIC_FILTER_IDS = ["gps", "cpl"];
+const CATALOG_PRICE_FILTER_IDS = ["under10000", "under15000", "under20000", "under25000", "under30000"];
+const CATALOG_SORTS = [
+  {id:"brand", label:"По бренду"},
+  {id:"priceAsc", label:"Дешевле"},
+  {id:"priceDesc", label:"Дороже"},
+  {id:"quality", label:"Сначала 4K"},
+  {id:"radar", label:"С радаром"},
+];
 
 function catalogSortedDevices() {
   return DEVICES.slice().sort((a, b) => {
@@ -10429,9 +10908,47 @@ function catalogSortedDevices() {
 function catalogFilterById(id) {
   return CATALOG_FILTERS.find(f => f.id === id);
 }
-function catalogMatchesQuery(d, query) {
-  if (!query) return true;
-  return `${d.brand || ""} ${d.name || ""}`.toLowerCase().includes(query);
+function catalogParseQuery(raw) {
+  const source = String(raw || "").trim().toLowerCase();
+  if (!source) return {text: "", maxPrice: null};
+  let text = source;
+  let maxPrice = null;
+
+  const pricePatterns = [
+    /(?:до|<=|≤)\s*(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)?/i,
+    /(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)/i,
+    /^(\d{4,6}|\d{1,3}(?:[\s.,]?\d{3})+)$/,
+  ];
+
+  for (const pattern of pricePatterns) {
+    const match = text.match(pattern);
+    if (!match) continue;
+    const token = match[1];
+    let value = parseInt(String(token).replace(/[^\d]/g, ""), 10);
+    if (!Number.isFinite(value)) continue;
+    const usesThousands = /тыс|к/i.test(match[0]);
+    if (usesThousands && value < 1000) value *= 1000;
+    if (value >= 1000) {
+      maxPrice = value;
+      text = text.replace(match[0], " ");
+      break;
+    }
+  }
+
+  text = text
+    .replace(/\b(до|цена|стоимость|руб(?:\.|лей|ля)?|₽)\b/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return {text, maxPrice};
+}
+function catalogMatchesQuery(d, parsedQuery) {
+  const query = typeof parsedQuery === "string" ? {text: parsedQuery, maxPrice: null} : parsedQuery;
+  if (query.maxPrice != null) {
+    const price = parsePrice(d.price);
+    if (!Number.isFinite(price) || price > query.maxPrice) return false;
+  }
+  if (!query.text) return true;
+  return `${d.brand || ""} ${d.name || ""}`.toLowerCase().includes(query.text);
 }
 function catalogApplyFilters(items, filterIds = _catalogFilters) {
   return filterIds.reduce((acc, id) => {
@@ -10440,23 +10957,57 @@ function catalogApplyFilters(items, filterIds = _catalogFilters) {
   }, items);
 }
 function catalogCurrentBase() {
-  const q = _catalogQuery.trim().toLowerCase();
+  const q = catalogParseQuery(_catalogQuery);
   return catalogSortedDevices().filter(d => catalogMatchesQuery(d, q));
 }
 function catalogCurrentItems() {
-  return catalogApplyFilters(catalogCurrentBase());
+  return catalogSortItems(catalogApplyFilters(catalogCurrentBase()));
+}
+function catalogSortItems(items) {
+  const withName = (a, b) => String(a.brand || "").localeCompare(String(b.brand || ""), "ru", {sensitivity: "base"})
+    || String(a.name || "").localeCompare(String(b.name || ""), "ru", {sensitivity: "base"});
+  const priceVal = d => {
+    const n = parsePrice(d.price);
+    return Number.isFinite(n) ? n : null;
+  };
+  const radarRank = d => String(d.type || "").toLowerCase() === "комбо 3 в 1" ? 1 : 0;
+  return items.slice().sort((a, b) => {
+    if (_catalogSort === "priceAsc") return (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity) || withName(a, b);
+    if (_catalogSort === "priceDesc") return (priceVal(b) ?? -Infinity) - (priceVal(a) ?? -Infinity) || withName(a, b);
+    if (_catalogSort === "quality") return (Number(b.q) || 0) - (Number(a.q) || 0) || withName(a, b);
+    if (_catalogSort === "radar") return radarRank(b) - radarRank(a) || withName(a, b);
+    return withName(a, b);
+  });
 }
 function catalogCanAddFilter(filter, baseItems = catalogCurrentBase()) {
   if (!filter || _catalogFilters.includes(filter.id)) return false;
   if (_catalogFilters.some(id => catalogFilterById(id)?.group === filter.group)) return false;
   return catalogApplyFilters(baseItems, [..._catalogFilters, filter.id]).length > 0;
 }
+function catalogCandidateCount(filter, baseItems = catalogCurrentBase()) {
+  if (!filter) return 0;
+  return catalogApplyFilters(baseItems, [..._catalogFilters, filter.id]).length;
+}
+function catalogTrimPriceCandidates(candidates, baseItems) {
+  const prices = candidates
+    .filter(filter => filter.group === "price")
+    .map(filter => ({filter, count: catalogCandidateCount(filter, baseItems)}))
+    .filter(item => item.count > 0 && item.count < baseItems.length)
+    .slice(0, 2)
+    .map(item => item.filter.id);
+  if (!prices.length) return candidates.filter(filter => filter.group !== "price");
+  const allowed = new Set(prices);
+  return candidates.filter(filter => filter.group !== "price" || allowed.has(filter.id));
+}
 function renderCatalogFilters() {
   const strip = document.getElementById("catalog-filter-strip");
-  if (!strip) return;
+  const priceStrip = document.getElementById("catalog-price-filter-strip");
+  if (!strip || !priceStrip) return;
   const baseItems = catalogCurrentBase();
   const hasQuery = Boolean(_catalogQuery.trim());
   const active = _catalogFilters.map(catalogFilterById).filter(Boolean);
+  const activeMain = active.filter(filter => filter.group !== "price");
+  const activePrice = active.filter(filter => filter.group === "price");
   const activeGroups = new Set(active.map(f => f.group));
   const candidateIds = _catalogFilters.length
     ? [...CATALOG_INITIAL_FILTER_IDS, ...CATALOG_DYNAMIC_FILTER_IDS]
@@ -10465,15 +11016,46 @@ function renderCatalogFilters() {
     .map(catalogFilterById)
     .filter(Boolean)
     .filter(filter => !activeGroups.has(filter.group) && catalogCanAddFilter(filter, baseItems));
-  const visible = [];
-  visible.push(`<button class="catalog-chip ${_catalogFilters.length || hasQuery ? "" : "active"}" type="button" onclick="resetCatalogFilters()">Все</button>`);
-  active.forEach(filter => {
-    visible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
+  const priceCandidates = CATALOG_PRICE_FILTER_IDS
+    .map(catalogFilterById)
+    .filter(Boolean)
+    .filter(filter => {
+      if (activeGroups.has("price")) return false;
+      if (!catalogCanAddFilter(filter, baseItems)) return false;
+      const count = catalogCandidateCount(filter, baseItems);
+      return count > 0 && count < baseItems.length;
+    });
+  const mainVisible = [];
+  mainVisible.push(`<button class="catalog-chip ${_catalogFilters.length || hasQuery ? "" : "active"}" type="button" onclick="resetCatalogFilters()">Все</button>`);
+  activeMain.forEach(filter => {
+    mainVisible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
   });
   candidates.forEach(filter => {
-    visible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
+    mainVisible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
   });
-  strip.innerHTML = visible.join("");
+  const priceVisible = [];
+  activePrice.forEach(filter => {
+    priceVisible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
+  });
+  priceCandidates.forEach(filter => {
+    priceVisible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
+  });
+  strip.innerHTML = mainVisible.join("");
+  priceStrip.innerHTML = priceVisible.join("");
+  priceStrip.style.display = priceVisible.length ? "" : "none";
+}
+function renderCatalogSort() {
+  const row = document.getElementById("catalog-sort-row");
+  if (!row) return;
+  row.innerHTML = `<span class="catalog-sort-label">Сортировка</span>${CATALOG_SORTS.map(sort => (
+    `<button class="catalog-sort-chip ${_catalogSort === sort.id ? "active" : ""}" type="button" onclick="setCatalogSort('${sort.id}')">${attrSafe(sort.label)}</button>`
+  )).join("")}`;
+}
+function catalogFlatListHTML(items) {
+  return items.map(d => {
+    const idx = DEVICES.indexOf(d);
+    return `<div class="catalog-row" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<span class="catalog-row-actions">${compareButtonHTML(d, "catalog-row-cmp")}${favoriteButtonHTML(d, "catalog-row-fav")}</span></div>`;
+  }).join("");
 }
 function catalogGroupsHTML(items) {
   const groups = new Map();
@@ -10485,7 +11067,7 @@ function catalogGroupsHTML(items) {
   return [...groups.entries()].map(([brand, devices]) => {
     const rows = devices.map(d => {
       const idx = DEVICES.indexOf(d);
-      return `<div class="catalog-row" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}${favoriteButtonHTML(d, "catalog-row-fav")}</div>`;
+      return `<div class="catalog-row" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<span class="catalog-row-actions">${compareButtonHTML(d, "catalog-row-cmp")}${favoriteButtonHTML(d, "catalog-row-fav")}</span></div>`;
     }).join("");
     return `<section class="catalog-brand-group">
       <div class="catalog-brand-head">${attrSafe(brand)} <span>· ${devices.length} ${pluralRu(devices.length, "модель", "модели", "моделей")}</span></div>
@@ -10511,31 +11093,42 @@ function renderCatalog() {
   const items = catalogCurrentItems();
   const active = _catalogFilters.length > 0 || _catalogQuery.trim();
   renderCatalogFilters();
+  renderCatalogSort();
   if (count) {
     count.textContent = active
       ? `Подходит ${items.length} ${pluralRu(items.length, "модель", "модели", "моделей")}`
       : `Все модели: ${items.length}`;
   }
   if (reset) reset.classList.toggle("show", Boolean(active));
+  list.classList.toggle("catalog-list-flat", _catalogSort !== "brand");
   list.innerHTML = items.length
-    ? catalogGroupsHTML(items)
+    ? (_catalogSort === "brand" ? catalogGroupsHTML(items) : catalogFlatListHTML(items))
     : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
+}
+function setCatalogSort(id) {
+  if (!CATALOG_SORTS.some(sort => sort.id === id)) return;
+  _catalogSort = id;
+  renderCatalog();
 }
 
 function updateCompareHeader() {
   const count = document.getElementById("compare-count");
   const clear = document.getElementById("compare-clear");
+  const share = document.getElementById("compare-share");
   const n = compareList.length;
   if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
   if (clear) clear.hidden = n === 0;
+  if (share) share.hidden = n < 2;
 }
 
 function updateFavoritesHeader() {
   const count = document.getElementById("favorites-count");
   const clear = document.getElementById("favorites-clear");
+  const share = document.getElementById("favorites-share");
   const n = favorites.length;
   if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
   if (clear) clear.hidden = n === 0;
+  if (share) share.hidden = n === 0;
 }
 
 function onCatalogSearch(value) {
@@ -10570,7 +11163,8 @@ function resetCatalogFilters() {
   if (clear) clear.style.display = "none";
   renderCatalog();
 }
-function showCatalog() {
+function showCatalog(updateHash = true) {
+  if (updateHash) setSectionHash("catalog");
   renderCatalog();
   show("s-catalog");
   const sc = document.getElementById("s-catalog");
@@ -10583,7 +11177,8 @@ function openCatalogDevice(idx) {
 }
 
 // ── Сравнение (раздел меню) ──
-function showCompareSection() {
+function showCompareSection(updateHash = true) {
+  if (updateHash) setSectionHash("compare");
   compareReturnScreen = (currentScreenId === "s-compare") ? compareReturnScreen : currentScreenId;
   if (compareList.length >= 2) {
     renderCompareScreen();
@@ -10604,13 +11199,14 @@ function renderCompareEmpty() {
     <div class="fav-empty-text">Добавьте 2–3 модели кнопкой «Сравнить» в каталоге или карточке устройства.</div>
     <div class="fav-empty-actions">
       <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">В каталог</button>
-      <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+      <button class="fav-empty-btn" type="button" onclick="openModeChoice()">Начать подбор</button>
     </div>
   </div>`;
 }
 
 // ── Избранное (раздел меню) ──
-function showFavoritesSection() {
+function showFavoritesSection(updateHash = true) {
+  if (updateHash) setSectionHash("favorites");
   renderFavoritesPage();
   show("s-favorites");
   const sf = document.getElementById("s-favorites");
@@ -10628,19 +11224,56 @@ function renderFavoritesPage() {
       <div class="fav-empty-text">Сохраняйте понравившиеся модели — они появятся здесь и не потеряются.</div>
       <div class="fav-empty-actions">
         <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">Открыть каталог</button>
-        <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+        <button class="fav-empty-btn" type="button" onclick="openModeChoice()">Начать подбор</button>
       </div>
     </div>`;
     return;
   }
-  list.innerHTML = `<div class="catalog-list">${devices.map(d => {
+  const comparePanel = devices.length >= 2
+    ? `<div class="fav-compare-panel">
+        <div class="fav-compare-copy"><strong>Сравнить сохранённые</strong>Добавим первые ${Math.min(devices.length, COMPARE_MAX)} ${pluralRu(Math.min(devices.length, COMPARE_MAX), "модель", "модели", "моделей")} из избранного.</div>
+        <button class="fav-compare-btn" type="button" onclick="compareFavorites(event)">Сравнить</button>
+      </div>`
+    : "";
+  list.innerHTML = `${comparePanel}<div class="fav-list">${devices.map(d => {
     const idx = DEVICES.indexOf(d);
-    return `<div class="catalog-row" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<button class="fav-row-remove" type="button" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Убрать из избранного" title="Убрать">×</button></div>`;
+    const meta = [TYPE_SHORT[d.type] || d.type, QNAMES[d.q] || null].filter(Boolean);
+    if (hasGPS(d)) meta.push("GPS");
+    if (d.smartphone) meta.push("Wi-Fi");
+    return `<div class="fav-card" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0" aria-label="${attrSafe(d.name)}">
+      ${modePopularThumbHTML(d)}
+      <div class="fav-card-main">
+        <div class="fav-card-brand">${attrSafe(d.brand || "")}</div>
+        <div class="fav-card-name">${attrSafe(d.name || "")}</div>
+        <div class="fav-card-meta">${meta.slice(0, 4).map(x => `<span class="fav-card-pill">${attrSafe(x)}</span>`).join("")}</div>
+        <div class="fav-card-price">${attrSafe(d.price || "цена не указана")}</div>
+      </div>
+      <div class="fav-card-actions">
+        ${compareButtonHTML(d, "fav-card-cmp")}
+        <button class="fav-row-remove fav-card-remove" type="button" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Убрать из избранного" title="Убрать"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>`;
   }).join("")}</div>`;
 }
 
+function compareFavorites(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  const keys = favorites
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .slice(0, COMPARE_MAX)
+    .map(deviceKey);
+  if (keys.length < 2) return;
+  compareList = keys;
+  saveCompare();
+  refreshCompareUI();
+  showCopyToast("Избранное добавлено в сравнение");
+  showCompareSection();
+}
+
 // ── О проекте ──
-function showAbout() {
+function showAbout(updateHash = true) {
+  if (updateHash) setSectionHash("about");
   show("s-about");
   const sa = document.getElementById("s-about");
   if (sa) sa.scrollTo(0, 0);
@@ -11685,25 +12318,47 @@ function deviceShareUrl(d) {
 }
 
 let _currentDeviceSlug = null;
+const SECTION_HASH_BY_NAME = {
+  catalog: "#catalog",
+  favorites: "#favorites",
+  compare: "#compare",
+  about: "#about",
+};
+
+function replaceHash(hash) {
+  try {
+    history.replaceState(null, "", location.pathname + location.search + hash);
+  } catch (e) {
+    try { location.hash = hash.replace(/^#/, ""); } catch (e2) {}
+  }
+}
+
+function setSectionHash(name) {
+  const hash = SECTION_HASH_BY_NAME[name];
+  if (!hash || location.hash === hash) return;
+  _currentDeviceSlug = null;
+  replaceHash(hash);
+}
+
+function clearAppHash() {
+  _currentDeviceSlug = null;
+  if (!location.hash) return;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  if (location.hash) {
+    try { location.hash = ""; } catch (e) {}
+  }
+}
 
 function setDeviceHash(d) {
   const slug = deviceSlug(d);
   _currentDeviceSlug = slug;
-  try {
-    history.replaceState(null, "", "#m=" + slug);
-    if (location.hash !== "#m=" + slug) location.hash = "m=" + slug; // фолбэк
-  } catch (e) {
-    try { location.hash = "m=" + slug; } catch (e2) {}
-  }
+  replaceHash("#m=" + slug);
 }
 
 function clearDeviceHash() {
   _currentDeviceSlug = null;
   if (!/^#m=/.test(location.hash)) return;
-  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
-  if (/^#m=/.test(location.hash)) {
-    try { location.hash = ""; } catch (e) {}
-  }
+  clearAppHash();
 }
 
 // Открытие модели из хэша при загрузке страницы или смене хэша
@@ -11718,6 +12373,79 @@ function openDeviceFromHash() {
   lastSearchOrigin = "intro";
   openDeviceFromSearch(DEVICES.indexOf(d));
   return true;
+}
+
+function compareShareUrl() {
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  const slugs = compareList
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .map(deviceSlug);
+  return `${location.origin}${location.pathname}#cmp=${slugs.map(encodeURIComponent).join(",")}`;
+}
+
+function favoritesShareUrl() {
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  const slugs = favorites
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .map(deviceSlug);
+  return `${location.origin}${location.pathname}#fav=${slugs.map(encodeURIComponent).join(",")}`;
+}
+
+function openCompareFromHash() {
+  const m = location.hash.match(/^#cmp=([^&]+)/);
+  if (!m) return false;
+  const slugs = m[1].split(",").map(s => {
+    try { return decodeURIComponent(s); } catch (e) { return s; }
+  });
+  const keys = [];
+  slugs.forEach(slug => {
+    const d = findDeviceBySlug(slug);
+    if (!d) return;
+    const key = deviceKey(d);
+    if (!keys.includes(key) && keys.length < COMPARE_MAX) keys.push(key);
+  });
+  if (!keys.length) return false;
+  compareList = keys;
+  saveCompare();
+  refreshCompareUI();
+  showCompareSection(false);
+  return true;
+}
+
+function openFavoritesFromHash() {
+  const m = location.hash.match(/^#fav=([^&]+)/);
+  if (!m) return false;
+  const slugs = m[1].split(",").map(s => {
+    try { return decodeURIComponent(s); } catch (e) { return s; }
+  });
+  const keys = [];
+  slugs.forEach(slug => {
+    const d = findDeviceBySlug(slug);
+    if (!d) return;
+    const key = deviceKey(d);
+    if (!keys.includes(key) && keys.length < 24) keys.push(key);
+  });
+  if (!keys.length) return false;
+  favorites = keys;
+  saveFavorites();
+  refreshFavoriteUI();
+  showFavoritesSection(false);
+  return true;
+}
+
+function openSectionFromHash() {
+  const hash = location.hash;
+  if (hash === "#catalog") { showCatalog(false); return true; }
+  if (hash === "#favorites") { showFavoritesSection(false); return true; }
+  if (hash === "#compare") { showCompareSection(false); return true; }
+  if (hash === "#about") { showAbout(false); return true; }
+  return false;
+}
+
+function openRouteFromHash() {
+  return openDeviceFromHash() || openCompareFromHash() || openFavoritesFromHash() || openSectionFromHash();
 }
 
 function shareButtonHTML(d) {
@@ -11800,6 +12528,40 @@ async function shareDevice(event, idx) {
   try {
     await navigator.clipboard.writeText(url);
     showShareToast("Ссылка на модель скопирована");
+  } catch (e) {
+    window.prompt("Скопируйте ссылку:", url);
+  }
+}
+
+async function shareCompare(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  if (compareList.length < 2) return;
+  const url = compareShareUrl();
+  const title = "Сравнение моделей — VBR БОТ";
+  if (navigator.share) {
+    try { await navigator.share({title, url}); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try {
+    await copyTextToClipboard(url);
+    showShareToast("Ссылка на сравнение скопирована");
+  } catch (e) {
+    window.prompt("Скопируйте ссылку:", url);
+  }
+}
+
+async function shareFavorites(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  if (!favorites.length) return;
+  const url = favoritesShareUrl();
+  const title = "Избранные модели — VBR БОТ";
+  if (navigator.share) {
+    try { await navigator.share({title, url}); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try {
+    await copyTextToClipboard(url);
+    showShareToast("Ссылка на избранное скопирована");
   } catch (e) {
     window.prompt("Скопируйте ссылку:", url);
   }
@@ -13404,6 +14166,7 @@ function restartQuiz() {
 function goHome() {
   answers = {};
   qIdx = 0;
+  clearAppHash();
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
   clearIntroSearch(false);
@@ -13642,9 +14405,9 @@ layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
 initIntroScene();
-// Deep-link: если открыли ссылку вида #m=<модель> — сразу показываем карточку
-window.addEventListener("hashchange", openDeviceFromHash);
-openDeviceFromHash();
+// Deep-link: #m=<модель>, #cmp=<модель,модель> или разделы #catalog/#favorites/#compare/#about.
+window.addEventListener("hashchange", openRouteFromHash);
+openRouteFromHash();
 
 </script>
 </body>
