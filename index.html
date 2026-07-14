@@ -1091,6 +1091,40 @@ html, body {
   color: var(--text);
   margin: 4px 0 14px;
 }
+.dev-profile-title {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.dev-profile-meta {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.3;
+}
+.dev-profile-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 6px 0 14px;
+}
+.dev-profile-summary .dev-price {
+  margin: 0;
+  flex: 1 1 auto;
+}
+.dev-profile-summary .dev-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.dev-profile-summary .share-btn,
+.dev-profile-summary .fav-btn,
+.dev-profile-summary .cmp-btn {
+  width: 36px;
+  height: 36px;
+}
 .dev-hero-specs {
   display: flex; flex-wrap: wrap;
   gap: 6px; margin-bottom: 16px;
@@ -3114,6 +3148,16 @@ html, body {
   transition: opacity .15s;
 }
 .btn-buy-primary:active { opacity: .82; }
+.btn-buy-primary svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .btn-buy-primary .btn-market-logo {
   background: rgba(255,255,255,.22);
   color: #fff;
@@ -9634,6 +9678,37 @@ html, body {
   #s-catalog .catalog-search {
     margin-top: 6px !important;
   }
+
+  #s-catalog .catalog-head {
+    padding: 22px !important;
+    margin-bottom: 20px;
+    border: 1px solid rgba(var(--blue-rgb), .13);
+    border-radius: 22px;
+    background:
+      linear-gradient(180deg, rgba(22,28,41,.78), rgba(11,14,20,.42)),
+      radial-gradient(circle at 8% 0%, rgba(var(--blue-rgb), .08), transparent 280px);
+    box-shadow: 0 16px 34px rgba(0,0,0,.12);
+    grid-template-columns: minmax(420px, 1fr) auto;
+    grid-template-areas:
+      "title count"
+      "search sort"
+      "filters filters"
+      "prices prices";
+    row-gap: 14px;
+  }
+
+  #s-catalog .catalog-count-row {
+    align-self: center;
+  }
+
+  #s-catalog #catalog-filter-strip,
+  #s-catalog #catalog-price-filter-strip {
+    max-width: none;
+  }
+
+  #s-catalog .catalog-list {
+    padding-top: 0;
+  }
 }
 </style>
 </head>
@@ -11725,10 +11800,18 @@ function scoreDevice(dev) {
     m++;
     if (q.key === "quality") {
       const reqQ = QRANK[a] || 0;
-      if (dev.q >= reqQ) {
-        s += 1;          // «не ниже запрошенного» — полное совпадение (2K/4K удовлетворяют Full HD)
+      if (dev.q === reqQ) {
+        s += 1;
+      } else if (dev.q > reqQ) {
+        // Лучше запрошенного — полезная альтернатива, но не "точное совпадение":
+        // 4K вместо 2K может быть дороже и должно явно объясняться пользователю.
+        s += 0.85;
+        mm.push({key: q.key, type: "overspec"});
       } else {
-        mm.push({key: q.key, type: "quality"}); // ниже запрошенного — не подходит
+        // Ниже запрошенного — показываем как похожий вариант, если точных нет
+        // или если остальные критерии совпали.
+        s += dev.q === reqQ - 1 ? 0.55 : 0.35;
+        mm.push({key: q.key, type: "quality"});
       }
     } else {
       const ok = a === "да" ? dev[q.key] : !dev[q.key];
@@ -13618,15 +13701,22 @@ function usefulLinksHTML(d) {
 
   const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
       <span class="btn-market-logo" aria-hidden="true">Я</span>
-      Купить
+      <span>Посмотреть на Маркете</span>
     </a>` : '';
-  const hint = hasMarket ? `<div class="partner-hint">Цены на товары на маркетплейсах могут меняться, бот показывает среднюю цену за последние два месяца</div>` : '';
+  const hint = hasMarket ? `<div class="partner-hint">Цена ориентировочная, маркетплейсы могут менять её ежедневно.</div>` : '';
 
   return `<div class="dev-links-block">
-    <div class="dev-links-title">Полезные ссылки</div>
+    <div class="dev-links-title">Обзоры и источник</div>
     <div class="dev-links-row">${secondaryBtns}</div>
     ${buyBtn}
     ${hint}
+  </div>`;
+}
+
+function deviceDecisionPanelHTML(d) {
+  return `<div class="dev-profile-summary">
+    <div class="dev-price">${attrSafe(d.price || "—")}</div>
+    <div class="dev-hero-actions">${shareButtonHTML(d)}${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
   </div>`;
 }
 
@@ -13653,13 +13743,11 @@ function renderDeviceProfile(d, exact, similar) {
         <span class="dev-hero-header-type">${deviceTypeLabel(d)}</span>
       </div>
       <div class="dev-hero-body">
-        <div style="display:flex;align-items:flex-start;gap:10px;">
-          <div style="flex:1;min-width:0;">
-        <div class="dev-name">${d.name}</div>
-        <div class="dev-price">${d.price}</div>
-          </div>
-          <div class="dev-hero-actions">${shareButtonHTML(d)}${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
+        <div class="dev-profile-title">
+          <div class="dev-name">${d.name}</div>
+          <div class="dev-profile-meta">${deviceTypeLabel(d)} · ${QNAMES[d.q] || "качество не указано"}</div>
         </div>
+        ${deviceDecisionPanelHTML(d)}
         ${devicePhotoHTML(d)}
         ${d.desc ? `<div class="dev-desc dev-profile-desc">${d.desc}</div>` : ''}
         ${keyTags ? `<div class="specs-row">${keyTags}</div>` : ''}
