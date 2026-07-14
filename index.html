@@ -6,10 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0B0E14">
+<meta name="description" content="VBR БОТ помогает выбрать видеорегистратор, GPS-информер или комбо-устройство по задачам, бюджету и характеристикам. Каталог, сравнение, избранное и быстрый подбор моделей.">
+<meta name="keywords" content="видеорегистратор, GPS-информер, комбо 3 в 1, подбор видеорегистратора, сравнение видеорегистраторов, VBR БОТ">
+<meta name="robots" content="index, follow">
+<meta name="application-name" content="VBR БОТ">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="VBR БОТ">
+<meta property="og:title" content="VBR БОТ — подбор видеорегистраторов и комбо-устройств">
+<meta property="og:description" content="Бесплатный помощник по выбору видеорегистратора: каталог моделей, быстрый подбор, сравнение, избранное и сценарии выбора.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VBR БОТ — подбор видеорегистраторов">
+<meta name="twitter:description" content="Подберите видеорегистратор, GPS-информер или комбо-устройство по задачам, бюджету и характеристикам.">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>VBR Bot</title>
+<title>VBR БОТ — подбор видеорегистраторов, GPS-информеров и комбо 3 в 1</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -286,6 +298,40 @@ html, body {
 /* ── SCREENS ─────────────────────────────────────── */
 .screen { display: none; }
 .screen.on { display: block; }
+.screen.screen-enter {
+  animation: screenEnter .18s ease-out both;
+}
+@keyframes screenEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes itemRiseIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes softPopIn {
+  from { opacity: 0; transform: scale(.985) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen.screen-enter,
+  .catalog-row.catalog-anim,
+  .catalog-brand-head.catalog-anim,
+  .cmp-row.cmp-row-anim,
+  .cmp-card.cmp-row-anim,
+  .fav-card.fav-anim,
+  .catalog-scenario-menu {
+    animation: none !important;
+  }
+  .catalog-chip,
+  .catalog-sort-chip,
+  .catalog-row,
+  .cmp-row,
+  .fav-card,
+  .dev-card.is-clickable {
+    transition: none !important;
+  }
+}
 
 /* ── INTRO ────────────────────────────────────────── */
 #s-intro {
@@ -835,7 +881,7 @@ html, body {
 .srch-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
   border: none;
   background: none;
@@ -845,35 +891,41 @@ html, body {
   text-align: left;
 }
 .srch-logo-mark {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
-  background: var(--violet-bg);
-  color: var(--violet-text);
-  box-shadow: 0 10px 28px rgba(var(--blue-rgb), .14);
+  background: rgba(var(--blue-rgb), .12);
+  color: var(--blue);
+  border: 1px solid rgba(var(--blue-rgb), .22);
+  box-shadow: 0 10px 28px rgba(var(--blue-rgb), .10);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .srch-logo-mark svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .srch-logo-title {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 15.5px;
+  font-weight: 850;
   color: var(--text);
   line-height: 1.2;
-  letter-spacing: -0.2px;
+  letter-spacing: 0;
 }
 .srch-logo-sub {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-2);
   line-height: 1.25;
   margin-top: 1px;
+  letter-spacing: 0;
 }
 .srch-body {
   width: 100%;
@@ -1084,6 +1136,40 @@ html, body {
   font-size: 20px; font-weight: 800;
   color: var(--text);
   margin: 4px 0 14px;
+}
+.dev-profile-title {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.dev-profile-meta {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.3;
+}
+.dev-profile-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 6px 0 14px;
+}
+.dev-profile-summary .dev-price {
+  margin: 0;
+  flex: 1 1 auto;
+}
+.dev-profile-summary .dev-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.dev-profile-summary .share-btn,
+.dev-profile-summary .fav-btn,
+.dev-profile-summary .cmp-btn {
+  width: 36px;
+  height: 36px;
 }
 .dev-hero-specs {
   display: flex; flex-wrap: wrap;
@@ -1483,6 +1569,8 @@ html, body {
 .nav-hint {
   max-width: 460px;
   margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .btn-back {
@@ -1579,19 +1667,6 @@ html, body {
   font-size: 11px; font-weight: 500;
   color: rgba(255,255,255,.35);
 }
-.cam-badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: rgba(255,255,255,.16);
-  border: 1px solid rgba(255,255,255,.24);
-  color: #fff;
-  font-size: 10px; font-weight: 700;
-  letter-spacing: .04em;
-  padding: 3px 8px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.cam-badge svg { width: 11px; height: 11px; stroke: #fff; flex-shrink: 0; }
-
 .dev-body { padding: 14px 16px 18px; flex: 1; display: flex; flex-direction: column; }
 
 .dev-meta {
@@ -1887,20 +1962,23 @@ html, body {
 .copy-toast {
   position: fixed;
   left: 50%;
-  bottom: calc(18px + env(safe-area-inset-bottom));
+  bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 14px);
   z-index: 10001;
   transform: translate(-50%, 10px);
   opacity: 0;
   pointer-events: none;
-  background: #1C1C1E;
+  background: rgba(28,28,30,.94);
   color: #fff;
   border-radius: 999px;
-  padding: 10px 14px;
+  padding: 11px 15px;
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 750;
   line-height: 1.2;
   white-space: nowrap;
   box-shadow: 0 10px 26px rgba(0,0,0,.16);
+  border: 1px solid rgba(255,255,255,.09);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: opacity .18s, transform .18s;
   max-width: calc(100vw - 28px);
   text-align: center;
@@ -2221,18 +2299,28 @@ html, body {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: none;
-  background: rgba(0,0,0,.06);
-  color: var(--text-2);
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(12,16,24,.72);
+  color: rgba(255,255,255,.86);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,.20);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
 }
-.cmp-card-remove svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.4; }
+.cmp-card-remove:hover {
+  color: #fff;
+  background: rgba(var(--blue-rgb), .92);
+  border-color: rgba(var(--blue-rgb), .92);
+}
+.cmp-card-remove:active { transform: scale(.94); }
+.cmp-card-remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .cmp-card-thumb {
   width: 100%;
   aspect-ratio: 1;
@@ -2279,6 +2367,106 @@ html, body {
   margin-bottom: 14px;
   line-height: 1.4;
 }
+.cmp-view-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,.025);
+}
+.cmp-view-label {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 12.5px;
+  font-weight: 750;
+}
+.cmp-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.cmp-view-btn {
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cmp-view-btn.active {
+  color: #fff;
+  background: var(--blue);
+}
+.cmp-diff-empty {
+  margin-top: 8px;
+  padding: 18px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+.cmp-sticky-head {
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px;
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  background: rgba(18, 23, 34, .96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+.cmp-sticky-head.cmp-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cmp-sticky-head.cmp-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmp-sticky-item {
+  min-width: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  padding: 8px 9px;
+}
+.cmp-sticky-brand {
+  display: block;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmp-sticky-name {
+  display: -webkit-box;
+  margin-top: 2px;
+  color: var(--text);
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .cmp-rows {
   background: var(--card);
   border: 0.5px solid var(--border);
@@ -2289,6 +2477,8 @@ html, body {
   padding: 12px 0;
   border-bottom: 0.5px solid var(--border);
 }
+.cmp-row.cmp-row-anim,
+.cmp-card.cmp-row-anim { animation: itemRiseIn .2s ease-out both; }
 .cmp-row:last-child { border-bottom: none; }
 .cmp-row-label {
   display: flex;
@@ -2512,7 +2702,7 @@ html, body {
 .specs-full-val { color: var(--text); font-weight: 500; text-align: right; }
 .specs-full-val.nd { color: var(--text-2); font-weight: 400; font-style: italic; }
 
-/* Compromise section — «Что мешает точному совпадению» */
+/* Compromise section — «Как расширить выбор» */
 .compromise-wrap {
   display: flex; flex-direction: column; gap: 14px;
   background: var(--violet-bg); border: 1px solid var(--violet-border);
@@ -2787,7 +2977,7 @@ html, body {
 .card-collapsible { display: flex; flex-direction: column; flex: 1; }
 
 /* Карточка результата кликабельна — открывает профиль устройства */
-.dev-card.is-clickable { cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease; }
+.dev-card.is-clickable { cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease, transform .12s ease; }
 .dev-card.is-clickable .card-toggle-arrow {
   display: block; align-self: center; margin-left: 8px; flex-shrink: 0;
   font-size: 26px; line-height: 1; color: var(--text-2);
@@ -2797,6 +2987,7 @@ html, body {
   .dev-card.is-clickable:hover { border-color: var(--blue-border); box-shadow: 0 0 0 1px var(--blue-border); }
   .dev-card.is-clickable:hover .card-toggle-arrow { color: var(--blue); }
 }
+.dev-card.is-clickable:active { transform: scale(.992); }
 
 /* Пометка о радарной антенне на карточке результата */
 .dev-antenna-note {
@@ -2993,6 +3184,16 @@ html, body {
   transition: opacity .15s;
 }
 .btn-buy-primary:active { opacity: .82; }
+.btn-buy-primary svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .btn-buy-primary .btn-market-logo {
   background: rgba(255,255,255,.22);
   color: #fff;
@@ -3254,8 +3455,8 @@ html, body {
   background: var(--card);
   border: 1.5px dashed var(--border);
   border-radius: 16px;
-  min-height: clamp(280px, 34dvh, 380px);
-  padding: 28px 16px;
+  min-height: clamp(168px, 22dvh, 240px);
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3263,18 +3464,18 @@ html, body {
   gap: 12px;
 }
 .ad-icon-circle {
-  width: 46px; height: 46px;
+  width: 40px; height: 40px;
   border-radius: 50%;
   background: var(--bg);
   display: flex; align-items: center; justify-content: center;
 }
 .ad-icon-circle svg {
-  width: 22px; height: 22px;
+  width: 19px; height: 19px;
   stroke: var(--text-3); fill: none;
   stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
 }
 .ad-text-lg {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-3);
   text-align: center;
   line-height: 1.55;
@@ -6761,6 +6962,14 @@ html, body {
 .vbr-page-actions { display: none; }
 .mode-page-header { display: none; }
 
+@media (max-width: 899px) {
+  #s-intro.v2-home .vbr-page-actions,
+  #s-intro.v2-home .home-v2-footer .donate,
+  #s-intro.v2-home .home-v2-footer .mail {
+    display: none !important;
+  }
+}
+
 @media (min-width: 900px) {
   #s-intro.v2-home,
   #s-mode {
@@ -7156,16 +7365,18 @@ html, body {
 }
 /* — поле поиска: спокойное в покое, оранжевый акцент на действии — */
 #s-mode .mode-search-wrap {
-  border-color: rgba(var(--blue-rgb),.16);
-  transition: border-color .16s ease, box-shadow .16s ease;
+  border: 1px solid rgba(105,113,137,.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
 }
 #s-mode .mode-search-wrap:hover {
-  border-color: rgba(var(--blue-rgb),.42);
+  border-color: rgba(155,165,190,.34);
+  background: rgba(22,28,41,.84);
 }
 #s-mode .mode-search-wrap:focus-within,
 #s-mode .mode-search-wrap:active {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 4px rgba(var(--blue-rgb),.10);
+  border-color: rgba(var(--blue-rgb),.72);
+  box-shadow: 0 0 0 3px rgba(var(--blue-rgb),.10), inset 0 1px 0 rgba(255,255,255,.04);
 }
 
 /* — «Другие пользователи выбирают»: лёгкая витрина без тяжёлого контейнера — */
@@ -7487,13 +7698,6 @@ html, body {
   color: var(--text-2);
   letter-spacing: .02em;
 }
-.cam-badge {
-  background: var(--blue-bg);
-  border: 1px solid var(--blue-border);
-  color: var(--blue);
-}
-.cam-badge svg { stroke: var(--blue); }
-
 @media (prefers-reduced-motion: reduce) {
   .no-exact-notice, .dev-card-header, .dev-hero-header { transition: none; }
 }
@@ -8315,41 +8519,593 @@ html, body {
 }
 .app-nav-badge.show { display: block; }
 
+@media (min-width: 900px) {
+  .app-nav {
+    justify-content: center;
+    padding-left: max(var(--dt-pad), calc((100vw - var(--dt-wide)) / 2));
+    padding-right: max(var(--dt-pad), calc((100vw - var(--dt-wide)) / 2));
+  }
+
+  .app-nav-item {
+    flex: 1 1 calc(var(--dt-wide) / 5);
+    max-width: calc(var(--dt-wide) / 5);
+  }
+}
+
 /* ── Каталог / Избранное (общие строки) ── */
 .catalog-wrap, .fav-page-wrap, .about-wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 0; }
+.fav-page-wrap { max-width: none; padding: 0; }
+.fav-page-wrap #fav-page-list {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+}
 .catalog-title, .fav-page-title, .about-title {
   font-size: 24px; font-weight: 800; letter-spacing: -.5px; margin: 6px 2px 14px; color: var(--text);
 }
-.catalog-head { position: sticky; top: 0; z-index: 6; background: var(--bg); padding-top: 10px; }
+.catalog-wrap { padding-top: 12px; }
+.catalog-head {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: rgba(11,14,20,.96);
+  padding-top: 4px;
+  padding-bottom: 8px;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.catalog-head.is-stuck {
+  border-bottom: 1px solid rgba(105,113,137,.18);
+  background: rgba(11,14,20,.88);
+  box-shadow: 0 16px 28px rgba(0,0,0,.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 .catalog-search {
   display: flex; align-items: center; gap: 10px;
   background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-  padding: 0 14px; height: 48px;
+  padding: 0 14px; height: 46px;
 }
 .catalog-search svg { width: 20px; height: 20px; color: var(--text-2); flex-shrink: 0; }
 .catalog-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text); font-size: 16px; }
 .catalog-search input::placeholder { color: var(--text-2); }
 .catalog-clear { background: none; border: 0; color: var(--text-2); cursor: pointer; font-size: 22px; line-height: 1; display: none; }
-.catalog-count { font-size: 13px; color: var(--text-2); margin: 12px 2px 2px; }
-.catalog-list { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 0; }
+.catalog-filter-strip {
+  display: flex; gap: 8px;
+  margin: 10px -16px 0;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.catalog-filter-strip::-webkit-scrollbar { display: none; }
+.catalog-price-filter-strip {
+  margin-top: 8px;
+}
+.catalog-chip {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(var(--blue-rgb), .04);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease, transform .12s ease;
+}
+.catalog-chip:hover { color: var(--text); border-color: var(--blue-border); }
+.catalog-chip:active { transform: scale(.97); }
+.catalog-chip.active {
+  color: #fff;
+  background: var(--blue);
+  border-color: transparent;
+}
+.catalog-chip-reset { color: var(--blue); border-color: rgba(var(--blue-rgb), .2); }
+.catalog-count-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 10px 2px 0;
+}
+.catalog-count { font-size: 13px; color: var(--text-2); }
+.catalog-reset {
+  display: none;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.catalog-reset.show { display: inline-flex; }
+.catalog-sort-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px -16px 0;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.catalog-sort-row::-webkit-scrollbar { display: none; }
+.catalog-sort-label {
+  flex: 0 0 auto;
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 750;
+}
+.catalog-sort-chip {
+  flex: 0 0 auto;
+  height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.025);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease, transform .12s ease;
+}
+.catalog-scenario-wrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+.catalog-scenario-btn {
+  min-width: 106px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.catalog-scenario-btn::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  opacity: .85;
+}
+.catalog-scenario-menu {
+  position: fixed;
+  width: 190px;
+  padding: 6px;
+  border: 1px solid rgba(105,113,137,.22);
+  border-radius: 14px;
+  background: rgba(18,23,34,.98);
+  box-shadow: 0 18px 34px rgba(0,0,0,.36);
+  z-index: 20;
+  animation: softPopIn .14s ease-out both;
+}
+.catalog-scenario-option {
+  width: 100%;
+  min-height: 34px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 750;
+  text-align: left;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.catalog-scenario-option:hover {
+  color: var(--text);
+  background: rgba(255,255,255,.045);
+}
+.catalog-scenario-option.active {
+  color: #fff;
+  background: var(--blue);
+}
+.catalog-sort-chip:hover { color: var(--text); border-color: var(--blue-border); }
+.catalog-sort-chip:active { transform: scale(.97); }
+.catalog-sort-chip.active {
+  color: var(--blue);
+  border-color: rgba(var(--blue-rgb), .28);
+  background: rgba(var(--blue-rgb), .09);
+}
+.catalog-list { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 0; }
+.catalog-brand-group { display: grid; gap: 8px; padding-top: 10px; }
+.catalog-brand-head {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 2px 2px 0;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.catalog-brand-head span {
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.catalog-brand-list { display: grid; gap: 8px; }
 .catalog-row {
-  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr) auto auto;
+  align-items: center; gap: 10px; width: 100%; text-align: left;
   background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-  padding: 10px 12px; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease;
+  min-height: 84px;
+  padding: 9px 10px; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease, transform .12s ease;
 }
 .catalog-row:hover { border-color: var(--blue-border); box-shadow: 0 0 0 1px var(--blue-border); }
+.catalog-row:active { transform: scale(.992); }
+.catalog-row.catalog-anim,
+.catalog-brand-head.catalog-anim {
+  animation: itemRiseIn .2s ease-out both;
+}
 .catalog-row-info { flex: 1; min-width: 0; }
-.catalog-row-brand { font-size: 11.5px; font-weight: 700; color: var(--violet-text); text-transform: uppercase; letter-spacing: .03em; }
-.catalog-row-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; }
+.catalog-row .mode-popular-thumb,
+.catalog-row .isr-thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+}
+.catalog-row-brand { font-size: 10.5px; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: .055em; }
+.catalog-row-name { margin-top: 1px; font-size: 14.5px; font-weight: 800; color: var(--text); line-height: 1.18; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .catalog-row-meta { font-size: 12px; color: var(--text-2); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.catalog-row-price { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+.catalog-row-price { font-size: 12.5px; font-weight: 750; color: var(--text-2); white-space: nowrap; }
+.catalog-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.catalog-row-cmp,
+.catalog-row-fav {
+  width: 32px;
+  height: 32px;
+}
+.catalog-row-cmp svg,
+.catalog-row-fav svg {
+  width: 16px;
+  height: 16px;
+}
 .catalog-row-arrow { color: var(--text-2); font-size: 22px; line-height: 1; flex-shrink: 0; }
 .catalog-empty { text-align: center; color: var(--text-2); padding: 44px 20px; font-size: 15px; }
 .fav-row-remove {
-  background: none; border: 1px solid var(--border); color: var(--text-2);
-  border-radius: 10px; width: 34px; height: 34px; cursor: pointer; font-size: 18px; line-height: 1; flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12,16,24,.72);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.82);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 6px 14px rgba(0,0,0,.16);
+  transition: background .15s ease, color .15s ease, transform .15s ease, border-color .15s ease;
 }
-.fav-row-remove:hover { color: var(--blue); border-color: var(--blue-border); }
+.fav-row-remove svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.fav-row-remove:hover { color: #fff; background: rgba(var(--blue-rgb), .92); border-color: rgba(var(--blue-rgb), .92); }
+.fav-row-remove:active { transform: scale(.94); }
+.fav-list {
+  display: grid;
+  gap: 10px;
+}
+.fav-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 104px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .12s ease;
+  touch-action: pan-y;
+}
+.fav-card.fav-anim { animation: itemRiseIn .2s ease-out both; }
+.fav-card:active { transform: scale(.992); }
+.fav-card.is-dragging {
+  opacity: .72;
+  transform: scale(1.015);
+  border-color: var(--blue-border);
+  box-shadow: 0 12px 26px rgba(0,0,0,.24), 0 0 0 1px var(--blue-border);
+}
+.fav-drag-placeholder {
+  border: 1px dashed rgba(var(--blue-rgb), .44);
+  border-radius: 16px;
+  background: rgba(var(--blue-rgb), .06);
+  min-height: 104px;
+}
+.fav-list.is-sorting .fav-card {
+  transition: transform .16s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.fav-card:hover {
+  border-color: var(--blue-border);
+  box-shadow: 0 0 0 1px var(--blue-border);
+}
+.fav-card .mode-popular-thumb,
+.fav-card .isr-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+}
+.fav-card-main { min-width: 0; }
+.fav-card-brand {
+  color: var(--blue);
+  font-size: 10.5px;
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+.fav-card-name {
+  display: -webkit-box;
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 15.5px;
+  font-weight: 850;
+  line-height: 1.18;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.fav-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.fav-card-pill {
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(var(--blue-rgb), .07);
+  color: var(--text-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fav-card-price {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+}
+.fav-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.fav-card-cmp,
+.fav-card-remove {
+  width: 32px;
+  height: 32px;
+}
+@media (max-width: 430px) {
+  .fav-card {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    min-height: 96px;
+    padding: 10px;
+    gap: 10px;
+  }
+  .fav-card .mode-popular-thumb,
+  .fav-card .isr-thumb {
+    width: 64px;
+    height: 64px;
+  }
+  .fav-card-name { font-size: 14.5px; }
+  .fav-card-pill { font-size: 11px; padding-inline: 7px; }
+  .fav-card-actions { flex-direction: column; gap: 6px; }
+  .fav-card-cmp,
+  .fav-card-remove {
+    width: 30px;
+    height: 30px;
+  }
+}
+.fav-compare-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(var(--blue-rgb), .055);
+}
+.fav-compare-copy {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.fav-compare-copy strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+.fav-compare-btn {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(var(--blue-rgb), .24);
+  border-radius: 10px;
+  background: rgba(var(--blue-rgb), .09);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.fav-compare-btn:hover {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+@media (max-width: 430px) {
+  .catalog-wrap { padding-inline: 14px; }
+  .catalog-filter-strip { margin-inline: -14px; padding-inline: 14px; }
+  .catalog-row {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    min-height: 82px;
+  }
+  .catalog-row .mode-popular-thumb { width: 56px; height: 56px; }
+  .catalog-row-price {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -2px;
+    font-size: 12px;
+  }
+  .catalog-row-actions {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .catalog-row-cmp,
+  .catalog-row-fav { width: 30px; height: 30px; }
+}
+
+@media (min-width: 900px) {
+  #s-catalog,
+  #s-compare,
+  #s-favorites {
+    padding-inline: var(--dt-pad);
+  }
+  #s-catalog .catalog-wrap,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-compare .cmp-body,
+  #s-catalog .catalog-head,
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    max-width: var(--dt-wide);
+  }
+  #s-catalog .catalog-wrap {
+    padding: 30px 0 0;
+  }
+  #s-catalog .catalog-head {
+    margin-inline: auto;
+    padding: 0 0 18px;
+    display: grid;
+    grid-template-columns: minmax(520px, 680px) minmax(360px, 1fr);
+    grid-template-areas:
+      "title count"
+      "search sort"
+      "filters filters"
+      "prices prices";
+    align-items: center;
+    column-gap: 28px;
+    row-gap: 12px;
+  }
+  #s-catalog .catalog-title,
+  .section-title h2 {
+    font-size: 30px;
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -1px;
+  }
+  #s-catalog .catalog-title {
+    grid-area: title;
+    margin: 0;
+  }
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    padding: 30px 0 0;
+  }
+  .section-count {
+    font-size: 14px;
+  }
+  .section-action {
+    height: 38px;
+    font-size: 14px;
+  }
+  #s-catalog .catalog-search {
+    grid-area: search;
+    max-width: none;
+  }
+  #s-catalog .catalog-filter-strip {
+    flex-wrap: wrap;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    margin-top: 0;
+  }
+  #s-catalog #catalog-filter-strip {
+    grid-area: filters;
+    max-width: 980px;
+  }
+  #s-catalog #catalog-price-filter-strip {
+    grid-area: prices;
+    max-width: 980px;
+  }
+  #s-catalog .catalog-count-row {
+    grid-area: count;
+    justify-content: flex-end;
+    margin: 0;
+    max-width: none;
+    align-self: end;
+  }
+  #s-catalog .catalog-count {
+    font-size: 14px;
+  }
+  #s-catalog .catalog-sort-row {
+    grid-area: sort;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  #s-catalog .catalog-sort-label {
+    color: var(--text-3);
+  }
+  #s-catalog .catalog-list {
+    max-width: var(--dt-wide);
+    margin-inline: auto;
+    padding-top: 8px;
+  }
+  #s-catalog .catalog-brand-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #s-catalog .catalog-brand-group {
+    gap: 10px;
+    padding-top: 18px;
+  }
+  #s-catalog .catalog-row {
+    min-height: 82px;
+  }
+  #s-catalog .catalog-list.catalog-list-flat {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #s-favorites .fav-page-wrap #fav-page-list {
+    padding: 18px 0 0;
+  }
+  #s-favorites .fav-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #s-compare .cmp-body {
+    padding: 18px 0 40px;
+  }
+}
 
 /* пустое состояние избранного */
 .fav-empty { text-align: center; padding: 52px 20px; }
@@ -8374,46 +9130,678 @@ html, body {
 .sec-clear { color: var(--text-2); }
 .sec-clear:hover { color: var(--blue); }
 .sec-clear:disabled { opacity: .4; cursor: default; }
+.section-head {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.section-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.section-title h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: -.5px;
+}
+.section-count {
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.section-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0 10px;
+  background: none;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.section-action:hover { color: var(--blue); }
+.section-action[hidden] { display: none; }
+#compare-share,
+#favorites-share {
+  width: 36px;
+  padding: 0;
+  color: var(--text);
+  border-color: rgba(var(--blue-rgb), .26);
+  background: rgba(var(--blue-rgb), .08);
+}
+#compare-share svg,
+#favorites-share svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#compare-share:hover,
+#favorites-share:hover {
+  color: #fff;
+  border-color: var(--blue);
+  background: var(--blue);
+}
+@media (max-width: 430px) {
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    gap: 10px;
+  }
+  #s-compare .section-actions,
+  #s-favorites .section-actions {
+    gap: 6px;
+  }
+  #s-compare .section-action,
+  #s-favorites .section-action {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  #compare-share,
+  #favorites-share {
+    width: 32px;
+    padding: 0;
+  }
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2 {
+    font-size: 22px;
+  }
+}
 
-/* ── О проекте: тот же визуальный язык, что на главной ── */
-.about-wrap { max-width: 640px; margin: 0 auto; padding: 6px 18px 10px; }
-.about-title { font-size: 30px; font-weight: 900; letter-spacing: -1px; color: var(--text); margin: 4px 0 18px; }
-.about-intro { display: grid; gap: 14px; }
-.about-intro p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-2); }
-.about-intro .about-lead { color: var(--text); font-weight: 500; font-size: 17px; }
-/* тонкий оранжево-коричневый разделитель как на главной */
-.about-divider { height: 1px; border: 0; background: rgba(var(--blue-rgb), .15); margin: 24px 0; }
-.about-blocks { display: grid; gap: 20px; }
-/* блоки повторяют .home-v2-feature; у поддержки — третья колонка под кнопку */
-.about-row.support-row { grid-template-columns: 74px minmax(0, 1fr) auto; }
-.about-row .about-email { color: var(--blue); font-weight: 700; text-decoration: none; }
-.about-row .about-email:hover { text-decoration: underline; }
-.about-donate-btn {
-  align-self: center; height: 46px; padding: 0 22px; border-radius: 999px;
-  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-strong) 100%);
-  color: #fff; font-size: 16px; font-weight: 800; border: 0; cursor: pointer; text-decoration: none;
-  display: inline-flex; align-items: center; box-shadow: 0 10px 22px rgba(var(--blue-rgb), .22);
+/* ── О проекте: продолжение главной страницы ── */
+#s-about {
+  min-height: 100dvh;
+  padding: 14px 18px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 14px);
+  background: var(--bg);
 }
-.about-donate-btn:active { opacity: .86; transform: scale(.99); }
-.about-final-wrap { margin-top: 22px; }
-.about-final { font-size: 16px; line-height: 1.5; color: var(--text); margin: 0 0 18px; }
-.about-final .accent { color: var(--blue); font-weight: 700; }
-/* кнопка PRO ГАДЖЕТЫ — тот же язык, что «Начать подбор» */
-.about-cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-.about-cta {
-  display: inline-flex; align-items: center; gap: 16px; height: 58px; padding: 0 26px;
-  border: 0; border-radius: 16px; cursor: pointer; text-decoration: none;
-  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-strong) 100%);
-  color: #fff; font-size: 18px; font-weight: 800; letter-spacing: -.2px;
-  box-shadow: 0 14px 30px rgba(var(--blue-rgb), .22);
+#s-about.on { display: flex !important; justify-content: center; }
+.about-wrap {
+  width: 100%;
+  max-width: 520px;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
-.about-cta .about-cta-arrow { font-size: 20px; font-weight: 700; }
-.about-cta:active, .about-cta-vk:active { opacity: .86; transform: scale(.99); }
-.about-cta-vk {
-  display: inline-flex; align-items: center; height: 58px; padding: 0 24px;
-  border-radius: 16px; text-decoration: none;
-  background: rgba(var(--blue-rgb), .08); border: 1px solid rgba(var(--blue-rgb), .2);
-  color: var(--text); font-size: 16px; font-weight: 750;
+.about-hero { margin-top: 6px; }
+.about-title {
+  margin: 0;
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -1.4px;
+  font-weight: 900;
+  color: var(--text);
+}
+.about-lead {
+  max-width: 420px;
+  margin-top: 14px;
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.36;
+}
+.about-lead strong {
+  display: block;
+  color: var(--text);
+  font-weight: 700;
+}
+.about-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+.about-author {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(105,113,137,.14);
+}
+.about-author-icon,
+.about-action-icon,
+.about-pro-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--blue-rgb), .08);
+  color: var(--blue);
+  flex-shrink: 0;
+}
+.about-author-icon {
+  width: 46px;
+  height: 46px;
+}
+.about-author-icon svg,
+.about-action-icon svg,
+.about-pro-mark svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.about-author-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.about-author-title,
+.about-action-title,
+.about-pro-title {
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 850;
+  color: var(--text);
+}
+.about-author-text,
+.about-action-text,
+.about-pro-text {
+  margin-top: 5px;
+  color: var(--text-2);
+  font-size: 12.8px;
+  line-height: 1.34;
+}
+.about-actions {
+  display: grid;
+  gap: 0;
+}
+.about-action {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(105,113,137,.14);
+}
+.about-action:first-child { padding-top: 0; }
+.about-action-icon {
+  width: 34px;
+  height: 34px;
+}
+.about-action-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2;
+}
+.about-action-link,
+.about-action-btn {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  min-width: 78px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--blue-rgb), .2);
+  background: rgba(var(--blue-rgb), .08);
+  color: var(--text);
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease, opacity .15s ease;
+}
+.about-action-link.copy-email { min-width: 132px; }
+.about-action-btn {
+  background: var(--blue);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(var(--blue-rgb), .18);
+}
+.about-action-link:hover {
+  color: var(--blue);
+  border-color: var(--blue-border);
+  background: rgba(var(--blue-rgb), .1);
+}
+.about-action-btn:hover { background: var(--blue-strong); }
+.about-action-link:active,
+.about-action-btn:active,
+.about-social:active { opacity: .78; transform: scale(.99); }
+.about-pro {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(105,113,137,.14);
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+.about-pro-mark {
+  width: 42px;
+  height: 42px;
+}
+.about-pro-mark svg {
+  width: 20px;
+  height: 20px;
+}
+.about-socials {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.about-social {
+  width: 98px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(var(--blue-rgb), .04);
+  color: var(--text-2);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 750;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.about-social svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+.about-social:hover {
+  color: var(--blue);
+  border-color: var(--blue-border);
+  background: rgba(var(--blue-rgb), .08);
+}
+
+@media (min-width: 900px) {
+  #s-about {
+    height: 100dvh;
+    overflow: hidden;
+    padding: 36px 40px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 24px);
+  }
+  .about-wrap {
+    max-width: 1180px;
+    min-height: 0;
+    height: calc(100dvh - 36px - 24px - var(--app-nav-h) - env(safe-area-inset-bottom));
+  }
+  .about-layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(430px, 520px);
+    gap: 64px;
+    align-items: center;
+  }
+  .about-hero { margin-top: 0; align-self: center; }
+  .about-title {
+    font-size: 44px;
+    line-height: 1.1;
+    letter-spacing: -1.6px;
+  }
+  .about-lead {
+    max-width: 500px;
+    margin-top: 14px;
+    font-size: 15.5px;
+    line-height: 1.36;
+  }
+  .about-grid { margin-top: 0; gap: 14px; }
+  .about-author {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+    padding-bottom: 14px;
+  }
+  .about-author-icon,
+  .about-pro-mark {
+    width: 36px;
+    height: 36px;
+  }
+  .about-author-icon svg,
+  .about-pro-mark svg {
+    width: 18px;
+    height: 18px;
+  }
+  .about-action {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    min-height: 54px;
+    padding: 10px 0;
+  }
+  .about-action-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .about-action-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .about-pro {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+@media (max-width: 899px) {
+  #s-about {
+    overflow-y: auto;
+    padding: 16px 18px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 12px);
+  }
+  .about-wrap {
+    min-height: calc(100dvh - var(--app-nav-h) - env(safe-area-inset-bottom) - 28px);
+    justify-content: center;
+  }
+  .about-layout {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 2.6vh, 24px);
+  }
+  .about-hero { margin-top: 0; }
+  .about-title {
+    font-size: 31px;
+    line-height: 1.08;
+    letter-spacing: -1px;
+  }
+  .about-lead {
+    max-width: none;
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .about-lead strong { display: inline; }
+  .about-grid {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2.2vh, 22px);
+  }
+  .about-author {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+    padding-bottom: 13px;
+  }
+  .about-author-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .about-author-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .about-author-title,
+  .about-action-title,
+  .about-pro-title {
+    font-size: 14px;
+  }
+  .about-author-text,
+  .about-action-text,
+  .about-pro-text {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.28;
+  }
+  .about-actions { margin-top: 0; }
+  .about-action {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+    min-height: 50px;
+    padding: 8px 0;
+  }
+  .about-action-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .about-action-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  .about-action-link,
+  .about-action-btn {
+    grid-column: auto;
+    justify-self: end;
+    margin-top: 0;
+    min-width: 66px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 11.5px;
+  }
+  .about-action-link.copy-email { min-width: 126px; }
+  .about-pro {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .about-pro-mark {
+    width: 30px;
+    height: 30px;
+  }
+  .about-pro-mark svg {
+    width: 15px;
+    height: 15px;
+  }
+  .about-socials {
+    grid-column: auto;
+    justify-content: flex-end;
+    margin-top: 0;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .about-social {
+    width: 74px;
+    height: 28px;
+    gap: 5px;
+    border-radius: 9px;
+    font-size: 11.5px;
+  }
+  .about-social svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  #s-about { padding: 14px 16px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 10px); }
+  .about-wrap { min-height: calc(100dvh - var(--app-nav-h) - env(safe-area-inset-bottom) - 24px); }
+  .about-title { font-size: 29px; }
+  .about-lead { margin-top: 13px; font-size: 13.2px; }
+  .about-layout { gap: 16px; }
+  .about-grid { gap: 14px; }
+  .about-author-text,
+  .about-action-text,
+  .about-pro-text { font-size: 11.5px; }
+  .about-social { width: 68px; }
+}
+
+/* Final page rhythm: main app sections share title size and top offset. */
+@media (max-width: 899px) {
+  :root {
+    --mobile-page-x: 32px;
+  }
+
+  #s-catalog .catalog-wrap,
+  #s-favorites .fav-page-wrap,
+  #s-compare,
+  #s-intro.v2-home .home-v2-inner,
+  #s-mode .mode-inner {
+    padding-top: 18px !important;
+  }
+
+  #s-catalog .catalog-wrap,
+  #s-intro.v2-home .home-v2-inner,
+  #s-compare .section-head,
+  #s-compare .cmp-body,
+  #s-favorites .section-head,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-about {
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
+  }
+
+  #s-catalog .catalog-filter-strip {
+    margin-left: calc(var(--mobile-page-x) * -1) !important;
+    margin-right: calc(var(--mobile-page-x) * -1) !important;
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
+  }
+
+  #s-catalog .catalog-head,
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    padding-top: 0 !important;
+  }
+
+  #s-mode.on {
+    align-items: flex-start;
+    justify-content: center !important;
+  }
+
+  #s-mode .mode-inner {
+    min-height: auto !important;
+    padding: 18px var(--mobile-page-x) calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 18px) !important;
+    justify-content: flex-start !important;
+  }
+
+  #s-intro.v2-home .home-v2-inner {
+    padding-left: var(--mobile-page-x) !important;
+    padding-right: var(--mobile-page-x) !important;
+  }
+
+  #s-mode .mode-title-row {
+    min-height: 34px;
+    margin-top: 0 !important;
+    align-items: center;
+  }
+
+  #s-catalog .catalog-title,
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2,
+  #s-mode .mode-title {
+    margin: 0 !important;
+    font-size: 22px !important;
+    line-height: 1.1 !important;
+    font-weight: 850 !important;
+    letter-spacing: -.5px !important;
+  }
+
+  #s-catalog .catalog-search {
+    margin-top: 8px !important;
+  }
+
+  #s-mode .mode-subtitle-row {
+    margin-top: 5px !important;
+    min-height: 18px;
+    align-items: center;
+  }
+
+  #s-mode .mode-subtitle {
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+
+  #s-mode .mode-back-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+  }
+
+  #s-mode .mode-content {
+    margin-top: 16px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --mobile-page-x: 18px;
+  }
+
+  #s-mode .mode-inner {
+    padding-top: 18px !important;
+  }
+}
+
+@media (min-width: 900px) {
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-favorites .section-head {
+    padding-top: 28px !important;
+  }
+
+  #s-mode .mode-title-row {
+    margin-top: 28px !important;
+  }
+
+  #s-catalog .catalog-title,
+  #s-compare .section-title h2,
+  #s-favorites .section-title h2,
+  #s-mode .mode-title {
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+    font-weight: 900 !important;
+    letter-spacing: -.8px !important;
+  }
+
+  #s-catalog .catalog-search {
+    margin-top: 6px !important;
+  }
+
+  #s-catalog .catalog-head {
+    padding: 22px !important;
+    margin-bottom: 20px;
+    border: 1px solid rgba(var(--blue-rgb), .13);
+    border-radius: 22px;
+    background:
+      linear-gradient(180deg, rgba(22,28,41,.78), rgba(11,14,20,.42)),
+      radial-gradient(circle at 8% 0%, rgba(var(--blue-rgb), .08), transparent 280px);
+    box-shadow: 0 16px 34px rgba(0,0,0,.12);
+    grid-template-columns: minmax(420px, 1fr) auto;
+    grid-template-areas:
+      "title count"
+      "search sort"
+      "filters filters"
+      "prices prices";
+    row-gap: 14px;
+  }
+
+  #s-catalog .catalog-count-row {
+    align-self: center;
+  }
+
+  #s-catalog #catalog-filter-strip,
+  #s-catalog #catalog-price-filter-strip {
+    max-width: none;
+  }
+
+  #s-catalog .catalog-list {
+    padding-top: 0;
+  }
 }
 </style>
 </head>
@@ -8473,7 +9861,7 @@ html, body {
 
 <div class="fav-tooltip" id="fav-tooltip"></div>
 <div class="term-tooltip-float" id="term-tooltip"></div>
-<div class="copy-toast" id="copy-toast">email скопирован в буфер обмена</div>
+<div class="copy-toast" id="copy-toast">Почта скопирована</div>
 
 <!-- Контекстное пояснение процента совпадения (не модальное окно) -->
 <div class="match-pop" id="match-pop" style="display:none" role="tooltip">
@@ -8546,7 +9934,7 @@ html, body {
       <div class="home-v2-col-left">
         <section class="home-v2-hero">
           <h1 class="home-v2-title"><span class="hv-line">Подбор</span> <span class="hv-line">видеорегистраторов и</span> <span class="hv-line">комбо-устройств</span> <span class="accent">легко и быстро</span></h1>
-          <p class="home-v2-subtitle">VBR Bot помогает выбрать лучшее устройство под ваши задачи и требования</p>
+          <p class="home-v2-subtitle">VBR БОТ помогает выбрать устройство под ваши задачи и требования</p>
           <div class="home-v2-sticker" id="intro-db-sticker">База обновляется</div>
         </section>
 
@@ -8671,7 +10059,7 @@ html, body {
         <div class="mode-search-wrap">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;color:var(--text-2)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input id="intro-srch" class="intro-srch-input" type="text"
-            placeholder="Поиск модели..."
+            placeholder="Найти модель"
             autocomplete="off" autocorrect="off" spellcheck="false"
             oninput="onIntroSearch(this.value)">
           <button id="intro-srch-clear" class="intro-srch-clear" onclick="clearIntroSearch()" style="display:none">
@@ -8724,12 +10112,12 @@ html, body {
       <button class="srch-logo" onclick="handleSearchTopbarBack()" aria-label="Вернуться к поиску">
         <span class="srch-logo-mark">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 8a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8zm8 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            <path d="m13 2-8 12h6l-1 8 8-12h-6z"/>
           </svg>
         </span>
         <span>
-          <span class="srch-logo-title">VBR Бот</span>
-          <span class="srch-logo-sub">к выбору модели</span>
+          <span class="srch-logo-title">VBR БОТ</span>
+          <span class="srch-logo-sub">подбор модели</span>
         </span>
       </button>
     </div>
@@ -8878,27 +10266,37 @@ html, body {
 
 <!-- ── COMPARE SCREEN ─────────────────────────────── -->
 <div id="s-compare" class="screen">
-  <div class="sec-actions">
-    <button class="sec-btn sec-back" type="button" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Назад</button>
-    <button class="sec-btn sec-clear" type="button" onclick="clearCompareSection()">Очистить</button>
+  <div class="section-head">
+    <div class="section-title">
+      <h2>Сравнение</h2>
+    </div>
+    <div class="section-actions">
+      <button class="section-action" id="compare-share" type="button" onclick="shareCompare(event)" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="Поделиться сравнением" title="Поделиться" data-tooltip="Поделиться">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7 15.4 6.3M8.6 13.3l6.8 4.4"/></svg>
+      </button>
+      <button class="section-action" id="compare-clear" type="button" onclick="clearCompareSection()">Очистить</button>
+    </div>
   </div>
   <div class="cmp-body" id="compare-body"></div>
 </div>
 
 <!-- ── CATALOG ─────────────────────────────────────── -->
 <div id="s-catalog" class="screen">
-  <div class="sec-actions only-back">
-    <button class="sec-btn sec-back" type="button" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Назад</button>
-  </div>
   <div class="catalog-wrap">
     <div class="catalog-head">
       <h2 class="catalog-title">Каталог</h2>
       <div class="catalog-search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="catalog-search-input" type="text" placeholder="Поиск по бренду или модели…" autocomplete="off" autocorrect="off" spellcheck="false" oninput="onCatalogSearch(this.value)">
+        <input id="catalog-search-input" type="text" placeholder="Найти регистратор" autocomplete="off" autocorrect="off" spellcheck="false" oninput="onCatalogSearch(this.value)">
         <button class="catalog-clear" id="catalog-clear" type="button" onclick="clearCatalogSearch()" aria-label="Очистить">×</button>
       </div>
-      <div class="catalog-count" id="catalog-count"></div>
+      <div class="catalog-sort-row" id="catalog-sort-row" aria-label="Сортировка каталога"></div>
+      <div class="catalog-filter-strip" id="catalog-filter-strip" aria-label="Быстрый выбор"></div>
+      <div class="catalog-filter-strip catalog-price-filter-strip" id="catalog-price-filter-strip" aria-label="Быстрый выбор по цене"></div>
+      <div class="catalog-count-row">
+        <div class="catalog-count" id="catalog-count"></div>
+        <button class="catalog-reset" id="catalog-reset" type="button" onclick="resetCatalogFilters()">Сбросить</button>
+      </div>
     </div>
     <div class="catalog-list" id="catalog-list"></div>
   </div>
@@ -8906,70 +10304,86 @@ html, body {
 
 <!-- ── FAVORITES ───────────────────────────────────── -->
 <div id="s-favorites" class="screen">
-  <div class="sec-actions">
-    <button class="sec-btn sec-back" type="button" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Назад</button>
-    <button class="sec-btn sec-clear" type="button" onclick="clearAllFavorites()">Очистить</button>
-  </div>
   <div class="fav-page-wrap">
-    <h2 class="fav-page-title">Избранное</h2>
+    <div class="section-head">
+      <div class="section-title">
+        <h2>Избранное</h2>
+      </div>
+      <div class="section-actions">
+        <button class="section-action" id="favorites-share" type="button" onclick="shareFavorites(event)" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="Поделиться избранным" title="Поделиться" data-tooltip="Поделиться">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7 15.4 6.3M8.6 13.3l6.8 4.4"/></svg>
+        </button>
+        <button class="section-action" id="favorites-clear" type="button" onclick="clearAllFavorites()">Очистить</button>
+      </div>
+    </div>
     <div id="fav-page-list"></div>
   </div>
 </div>
 
 <!-- ── ABOUT ───────────────────────────────────────── -->
 <div id="s-about" class="screen">
-  <div class="sec-actions only-back">
-    <button class="sec-btn sec-back" type="button" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Назад</button>
-  </div>
   <div class="about-wrap">
-    <h2 class="about-title">О проекте</h2>
+    <div class="about-layout">
+      <section class="about-hero" aria-labelledby="about-title">
+        <h2 class="about-title" id="about-title">О проекте</h2>
+        <p class="about-lead"><strong>VBR БОТ — бесплатный помощник по выбору видеорегистратора.</strong> Он помогает быстро найти подходящую модель среди сотен устройств без долгого изучения характеристик.</p>
+      </section>
 
-    <div class="about-intro">
-      <p class="about-lead">VBR БОТ — бесплатный помощник по выбору видеорегистратора. Он анализирует ваши требования и подбирает подходящие модели из базы устройств — быстро, просто и без бесконечного изучения характеристик.</p>
-      <p>Я создал VBR БОТ самостоятельно, без команды разработчиков и помощи программистов. Идея появилась из простого желания — сделать выбор видеорегистратора понятнее и проще.</p>
-      <p>Всю логику подбора, структуру базы и сам принцип работы я собирал на основе собственного опыта тестирования устройств. VBR БОТ — независимый проект, который я продолжаю развивать и улучшать.</p>
-    </div>
-
-    <hr class="about-divider">
-
-    <div class="about-blocks">
-      <div class="home-v2-feature about-row support-row">
-        <div class="home-v2-feature-icon"><svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 12.9a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></svg></div>
-        <div>
-          <div class="home-v2-feature-title">Поддержать проект</div>
-          <div class="home-v2-feature-text">Если вы хотите поддержать меня — нажмите кнопку.</div>
+      <section class="about-grid" aria-label="О проекте VBR БОТ">
+        <div class="about-author">
+          <div class="about-author-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m15.5 15.5 4 4"/><path d="m8.5 11 1.7 1.7 3.4-3.7"/></svg></div>
+          <div>
+            <div class="about-author-title">Опыт тестирования</div>
+            <div class="about-author-text">Я создал VBR БОТ сам: логика подбора и база устройств собраны на основе опыта тестирования видеорегистраторов. Проект независимый.</div>
+          </div>
         </div>
-        <a class="about-donate-btn" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">Донат</a>
-      </div>
 
-      <hr class="about-divider" style="margin:0">
+        <div class="about-actions" aria-label="Действия">
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 12.9a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9a4.6 4.6 0 0 1 6.5 6.5z"/></svg></div>
+            <div>
+              <div class="about-action-title">Поддержать проект</div>
+              <div class="about-action-text">На развитие базы и проверку моделей.</div>
+            </div>
+            <a class="about-action-btn" href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener">Донат</a>
+          </div>
 
-      <div class="home-v2-feature about-row">
-        <div class="home-v2-feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
-        <div>
-          <div class="home-v2-feature-title">Нашли ошибку или есть пожелание?</div>
-          <div class="home-v2-feature-text">Напишите мне на почту — <a class="about-email" href="mailto:theboxcollab@gmail.com">theboxcollab@gmail.com</a></div>
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg></div>
+            <div>
+              <div class="about-action-title">Сообщить об ошибке</div>
+              <div class="about-action-text">Неточность в модели или пожелание.</div>
+            </div>
+            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+          </div>
+
+          <div class="about-action">
+            <div class="about-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M15 9h3a1 1 0 0 1 1 1v11"/><path d="M8 9h3"/><path d="M8 13h3"/></svg></div>
+            <div>
+              <div class="about-action-title">Сотрудничество</div>
+              <div class="about-action-text">Для производителей и партнёров.</div>
+            </div>
+            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+          </div>
         </div>
-      </div>
 
-      <hr class="about-divider" style="margin:0">
-
-      <div class="home-v2-feature about-row">
-        <div class="home-v2-feature-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M15 9h3a1 1 0 0 1 1 1v11"/><path d="M8 8h3"/><path d="M8 12h3"/><path d="M8 16h3"/></svg></div>
-        <div>
-          <div class="home-v2-feature-title">Вы производитель?</div>
-          <div class="home-v2-feature-text">Хотите внести изменения, обсудить сотрудничество или просто познакомиться — напишите: <a class="about-email" href="mailto:theboxcollab@gmail.com">theboxcollab@gmail.com</a></div>
+        <div class="about-pro">
+          <div class="about-pro-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/><path d="M4 20h16"/></svg></div>
+          <div>
+            <div class="about-pro-title">PRO ГАДЖЕТЫ</div>
+            <div class="about-pro-text">Гаджеты, тесты и техника без скучных инструкций.</div>
+          </div>
+          <div class="about-socials" aria-label="Социальные сети PRO ГАДЖЕТЫ">
+            <a class="about-social" href="https://www.youtube.com/@progadgets_official" target="_blank" rel="noopener" aria-label="YouTube PRO ГАДЖЕТЫ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.6 4.6 12 4.6 12 4.6s-5.6 0-7.5.5a3 3 0 0 0-2.1 2.1A31.2 31.2 0 0 0 2 12a31.2 31.2 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 7.5.5 7.5.5s5.6 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 22 12a31.2 31.2 0 0 0-.4-4.8ZM10 15.4V8.6l6 3.4-6 3.4Z"/></svg>
+              YouTube
+            </a>
+            <a class="about-social" href="https://vk.com/progadgets_official" target="_blank" rel="noopener" aria-label="VK PRO ГАДЖЕТЫ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.8 17.4c-5.5 0-8.7-3.8-8.8-10h2.8c.1 4.5 2.1 6.4 3.7 6.8V7.4h2.6v3.9c1.6-.2 3.2-2 3.8-3.9h2.6c-.5 2.4-2.4 4.2-3.7 5 1.3.7 3.4 2.3 4.2 5h-2.9c-.7-1.8-2.1-3.2-4-3.5v3.5h-.3Z"/></svg>
+              VK
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <hr class="about-divider">
-
-    <div class="about-final-wrap">
-      <p class="about-final">Спасибо, что заглянули в VBR БОТ. Надеюсь, он сэкономит вам пару вечеров изучения характеристик и поможет найти <span class="accent">тот самый</span> регистратор. А если интересны гаджеты, тесты и техника без скучных инструкций — заглядывайте на «PRO ГАДЖЕТЫ».</p>
-      <div class="about-cta-row">
-        <a class="about-cta" href="https://www.youtube.com/@progadgets_official" target="_blank" rel="noopener">PRO ГАДЖЕТЫ <span class="about-cta-arrow">→</span></a>
-        <a class="about-cta-vk" href="https://vk.com/progadgets_official" target="_blank" rel="noopener">ВКонтакте</a>
       </div>
     </div>
   </div>
@@ -8981,14 +10395,14 @@ html, body {
     <button class="btn-back" id="btn-back" onclick="goBack()">← Назад</button>
     <button class="btn-next" id="btn-next" onclick="goNext()" disabled>Далее →</button>
   </div>
-  <div class="nav-hint">Выберите вариант и нажмите «Далее» или дважды кликните по нему</div>
+  <div class="nav-hint">Выберите вариант и нажмите «Далее» или дважды кликните</div>
 </div>
 
 <!-- ── ПОСТОЯННОЕ НИЖНЕЕ МЕНЮ ──────────────────────── -->
 <nav id="app-nav" class="app-nav" aria-label="Основная навигация">
-  <button class="app-nav-item" data-tab="home" onclick="navGo('home')" aria-label="Главная">
-    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></span>
-    <span class="app-nav-lb">Главная</span>
+  <button class="app-nav-item" data-tab="home" onclick="navGo('home')" aria-label="Подбор">
+    <span class="app-nav-ic"><svg viewBox="0 0 24 24"><path d="m13 2-8 12h6l-1 8 8-12h-6z"/></svg></span>
+    <span class="app-nav-lb">Подбор</span>
   </button>
   <button class="app-nav-item" data-tab="catalog" onclick="navGo('catalog')" aria-label="Каталог">
     <span class="app-nav-ic"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3.5" y1="6" x2="3.51" y2="6"/><line x1="3.5" y1="12" x2="3.51" y2="12"/><line x1="3.5" y1="18" x2="3.51" y2="18"/></svg></span>
@@ -9008,7 +10422,7 @@ html, body {
   </button>
 </nav>
 
-<script src="./devices.js?v=1.0.2"></script>
+<script src="./devices.js?v=1.0.3"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -9136,8 +10550,10 @@ let favorites = loadFavorites();
 let loadingTimers = [];
 
 const COMPARE_KEY = "vbrbot_compare_v1";
+const COMPARE_DIFF_KEY = "vbrbot_compare_diff_v1";
 const COMPARE_MAX = 3;
 let compareList = loadCompare();
+let compareOnlyDiff = loadCompareDiffMode();
 let compareReturnScreen = "s-intro";
 
 function loadCompare() {
@@ -9152,6 +10568,14 @@ function loadCompare() {
 
 function saveCompare() {
   try { localStorage.setItem(COMPARE_KEY, JSON.stringify(compareList)); } catch(e) {}
+}
+
+function loadCompareDiffMode() {
+  try { return localStorage.getItem(COMPARE_DIFF_KEY) === "1"; } catch(e) { return false; }
+}
+
+function saveCompareDiffMode() {
+  try { localStorage.setItem(COMPARE_DIFF_KEY, compareOnlyDiff ? "1" : "0"); } catch(e) {}
 }
 
 function loadFavorites() {
@@ -9221,8 +10645,8 @@ function compareButtonHTML(d, extraClass = "") {
     ? "Убрать из сравнения"
     : disabled
       ? `Можно сравнить до ${COMPARE_MAX} моделей`
-      : "Добавить к сравнению";
-  return `<button class="cmp-btn ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="${active ? "Убрать из сравнения" : "Добавить к сравнению"}" title="${tooltip}" data-tooltip="${tooltip}">
+      : "Добавить в сравнение";
+  return `<button class="cmp-btn ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" onmouseenter="showFavTooltip(event)" onmouseleave="hideFavTooltip()" onfocus="showFavTooltip(event)" onblur="hideFavTooltip()" aria-label="${active ? "Убрать из сравнения" : "Добавить в сравнение"}" title="${tooltip}" data-tooltip="${tooltip}">
     <svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
   </button>`;
 }
@@ -9234,8 +10658,8 @@ function compareChipHTML(d, extraClass = "") {
     ? "Убрать из сравнения"
     : disabled
       ? `Можно сравнить до ${COMPARE_MAX} моделей`
-      : "Добавить к сравнению";
-  return `<button class="cmp-btn cmp-chip ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" aria-label="${active ? "Убрать из сравнения" : "Добавить к сравнению"}" title="${tooltip}" data-tooltip="${tooltip}">
+      : "Добавить в сравнение";
+  return `<button class="cmp-btn cmp-chip ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" aria-label="${active ? "Убрать из сравнения" : "Добавить в сравнение"}" title="${tooltip}" data-tooltip="${tooltip}">
     <svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
     <span class="cmp-chip-label">${active ? "В сравнении" : "Сравнить"}</span>
   </button>`;
@@ -9300,14 +10724,16 @@ function refreshCompareUI() {
       ? "Убрать из сравнения"
       : disabled
         ? `Можно сравнить до ${COMPARE_MAX} моделей`
-        : "Добавить к сравнению";
-    btn.setAttribute("aria-label", active ? "Убрать из сравнения" : "Добавить к сравнению");
+        : "Добавить в сравнение";
+    btn.setAttribute("aria-label", active ? "Убрать из сравнения" : "Добавить в сравнение");
     btn.setAttribute("title", tooltip);
     btn.setAttribute("data-tooltip", tooltip);
     const label = btn.querySelector(".cmp-chip-label");
     if (label) label.textContent = active ? "В сравнении" : "Сравнить";
   });
   renderCompareBar();
+  updateCompareHeader();
+  if (currentScreenId === "s-catalog") renderCatalog();
   if (currentScreenId === "s-compare") {
     if (compareList.length >= 2) renderCompareScreen();
     else renderCompareEmpty();
@@ -9380,7 +10806,7 @@ function buildCompareRows(devices) {
     rows.push({
       icon: 'M4 4h16v16H4z',
       label: 'Тип устройства',
-      cells: devices.map(d => ({text: TYPE_SHORT[d.type] || d.type || '—', rank: null}))
+      cells: devices.map(d => ({text: deviceTypeText(d, true) || '—', rank: null}))
     });
   }
 
@@ -9532,7 +10958,19 @@ function buildCompareRows(devices) {
   });
 }
 
+function compareRowHasDiff(row) {
+  const values = row.cells.map(c => String(c.text || "").trim().toLowerCase());
+  return new Set(values).size > 1;
+}
+
+function setCompareDiffMode(onlyDiff) {
+  compareOnlyDiff = Boolean(onlyDiff);
+  saveCompareDiffMode();
+  renderCompareScreen();
+}
+
 function renderCompareScreen() {
+  updateCompareHeader();
   const body = document.getElementById("compare-body");
   if (!body) return;
   const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
@@ -9540,12 +10978,13 @@ function renderCompareScreen() {
     body.innerHTML = `<div class="cmp-empty">Добавьте минимум 2 модели, чтобы сравнить их.</div>`;
     return;
   }
-  const rows = buildCompareRows(devices);
+  const allRows = buildCompareRows(devices);
+  const rows = compareOnlyDiff ? allRows.filter(compareRowHasDiff) : allRows;
 
-  const cardsHtml = devices.map(d => {
+  const cardsHtml = devices.map((d, i) => {
     const idx = DEVICES.indexOf(d);
     const thumbSrc = deviceImageSrc(d);
-    return `<div class="cmp-card" onclick="openDeviceFromSearch(${idx})" role="button" tabindex="0" aria-label="Открыть ${attrSafe(d.name)}">
+    return `<div class="cmp-card cmp-row-anim" style="animation-delay:${Math.min(i * 35, 120)}ms" onclick="openDeviceFromSearch(${idx})" role="button" tabindex="0" aria-label="Открыть ${attrSafe(d.name)}">
       <button class="cmp-card-remove" aria-label="Убрать ${attrSafe(d.name)} из сравнения" onclick="removeCompareByIndex(event, ${idx})">
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -9556,19 +10995,35 @@ function renderCompareScreen() {
     </div>`;
   }).join("");
 
-  const rowsHtml = rows.map(row => `
-    <div class="cmp-row">
+  const stickyHeadHtml = devices.map(d => `
+    <div class="cmp-sticky-item">
+      <span class="cmp-sticky-brand">${attrSafe(d.brand || "")}</span>
+      <span class="cmp-sticky-name">${attrSafe(d.name || "")}</span>
+    </div>
+  `).join("");
+
+  const rowsHtml = rows.map((row, i) => `
+    <div class="cmp-row cmp-row-anim" style="animation-delay:${Math.min(i * 22, 260)}ms">
       <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${row.icon}"/></svg>${row.label}</div>
       <div class="cmp-row-cells cmp-cols-${devices.length}">
         ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${c.text}</div>`).join("")}
       </div>
     </div>
   `).join("");
+  const diffPanelHtml = `<div class="cmp-view-panel">
+    <div class="cmp-view-label">Строки сравнения</div>
+    <div class="cmp-view-toggle" role="group" aria-label="Строки сравнения">
+      <button class="cmp-view-btn ${compareOnlyDiff ? "" : "active"}" type="button" onclick="setCompareDiffMode(false)">Все</button>
+      <button class="cmp-view-btn ${compareOnlyDiff ? "active" : ""}" type="button" onclick="setCompareDiffMode(true)">Отличия</button>
+    </div>
+  </div>`;
 
   body.innerHTML = `
     <div class="cmp-cards cmp-cols-${devices.length}">${cardsHtml}</div>
-    ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: вернитесь назад и нажмите значок сравнения у другой модели.</div>` : ''}
-    <div class="cmp-rows">${rowsHtml}</div>
+    ${devices.length < COMPARE_MAX ? `<div class="cmp-hint">Можно добавить ещё ${COMPARE_MAX - devices.length}: откройте каталог и нажмите значок сравнения у другой модели.</div>` : ''}
+    ${diffPanelHtml}
+    <div class="cmp-sticky-head cmp-cols-${devices.length}">${stickyHeadHtml}</div>
+    ${rows.length ? `<div class="cmp-rows">${rowsHtml}</div>` : `<div class="cmp-diff-empty">У выбранных моделей нет различий в отображаемых параметрах.</div>`}
   `;
 }
 
@@ -9650,7 +11105,7 @@ function hideFloatingHints() {
   hideTermTooltip();
 }
 
-function showCopyToast(message = "email скопирован в буфер обмена") {
+function showCopyToast(message = "Почта скопирована") {
   const toast = document.getElementById("copy-toast");
   if (!toast) return;
   toast.textContent = message;
@@ -9690,9 +11145,9 @@ function setupCopyEmailActions() {
     const email = target.getAttribute("data-email") || "partners@vbrbot.ru";
     try {
       await copyTextToClipboard(email);
-      showCopyToast("email скопирован в буфер обмена");
+      showCopyToast("Почта скопирована");
     } catch(e) {
-      showCopyToast(email);
+      showCopyToast("Не удалось скопировать почту");
     }
   });
 
@@ -9713,11 +11168,13 @@ function toggleFavoriteByIndex(event, idx) {
   const d = DEVICES[idx];
   if (!d) return;
   const key = deviceKey(d);
-  favorites = favorites.includes(key)
+  const wasFavorite = favorites.includes(key);
+  favorites = wasFavorite
     ? favorites.filter(x => x !== key)
     : [key, ...favorites].slice(0, 24);
   saveFavorites();
   refreshFavoriteUI();
+  showCopyToast(wasFavorite ? "Удалено из избранного" : "Добавлено в избранное");
   if (event) showFavTooltip(event);
 }
 
@@ -9732,6 +11189,7 @@ function removeFavoriteByIndex(event, idx) {
   favorites = favorites.filter(x => x !== key);
   saveFavorites();
   refreshFavoriteUI();
+  showCopyToast("Удалено из избранного");
 }
 
 function refreshFavoriteUI() {
@@ -9753,10 +11211,16 @@ function refreshFavoriteUI() {
 // если открыт раздел «Избранное», перерисовываем его.
 function renderFavoritePanel() {
   updateNavBadges();
+  updateFavoritesHeader();
+  if (currentScreenId === "s-catalog") renderCatalog();
   if (currentScreenId === "s-favorites") renderFavoritesPage();
 }
 
 function openFavoriteDevice(idx) {
+  if (suppressFavoriteClick) {
+    suppressFavoriteClick = false;
+    return;
+  }
   lastSearchOrigin = "favorites";
   lastSearchQuery = "";
   openDeviceFromSearch(idx);
@@ -9770,7 +11234,7 @@ function navGo(tab) {
   // покидаем квиз: прячем прогресс-шапку и шаговую навигацию «Назад/Далее»
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
-  if (tab === "home") return goHome();
+  if (tab === "home") return openModeChoice();
   if (tab === "catalog") return showCatalog();
   if (tab === "compare") return showCompareSection();
   if (tab === "favorites") return showFavoritesSection();
@@ -9779,6 +11243,82 @@ function navGo(tab) {
 
 // ── Каталог ──
 let _catalogQuery = "";
+let _catalogFilters = [];
+let _catalogSort = "brand";
+let _catalogScenario = "";
+let _catalogScenarioMenuOpen = false;
+
+const CATALOG_FILTERS = [
+  {id:"popular", label:"Популярные", group:"popular", fn:d => popularPlacementType(d) === "promoted"},
+  {id:"under10000", label:"До 10 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 10000},
+  {id:"under15000", label:"До 15 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 15000},
+  {id:"under20000", label:"До 20 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 20000},
+  {id:"under25000", label:"До 25 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 25000},
+  {id:"under30000", label:"До 30 000 ₽", group:"price", fn:d => Number.isFinite(parsePrice(d.price)) && parsePrice(d.price) <= 30000},
+  {id:"4k", label:"4K", group:"quality", fn:d => Number(d.q) >= 3},
+  {id:"radar", label:"С радаром", group:"type", fn:d => String(d.type || "").toLowerCase() === "комбо 3 в 1"},
+  {id:"2cam", label:"2 камеры", group:"camera", fn:d => Number.parseInt(d.specs?.camera_count || "", 10) >= 2 || d.rear_cam === true},
+  {id:"noscreen", label:"Без экрана", group:"form", fn:d => String(d.form || "").toLowerCase() === "без экрана"},
+  {id:"wifi", label:"Wi-Fi", group:"wifi", fn:d => Boolean(d.specs?.wifi_gen) || d.smartphone === true},
+  {id:"saved", label:"В избранном", group:"saved", fn:d => isFavorite(d)},
+  {id:"compared", label:"В сравнении", group:"compared", fn:d => isInCompare(d)},
+  {id:"gps", label:"GPS", group:"gps", fn:d => Boolean(String(d.gps || "").trim()) && !/^(нет|н\/д)$/i.test(String(d.gps || "").trim())},
+  {id:"cpl", label:"CPL", group:"cpl", fn:d => d.specs?.cpl === true},
+];
+const CATALOG_INITIAL_FILTER_IDS = ["popular", "4k", "radar", "2cam", "noscreen", "wifi", "saved", "compared"];
+const CATALOG_DYNAMIC_FILTER_IDS = ["gps", "cpl"];
+const CATALOG_PRICE_FILTER_IDS = ["under10000", "under15000", "under20000", "under25000", "under30000"];
+const CATALOG_SORTS = [
+  {id:"brand", label:"По бренду"},
+  {id:"priceAsc", label:"Дешевле"},
+  {id:"priceDesc", label:"Дороже"},
+  {id:"quality", label:"Сначала 4K"},
+  {id:"radar", label:"С радаром"},
+];
+const CATALOG_SCENARIOS = [
+  {id:"", label:"По сценарию", short:"По сценарию"},
+  {id:"city", label:"Для города", short:"Город", min:4},
+  {id:"highway", label:"Для трассы", short:"Трасса", min:4},
+  {id:"taxi", label:"Для такси", short:"Такси", min:4},
+  {id:"easy", label:"Поставил и забыл", short:"Просто", min:4},
+  {id:"gift", label:"В подарок", short:"Подарок", min:4},
+];
+const CATALOG_BRAND_ALIASES = {
+  "70mai": "70 май семидесяти май сяоми xiaomi",
+  "blackvue": "блэквью блэк вью black vue",
+  "daocam": "даокам дао кам",
+  "ddpai": "ддпай дд паи",
+  "fujida": "фуджида фуджи фуджида",
+  "ibox": "айбокс и бокс ibox",
+  "inspector": "инспектор",
+  "intego": "интего",
+  "mio": "мио",
+  "navitel": "навител",
+  "neoline": "неолайн нео лайн",
+  "playme": "плейми плей ми",
+  "roadgid": "роадгид роудгид родгид",
+  "roadgo": "роадго роудго родго",
+  "sho me": "шо ми шоми шоу ми",
+  "silverstone f1": "сильверстоун сильвер стоун silver stone",
+  "trendvision": "трендвижн тренд вижн трендвизион",
+  "viofo": "виофо вайофо",
+};
+const CATALOG_TERM_ALIASES = {
+  "a15": "а15",
+  "a12": "а12",
+  "bullet": "буллет булет",
+  "cam": "кам камера",
+  "combo": "комбо",
+  "dash": "даш",
+  "duo": "дуо",
+  "line": "лайн линия",
+  "mirror": "миррор зеркало",
+  "pro": "про",
+  "uno": "уно",
+  "wifi": "вайфай wi fi",
+  "wi fi": "вайфай wifi",
+};
+
 function catalogSortedDevices() {
   return DEVICES.slice().sort((a, b) => {
     const brandCmp = String(a.brand || "").localeCompare(String(b.brand || ""), "ru", {sensitivity: "base"});
@@ -9786,8 +11326,317 @@ function catalogSortedDevices() {
     return String(a.name || "").localeCompare(String(b.name || ""), "ru", {sensitivity: "base"});
   });
 }
+function catalogFilterById(id) {
+  return CATALOG_FILTERS.find(f => f.id === id);
+}
+function catalogScenarioById(id) {
+  return CATALOG_SCENARIOS.find(s => s.id === id) || CATALOG_SCENARIOS[0];
+}
+function catalogHasGps(d) {
+  return Boolean(String(d.gps || "").trim()) && !/^(нет|н\/д)$/i.test(String(d.gps || "").trim());
+}
+function catalogHasWifi(d) {
+  return Boolean(d.specs?.wifi_gen) || d.smartphone === true;
+}
+function catalogHasScreen(d) {
+  return String(d.form || "").toLowerCase() !== "без экрана" && !/^(нет|без экрана)$/i.test(String(d.screen || "").trim());
+}
+function catalogIsCombo(d) {
+  return String(d.type || "").toLowerCase() === "комбо 3 в 1";
+}
+function catalogIsSuperCap(d) {
+  return /суперконденсатор/i.test(String(d.specs?.power_element || ""));
+}
+function catalogScenarioScore(d, scenarioId = _catalogScenario) {
+  const id = scenarioId || "";
+  const price = parsePrice(d.price);
+  const giftBudget = Number.isFinite(price) && price <= 10000;
+  if (id === "city") {
+    return [
+      Number(d.q) >= 2,
+      catalogHasWifi(d),
+      catalogHasGps(d),
+      d.magnetic === true || String(d.form || "").toLowerCase() === "без экрана",
+      Number.isFinite(price) && price <= 18000,
+    ].filter(Boolean).length;
+  }
+  if (id === "highway") {
+    return [
+      catalogIsCombo(d),
+      catalogHasGps(d),
+      Number(d.q) >= 2,
+      catalogHasWifi(d),
+      Number(d.q) >= 3,
+    ].filter(Boolean).length;
+  }
+  if (id === "taxi") {
+    return [
+      d.rear_cam === true || Number.parseInt(d.specs?.camera_count || "", 10) >= 2,
+      Number(d.q) >= 2,
+      catalogHasScreen(d),
+      catalogHasGps(d),
+      catalogHasWifi(d),
+    ].filter(Boolean).length;
+  }
+  if (id === "easy") {
+    return [
+      d.magnetic === true,
+      catalogHasWifi(d),
+      catalogIsSuperCap(d),
+      Number(d.q) >= 2,
+      catalogHasGps(d),
+    ].filter(Boolean).length;
+  }
+  if (id === "gift") {
+    return [
+      giftBudget,
+      Number(d.q) >= 2,
+      catalogHasWifi(d),
+      catalogHasScreen(d),
+      !/зеркало/i.test(String(d.form || "")),
+    ].filter(Boolean).length;
+  }
+  return 0;
+}
+function catalogApplyScenario(items) {
+  const scenario = catalogScenarioById(_catalogScenario);
+  if (!scenario.id) return items;
+  return items.filter(d => {
+    if (scenario.id === "gift") {
+      const price = parsePrice(d.price);
+      if (!Number.isFinite(price) || price > 10000) return false;
+    }
+    return catalogScenarioScore(d, scenario.id) >= (scenario.min || 1);
+  });
+}
+function catalogSearchNormalize(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[№#]/g, " ")
+    .replace(/[-_/+]+/g, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+function catalogSearchTextForDevice(d) {
+  const brandKey = catalogSearchNormalize(d.brand);
+  const base = catalogSearchNormalize([
+    d.brand,
+    d.name,
+    d.type,
+    d.form,
+    d.resolution,
+    d.gps,
+    d.specs?.wifi_gen,
+    d.specs?.sensor,
+    d.specs?.processor,
+  ].filter(Boolean).join(" "));
+  const aliases = [CATALOG_BRAND_ALIASES[brandKey] || ""];
+  Object.entries(CATALOG_TERM_ALIASES).forEach(([term, alias]) => {
+    if (base.includes(term)) aliases.push(alias);
+  });
+  return catalogSearchNormalize(`${base} ${aliases.join(" ")}`);
+}
+function catalogParseQuery(raw) {
+  const source = String(raw || "").trim().toLowerCase().replace(/ё/g, "е");
+  if (!source) return {text: "", maxPrice: null};
+  let text = source;
+  let maxPrice = null;
+
+  const pricePatterns = [
+    /(?:до|<=|≤)\s*(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)?/i,
+    /(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)/i,
+    /^(\d{4,6}|\d{1,3}(?:[\s.,]?\d{3})+)$/,
+  ];
+
+  for (const pattern of pricePatterns) {
+    const match = text.match(pattern);
+    if (!match) continue;
+    const token = match[1];
+    let value = parseInt(String(token).replace(/[^\d]/g, ""), 10);
+    if (!Number.isFinite(value)) continue;
+    const usesThousands = /тыс|к/i.test(match[0]);
+    if (usesThousands && value < 1000) value *= 1000;
+    if (value >= 1000) {
+      maxPrice = value;
+      text = text.replace(match[0], " ");
+      break;
+    }
+  }
+
+  text = catalogSearchNormalize(text
+    .replace(/\b(до|цена|стоимость|руб(?:\.|лей|ля)?|₽)\b/gi, " ")
+    .replace(/\s+/g, " "));
+  return {text, maxPrice};
+}
+function catalogMatchesQuery(d, parsedQuery) {
+  const query = typeof parsedQuery === "string" ? {text: parsedQuery, maxPrice: null} : parsedQuery;
+  if (query.maxPrice != null) {
+    const price = parsePrice(d.price);
+    if (!Number.isFinite(price) || price > query.maxPrice) return false;
+  }
+  if (!query.text) return true;
+  const words = catalogSearchNormalize(query.text).split(" ").filter(Boolean);
+  if (!words.length) return true;
+  const searchText = catalogSearchTextForDevice(d);
+  return words.every(word => searchText.includes(word));
+}
+function catalogApplyFilters(items, filterIds = _catalogFilters) {
+  return filterIds.reduce((acc, id) => {
+    const filter = catalogFilterById(id);
+    return filter ? acc.filter(filter.fn) : acc;
+  }, items);
+}
+function catalogCurrentBase() {
+  const q = catalogParseQuery(_catalogQuery);
+  return catalogSortedDevices().filter(d => catalogMatchesQuery(d, q));
+}
+function catalogCurrentItems() {
+  return catalogSortItems(catalogApplyScenario(catalogApplyFilters(catalogCurrentBase())));
+}
+function catalogSortItems(items) {
+  const withName = (a, b) => String(a.brand || "").localeCompare(String(b.brand || ""), "ru", {sensitivity: "base"})
+    || String(a.name || "").localeCompare(String(b.name || ""), "ru", {sensitivity: "base"});
+  const priceVal = d => {
+    const n = parsePrice(d.price);
+    return Number.isFinite(n) ? n : null;
+  };
+  const radarRank = d => String(d.type || "").toLowerCase() === "комбо 3 в 1" ? 1 : 0;
+  return items.slice().sort((a, b) => {
+    if (_catalogSort === "scenario" && _catalogScenario) {
+      return catalogScenarioScore(b, _catalogScenario) - catalogScenarioScore(a, _catalogScenario)
+        || (Number(b.q) || 0) - (Number(a.q) || 0)
+        || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
+        || withName(a, b);
+    }
+    if (_catalogSort === "priceAsc") return (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity) || withName(a, b);
+    if (_catalogSort === "priceDesc") return (priceVal(b) ?? -Infinity) - (priceVal(a) ?? -Infinity) || withName(a, b);
+    if (_catalogSort === "quality") return (Number(b.q) || 0) - (Number(a.q) || 0) || withName(a, b);
+    if (_catalogSort === "radar") return radarRank(b) - radarRank(a) || withName(a, b);
+    return withName(a, b);
+  });
+}
+function catalogCanAddFilter(filter, baseItems = catalogCurrentBase()) {
+  if (!filter || _catalogFilters.includes(filter.id)) return false;
+  if (_catalogFilters.some(id => catalogFilterById(id)?.group === filter.group)) return false;
+  return catalogApplyFilters(baseItems, [..._catalogFilters, filter.id]).length > 0;
+}
+function catalogCandidateCount(filter, baseItems = catalogCurrentBase()) {
+  if (!filter) return 0;
+  return catalogApplyFilters(baseItems, [..._catalogFilters, filter.id]).length;
+}
+function catalogTrimPriceCandidates(candidates, baseItems) {
+  const prices = candidates
+    .filter(filter => filter.group === "price")
+    .map(filter => ({filter, count: catalogCandidateCount(filter, baseItems)}))
+    .filter(item => item.count > 0 && item.count < baseItems.length)
+    .slice(0, 2)
+    .map(item => item.filter.id);
+  if (!prices.length) return candidates.filter(filter => filter.group !== "price");
+  const allowed = new Set(prices);
+  return candidates.filter(filter => filter.group !== "price" || allowed.has(filter.id));
+}
+function renderCatalogFilters() {
+  const strip = document.getElementById("catalog-filter-strip");
+  const priceStrip = document.getElementById("catalog-price-filter-strip");
+  if (!strip || !priceStrip) return;
+  const baseItems = catalogApplyScenario(catalogCurrentBase());
+  const hasQuery = Boolean(_catalogQuery.trim());
+  const active = _catalogFilters.map(catalogFilterById).filter(Boolean);
+  const activeMain = active.filter(filter => filter.group !== "price");
+  const activePrice = active.filter(filter => filter.group === "price");
+  const activeGroups = new Set(active.map(f => f.group));
+  const candidateIds = _catalogFilters.length
+    ? [...CATALOG_INITIAL_FILTER_IDS, ...CATALOG_DYNAMIC_FILTER_IDS]
+    : CATALOG_INITIAL_FILTER_IDS;
+  const candidates = candidateIds
+    .map(catalogFilterById)
+    .filter(Boolean)
+    .filter(filter => !activeGroups.has(filter.group) && catalogCanAddFilter(filter, baseItems));
+  const priceCandidates = CATALOG_PRICE_FILTER_IDS
+    .map(catalogFilterById)
+    .filter(Boolean)
+    .filter(filter => {
+      if (activeGroups.has("price")) return false;
+      if (!catalogCanAddFilter(filter, baseItems)) return false;
+      const count = catalogCandidateCount(filter, baseItems);
+      return count > 0 && count < baseItems.length;
+    });
+  const mainVisible = [];
+  mainVisible.push(`<button class="catalog-chip ${_catalogFilters.length || hasQuery ? "" : "active"}" type="button" onclick="resetCatalogFilters()">Все</button>`);
+  activeMain.forEach(filter => {
+    mainVisible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
+  });
+  candidates.forEach(filter => {
+    mainVisible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
+  });
+  const priceVisible = [];
+  activePrice.forEach(filter => {
+    priceVisible.push(`<button class="catalog-chip active" type="button" onclick="toggleCatalogFilter('${filter.id}')">× ${attrSafe(filter.label)}</button>`);
+  });
+  priceCandidates.forEach(filter => {
+    priceVisible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
+  });
+  strip.innerHTML = mainVisible.join("");
+  priceStrip.innerHTML = priceVisible.join("");
+  priceStrip.style.display = priceVisible.length ? "" : "none";
+}
+function renderCatalogSort() {
+  const row = document.getElementById("catalog-sort-row");
+  if (!row) return;
+  const currentScenario = catalogScenarioById(_catalogScenario);
+  const scenarioControl = `<span class="catalog-scenario-wrap">
+    <button class="catalog-sort-chip catalog-scenario-btn ${_catalogScenario ? "active" : ""}" type="button" onclick="toggleCatalogScenarioMenu(event)" aria-haspopup="true" aria-expanded="${_catalogScenarioMenuOpen ? "true" : "false"}">${attrSafe(currentScenario.short || currentScenario.label)}</button>
+  </span>`;
+  row.innerHTML = `${scenarioControl}${CATALOG_SORTS.map(sort => (
+    `<button class="catalog-sort-chip ${_catalogSort === sort.id ? "active" : ""}" type="button" onclick="setCatalogSort('${sort.id}')">${attrSafe(sort.label)}</button>`
+  )).join("")}`;
+  renderCatalogScenarioMenu();
+}
+function renderCatalogScenarioMenu() {
+  document.querySelectorAll(".catalog-scenario-menu").forEach(menu => menu.remove());
+  if (!_catalogScenarioMenuOpen) return;
+  const btn = document.querySelector("#catalog-sort-row .catalog-scenario-btn");
+  const head = document.querySelector("#s-catalog .catalog-head");
+  if (!btn || !head) return;
+  const rect = btn.getBoundingClientRect();
+  const width = Math.min(190, Math.max(170, window.innerWidth - 24));
+  const left = Math.max(12, Math.min(rect.left, window.innerWidth - width - 12));
+  const top = rect.bottom + 8;
+  const scenarioOptions = CATALOG_SCENARIOS.map(s => (
+    `<button class="catalog-scenario-option ${_catalogScenario === s.id ? "active" : ""}" type="button" onclick="setCatalogScenario('${s.id}')">${attrSafe(s.label)}</button>`
+  )).join("");
+  head.insertAdjacentHTML("beforeend", `<span class="catalog-scenario-menu" style="left:${left}px;top:${top}px;width:${width}px">${scenarioOptions}</span>`);
+}
+function catalogFlatListHTML(items) {
+  return items.map((d, i) => {
+    const idx = DEVICES.indexOf(d);
+    return `<div class="catalog-row catalog-anim" style="animation-delay:${Math.min(i * 18, 180)}ms" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<span class="catalog-row-actions">${compareButtonHTML(d, "catalog-row-cmp")}${favoriteButtonHTML(d, "catalog-row-fav")}</span></div>`;
+  }).join("");
+}
+function catalogGroupsHTML(items) {
+  const groups = new Map();
+  items.forEach(d => {
+    const brand = String(d.brand || "Без бренда").trim() || "Без бренда";
+    if (!groups.has(brand)) groups.set(brand, []);
+    groups.get(brand).push(d);
+  });
+  let rowIndex = 0;
+  return [...groups.entries()].map(([brand, devices], groupIndex) => {
+    const rows = devices.map(d => {
+      const idx = DEVICES.indexOf(d);
+      const delay = Math.min(rowIndex++ * 18, 180);
+      return `<div class="catalog-row catalog-anim" style="animation-delay:${delay}ms" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<span class="catalog-row-actions">${compareButtonHTML(d, "catalog-row-cmp")}${favoriteButtonHTML(d, "catalog-row-fav")}</span></div>`;
+    }).join("");
+    return `<section class="catalog-brand-group">
+      <div class="catalog-brand-head catalog-anim" style="animation-delay:${Math.min(groupIndex * 24, 160)}ms">${attrSafe(brand)} <span>· ${devices.length} ${pluralRu(devices.length, "модель", "модели", "моделей")}</span></div>
+      <div class="catalog-brand-list">${rows}</div>
+    </section>`;
+  }).join("");
+}
 function catalogRowInnerHTML(d) {
-  const meta = [TYPE_SHORT[d.type] || d.type, QNAMES[d.q] || null].filter(Boolean).join(" · ");
+  const meta = [deviceTypeText(d, true), QNAMES[d.q] || null].filter(Boolean).join(" · ");
   return `${modePopularThumbHTML(d)}
     <span class="catalog-row-info">
       <span class="catalog-row-brand">${attrSafe(d.brand || "")}</span>
@@ -9799,26 +11648,89 @@ function catalogRowInnerHTML(d) {
 function renderCatalog() {
   const list = document.getElementById("catalog-list");
   const count = document.getElementById("catalog-count");
+  const reset = document.getElementById("catalog-reset");
   if (!list) return;
-  const q = _catalogQuery.trim().toLowerCase();
-  let items = catalogSortedDevices();
-  if (q) items = items.filter(d => `${d.brand || ""} ${d.name || ""}`.toLowerCase().includes(q));
+  const items = catalogCurrentItems();
+  const active = _catalogFilters.length > 0 || _catalogQuery.trim() || _catalogScenario;
+  renderCatalogFilters();
+  renderCatalogSort();
   if (count) {
-    count.textContent = q
-      ? `${items.length} ${pluralRu(items.length, "модель", "модели", "моделей")} по запросу`
+    count.textContent = active
+      ? `Подходит ${items.length} ${pluralRu(items.length, "модель", "модели", "моделей")}`
       : `Все модели: ${items.length}`;
   }
+  if (reset) reset.classList.toggle("show", Boolean(active));
+  list.classList.toggle("catalog-list-flat", _catalogSort !== "brand");
   list.innerHTML = items.length
-    ? items.map(d => {
-        const idx = DEVICES.indexOf(d);
-        return `<div class="catalog-row" role="button" tabindex="0" onclick="openCatalogDevice(${idx})" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}${favoriteButtonHTML(d, "catalog-row-fav")}</div>`;
-      }).join("")
-    : `<div class="catalog-empty">Ничего не найдено. Попробуйте другой бренд или название.</div>`;
+    ? (_catalogSort === "brand" ? catalogGroupsHTML(items) : catalogFlatListHTML(items))
+    : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
 }
+function setCatalogScenario(id) {
+  if (!CATALOG_SCENARIOS.some(s => s.id === id)) return;
+  _catalogScenario = id || "";
+  _catalogScenarioMenuOpen = false;
+  if (_catalogScenario) {
+    _catalogSort = "scenario";
+  } else if (_catalogSort === "scenario") {
+    _catalogSort = "brand";
+  }
+  renderCatalog();
+}
+function toggleCatalogScenarioMenu(event) {
+  event?.stopPropagation?.();
+  _catalogScenarioMenuOpen = !_catalogScenarioMenuOpen;
+  renderCatalogSort();
+}
+function setCatalogSort(id) {
+  if (!CATALOG_SORTS.some(sort => sort.id === id)) return;
+  _catalogScenarioMenuOpen = false;
+  _catalogSort = id;
+  renderCatalog();
+}
+function updateCatalogHeadStuck() {
+  const head = document.querySelector("#s-catalog .catalog-head");
+  const screen = document.getElementById("s-catalog");
+  if (!head || !screen || currentScreenId !== "s-catalog") return;
+  const scrolled = (screen.scrollTop || window.scrollY || document.documentElement.scrollTop || 0) > 8;
+  head.classList.toggle("is-stuck", scrolled);
+  if (_catalogScenarioMenuOpen) renderCatalogScenarioMenu();
+}
+
+function updateCompareHeader() {
+  const count = document.getElementById("compare-count");
+  const clear = document.getElementById("compare-clear");
+  const share = document.getElementById("compare-share");
+  const n = compareList.length;
+  if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
+  if (clear) clear.hidden = n === 0;
+  if (share) share.hidden = n < 2;
+}
+
+function updateFavoritesHeader() {
+  const count = document.getElementById("favorites-count");
+  const clear = document.getElementById("favorites-clear");
+  const share = document.getElementById("favorites-share");
+  const n = favorites.length;
+  if (count) count.textContent = `${n} ${pluralRu(n, "модель", "модели", "моделей")}`;
+  if (clear) clear.hidden = n === 0;
+  if (share) share.hidden = n === 0;
+}
+
 function onCatalogSearch(value) {
   _catalogQuery = value || "";
   const clear = document.getElementById("catalog-clear");
   if (clear) clear.style.display = _catalogQuery ? "block" : "none";
+  renderCatalog();
+}
+function toggleCatalogFilter(id) {
+  const filter = catalogFilterById(id);
+  if (!filter) return;
+  if (_catalogFilters.includes(id)) {
+    _catalogFilters = _catalogFilters.filter(x => x !== id);
+  } else {
+    _catalogFilters = _catalogFilters.filter(x => catalogFilterById(x)?.group !== filter.group);
+    _catalogFilters.push(id);
+  }
   renderCatalog();
 }
 function clearCatalogSearch() {
@@ -9827,11 +11739,25 @@ function clearCatalogSearch() {
   onCatalogSearch("");
   if (inp) inp.focus();
 }
-function showCatalog() {
+function resetCatalogFilters() {
+  _catalogFilters = [];
+  _catalogQuery = "";
+  _catalogScenario = "";
+  _catalogScenarioMenuOpen = false;
+  if (_catalogSort === "scenario") _catalogSort = "brand";
+  const inp = document.getElementById("catalog-search-input");
+  if (inp) inp.value = "";
+  const clear = document.getElementById("catalog-clear");
+  if (clear) clear.style.display = "none";
+  renderCatalog();
+}
+function showCatalog(updateHash = true) {
+  if (updateHash) setSectionHash("catalog");
   renderCatalog();
   show("s-catalog");
   const sc = document.getElementById("s-catalog");
   if (sc) sc.scrollTo(0, 0);
+  updateCatalogHeadStuck();
 }
 function openCatalogDevice(idx) {
   lastSearchOrigin = "catalog";
@@ -9840,7 +11766,8 @@ function openCatalogDevice(idx) {
 }
 
 // ── Сравнение (раздел меню) ──
-function showCompareSection() {
+function showCompareSection(updateHash = true) {
+  if (updateHash) setSectionHash("compare");
   compareReturnScreen = (currentScreenId === "s-compare") ? compareReturnScreen : currentScreenId;
   if (compareList.length >= 2) {
     renderCompareScreen();
@@ -9852,27 +11779,30 @@ function showCompareSection() {
   if (sc) sc.scrollTo(0, 0);
 }
 function renderCompareEmpty() {
+  updateCompareHeader();
   const body = document.getElementById("compare-body");
   if (!body) return;
   body.innerHTML = `<div class="fav-empty">
     <div class="fav-empty-heart"><svg viewBox="0 0 24 24"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg></div>
     <div class="fav-empty-title">Пока нечего сравнивать</div>
-    <div class="fav-empty-text">Добавьте 2–3 модели кнопкой «Сравнить» в каталоге или карточке устройства.</div>
+    <div class="fav-empty-text">Добавьте 2–3 модели значком сравнения в каталоге или карточке устройства.</div>
     <div class="fav-empty-actions">
-      <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">В каталог</button>
-      <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+      <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">Открыть каталог</button>
+      <button class="fav-empty-btn" type="button" onclick="openModeChoice()">Начать подбор</button>
     </div>
   </div>`;
 }
 
 // ── Избранное (раздел меню) ──
-function showFavoritesSection() {
+function showFavoritesSection(updateHash = true) {
+  if (updateHash) setSectionHash("favorites");
   renderFavoritesPage();
   show("s-favorites");
   const sf = document.getElementById("s-favorites");
   if (sf) sf.scrollTo(0, 0);
 }
 function renderFavoritesPage() {
+  updateFavoritesHeader();
   const list = document.getElementById("fav-page-list");
   if (!list) return;
   const devices = favorites.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
@@ -9883,19 +11813,193 @@ function renderFavoritesPage() {
       <div class="fav-empty-text">Сохраняйте понравившиеся модели — они появятся здесь и не потеряются.</div>
       <div class="fav-empty-actions">
         <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">Открыть каталог</button>
-        <button class="fav-empty-btn" type="button" onclick="goHome()">Начать подбор</button>
+        <button class="fav-empty-btn" type="button" onclick="openModeChoice()">Начать подбор</button>
       </div>
     </div>`;
     return;
   }
-  list.innerHTML = `<div class="catalog-list">${devices.map(d => {
+  const comparePanel = devices.length >= 2
+    ? `<div class="fav-compare-panel">
+        <div class="fav-compare-copy"><strong>Сравнить избранное</strong>Удерживайте карточку и перетащите, чтобы поменять порядок. Первые ${Math.min(devices.length, COMPARE_MAX)} ${pluralRu(Math.min(devices.length, COMPARE_MAX), "модель", "модели", "моделей")} попадут в сравнение.</div>
+        <button class="fav-compare-btn" type="button" onclick="compareFavorites(event)">Сравнить</button>
+      </div>`
+    : "";
+  list.innerHTML = `${comparePanel}<div class="fav-list">${devices.map((d, orderIndex) => {
     const idx = DEVICES.indexOf(d);
-    return `<div class="catalog-row" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0" aria-label="${attrSafe(d.name)}">${catalogRowInnerHTML(d)}<button class="fav-row-remove" type="button" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Убрать из избранного" title="Убрать">×</button></div>`;
+    const meta = [deviceTypeText(d, true), QNAMES[d.q] || null].filter(Boolean);
+    if (hasGPS(d)) meta.push("GPS");
+    if (d.smartphone) meta.push("Wi-Fi");
+    return `<div class="fav-card fav-anim" style="animation-delay:${Math.min(orderIndex * 28, 180)}ms" data-fav-index="${orderIndex}" onpointerdown="startFavoriteDrag(event, ${orderIndex})" onclick="openFavoriteDevice(${idx})" role="button" tabindex="0" aria-label="${attrSafe(d.name)}">
+      ${modePopularThumbHTML(d)}
+      <div class="fav-card-main">
+        <div class="fav-card-brand">${attrSafe(d.brand || "")}</div>
+        <div class="fav-card-name">${attrSafe(d.name || "")}</div>
+        <div class="fav-card-meta">${meta.slice(0, 4).map(x => `<span class="fav-card-pill">${attrSafe(x)}</span>`).join("")}</div>
+        <div class="fav-card-price">${attrSafe(d.price || "цена не указана")}</div>
+      </div>
+      <div class="fav-card-actions">
+        ${compareButtonHTML(d, "fav-card-cmp")}
+        <button class="fav-row-remove fav-card-remove" type="button" onclick="removeFavoriteByIndex(event, ${idx})" aria-label="Убрать из избранного" title="Убрать"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>`;
   }).join("")}</div>`;
 }
 
+let favoriteDrag = null;
+let suppressFavoriteClick = false;
+
+function startFavoriteDrag(event, orderIndex) {
+  if (event.button != null && event.button !== 0) return;
+  if (event.target.closest("button, a")) return;
+  const card = event.currentTarget;
+  if (!card || favorites.length < 2) return;
+  favoriteDrag = {
+    index: orderIndex,
+    card,
+    list: card.closest(".fav-list"),
+    placeholder: null,
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    offsetX: 0,
+    offsetY: 0,
+    active: false,
+  };
+  try { card.setPointerCapture(event.pointerId); } catch(e) {}
+  card.addEventListener("pointermove", onFavoriteDragMove);
+  card.addEventListener("pointerup", finishFavoriteDrag);
+  card.addEventListener("pointercancel", cancelFavoriteDrag);
+}
+
+function onFavoriteDragMove(event) {
+  if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
+  const dx = event.clientX - favoriteDrag.startX;
+  const dy = event.clientY - favoriteDrag.startY;
+  if (!favoriteDrag.active && Math.hypot(dx, dy) > 10) {
+    favoriteDrag.active = true;
+    suppressFavoriteClick = true;
+    const rect = favoriteDrag.card.getBoundingClientRect();
+    favoriteDrag.offsetX = event.clientX - rect.left;
+    favoriteDrag.offsetY = event.clientY - rect.top;
+    favoriteDrag.placeholder = document.createElement("div");
+    favoriteDrag.placeholder.className = "fav-drag-placeholder";
+    favoriteDrag.placeholder.style.height = `${rect.height}px`;
+    favoriteDrag.list?.classList.add("is-sorting");
+    favoriteDrag.card.parentNode.insertBefore(favoriteDrag.placeholder, favoriteDrag.card.nextSibling);
+    Object.assign(favoriteDrag.card.style, {
+      position: "fixed",
+      left: `${rect.left}px`,
+      top: `${rect.top}px`,
+      width: `${rect.width}px`,
+      zIndex: "10020",
+      pointerEvents: "none",
+    });
+    favoriteDrag.card.classList.add("is-dragging");
+  }
+  if (!favoriteDrag.active) return;
+  event.preventDefault();
+  favoriteDrag.card.style.left = `${event.clientX - favoriteDrag.offsetX}px`;
+  favoriteDrag.card.style.top = `${event.clientY - favoriteDrag.offsetY}px`;
+  updateFavoritePlaceholder(event.clientX, event.clientY);
+}
+
+function updateFavoritePlaceholder(x, y) {
+  if (!favoriteDrag?.placeholder || !favoriteDrag.list) return;
+  const cards = [...favoriteDrag.list.querySelectorAll(".fav-card:not(.is-dragging)")];
+  if (!cards.length) return;
+  let nearest = null;
+  let bestDistance = Infinity;
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const distance = Math.hypot(x - cx, y - cy);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      nearest = {card, rect};
+    }
+  });
+  if (!nearest) return;
+  const before = y < nearest.rect.top + nearest.rect.height / 2;
+  favoriteDrag.list.insertBefore(
+    favoriteDrag.placeholder,
+    before ? nearest.card : nearest.card.nextSibling
+  );
+}
+
+function favoriteDropIndexFromPlaceholder() {
+  if (!favoriteDrag?.placeholder || !favoriteDrag.list) return -1;
+  return [...favoriteDrag.list.children]
+    .filter(node => node.classList.contains("fav-card") || node.classList.contains("fav-drag-placeholder"))
+    .indexOf(favoriteDrag.placeholder);
+}
+
+function finishFavoriteDrag(event) {
+  if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
+  const drag = favoriteDrag;
+  if (!drag.active) {
+    cleanupFavoriteDrag();
+    return;
+  }
+  event.preventDefault();
+  const targetIndex = favoriteDropIndexFromPlaceholder();
+  cleanupFavoriteDrag();
+  if (targetIndex >= 0 && targetIndex !== drag.index) {
+    const next = favorites.slice();
+    const [item] = next.splice(drag.index, 1);
+    const insertIndex = targetIndex > drag.index ? targetIndex - 1 : targetIndex;
+    next.splice(insertIndex, 0, item);
+    favorites = next;
+    saveFavorites();
+    refreshFavoriteUI();
+    showCopyToast("Порядок избранного обновлён");
+  }
+  setTimeout(() => { suppressFavoriteClick = false; }, 0);
+}
+
+function cancelFavoriteDrag(event) {
+  if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
+  cleanupFavoriteDrag();
+  setTimeout(() => { suppressFavoriteClick = false; }, 0);
+}
+
+function cleanupFavoriteDrag() {
+  if (!favoriteDrag) return;
+  const {card, pointerId, placeholder, list} = favoriteDrag;
+  card.classList.remove("is-dragging");
+  card.style.position = "";
+  card.style.left = "";
+  card.style.top = "";
+  card.style.width = "";
+  card.style.zIndex = "";
+  card.style.pointerEvents = "";
+  placeholder?.remove();
+  list?.classList.remove("is-sorting");
+  card.removeEventListener("pointermove", onFavoriteDragMove);
+  card.removeEventListener("pointerup", finishFavoriteDrag);
+  card.removeEventListener("pointercancel", cancelFavoriteDrag);
+  try { card.releasePointerCapture(pointerId); } catch(e) {}
+  favoriteDrag = null;
+}
+
+function compareFavorites(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  const keys = favorites
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .slice(0, COMPARE_MAX)
+    .map(deviceKey);
+  if (keys.length < 2) return;
+  compareList = keys;
+  saveCompare();
+  refreshCompareUI();
+  showCopyToast("Избранное добавлено в сравнение");
+  showCompareSection();
+}
+
 // ── О проекте ──
-function showAbout() {
+function showAbout(updateHash = true) {
+  if (updateHash) setSectionHash("about");
   show("s-about");
   const sa = document.getElementById("s-about");
   if (sa) sa.scrollTo(0, 0);
@@ -9904,12 +12008,14 @@ function showAbout() {
 // ── Очистка разделов ──
 function clearCompareSection() {
   clearCompare(); // очищает список; refreshCompareUI перерисует пустое состояние
+  showCopyToast("Сравнение очищено");
 }
 function clearAllFavorites() {
   if (!favorites.length) return;
   favorites = [];
   saveFavorites();
   refreshFavoriteUI(); // обновит бейдж и, на открытом разделе, покажет пустое состояние
+  showCopyToast("Избранное очищено");
 }
 
 // ════════════════════════════════════════════════════════
@@ -9926,10 +12032,18 @@ function scoreDevice(dev) {
     m++;
     if (q.key === "quality") {
       const reqQ = QRANK[a] || 0;
-      if (dev.q >= reqQ) {
-        s += 1;          // «не ниже запрошенного» — полное совпадение (2K/4K удовлетворяют Full HD)
+      if (dev.q === reqQ) {
+        s += 1;
+      } else if (dev.q > reqQ) {
+        // Лучше запрошенного — полезная альтернатива, но не "точное совпадение":
+        // 4K вместо 2K может быть дороже и должно явно объясняться пользователю.
+        s += 0.85;
+        mm.push({key: q.key, type: "overspec"});
       } else {
-        mm.push({key: q.key, type: "quality"}); // ниже запрошенного — не подходит
+        // Ниже запрошенного — показываем как похожий вариант, если точных нет
+        // или если остальные критерии совпали.
+        s += dev.q === reqQ - 1 ? 0.55 : 0.35;
+        mm.push({key: q.key, type: "quality"});
       }
     } else {
       const ok = a === "да" ? dev[q.key] : !dev[q.key];
@@ -10158,11 +12272,11 @@ const COMPROMISE_FLIP_HINTS = {
 
 // Что именно ограничивает подбор (короткий верхний ярлык рекомендации)
 const COMPROMISE_LIMITERS = {
-  smartphone: { да: "Wi-Fi ограничивает выбор",                нет: "Отказ от Wi-Fi ограничивает выбор" },
-  magnetic:   { да: "Магнит ограничивает выбор",               нет: "Отказ от магнита ограничивает выбор" },
-  touch:      { да: "Сенсорное управление ограничивает выбор", нет: "Отказ от сенсора ограничивает выбор" },
-  ir_cam:     { да: "Салонная камера ограничивает выбор",      нет: "Отказ от салонной камеры ограничивает выбор" },
-  remote:     { да: "4G ограничивает выбор",                   нет: "Отказ от 4G ограничивает выбор" },
+  smartphone: { да: "Сейчас выбран Wi-Fi",                 нет: "Сейчас выбран вариант без Wi-Fi" },
+  magnetic:   { да: "Сейчас выбран магнит",                нет: "Сейчас выбран вариант без магнита" },
+  touch:      { да: "Сейчас выбран сенсор",                нет: "Сейчас выбран вариант без сенсора" },
+  ir_cam:     { да: "Сейчас выбрана салонная камера",      нет: "Сейчас выбран вариант без салонной камеры" },
+  remote:     { да: "Сейчас выбран 4G",                    нет: "Сейчас выбран вариант без 4G" },
 };
 
 // Конкретный текст кнопки — пользователь понимает действие до нажатия
@@ -10172,6 +12286,17 @@ const COMPROMISE_CTAS = {
   touch:      { да: "Убрать сенсор",  нет: "Разрешить сенсор" },
   ir_cam:     { да: "Убрать камеру салона", нет: "Разрешить камеру салона" },
   remote:     { да: "Убрать 4G",      нет: "Разрешить 4G" },
+};
+
+const COMPROMISE_PRIORITY = {
+  type: 0,
+  quality: 1,
+  form: 2,
+  remote: 3,
+  smartphone: 4,
+  magnetic: 5,
+  touch: 6,
+  ir_cam: 7,
 };
 
 function compromisePool() {
@@ -10219,6 +12344,7 @@ function getCompromises() {
     if (!isUseful) return false;
     suggestions.push({
       key, val, hint, limiter, cta,
+      priority: COMPROMISE_PRIORITY[key] ?? 20,
       count: stats.count,
       exactCount: stats.exactCount,
       bestQ: stats.bestQ,
@@ -10229,20 +12355,19 @@ function getCompromises() {
     return true;
   }
 
-  // Если пользователь выбрал GPS-информер/комбо/4G, но остальные параметры
+  // Если пользователь выбрал GPS-информер/комбо, но остальные параметры
   // лучше совпадают с обычными регистраторами, показываем это как первый ход.
   const typeVal = (answers.type || "").toLowerCase();
   const typeNames = {
     "gps-информер": "GPS-информер",
     "комбо 3 в 1": "Комбо 3 в 1",
-    "4g-регистратор": "4G-регистратор",
   };
   if (typeNames[typeVal]) {
     trySuggestion({
       key: "type", val: typeVal, next: "видеорегистратор",
-      hint: "Рассмотреть обычные видеорегистраторы",
-      limiter: `${typeNames[typeVal]} ограничивает выбор`,
-      cta: "Выбрать регистратор"
+      hint: "Посмотреть обычные видеорегистраторы",
+      limiter: `Сейчас выбран ${typeNames[typeVal]}`,
+      cta: "Показать регистраторы"
     });
   }
 
@@ -10258,7 +12383,7 @@ function getCompromises() {
     trySuggestion({
       key: "form", val: formVal, next: "неважно",
       hint: `Убрать требование «${formVal}»`,
-      limiter: "Форм-фактор ограничивает выбор",
+      limiter: "Сейчас выбран конкретный корпус",
       cta: formCtas[formVal] || "Убрать форм-фактор"
     });
   }
@@ -10281,29 +12406,35 @@ function getCompromises() {
     if (!hasFlip && relaxHint) trySuggestion({key: k, val, next: "неважно", hint: relaxHint, limiter, cta});
   }
 
-  // Качество: попробовать снизить на одну ступень
-  const qDown = { превосходное: "отличное", отличное: "хорошее" };
+  // Качество: пробуем снизить до ближайшего уровня, который реально расширяет выбор.
+  // Если для связки нет 2K, но есть Full HD, сразу предлагаем Full HD.
+  const qDown = { превосходное: ["отличное", "хорошее"], отличное: ["хорошее"] };
   const qDownLabels = { отличное: "2K", хорошее: "Full HD" };
   if (qVal && qDown[qVal]) {
-    const lower = qDown[qVal];
-    const saved = answers.quality;
-    answers.quality = lower;
-    const stats = evaluateCompromise();
-    answers.quality = saved;
-    // Показываем понижение только если оно реально расширяет выдачу (больше моделей/точных),
-    // иначе подсказка бесполезна.
-    if (stats.count > currentStats.count || stats.exactCount > currentStats.exactCount) suggestions.push({
-      key: "quality", val: qVal,
-      hint: `Рассмотреть модели с ${qDownLabels[lower]}`,
-      limiter: `${QUAL_NAMES[qVal] || "Качество съёмки"} ограничивает выбор`,
-      cta: `Допустить ${qDownLabels[lower]}`,
-      count: stats.count,
-      exactCount: stats.exactCount,
-      bestQ: stats.bestQ,
-      bestPct: stats.bestPct,
-      bestPrice: stats.bestPrice,
-      action: () => { answers.quality = lower; }
-    });
+    for (const lower of qDown[qVal]) {
+      const saved = answers.quality;
+      answers.quality = lower;
+      const stats = evaluateCompromise();
+      answers.quality = saved;
+      // Показываем понижение только если оно реально расширяет выдачу (больше моделей/точных),
+      // иначе подсказка бесполезна.
+      if (stats.count > currentStats.count || stats.exactCount > currentStats.exactCount) {
+        suggestions.push({
+          key: "quality", val: qVal,
+          hint: `Рассмотреть модели с ${qDownLabels[lower]}`,
+          limiter: `Сейчас выбрано ${QUAL_NAMES[qVal] || "высокое качество"}`,
+          cta: `Допустить ${qDownLabels[lower]}`,
+          priority: COMPROMISE_PRIORITY.quality,
+          count: stats.count,
+          exactCount: stats.exactCount,
+          bestQ: stats.bestQ,
+          bestPct: stats.bestPct,
+          bestPrice: stats.bestPrice,
+          action: () => { answers.quality = lower; }
+        });
+        break;
+      }
+    }
   }
 
   const seenSuggestions = new Set();
@@ -10314,9 +12445,15 @@ function getCompromises() {
       seenSuggestions.add(signature);
       return true;
     })
-    // Сортировка по полезности: сначала изменения, дающие точное совпадение,
-    // затем — сильнее всего расширяющие выдачу, при равенстве — минимальные по смыслу.
-    .sort((a, b) => b.exactCount - a.exactCount || b.count - a.count || b.bestPct - a.bestPct || a.bestPrice - b.bestPrice)
+    // Сортировка по смысловому приоритету: разрешение важнее крепления.
+    // Если человек просит 4K, сначала предлагаем 2K, а не снимать магнит.
+    .sort((a, b) =>
+      (a.priority ?? 20) - (b.priority ?? 20) ||
+      b.exactCount - a.exactCount ||
+      b.count - a.count ||
+      b.bestPct - a.bestPct ||
+      a.bestPrice - b.bestPrice
+    )
     .slice(0, 3);
 }
 
@@ -10329,11 +12466,18 @@ let currentScreenId = "s-intro";
 function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
+  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
+    el.classList.toggle("on", s === id);
+    el.classList.remove("screen-enter");
     if (s === id) {
       el.style.display = (s === "s-intro" || s === "s-mode") ? "flex" : "block";
+      if (!reduced) {
+        void el.offsetWidth;
+        el.classList.add("screen-enter");
+      }
     } else {
       el.style.display = "none";
     }
@@ -10684,10 +12828,25 @@ function termTip(key) {
   return text ? `<span class="term-tip" data-tip="${safe}" aria-label="${safe}" tabindex="0" onmouseenter="showTermTooltip(this)" onmouseleave="hideTermTooltip()" onfocus="showTermTooltip(this)" onblur="hideTermTooltip()" onclick="event.preventDefault();event.stopPropagation();showTermTooltip(this)">?</span>` : "";
 }
 
+function isGpsInformerDisplay(d) {
+  const type = String(d?.type || "").toLowerCase();
+  if (type === "gps-информер") return true;
+  if (type === "комбо 3 в 1") return false;
+  const text = `${d?.name || ""} ${d?.brand || ""} ${d?.desc || ""} ${d?.gps || ""} ${d?.resolution || ""}`.toLowerCase();
+  if (/(gps|глонасс).*(информ|speedcam|speed cam|баз[аы] камер|камер(?:ы)? контроля|автодори)/i.test(text)) return true;
+  if (/(информ|speedcam|speed cam|баз[аы] камер|камер(?:ы)? контроля|автодори).*(gps|глонасс)/i.test(text)) return true;
+  return /sho-me a(?:12|15).*gps/i.test(text);
+}
+
+function deviceTypeText(d, short = false) {
+  if (isGpsInformerDisplay(d)) return "GPS-информер";
+  return short ? (TYPE_SHORT[d?.type] || d?.type || "") : (d?.type || "");
+}
+
 function deviceTypeLabel(d) {
   const t = String(d?.type || "").toLowerCase();
-  if (t === "комбо 3 в 1") return "Радар+База";
-  if (t === "gps-информер") return "База камер";
+  if (isGpsInformerDisplay(d)) return "GPS-информер";
+  if (t === "комбо 3 в 1") return "Комбо 3 в 1";
   if (t === "видеорегистратор") return "Видеорегистратор";
   return d?.type || "";
 }
@@ -10938,25 +13097,47 @@ function deviceShareUrl(d) {
 }
 
 let _currentDeviceSlug = null;
+const SECTION_HASH_BY_NAME = {
+  catalog: "#catalog",
+  favorites: "#favorites",
+  compare: "#compare",
+  about: "#about",
+};
+
+function replaceHash(hash) {
+  try {
+    history.replaceState(null, "", location.pathname + location.search + hash);
+  } catch (e) {
+    try { location.hash = hash.replace(/^#/, ""); } catch (e2) {}
+  }
+}
+
+function setSectionHash(name) {
+  const hash = SECTION_HASH_BY_NAME[name];
+  if (!hash || location.hash === hash) return;
+  _currentDeviceSlug = null;
+  replaceHash(hash);
+}
+
+function clearAppHash() {
+  _currentDeviceSlug = null;
+  if (!location.hash) return;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  if (location.hash) {
+    try { location.hash = ""; } catch (e) {}
+  }
+}
 
 function setDeviceHash(d) {
   const slug = deviceSlug(d);
   _currentDeviceSlug = slug;
-  try {
-    history.replaceState(null, "", "#m=" + slug);
-    if (location.hash !== "#m=" + slug) location.hash = "m=" + slug; // фолбэк
-  } catch (e) {
-    try { location.hash = "m=" + slug; } catch (e2) {}
-  }
+  replaceHash("#m=" + slug);
 }
 
 function clearDeviceHash() {
   _currentDeviceSlug = null;
   if (!/^#m=/.test(location.hash)) return;
-  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
-  if (/^#m=/.test(location.hash)) {
-    try { location.hash = ""; } catch (e) {}
-  }
+  clearAppHash();
 }
 
 // Открытие модели из хэша при загрузке страницы или смене хэша
@@ -10973,6 +13154,92 @@ function openDeviceFromHash() {
   return true;
 }
 
+function compareShareUrl() {
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  const slugs = compareList
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .map(deviceSlug);
+  return `${location.origin}${location.pathname}#cmp=${slugs.map(encodeURIComponent).join(",")}`;
+}
+
+function favoritesShareUrl() {
+  if (!_deviceSlugMap) buildDeviceSlugs();
+  const slugs = favorites
+    .map(key => DEVICES.find(d => deviceKey(d) === key))
+    .filter(Boolean)
+    .map(deviceSlug);
+  return `${location.origin}${location.pathname}#fav=${slugs.map(encodeURIComponent).join(",")}`;
+}
+
+function openCompareFromHash() {
+  const m = location.hash.match(/^#cmp=([^&]+)/);
+  if (!m) return false;
+  const slugs = m[1].split(",").map(s => {
+    try { return decodeURIComponent(s); } catch (e) { return s; }
+  });
+  const keys = [];
+  slugs.forEach(slug => {
+    const d = findDeviceBySlug(slug);
+    if (!d) return;
+    const key = deviceKey(d);
+    if (!keys.includes(key) && keys.length < COMPARE_MAX) keys.push(key);
+  });
+  if (!keys.length) return false;
+  compareList = keys;
+  saveCompare();
+  refreshCompareUI();
+  showCompareSection(false);
+  return true;
+}
+
+function openFavoritesFromHash() {
+  const m = location.hash.match(/^#fav=([^&]+)/);
+  if (!m) return false;
+  const slugs = m[1].split(",").map(s => {
+    try { return decodeURIComponent(s); } catch (e) { return s; }
+  });
+  const keys = [];
+  slugs.forEach(slug => {
+    const d = findDeviceBySlug(slug);
+    if (!d) return;
+    const key = deviceKey(d);
+    if (!keys.includes(key) && keys.length < 24) keys.push(key);
+  });
+  if (!keys.length) return false;
+  favorites = keys;
+  saveFavorites();
+  refreshFavoriteUI();
+  showFavoritesSection(false);
+  return true;
+}
+
+function openSectionFromHash() {
+  const hash = location.hash;
+  if (hash === "#catalog") { showCatalog(false); return true; }
+  if (hash === "#favorites") { showFavoritesSection(false); return true; }
+  if (hash === "#compare") { showCompareSection(false); return true; }
+  if (hash === "#about") { showAbout(false); return true; }
+  return false;
+}
+
+function openRouteFromHash() {
+  return openDeviceFromHash() || openCompareFromHash() || openFavoritesFromHash() || openSectionFromHash();
+}
+
+function isReloadNavigation() {
+  const perf = typeof performance !== "undefined" ? performance : null;
+  const nav = perf && perf.getEntriesByType
+    ? performance.getEntriesByType("navigation")[0]
+    : null;
+  if (nav && nav.type) return nav.type === "reload";
+  return perf && perf.navigation && perf.navigation.type === 1;
+}
+
+function shouldResetRouteOnReload() {
+  return isReloadNavigation() && Boolean(location.hash);
+}
+
 function shareButtonHTML(d) {
   return `<button class="share-btn" onclick="shareDevice(event, ${DEVICES.indexOf(d)})" aria-label="Поделиться ссылкой на модель" title="Поделиться ссылкой" data-tooltip="Поделиться ссылкой">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.7" x2="15.4" y2="6.3"/><line x1="8.6" y1="13.3" x2="15.4" y2="17.7"/></svg>
@@ -10980,15 +13247,7 @@ function shareButtonHTML(d) {
 }
 
 function showShareToast(text) {
-  const t = document.getElementById("copy-toast");
-  if (!t) return;
-  const defaultText = "email скопирован в буфер обмена";
-  t.textContent = text;
-  t.classList.add("on");
-  setTimeout(() => {
-    t.classList.remove("on");
-    setTimeout(() => { t.textContent = defaultText; }, 300);
-  }, 1800);
+  showCopyToast(text);
 }
 
 // ── Popover «Как считаем совпадение?» на плашке процента ──
@@ -11053,6 +13312,40 @@ async function shareDevice(event, idx) {
   try {
     await navigator.clipboard.writeText(url);
     showShareToast("Ссылка на модель скопирована");
+  } catch (e) {
+    window.prompt("Скопируйте ссылку:", url);
+  }
+}
+
+async function shareCompare(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  if (compareList.length < 2) return;
+  const url = compareShareUrl();
+  const title = "Сравнение моделей — VBR БОТ";
+  if (navigator.share) {
+    try { await navigator.share({title, url}); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try {
+    await copyTextToClipboard(url);
+    showShareToast("Ссылка на сравнение скопирована");
+  } catch (e) {
+    window.prompt("Скопируйте ссылку:", url);
+  }
+}
+
+async function shareFavorites(event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  if (!favorites.length) return;
+  const url = favoritesShareUrl();
+  const title = "Избранные модели — VBR БОТ";
+  if (navigator.share) {
+    try { await navigator.share({title, url}); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try {
+    await copyTextToClipboard(url);
+    showShareToast("Ссылка на избранное скопирована");
   } catch (e) {
     window.prompt("Скопируйте ссылку:", url);
   }
@@ -11293,7 +13586,7 @@ function getDiffs(x, d) {
   if (hasGPS(x) !== hasGPS(d))
     diffs.push({text: hasGPS(x) ? 'GPS' : 'Без GPS', type: hasGPS(x) ? 'better' : 'worse'});
   if (x.type !== d.type)
-    diffs.push({text: TYPE_SHORT[x.type] || x.type});
+    diffs.push({text: deviceTypeText(x, true)});
   if (x.form !== d.form)
     diffs.push({text: x.form});
   return diffs;
@@ -11320,7 +13613,7 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
   const qText = {1:"Full HD", 2:"2K", 3:"4K"};
   const matched = [];
 
-  if (answers.type && answers.type !== "неважно") matched.push(TYPE_SHORT[d.type] || d.type);
+  if (answers.type && answers.type !== "неважно") matched.push(deviceTypeText(d, true));
   if (answers.form && answers.form !== "неважно") matched.push(FORM_SHORT[d.form] || d.form);
   if (reqQ && d.q === reqQ) matched.push(qText[d.q]);
   if (reqQ && d.q > reqQ) matched.push(`${qText[d.q]} лучше запрошенного`);
@@ -11414,7 +13707,7 @@ function hasInterpolation(d) {
 function fullSpecRows(d) {
   const antenna = radarAntennaLabel(d);
   return [
-    ["Тип устройства", TYPE_SHORT[d.type] || d.type],
+    ["Тип устройства", deviceTypeText(d, true)],
     ["Форм-фактор", d.form],
     ["Разрешение", d.resolution],
     ["Сенсор", sensorSpecValue(d)],
@@ -11685,15 +13978,22 @@ function usefulLinksHTML(d) {
 
   const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
       <span class="btn-market-logo" aria-hidden="true">Я</span>
-      Купить
+      <span>Посмотреть на Маркете</span>
     </a>` : '';
-  const hint = hasMarket ? `<div class="partner-hint">Цены на товары на маркетплейсах могут меняться, бот показывает среднюю цену за последние два месяца</div>` : '';
+  const hint = hasMarket ? `<div class="partner-hint">Цена ориентировочная, маркетплейсы могут менять её ежедневно.</div>` : '';
 
   return `<div class="dev-links-block">
-    <div class="dev-links-title">Полезные ссылки</div>
+    <div class="dev-links-title">Обзоры и источник</div>
     <div class="dev-links-row">${secondaryBtns}</div>
     ${buyBtn}
     ${hint}
+  </div>`;
+}
+
+function deviceDecisionPanelHTML(d) {
+  return `<div class="dev-profile-summary">
+    <div class="dev-price">${attrSafe(d.price || "—")}</div>
+    <div class="dev-hero-actions">${shareButtonHTML(d)}${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
   </div>`;
 }
 
@@ -11720,13 +14020,11 @@ function renderDeviceProfile(d, exact, similar) {
         <span class="dev-hero-header-type">${deviceTypeLabel(d)}</span>
       </div>
       <div class="dev-hero-body">
-        <div style="display:flex;align-items:flex-start;gap:10px;">
-          <div style="flex:1;min-width:0;">
-        <div class="dev-name">${d.name}</div>
-        <div class="dev-price">${d.price}</div>
-          </div>
-          <div class="dev-hero-actions">${shareButtonHTML(d)}${favoriteButtonHTML(d)}${compareChipHTML(d)}</div>
+        <div class="dev-profile-title">
+          <div class="dev-name">${d.name}</div>
+          <div class="dev-profile-meta">${deviceTypeLabel(d)} · ${QNAMES[d.q] || "качество не указано"}</div>
         </div>
+        ${deviceDecisionPanelHTML(d)}
         ${devicePhotoHTML(d)}
         ${d.desc ? `<div class="dev-desc dev-profile-desc">${d.desc}</div>` : ''}
         ${keyTags ? `<div class="specs-row">${keyTags}</div>` : ''}
@@ -12358,8 +14656,8 @@ function _renderResults(top) {
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
     cWrap.innerHTML = `
-      <div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Что мешает точному совпадению</div>
-      <div class="compromise-sub">Ослабьте одно из требований — появятся более подходящие модели.</div>`;
+      <div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Как расширить выбор</div>
+      <div class="compromise-sub">Можно изменить одно условие — появятся более подходящие модели.</div>`;
     compromises.forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
@@ -12533,12 +14831,6 @@ function _renderResults(top) {
       card.setAttribute("tabindex", "0");
       card.setAttribute("aria-label", `Открыть карточку: ${d.name}`);
 
-      const camBadge = d.type === "комбо 3 в 1"
-        ? `<span class="cam-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1 1-1h4l1-1h4l1 1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="12" cy="12.5" r="2.2"/><path d="M9 6.5a4.2 4.2 0 0 1 6 0"/><path d="M7 4.2a7 7 0 0 1 10 0"/></svg>Радар+база</span>`
-        : d.type === "gps-информер"
-        ? `<span class="cam-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>База камер</span>`
-        : "";
-
       const QLABELS_BADGE = {1:"Full HD", 2:"2K", 3:"4K"};
       // Один смысл — одно представление: статусная плашка со смысловой
       // интерпретацией процента, без дублирующего progress bar и тегов.
@@ -12550,7 +14842,7 @@ function _renderResults(top) {
       card.innerHTML = `
       <div class="dev-card-header">
         <span class="dev-card-header-brand">${d.brand}</span>
-        ${camBadge ? camBadge : `<span class="dev-card-header-type">${deviceTypeLabel(d)}</span>`}
+        <span class="dev-card-header-type">${deviceTypeLabel(d)}</span>
       </div>
       <div class="dev-body">
         <div class="dev-meta">
@@ -12616,7 +14908,7 @@ function _renderResults(top) {
       <div class="no-exact-notice-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
       <div class="no-exact-notice-text">
         <strong>Такого устройства <span class="no-exact-accent">в базе нет</span></strong>
-        Вы выбрали сочетание из ${reqTotal} ${pluralRu(reqTotal, "параметра", "параметров", "параметров")}, которому не соответствует ни одна модель. Мы проверили всю базу — ниже видно, что мешает точному совпадению, и максимально близкие варианты.
+        Вы выбрали сочетание из ${reqTotal} ${pluralRu(reqTotal, "параметра", "параметров", "параметров")}, которому не соответствует ни одна модель. Мы проверили всю базу — ниже варианты, как расширить выбор, и максимально близкие модели.
       </div>`;
     list.appendChild(notice);
 
@@ -12657,6 +14949,7 @@ function restartQuiz() {
 function goHome() {
   answers = {};
   qIdx = 0;
+  clearAppHash();
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
   clearIntroSearch(false);
@@ -12864,7 +15157,15 @@ function renderModePopular() {
 document.getElementById("btn-start").addEventListener("click", openModeChoice);
 document.getElementById("btn-start-quiz").addEventListener("click", startQuiz);
 window.addEventListener("scroll", hideFloatingHints, {passive: true});
+window.addEventListener("scroll", updateCatalogHeadStuck, {passive: true});
 document.addEventListener("scroll", hideFloatingHints, true);
+document.addEventListener("scroll", updateCatalogHeadStuck, true);
+document.addEventListener("click", event => {
+  if (!_catalogScenarioMenuOpen) return;
+  if (event.target.closest?.(".catalog-scenario-wrap")) return;
+  _catalogScenarioMenuOpen = false;
+  renderCatalogSort();
+});
 setupCopyEmailActions();
 setupTermTooltips();
 
@@ -12895,9 +15196,13 @@ layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
 initIntroScene();
-// Deep-link: если открыли ссылку вида #m=<модель> — сразу показываем карточку
-window.addEventListener("hashchange", openDeviceFromHash);
-openDeviceFromHash();
+// Deep-link: #m=<модель>, #cmp=<модель,модель> или разделы #catalog/#favorites/#compare/#about.
+window.addEventListener("hashchange", openRouteFromHash);
+if (shouldResetRouteOnReload()) {
+  clearAppHash();
+} else {
+  openRouteFromHash();
+}
 
 </script>
 </body>
