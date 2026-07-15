@@ -1361,6 +1361,10 @@ html, body {
   color: var(--green-text);
   background: var(--green-bg);
 }
+.analog-diff.antenna {
+  color: var(--blue);
+  background: rgba(var(--blue-rgb), .1);
+}
 .analog-diff.worse {
   color: var(--red-text);
   background: var(--red-bg);
@@ -1464,7 +1468,7 @@ html, body {
 
 /* ── QUESTION SCREEN ─────────────────────────────── */
 #s-question {
-  padding-top: 88px;
+  padding-top: 20px;
   padding-bottom: 110px;
 }
 
@@ -1611,7 +1615,7 @@ html, body {
 
 /* ── RESULTS SCREEN ──────────────────────────────── */
 #s-results {
-  padding-top: 88px;
+  padding-top: 20px;
   padding-bottom: 40px;
 }
 
@@ -3216,7 +3220,7 @@ html, body {
 .btn-restart:active { opacity: .8; }
 
 /* ── Loading screen ──────────────────────────────── */
-#s-loading { padding-top: 88px; }
+#s-loading { padding-top: 20px; }
 .loading-wrap {
   display: flex;
   flex-direction: column;
@@ -4078,20 +4082,6 @@ html, body {
   flex: 1 1 auto;
   min-width: 0;
   margin-top: 0 !important;
-}
-.mode-subtitle-back-btn {
-  display: none !important;
-}
-/* Пока идёт ручной поиск, заголовок ("С чего начнем?") скрыт, и кнопка
-   "назад" в .mode-title-row остаётся одна в пустой строке — визуально
-   выше подзаголовка, а не на одном уровне с ним. Прячем её и показываем
-   вместо неё вторую кнопку рядом с подзаголовком — так кнопка всегда
-   на одной высоте с видимым текстом. */
-#s-mode.mode-searching .mode-title-row .mode-back-btn {
-  display: none !important;
-}
-#s-mode.mode-searching .mode-subtitle-back-btn {
-  display: inline-flex !important;
 }
 .mode-content {
   margin-top: 34px;
@@ -6808,25 +6798,6 @@ html, body {
   min-width: 0;
 }
 
-.mode-back-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-left: auto;
-  width: 36px;
-  height: 36px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-2);
-  box-shadow: 0 2px 8px rgba(20,16,48,.07);
-  cursor: pointer;
-  transition: background .15s, transform .1s;
-}
-.mode-back-btn:active { background: var(--bg); transform: scale(.93); }
-.mode-back-btn svg { width: 19px; height: 19px; }
-
   #s-mode { height: 100dvh; overflow-y: auto; }
 
   #s-mode .mode-inner {
@@ -6840,13 +6811,6 @@ html, body {
   #s-mode.mode-searching .mode-inner {
     justify-content: flex-start !important;
   }
-
-  .mode-back-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-  }
-  .mode-back-btn svg { width: 17px; height: 17px; }
 
   #s-mode .mode-title {
     font-size: 20px !important;
@@ -7186,7 +7150,7 @@ html, body {
     max-width: 640px;
   }
   #s-question {
-    padding-top: 150px;
+    padding-top: 32px;
   }
   .options-grid {
     display: grid;
@@ -7200,7 +7164,7 @@ html, body {
 
   /* — экран результатов: сетка карточек — */
   #s-results {
-    padding-top: 150px;
+    padding-top: 32px;
   }
   .results-container {
     max-width: 960px;
@@ -7264,7 +7228,7 @@ html, body {
 
   /* — экран загрузки: та же высота шапки + единая карточка поиска — */
   #s-loading {
-    padding-top: 150px;
+    padding-top: 32px;
   }
   .loading-wrap {
     max-width: 560px;
@@ -7433,6 +7397,61 @@ html, body {
 }
 #s-mode .mode-popular-row:active { background: rgba(var(--blue-rgb),.09); }
 
+/* — компактный вход в будущий гайд без утяжеления экрана выбора — */
+#s-mode .mode-guide-card {
+  width: 100%;
+  border: 1px solid rgba(var(--blue-rgb), .24);
+  background:
+    linear-gradient(135deg, rgba(28,35,52,.84), rgba(18,23,34,.76)),
+    radial-gradient(circle at 92% 10%, rgba(var(--blue-rgb), .12), transparent 180px);
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+#s-mode .mode-guide-card:hover {
+  border-color: rgba(var(--blue-rgb), .48);
+  background:
+    linear-gradient(135deg, rgba(31,38,55,.92), rgba(19,24,36,.82)),
+    radial-gradient(circle at 92% 10%, rgba(var(--blue-rgb), .17), transparent 180px);
+}
+#s-mode .mode-guide-card:active { transform: scale(.992); }
+.mode-guide-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--blue);
+  background: rgba(var(--blue-rgb), .11);
+}
+.mode-guide-icon svg { width: 19px; height: 19px; }
+.mode-guide-copy { flex: 1; min-width: 0; }
+.mode-guide-title {
+  font-size: 13.5px;
+  line-height: 1.2;
+  font-weight: 850;
+  color: var(--text);
+}
+.mode-guide-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.25;
+  color: var(--text-2);
+}
+.mode-guide-arrow {
+  color: var(--blue);
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 /* — маркировка партнёрского размещения (активируется только при
      наличии promoted-моделей в данных, см. renderModePopular) — */
 .mode-popular-promo {
@@ -7460,13 +7479,15 @@ html, body {
 #s-mode .mode-quiz-card    { animation: modeFadeIn .24s ease .06s both; }
 #s-mode .mode-or           { animation: modeFadeIn .24s ease .12s both; }
 #s-mode .mode-search-card  { animation: modeFadeIn .24s ease .16s both; }
-#s-mode .mode-popular      { animation: modeFadeIn .24s ease .22s both; }
+#s-mode .mode-guide-card   { animation: modeFadeIn .24s ease .20s both; }
+#s-mode .mode-popular      { animation: modeFadeIn .24s ease .24s both; }
 @media (prefers-reduced-motion: reduce) {
   #s-mode .mode-title-row,
   #s-mode .mode-subtitle-row,
   #s-mode .mode-quiz-card,
   #s-mode .mode-or,
   #s-mode .mode-search-card,
+  #s-mode .mode-guide-card,
   #s-mode .mode-popular { animation: none; }
 }
 
@@ -9119,6 +9140,37 @@ html, body {
   border: 1px solid var(--border); background: var(--card); color: var(--text);
 }
 .fav-empty-btn.primary { background: var(--blue); color: #fff; border-color: transparent; }
+.favorites-popular {
+  max-width: 420px;
+  margin: 28px auto 0;
+  text-align: left;
+}
+.favorites-popular .mode-popular-head {
+  margin-bottom: 10px;
+}
+.favorites-popular .mode-popular-list {
+  display: grid;
+  gap: 6px;
+}
+.favorites-popular .mode-popular-row {
+  background: rgba(22, 28, 41, .72);
+  border: 1px solid rgba(105, 113, 137, .22);
+  border-radius: 14px;
+  padding: 8px;
+}
+.favorites-popular .mode-popular-list {
+  border-top: 0;
+}
+.favorites-popular .mode-popular-row {
+  border-bottom: 0;
+}
+.favorites-popular .mode-popular-name {
+  color: var(--text);
+}
+.favorites-popular .mode-popular-thumb {
+  width: 42px;
+  height: 42px;
+}
 
 /* ── Общая строка действий разделов: «Назад / Очистить» без шапки ── */
 .sec-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; max-width: 760px; margin: 0 auto; padding: 10px 12px 0; }
@@ -9232,7 +9284,398 @@ html, body {
   }
 }
 
-/* ── О проекте: продолжение главной страницы ── */
+/* ── Статья на странице подбора ── */
+#s-guide {
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--bg);
+  overflow-y: auto;
+}
+#s-guide.on { display: flex !important; }
+.guide-inner {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 22px 22px calc(env(safe-area-inset-bottom) + 28px);
+  min-height: 100dvh;
+}
+.guide-article { max-width: 100%; }
+.guide-title {
+  margin: 0;
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1.14;
+  letter-spacing: -.6px;
+  font-weight: 850;
+}
+.guide-lead {
+  margin: 12px 0 0;
+  max-width: 640px;
+  color: var(--text-2);
+  font-size: 13.5px;
+  line-height: 1.42;
+}
+.guide-lead strong {
+  color: var(--text);
+  font-weight: 760;
+}
+.guide-intro-card {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--blue-rgb), .22);
+  background:
+    linear-gradient(135deg, rgba(34,26,31,.72), rgba(22,28,41,.62)),
+    radial-gradient(circle at 92% 0%, rgba(var(--blue-rgb), .12), transparent 190px);
+}
+.guide-intro-card p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.guide-intro-card p:first-child {
+  color: var(--text);
+  font-weight: 650;
+}
+.guide-intro-card p + p {
+  margin-top: 10px;
+}
+.guide-full-article {
+  margin-top: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(105,113,137,.16);
+  background: rgba(22,28,41,.42);
+  overflow: hidden;
+}
+.guide-text-section {
+  padding: 18px 16px;
+}
+.guide-text-section + .guide-text-section {
+  border-top: 1px solid rgba(105,113,137,.12);
+}
+.guide-text-section h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.28;
+  font-weight: 800;
+  letter-spacing: -.2px;
+}
+.guide-text-section p {
+  margin: 10px 0 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.52;
+}
+.guide-text-section p + p {
+  margin-top: 8px;
+}
+.guide-summary {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+.guide-type-card {
+  border: 1px solid rgba(105,113,137,.18);
+  border-radius: 16px;
+  background: rgba(22,28,41,.72);
+  padding: 14px;
+}
+.guide-type-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.guide-type-icon,
+.guide-section-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--blue);
+  background: rgba(var(--blue-rgb), .1);
+}
+.guide-type-icon svg,
+.guide-section-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+}
+.guide-type-card h3,
+.guide-section h3,
+.guide-choice h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.18;
+  font-weight: 800;
+}
+.guide-type-card p,
+.guide-section p,
+.guide-choice p,
+.guide-note,
+.guide-final p {
+  margin: 8px 0 0;
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.42;
+}
+.guide-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.guide-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--blue-rgb), .24);
+  color: var(--blue);
+  background: rgba(var(--blue-rgb), .08);
+  font-size: 11px;
+  font-weight: 750;
+}
+.guide-section {
+  margin-top: 0;
+  padding: 0;
+  border-top: 0;
+}
+.guide-section-head {
+  display: block;
+}
+.guide-two-col {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+.guide-mini {
+  border: 1px solid rgba(105,113,137,.16);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(11,14,20,.28);
+}
+.guide-mini strong {
+  display: block;
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.2;
+}
+.guide-mini span {
+  display: block;
+  margin-top: 5px;
+  color: var(--text-2);
+  font-size: 12px;
+  line-height: 1.38;
+}
+.guide-choice-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.guide-choice {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(22,28,41,.66);
+  border: 1px solid rgba(105,113,137,.16);
+}
+.guide-choice-num {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  background: rgba(var(--blue-rgb), .1);
+  font-size: 12px;
+  font-weight: 850;
+}
+.guide-final {
+  margin-top: 0;
+  padding: 18px 16px;
+  border-radius: 0;
+  border-top: 1px solid rgba(var(--blue-rgb), .22) !important;
+  background:
+    linear-gradient(180deg, rgba(var(--blue-rgb), .07), rgba(22,28,41,.48));
+}
+.guide-final h3 {
+  margin: 0;
+  color: var(--blue);
+  font-size: 16px;
+  line-height: 1.28;
+  font-weight: 850;
+}
+@media (min-width: 760px) {
+  .guide-inner { max-width: 680px; }
+  .guide-title { font-size: 30px; }
+  .guide-text-section { padding: 20px 18px; }
+  .guide-text-section h3 { font-size: 17px; }
+  .guide-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .guide-two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guide-choice-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Final polish for the mode screen and guide readability. */
+#s-mode {
+  --mode-final-gap: 24px;
+  --mode-final-pad: 18px;
+}
+#s-mode .mode-col-left {
+  gap: var(--mode-final-gap) !important;
+}
+#s-mode .mode-quiz-card.mode-quiz-card-v3,
+#s-mode .mode-search-card,
+#s-mode .mode-guide-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+#s-mode .mode-quiz-card.mode-quiz-card-v3 {
+  min-height: 168px !important;
+  padding: var(--mode-final-pad) !important;
+  align-content: center;
+}
+#s-mode .mode-search-card {
+  min-height: 166px !important;
+  padding: var(--mode-final-pad) !important;
+  justify-content: center !important;
+}
+#s-mode .mode-guide-card {
+  min-height: 88px !important;
+  padding: 16px var(--mode-final-pad) !important;
+}
+#s-mode .mode-quiz-card-v3 .mode-primary-btn {
+  margin-top: 0 !important;
+}
+#s-mode .mode-quiz-note {
+  display: none !important;
+}
+#s-mode .mode-guide-sub {
+  max-width: 330px;
+}
+
+#s-guide {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(var(--blue-rgb), .08), transparent 260px),
+    var(--bg);
+}
+.guide-inner {
+  max-width: 620px;
+  padding: 26px 30px calc(env(safe-area-inset-bottom) + 34px);
+}
+.guide-title {
+  font-size: 22px;
+  line-height: 1.22;
+  letter-spacing: -.45px;
+}
+.guide-intro-card {
+  margin-top: 18px;
+  padding: 18px;
+}
+.guide-intro-card p,
+.guide-text-section p,
+.guide-type-card p,
+.guide-section p,
+.guide-choice p,
+.guide-note,
+.guide-final p,
+.guide-mini span {
+  font-size: 13px;
+  line-height: 1.62;
+}
+.guide-intro-card p + p,
+.guide-text-section p + p,
+.guide-final p + p {
+  margin-top: 12px;
+}
+.guide-full-article {
+  margin-top: 22px;
+  border-radius: 20px;
+}
+.guide-text-section {
+  padding: 20px 18px;
+}
+.guide-text-section h3,
+.guide-final h3 {
+  font-size: 16px;
+  line-height: 1.32;
+}
+.guide-text-section p {
+  margin-top: 12px;
+}
+
+@media (max-width: 520px) {
+  #s-mode {
+    --mode-final-gap: 28px;
+    --mode-final-pad: 18px;
+  }
+  #s-mode .mode-content {
+    margin-top: 24px !important;
+  }
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    min-height: 176px !important;
+    row-gap: 16px !important;
+  }
+  #s-mode .mode-search-card {
+    min-height: 174px !important;
+  }
+  #s-mode .mode-guide-card {
+    min-height: 94px !important;
+  }
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text,
+  #s-mode .mode-search-sub {
+    line-height: 1.38 !important;
+  }
+  .guide-inner {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .guide-title {
+    font-size: 21px;
+  }
+  .guide-text-section {
+    padding: 19px 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .guide-inner {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    min-height: 168px !important;
+  }
+  #s-mode .mode-search-card {
+    min-height: 166px !important;
+  }
+}
+
+@media (min-width: 760px) {
+  .guide-inner {
+    max-width: 760px;
+    padding-top: 34px;
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+  .guide-title {
+    max-width: 680px;
+    font-size: 28px;
+  }
+  .guide-text-section {
+    padding: 24px 24px;
+  }
+}
+
 #s-about {
   min-height: 100dvh;
   padding: 14px 18px calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 14px);
@@ -9726,14 +10169,134 @@ html, body {
     line-height: 1.25 !important;
   }
 
-  #s-mode .mode-back-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 11px;
+  #s-mode .mode-content {
+    display: block !important;
+    margin-top: 16px !important;
+    gap: 0 !important;
   }
 
-  #s-mode .mode-content {
-    margin-top: 16px !important;
+  #s-mode .mode-col-left {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 18px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-col-left {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    margin: 0 !important;
+    min-height: 0 !important;
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    row-gap: 12px !important;
+    column-gap: 12px !important;
+    padding: 14px !important;
+    border-radius: 17px !important;
+  }
+
+  #s-mode .mode-search-card {
+    margin: 0 !important;
+    min-height: 0 !important;
+    padding: 14px !important;
+    border-radius: 17px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  #s-mode .mode-guide-card {
+    margin-top: 0 !important;
+    min-height: 0 !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    gap: 10px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon,
+  #s-mode .mode-ai-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon svg,
+  #s-mode .mode-ai-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  #s-mode .mode-guide-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 11px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title {
+    font-size: 16px !important;
+    line-height: 1.16 !important;
+    font-weight: 800 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text {
+    margin-top: 4px !important;
+    font-size: 11.5px !important;
+    line-height: 1.28 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-primary-btn {
+    height: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 780 !important;
+  }
+
+  #s-mode .mode-search-head {
+    gap: 12px !important;
+  }
+
+  #s-mode .mode-search-title {
+    font-size: 16px !important;
+    line-height: 1.16 !important;
+    font-weight: 800 !important;
+  }
+
+  #s-mode .mode-search-sub {
+    margin-top: 4px !important;
+    font-size: 11.5px !important;
+    line-height: 1.28 !important;
+  }
+
+  #s-mode .mode-search-wrap {
+    height: 46px !important;
+    margin-top: 12px !important;
+    padding: 0 8px 0 12px !important;
+    border-radius: 14px !important;
+  }
+
+  #s-mode .mode-search-wrap .intro-srch-input {
+    font-size: 14px !important;
+  }
+
+  #s-mode .mode-search-go {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+  }
+
+  #s-mode .mode-guide-title {
+    font-size: 13px !important;
+    line-height: 1.18 !important;
+    font-weight: 750 !important;
+  }
+
+  #s-mode .mode-guide-sub {
+    margin-top: 2px !important;
+    font-size: 10.8px !important;
+    line-height: 1.22 !important;
   }
 }
 
@@ -9772,6 +10335,196 @@ html, body {
     margin-top: 6px !important;
   }
 
+  #s-mode .mode-content {
+    display: block !important;
+    margin-top: 20px !important;
+    gap: 0 !important;
+  }
+
+  #s-mode .mode-col-left {
+    display: flex !important;
+    flex-direction: column !important;
+    max-width: 760px;
+    margin-inline: auto;
+    gap: 22px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-col-left {
+    min-height: min(600px, calc(100dvh - 230px));
+    justify-content: space-between;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    min-height: 228px !important;
+    padding: 26px 28px !important;
+  }
+
+  #s-mode .mode-search-card {
+    min-height: 176px !important;
+    padding: 26px 28px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #s-mode .mode-search-wrap {
+    margin-top: 18px !important;
+  }
+
+  #s-mode .mode-guide-card {
+    margin-top: 0 !important;
+    min-height: 106px;
+    padding: 20px 22px !important;
+  }
+
+  #s-mode .mode-guide-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  #s-mode .mode-guide-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  #s-mode .mode-guide-title {
+    font-size: 20px !important;
+  }
+
+  #s-mode .mode-guide-sub {
+    font-size: 14px !important;
+  }
+
+  /* Final compact layout for the choice screen: two primary scenarios + one helper. */
+  #s-mode {
+    --mode-gap: 22px;
+    --mode-card-pad: 18px;
+    --mode-radius: 18px;
+  }
+
+  #s-mode .mode-title-row {
+    margin-top: 18px !important;
+  }
+
+  #s-mode .mode-subtitle-row {
+    margin-top: 6px !important;
+  }
+
+  #s-mode .mode-content {
+    margin-top: 18px !important;
+  }
+
+  #s-mode .mode-col-left {
+    max-width: 700px;
+    gap: var(--mode-gap) !important;
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3,
+  #s-mode .mode-search-card {
+    min-height: 0 !important;
+    border-radius: var(--mode-radius) !important;
+    padding: var(--mode-card-pad) !important;
+  }
+
+  #s-mode .mode-quiz-card.mode-quiz-card-v3 {
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+    row-gap: 14px !important;
+    column-gap: 14px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon,
+  #s-mode .mode-ai-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 16px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-icon svg,
+  #s-mode .mode-ai-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-title,
+  #s-mode .mode-search-title {
+    font-size: 19px !important;
+    line-height: 1.16 !important;
+    font-weight: 820 !important;
+    letter-spacing: 0 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-quiz-text,
+  #s-mode .mode-search-sub {
+    margin-top: 5px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    font-weight: 500 !important;
+  }
+
+  #s-mode .mode-quiz-card-v3 .mode-primary-btn {
+    height: 46px !important;
+    padding: 0 18px !important;
+    border-radius: 13px !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+  }
+
+  #s-mode .mode-search-head {
+    gap: 14px !important;
+  }
+
+  #s-mode .mode-search-wrap {
+    height: 52px !important;
+    margin-top: 14px !important;
+    border-radius: 15px !important;
+    padding: 0 10px 0 14px !important;
+  }
+
+  #s-mode .mode-search-wrap .intro-srch-input {
+    font-size: 15px !important;
+  }
+
+  #s-mode .mode-search-go {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 13px !important;
+  }
+
+  #s-mode .mode-guide-card {
+    min-height: 0 !important;
+    padding: 12px 14px !important;
+    border-radius: 15px !important;
+    gap: 12px !important;
+    background: rgba(22,28,41,.66) !important;
+    border-color: rgba(105,113,137,.22) !important;
+  }
+
+  #s-mode .mode-guide-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+  }
+
+  #s-mode .mode-guide-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  #s-mode .mode-guide-title {
+    font-size: 14px !important;
+    line-height: 1.18 !important;
+    font-weight: 760 !important;
+  }
+
+  #s-mode .mode-guide-sub {
+    margin-top: 3px !important;
+    font-size: 11.5px !important;
+    line-height: 1.25 !important;
+  }
+
   #s-catalog .catalog-head {
     padding: 22px !important;
     margin-bottom: 20px;
@@ -9801,6 +10554,386 @@ html, body {
 
   #s-catalog .catalog-list {
     padding-top: 0;
+  }
+}
+
+/* Responsive hardening: phones, tablets and narrow laptops should keep the
+   same rhythm without horizontal page overflow or wasted tablet space. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 360px) {
+  .vbr-page-brand,
+  .mode-brand {
+    gap: 8px;
+  }
+
+  .vbr-brand-copy strong {
+    font-size: 10px;
+    line-height: 1.1;
+    max-width: 172px;
+  }
+
+  .vbr-brand-copy span {
+    font-size: 10px;
+    line-height: 1.15;
+    max-width: 172px;
+  }
+
+  #s-intro.v2-home .home-v2-title {
+    font-size: 29px !important;
+  }
+
+  #s-intro.v2-home .home-v2-subtitle,
+  #s-intro.v2-home .home-v2-feature-text {
+    font-size: 13px !important;
+  }
+
+  .app-nav-lb {
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 899px) {
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-compare .cmp-body,
+  #s-favorites .section-head,
+  #s-favorites .fav-page-wrap #fav-page-list {
+    max-width: none;
+  }
+
+  #s-catalog .catalog-brand-list,
+  #s-catalog .catalog-list.catalog-list-flat,
+  #s-favorites .fav-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #s-catalog .catalog-row,
+  #s-favorites .fav-card {
+    min-width: 0;
+  }
+
+  #s-catalog .catalog-row-name,
+  #s-favorites .fav-card-name {
+    font-size: 14px;
+  }
+
+  #s-catalog .catalog-row-price {
+    font-size: 13px;
+  }
+
+  #s-compare .cmp-card-thumb {
+    aspect-ratio: 4 / 3;
+    max-height: 260px;
+  }
+}
+
+@media (min-width: 900px) and (max-height: 760px) {
+  #s-compare .cmp-card-thumb {
+    max-height: 260px;
+  }
+
+  #s-search .dev-hero-img,
+  #s-search .dev-hero-media {
+    max-height: 360px;
+  }
+}
+
+/* Final exact sizing for the "С чего начнем?" choice cards. Keep this after
+   all responsive overrides so the three windows match the intended rhythm. */
+#s-mode:not(.mode-searching) .mode-col-left {
+  gap: 28px !important;
+  justify-content: flex-start !important;
+}
+#s-mode:not(.mode-searching) .mode-quiz-card.mode-quiz-card-v3 {
+  min-height: 148px !important;
+  padding: 16px 18px !important;
+}
+#s-mode:not(.mode-searching) .mode-search-card {
+  min-height: 150px !important;
+  padding: 16px 18px !important;
+}
+#s-mode:not(.mode-searching) .mode-guide-card {
+  min-height: 84px !important;
+  padding: 14px 18px !important;
+}
+
+@media (min-width: 900px) {
+  #s-mode:not(.mode-searching) .mode-col-left {
+    gap: 24px !important;
+  }
+  #s-mode:not(.mode-searching) .mode-quiz-card.mode-quiz-card-v3 {
+    min-height: 156px !important;
+    padding: 20px 24px !important;
+  }
+  #s-mode:not(.mode-searching) .mode-search-card {
+    min-height: 152px !important;
+    padding: 20px 24px !important;
+  }
+  #s-mode:not(.mode-searching) .mode-guide-card {
+    min-height: 86px !important;
+    padding: 14px 18px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #s-mode:not(.mode-searching) .mode-col-left {
+    gap: 22px !important;
+  }
+  #s-mode:not(.mode-searching) .mode-quiz-card.mode-quiz-card-v3,
+  #s-mode:not(.mode-searching) .mode-search-card {
+    min-height: 144px !important;
+  }
+  #s-mode:not(.mode-searching) .mode-guide-card {
+    min-height: 78px !important;
+  }
+}
+
+/* Desktop cleanup: keep dense tool headers and prevent helper cards from
+   stretching into wide empty banners. */
+@media (min-width: 900px) {
+  :root {
+    --dt-shell: 1400px;
+    --dt-page-x: max(var(--dt-pad), calc((100vw - var(--dt-shell)) / 2));
+  }
+
+  #s-intro.v2-home .home-v2-inner,
+  #s-mode .mode-inner {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-left: var(--dt-page-x) !important;
+    padding-right: var(--dt-page-x) !important;
+  }
+
+  #s-catalog,
+  #s-compare,
+  #s-favorites,
+  #s-about {
+    padding-left: var(--dt-page-x) !important;
+    padding-right: var(--dt-page-x) !important;
+  }
+
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-compare .cmp-body,
+  #s-favorites .section-head,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-about .about-wrap {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  #s-catalog .catalog-head,
+  #s-catalog .catalog-list {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  #s-catalog .catalog-head {
+    padding: 18px 20px 16px !important;
+    margin-bottom: 18px !important;
+    border-radius: 18px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "title count"
+      "search search"
+      "sort sort"
+      "filters filters"
+      "prices prices" !important;
+    column-gap: 22px !important;
+    row-gap: 9px !important;
+    align-items: center !important;
+  }
+
+  #s-catalog .catalog-title {
+    font-size: 26px !important;
+    line-height: 1.08 !important;
+    margin: 0 !important;
+  }
+
+  #s-catalog .catalog-count-row {
+    align-self: center !important;
+    justify-self: end !important;
+    margin: 0 !important;
+  }
+
+  #s-catalog .catalog-search {
+    height: 42px !important;
+    border-radius: 12px !important;
+    max-width: 760px !important;
+  }
+
+  #s-catalog .catalog-filter-strip,
+  #s-catalog .catalog-sort-row {
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #s-catalog #catalog-filter-strip,
+  #s-catalog #catalog-price-filter-strip {
+    max-width: 1180px !important;
+  }
+
+  #s-catalog .catalog-sort-row {
+    justify-content: flex-start !important;
+    justify-self: start !important;
+    width: 100% !important;
+  }
+
+  #s-catalog .catalog-chip {
+    height: 29px !important;
+    padding-inline: 12px !important;
+    font-size: 12.5px !important;
+  }
+
+  #s-catalog .catalog-sort-chip,
+  #s-catalog .catalog-scenario-btn {
+    height: 29px !important;
+    padding-inline: 12px !important;
+    font-size: 12.5px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-col-left {
+    max-width: 760px !important;
+    margin-inline: auto !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guide-card {
+    min-height: 78px !important;
+    padding: 14px 18px !important;
+  }
+
+  #s-mode .mode-guide-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+  }
+
+  #s-mode .mode-guide-title,
+  #s-mode .mode-guide-sub {
+    max-width: 560px !important;
+  }
+
+  #s-mode .mode-guide-title {
+    display: block !important;
+    font-size: 15px !important;
+    line-height: 1.18 !important;
+  }
+
+  #s-mode .mode-guide-sub {
+    display: block !important;
+    margin-top: 4px !important;
+    font-size: 12.5px !important;
+    line-height: 1.32 !important;
+    white-space: normal !important;
+  }
+}
+
+/* Shared desktop content grid. The bottom nav inner width is the source of
+   truth, and every desktop route uses the same outer corridor. */
+@media (min-width: 900px) {
+  :root {
+    --desktop-content-max-width: 1440px;
+    --desktop-content-gutter: 0px;
+    --desktop-content-inset: max(var(--dt-pad), calc((100vw - var(--desktop-content-max-width)) / 2));
+  }
+
+  .app-nav {
+    padding-left: var(--desktop-content-inset) !important;
+    padding-right: var(--desktop-content-inset) !important;
+    justify-content: center !important;
+  }
+
+  .app-nav-item {
+    flex: 1 1 calc(var(--desktop-content-max-width) / 5) !important;
+    max-width: calc(var(--desktop-content-max-width) / 5) !important;
+  }
+
+  #header,
+  #s-intro.v2-home,
+  #s-mode,
+  #s-question,
+  #s-loading,
+  #s-results,
+  #s-search,
+  #s-catalog,
+  #s-compare,
+  #s-favorites,
+  #s-about,
+  #s-guide {
+    padding-left: var(--desktop-content-inset) !important;
+    padding-right: var(--desktop-content-inset) !important;
+  }
+
+  #header .header-main,
+  #s-intro.v2-home .home-v2-inner,
+  #s-mode .mode-inner,
+  #s-question .q-body,
+  #s-loading .loading-wrap,
+  #s-results .results-container,
+  #s-search .srch-topbar-inner,
+  #s-search .srch-body,
+  #s-catalog .catalog-wrap,
+  #s-compare .section-head,
+  #s-compare .cmp-body,
+  #s-favorites .section-head,
+  #s-favorites .fav-page-wrap,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-about .about-wrap,
+  #s-guide .guide-inner {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  #s-intro.v2-home .home-v2-inner,
+  #s-mode .mode-inner,
+  #s-catalog .catalog-wrap,
+  #s-compare .cmp-body,
+  #s-favorites .fav-page-wrap,
+  #s-favorites .fav-page-wrap #fav-page-list,
+  #s-about .about-wrap,
+  #s-guide .guide-inner,
+  #s-results .results-container,
+  #s-search .srch-body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  #s-catalog .catalog-head,
+  #s-catalog .catalog-list {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  #s-mode .mode-content {
+    width: 100% !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-col-left {
+    max-width: 760px !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
   }
 }
 </style>
@@ -10014,15 +11147,9 @@ html, body {
     </div>
     <div class="mode-title-row">
       <h2 class="mode-title">С чего начнем?</h2>
-      <button class="mode-back-btn" onclick="goHome()" aria-label="Назад">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
     </div>
     <div class="mode-subtitle-row">
       <p class="mode-subtitle">Выберите вариант</p>
-      <button class="mode-back-btn mode-subtitle-back-btn" onclick="goHome()" aria-label="Назад">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
     </div>
 
     <div class="mode-content">
@@ -10039,12 +11166,6 @@ html, body {
         <button class="mode-primary-btn" id="btn-start-quiz">Начать подбор</button>
         <div class="mode-quiz-note">⚡ Точная рекомендация меньше чем за минуту</div>
       </section>
-
-      <div class="mode-or" aria-hidden="true">
-        <span class="mode-or-line"></span>
-        <span class="mode-or-word">или</span>
-        <span class="mode-or-line"></span>
-      </div>
 
       <section class="mode-search-card">
         <div class="mode-search-head">
@@ -10072,18 +11193,16 @@ html, body {
         <div id="intro-srch-results"></div>
       </section>
 
-      <div class="mode-popular" id="mode-popular">
-        <div class="mode-popular-head">
-          <span class="mode-popular-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </span>
-          <div class="mode-popular-copy-head">
-            <div class="mode-popular-title">Другие пользователи выбирают</div>
-            <div class="mode-popular-sub">Популярные модели прямо сейчас</div>
-          </div>
-        </div>
-        <div class="mode-popular-list" id="mode-popular-list"></div>
-      </div>
+      <button class="mode-guide-card" type="button" onclick="showGuide()">
+        <span class="mode-guide-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h10"/><path d="M4 19h7"/><path d="M17 15l3 3-3 3"/></svg>
+        </span>
+        <span class="mode-guide-copy">
+          <span class="mode-guide-title">Регистратор, информер или комбо?</span>
+          <span class="mode-guide-sub">Максимально подробный разбор простыми словами о сложных различиях</span>
+        </span>
+        <span class="mode-guide-arrow" aria-hidden="true">›</span>
+      </button>
       </div>
     </div>
 
@@ -10102,6 +11221,111 @@ html, body {
         <span>Конфиденциально. Никаких личных данных.</span>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── GUIDE / ARTICLE ────────────────────────────── -->
+<div id="s-guide" class="screen">
+  <div class="guide-inner">
+    <article class="guide-article">
+      <h2 class="guide-title">Видеорегистратор, GPS-информер или комбо 3 в 1: в чем разница и за что мы вообще платим</h2>
+      <div class="guide-intro-card">
+        <p>Если открыть каталог автомобильной электроники и начать выбирать видеорегистратор, довольно быстро становится непонятно вообще все.</p>
+        <p>Один прибор просто снимает видео. Другой тоже снимает, но почему-то предупреждает о камерах. Третий называется «комбо 3 в 1» и стоит заметно дороже. При этом внешне все три устройства могут выглядеть практически одинаково.</p>
+        <p>Возникает вполне логичный вопрос: а в чем реальная разница?</p>
+        <p>Особенно если продавцы любят писать на коробках GPS, радар, база камер, детектор, сигнатурный режим и еще десяток красивых слов. Я постараюсь рассказать и разобрать этот вопрос для вас максимально просто: без сложной технической терминологии, и для покупки регистратора и понимания всей сути вам не нужно будет закончить радиотехнический факультет.</p>
+      </div>
+      <div class="guide-full-article">
+        <section class="guide-section guide-text-section">
+          <h3>Обычный видеорегистратор: его главная задача — снимать</h3>
+          <p>Начнем с самого простого варианта. Классический видеорегистратор — это автомобильная камера, которая постоянно записывает происходящее перед машиной. Вы включили зажигание, устройство получило питание, началась запись. Карта памяти постепенно заполняется, старые ролики удаляются, на их место записываются новые (это называется циклической записью, на многих старых моделях такого не было и забитую карту приходилось форматировать самостоятельно), а нужный фрагмент можно сохранить вручную или он может быть защищен от перезаписи после сильного удара.</p>
+          <p>Главная ценность такого устройства понятна без длинных объяснений. Если произошла авария, спорная ситуация на дороге, повреждение автомобиля на парковке (если есть специальный дополнительный кабель) или просто неприятный разговор с другим участником движения, у вас остается видеозапись. Иногда именно она помогает быстро понять, что произошло, и не спорить на уровне «мне показалось».</p>
+          <p>Современные регистраторы могут быть очень разными. У одних есть Wi-Fi для просмотра роликов через приложение, у других — вторая камера для салона или заднего вида, у третьих — режим парковочной записи, хороший ночной режим, сенсорный экран или крепление на магните. Но все эти функции сами по себе не делают устройство прибором для предупреждения о камерах.</p>
+          <p>Здесь важно не запутаться в слове GPS. В характеристиках обычного регистратора GPS может означать только запись координат и скорости в видеофайл. Это полезно, если нужно потом посмотреть маршрут или подтвердить скорость движения, но само по себе наличие GPS еще не означает, что регистратор будет заранее предупреждать о камерах. Для этого нужна отдельная функция GPS-информера и база камер.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Что такое видеорегистратор с GPS-информером</h3>
+          <p>Видеорегистратор с GPS-информером внешне может почти не отличаться от обычного регистратора. Он так же крепится на стекло, так же включается вместе с автомобилем, так же пишет видео на карту памяти. Разница начинается внутри: в памяти устройства есть база координат дорожных камер и других точек контроля.</p>
+          <p>Работает это довольно просто. Устройство через GPS понимает, где находится автомобиль, сверяет текущее положение с базой и, если впереди есть известная точка контроля, заранее предупреждает водителя. Например, сообщает о камере контроля скорости, контроле полосы, светофора, средней скорости или другом объекте, который внесен в базу производителя.</p>
+          <p>То есть GPS-информер не ищет камеру в воздухе и не анализирует радиосигналы вокруг машины. Он работает примерно, как навигатор в вашем смартфоне с отмеченными точками: вы приближаетесь к месту, которое заранее есть в памяти, и устройство подает голосовое или звуковое предупреждение.</p>
+          <p>Именно поэтому два регистратора с GPS-информером на одной и той же дороге могут вести себя по-разному. Один предупредит о камере, потому что она есть в его базе. Другой промолчит, потому что база устарела или производитель просто не добавил эту точку. В этом нет мистики: GPS-информер хорош ровно настолько, насколько хороша и свежа его база. И он не может врать или «опаздывать», он попросту сообщает информацию из своей базы.</p>
+          <p>Это главный момент, который стоит запомнить перед покупкой. GPS-информер не видит камеру, не принимает от нее сигнал и не понимает, работает она сейчас или нет. Он только знает, что в определенном месте по базе должна быть точка контроля.</p>
+          <p>Если вчера на трассе поставили новый мобильный комплекс, а производитель еще не успел добавить его координаты в обновление, GPS-информер может спокойно промолчать. Не потому, что он сломался, а потому что для него этой камеры пока не существует.</p>
+          <p>С другой стороны, именно GPS-информер часто отлично справляется со стационарными камерами, которые годами стоят на одних и тех же местах. Камеры контроля перекрестков, полос общественного транспорта, средней скорости и многие другие комплексы не всегда можно обнаружить радарной частью, потому что не всякая система излучает радиосигнал, который есть смысл ловить. А координаты такой точки можно заранее внести в базу.</p>
+          <p>Получается простая, но важная вещь: GPS-информер не является радар-детектором, но в ряде ситуаций он может быть очень полезен. Особенно в городе, где большая часть камер стационарная, а качество базы и регулярность обновлений часто важнее громких слов на коробке.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Что такое радар-детектор</h3>
+          <p>Радар-детектор работает по другому принципу. Его задача — не сверяться только с заранее записанными координатами, а анализировать радиосигналы в определенных диапазонах. Если прибор замечает сигнал, похожий на работу дорожного радарного комплекса, он предупреждает водителя.</p>
+          <p>И главное отличие от GPS-информера здесь в том, что радар-детектор пытается обнаружить источник во время движения. Если впереди работает комплекс, которого еще нет в базе координат, хороший детектор теоретически может предупредить о нем за счет радиосигнала. Поэтому радарная часть особенно интересна на трассе и в местах, где могут появляться мобильные переносные комплексы.</p>
+          <p>Но в реальной жизни все сложнее, чем в рекламной фразе «обнаруживает камеры заранее». На дальность и качество предупреждения влияет рельеф, повороты, плотность потока, направление работы комплекса, мощность сигнала, расположение устройства в автомобиле и даже то, насколько чисто оно видит дорогу через стекло. Поэтому обещания про одинаково уверенное обнаружение всех камер на огромном расстоянии стоит воспринимать осторожно.</p>
+          <p>Есть и другая проблема: современный город заполнен радиосигналами. Автоматические двери, системы контроля слепых зон, некоторые датчики и другая электроника могут создавать помехи. Старые или неудачно настроенные детекторы из-за этого постоянно пищат у торговых центров, заправок и рядом с современными автомобилями. В какой-то момент водитель перестает понимать, где реальная опасность, а где просто очередной ложный сигнал.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Зачем нужны сигнатурные технологии</h3>
+          <p>Чтобы уменьшить количество ложных срабатываний, производители стали использовать сигнатурные технологии. Если объяснять без технической глубины, сигнатура — это характерный «почерк» сигнала. Прибор пытается не просто услышать что-то в диапазоне, а понять, на что именно похож этот сигнал.</p>
+          <p>В идеале сигнатурный радар-детектор должен лучше отличать дорожный комплекс от помехи. Например, не реагировать на каждую автоматическую дверь и спокойнее вести себя в плотном городском потоке, где вокруг много автомобилей с собственными электронными системами.</p>
+          <p>Но сама надпись «сигнатурный» не делает устройство хорошим. Все зависит от конкретной модели, качества приемной части, алгоритмов обработки, обновлений и настройки режимов. Один прибор действительно работает спокойно и понятно, другой продолжает раздражать постоянными предупреждениями, хотя на коробке написаны примерно те же слова.</p>
+          <p>На практике, для более уверенной работы без лишних «ложных» оповещений лучше рассматривать гаджеты имеющие как таковую «обработку сигнала». Название такого функционала придумывают сами производители и звучит это примерно так: «фильтр помех», «помехозащищенность» и так далее. Каждый добавляет перед этим свои фирменные слова и дополнительные расшифровки. Такие устройства не будут беспокоить вас ложными срабатываниями.</p>
+          <p>Именно поэтому радарную часть сложно оценивать только по таблице характеристик. Разрешение камеры, угол обзора или наличие Wi-Fi еще можно сравнить относительно прямо. А вот качество фильтрации ложных сигналов и реальное поведение на дороге лучше всего видно в тестах и в живой эксплуатации.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Что такое комбо 3 в 1</h3>
+          <p>Комбо 3 в 1 объединяет в одном корпусе сразу три функции: видеорегистратор, GPS-информер и радар-детектор. Такое устройство снимает дорогу, предупреждает о стационарных точках по базе координат и дополнительно пытается обнаруживать работающие радарные комплексы по их сигналу.</p>
+          <p>И это действительно выглядит как самый логичный вариант. Один прибор вместо нескольких, меньше проводов, одна настройка, один экран, одна карта памяти. Для многих водителей именно в этом и есть главный смысл комбо: не собирать на стекле целую гирлянду устройств, а поставить один аппарат, который закрывает сразу несколько задач.</p>
+          <p>Но универсальность не означает автоматическое превосходство. В комбо производителю нужно совместить хорошую видеочасть, стабильный GPS-информер, радарную часть, фильтрацию помех, удобные обновления и нормальную эргономику. Если где-то сэкономили или плохо настроили устройство, слабое место будет заметно в повседневной езде.</p>
+          <p>Например, комбо может неплохо предупреждать о радарах, но снимать хуже обычного регистратора за похожие деньги. Или наоборот: видео будет приятным, а радарная часть окажется нервной и шумной. Поэтому комбо стоит выбирать не по принципу «там больше функций», а по балансу этих функций.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Главное преимущество комбо — два разных способа предупреждения</h3>
+          <p>Сильная сторона хорошего комбо-устройства в том, что GPS-база и радарная часть дополняют друг друга. Они решают похожую задачу, но делают это разными способами.</p>
+          <p>Если впереди стационарная камера, координаты которой есть в базе, устройство предупредит заранее через GPS-информер. Если на дороге появился обнаруживаемый мобильный комплекс, которого в базе еще нет, радарная часть может дать дополнительное предупреждение. Если же камера работает по видеоконтролю и не излучает привычный радарный сигнал, радарной части может быть нечего ловить, зато GPS-база все равно способна предупредить о точке.</p>
+          <p>Именно здесь комбо раскрывается лучше всего. Оно не превращает водителя в человека, которому можно игнорировать ограничения, и не является магической защитой от штрафов. Это просто дополнительный источник информации. Хороший прибор помогает раньше обратить внимание на участок дороги, а дальше водитель уже сам отвечает за скорость и поведение.</p>
+          <p>Если воспринимать комбо именно так, ожидания становятся здоровее. Это не устройство для безнаказанности, а помощник, который объединяет запись видео, базу известных камер и анализ радиосигналов. В одних поездках сработает один канал предупреждения, в других — другой.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Почему комбо обычно стоит дороже</h3>
+          <p>Цена комбо выше не только потому, что на коробке больше красивых слов. Внутри такого устройства действительно больше сложных компонентов. Помимо камеры, процессора, экрана, питания и корпуса, производителю нужно разместить радарную часть, обеспечить прием и обработку сигналов, настроить фильтрацию помех, поддерживать базу координат и выпускать обновления.</p>
+          <p>При этом все должно работать в одном компактном корпусе, не перегреваться, не конфликтовать между собой и оставаться удобным для обычного пользователя. Чем лучше производитель решает эту задачу, тем выше шанс получить устройство, которое не раздражает каждый день.</p>
+          <p>Но высокая цена сама по себе ничего не гарантирует. Можно сделать дорогой аппарат с эффектными характеристиками, но посредственной настройкой. Можно поставить хорошую матрицу, написать про высокое разрешение, добавить радарный модуль, а в итоге получить прибор, который красиво выглядит в карточке товара, но в городе постоянно подает лишние сигналы или неудобно обновляется.</p>
+          <p>Поэтому при выборе комбо особенно важно смотреть не только на железо, но и на репутацию производителя, частоту обновлений, реальные дорожные тесты и отзывы владельцев, которые пользуются устройством не один день, а хотя бы несколько недель или месяцев.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Может ли регистратор с GPS заменить комбо</h3>
+          <p>Для части водителей — да. Если машина почти всегда ездит по городу, маршруты примерно одни и те же, а основные камеры стационарные, хороший видеорегистратор с GPS-информером может оказаться самым разумным вариантом. Он снимает дорогу, предупреждает о большинстве известных точек и не добавляет лишней радарной суеты.</p>
+          <p>В городе радарная часть иногда становится не преимуществом, а источником раздражения, особенно если устройство плохо фильтрует помехи. Водителю приходится слушать предупреждения там, где нет дорожного комплекса, и со временем он начинает относиться к сигналам менее внимательно. В такой ситуации спокойный GPS-информер с актуальной базой может быть практичнее.</p>
+          <p>Но если человек часто ездит по трассам, путешествует между регионами, выбирает незнакомые маршруты и хочет получать предупреждения не только из заранее загруженной базы, смысл комбо становится заметнее. На трассе выше вероятность встретить мобильные комплексы и ситуации, где одной базы координат может не хватить.</p>
+          <p>Поэтому универсального ответа нет. Нельзя сказать, что комбо всегда лучше, а регистратор с GPS всегда слабее. Все зависит от маршрутов, бюджета, терпимости к предупреждениям и того, какая функция для водителя главная: видеозапись, спокойные подсказки по известным камерам или максимально широкий набор предупреждений.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Почему обновления важны для всех устройств с предупреждениями</h3>
+          <p>О базе камер многие вспоминают только после покупки, хотя именно она сильно влияет на пользу GPS-информера. Дороги меняются, появляются новые комплексы, старые камеры могут переносить или демонтировать, ограничения скорости тоже не всегда остаются прежними. Если база не обновлялась несколько лет, устройство неизбежно будет ошибаться чаще.</p>
+          <p>Перед покупкой стоит посмотреть, как именно обновляется конкретная модель. Через приложение, по Wi-Fi, через карту памяти или только через подключение к компьютеру. Сам способ важен, потому что чем сложнее обновлять устройство, тем выше шанс, что владелец быстро перестанет это делать.</p>
+          <p>Для комбо обновления еще важнее. Там может обновляться не только база GPS-точек, но и прошивка, логика оповещений, сигнатурная библиотека, алгоритмы фильтрации. Производитель может улучшать поведение прибора после продажи, если действительно поддерживает модель.</p>
+          <p>И наоборот, если устройство выпустили, продали и забыли, красивые характеристики постепенно теряют смысл. Особенно для дорогого комбо, которое покупают не на один сезон. В таком сегменте поддержка производителя — это не приятный бонус, а часть ценности устройства.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Что лучше снимает: обычный регистратор или комбо</h3>
+          <p>Есть распространенное мнение, что обычный видеорегистратор за те же деньги чаще снимает лучше комбо. В этой логике есть смысл: в обычном регистраторе большая часть стоимости уходит именно на видеочасть, а в комбо часть бюджета неизбежно занимает радарная составляющая и связанная с ней электроника.</p>
+          <p>Но превращать это в жесткое правило тоже неправильно. Дорогие современные комбо могут снимать очень достойно, особенно если производитель не пытался экономить на матрице, оптике и обработке изображения. Просто за хороший уровень видео в формате 3 в 1 обычно приходится платить больше, потому что вы покупаете не только камеру.</p>
+          <p>При оценке качества съемки лучше смотреть не только на разрешение. Важны детализация номеров днем и ночью, работа против света, читаемость в дождь, угол обзора без сильных искажений, стабильность записи, качество крепления и то, как устройство ведет себя летом на солнце и зимой после запуска автомобиля.</p>
+          <p>Красивое «4K» в характеристиках само по себе не спасает, если оптика слабая, обработка мылит изображение, а ночью номера превращаются в белые пятна. Поэтому видеочасть, как и радарную часть, лучше оценивать по реальным примерам записи, а не только по строкам в описании.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Что выбрать обычному водителю</h3>
+          <p>Если нужна только запись происходящего на дороге, без предупреждений о камерах, достаточно обычного видеорегистратора. В этом случае разумнее потратить бюджет на качество видео, надежное крепление, удобное питание, нормальную карту памяти и стабильную работу, чем переплачивать за функции, которыми водитель не будет пользоваться.</p>
+          <p>Если хочется, чтобы устройство предупреждало о большинстве стационарных камер, стоит смотреть в сторону видеорегистратора с GPS-информером. Для города это часто очень рациональный вариант: прибор остается относительно простым, но становится полезнее обычной камеры, если база камер регулярно обновляется.</p>
+          <p>Если водитель много ездит по трассам, часто бывает в разных регионах и хочет совместить видеозапись, GPS-базу и радарную часть, тогда имеет смысл рассматривать комбо 3 в 1. Но выбирать его стоит особенно внимательно: по реальным тестам, поддержке производителя, удобству обновлений и поведению в городе, а не только по количеству функций в карточке товара.</p>
+          <p>Самый правильный вопрос перед покупкой звучит не «что круче», а «что нужно именно под мои поездки». Одному человеку радарная часть действительно пригодится. Другому она будет три года ездить по маршруту дом — работа и иногда раздражать лишними сигналами. Третьему вообще важнее ночная съемка и надежность записи, чем любые предупреждения.</p>
+        </section>
+        <section class="guide-section guide-text-section guide-final">
+          <h3>Если совсем коротко</h3>
+          <p>Обычный видеорегистратор снимает дорогу и сохраняет видео. Видеорегистратор с GPS-информером снимает дорогу и предупреждает о заранее известных камерах по координатам. Комбо 3 в 1 делает все это и дополнительно пытается обнаруживать радарные комплексы по их сигналу.</p>
+          <p>Комбо не становится лучшим выбором автоматически только потому, что функций больше. Лучшим будет то устройство, которое соответствует реальным маршрутам, бюджету и ожиданиям водителя. Для города часто хватает хорошего регистратора с GPS-информером. Для частых трассовых поездок комбо может быть заметно интереснее. А если нужна только доказательная видеозапись, обычный регистратор по-прежнему остается нормальным и честным вариантом.</p>
+          <p>Главное — не путать GPS с радар-детектором, не верить слепо громким надписям на коробке и заранее понимать, за что именно вы платите. Тогда выбор становится гораздо спокойнее.</p>
+        </section>
+      </div>
+    </article>
   </div>
 </div>
 
@@ -10422,7 +11646,7 @@ html, body {
   </button>
 </nav>
 
-<script src="./devices.js?v=1.0.3"></script>
+<script src="./devices.js?v=1.0.9"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -11815,7 +13039,20 @@ function renderFavoritesPage() {
         <button class="fav-empty-btn primary" type="button" onclick="showCatalog()">Открыть каталог</button>
         <button class="fav-empty-btn" type="button" onclick="openModeChoice()">Начать подбор</button>
       </div>
+      <div class="favorites-popular" aria-label="Популярные модели">
+        <div class="mode-popular-head">
+          <span class="mode-popular-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <div class="mode-popular-copy-head">
+            <div class="mode-popular-title">Другие пользователи выбирают</div>
+            <div class="mode-popular-sub">Можно начать с популярных моделей</div>
+          </div>
+        </div>
+        <div class="mode-popular-list" id="favorites-popular-list"></div>
+      </div>
     </div>`;
+    renderModePopular("favorites-popular-list");
     return;
   }
   const comparePanel = devices.length >= 2
@@ -12003,6 +13240,15 @@ function showAbout(updateHash = true) {
   show("s-about");
   const sa = document.getElementById("s-about");
   if (sa) sa.scrollTo(0, 0);
+}
+
+function showGuide(updateHash = true) {
+  if (updateHash) setSectionHash("guide");
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  show("s-guide");
+  const sg = document.getElementById("s-guide");
+  if (sg) sg.scrollTo(0, 0);
 }
 
 // ── Очистка разделов ──
@@ -12467,7 +13713,7 @@ function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  ["s-intro","s-mode","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
+  ["s-intro","s-mode","s-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -12488,7 +13734,7 @@ function show(id) {
 
 // Подсветка активной вкладки нижнего меню по текущему экрану
 const NAV_TAB_BY_SCREEN = {
-  "s-intro": "home", "s-mode": "home", "s-question": "home", "s-loading": "home", "s-results": "home",
+  "s-intro": "home", "s-mode": "home", "s-guide": "home", "s-question": "home", "s-loading": "home", "s-results": "home",
   "s-catalog": "catalog", "s-compare": "compare", "s-favorites": "favorites", "s-about": "about",
 };
 function updateNavActive(id) {
@@ -12784,9 +14030,9 @@ const FORM_SHORT = {
   "регистратор-зеркало": "зеркало"
 };
 const FORM_SECTION = {
-  "с экраном": "Похожие устройства с экраном",
-  "без экрана": "Похожие устройства без экрана",
-  "регистратор-зеркало": "Похожие зеркала"
+  "с экраном": "Близкие альтернативы",
+  "без экрана": "Близкие альтернативы",
+  "регистратор-зеркало": "Близкие альтернативы"
 };
 const TYPE_SHORT = {
   "видеорегистратор": "регистратор",
@@ -13101,6 +14347,7 @@ const SECTION_HASH_BY_NAME = {
   catalog: "#catalog",
   favorites: "#favorites",
   compare: "#compare",
+  guide: "#guide",
   about: "#about",
 };
 
@@ -13219,6 +14466,7 @@ function openSectionFromHash() {
   if (hash === "#catalog") { showCatalog(false); return true; }
   if (hash === "#favorites") { showFavoritesSection(false); return true; }
   if (hash === "#compare") { showCompareSection(false); return true; }
+  if (hash === "#guide") { showGuide(false); return true; }
   if (hash === "#about") { showAbout(false); return true; }
   return false;
 }
@@ -13462,11 +14710,11 @@ function upgradeScore(x, d) {
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle > dAngle) score += Math.min(30, xAngle - dAngle);
-  // Радарная антенна — один из ключевых факторов: наличие рупорной антенны
-  // должно перевешивать разницу в сенсоре/матрице, а не наоборот.
+  // Радарная антенна — один из ключевых факторов. LNA здесь не считаем
+  // отдельным апгрейдом: он остается в характеристиках, но не тащит модель
+  // в блок «Похожие, но лучше» сам по себе.
   const antennaRankDiff = radarAntennaRank(x) - radarAntennaRank(d);
   if (antennaRankDiff > 0) score += antennaRankDiff * 15;
-  if (hasLNA(x) && !hasLNA(d)) score += 8;
   if (x.rear_cam && !d.rear_cam) score += 6;
   if (x.smartphone && !d.smartphone) score += 5;
   if (x.magnetic && !d.magnetic) score += 4;
@@ -13474,11 +14722,16 @@ function upgradeScore(x, d) {
 }
 
 function isBetterAlternative(x, d) {
+  // "Лучше" не может быть хуже по главному для регистратора: съёмке.
+  // Иначе модель со слабым сенсором, но большим углом/доп. камерой ошибочно
+  // всплывает как upgrade к более сильной 4K-модели.
+  if ((x.q || 0) < (d.q || 0)) return false;
+  if (shootingQualityScore(x) < shootingQualityScore(d) - 2) return false;
   return upgradeScore(x, d) > 0;
 }
 
 function similarSectionTitle(d) {
-  return FORM_SECTION[d.form] || "Похожие устройства";
+  return FORM_SECTION[d.form] || "Близкие альтернативы";
 }
 
 function isExactAnalog(x, d) {
@@ -13487,7 +14740,10 @@ function isExactAnalog(x, d) {
   if (hasGPS(x) !== hasGPS(d)) return false;
   if (hasInterpolation(x) !== hasInterpolation(d)) return false;
   if (sensorClassDifferent(x, d)) return false;
-  if (radarAntenna(x) && radarAntenna(d) && radarAntenna(x) !== radarAntenna(d)) return false;
+  const xAntenna = radarAntenna(x);
+  const dAntenna = radarAntenna(d);
+  if ((x.type === "комбо 3 в 1" || d.type === "комбо 3 в 1") && xAntenna !== dAntenna) return false;
+  if (xAntenna && dAntenna && xAntenna !== dAntenna) return false;
   if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) !== hasLNA(d)) return false;
   return ANALOG_BOOLS.every(k => x[k] === d[k]);
 }
@@ -13549,7 +14805,7 @@ function getDiffs(x, d) {
   } else if (xSensor && !dSensor && x.q >= d.q) {
     diffs.push({text: `Сенсор: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
-  // Радарная антенна и LNA — считаются сразу после разрешения/сенсора,
+  // Радарная антенна считается сразу после разрешения/сенсора,
   // чтобы это ключевое отличие не срезалось лимитом в 4 показанных тега.
   const xAntenna = radarAntenna(x);
   const dAntenna = radarAntenna(d);
@@ -13557,11 +14813,8 @@ function getDiffs(x, d) {
     const betterAntenna = radarAntennaRank(x) > radarAntennaRank(d);
     diffs.push({
       text: betterAntenna ? 'Рупорная антенна мощнее' : 'Патч-антенна слабее',
-      type: betterAntenna ? 'better' : 'worse'
+      type: betterAntenna ? 'antenna' : 'worse'
     });
-  }
-  if ((xAntenna || dAntenna) && hasLNA(x) !== hasLNA(d)) {
-    diffs.push({text: hasLNA(x) ? UI_TERMS.lna : 'Без LNA-усилителя', type: hasLNA(x) ? 'better' : 'worse'});
   }
   // Разница в цене — весомый практический аргумент, показываем сразу после
   // ключевых технических отличий, чтобы не срезалась лимитом показанных тегов.
@@ -13648,11 +14901,15 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
 }
 
 function renderAnalogCard(x, pct, diffs, delayIndex = 0) {
-  const shownDiffs = diffs ? diffs.slice(0, 4) : diffs;
+  const antenna = radarAntenna(x);
+  const antennaDiff = antenna === "horn" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
+    ? [{text: UI_TERMS.horn, type: "antenna"}]
+    : [];
+  const shownDiffs = diffs ? [...antennaDiff, ...diffs].slice(0, 4) : antennaDiff;
   const diffHtml = shownDiffs && shownDiffs.length
     ? `<div class="analog-card-diffs">${shownDiffs.map(diff => {
         const item = typeof diff === 'string' ? {text: diff} : diff;
-        const tone = item.type === 'better' || item.type === 'price' ? ' better' : item.type === 'worse' ? ' worse' : '';
+        const tone = item.type === 'antenna' ? ' antenna' : item.type === 'better' || item.type === 'price' ? ' better' : item.type === 'worse' ? ' worse' : '';
         return `<span class="analog-diff${tone}">${item.text}</span>`;
       }).join('')}</div>`
     : '';
@@ -13898,7 +15155,7 @@ function keyFeatureTagsHTML(d) {
     d.ir_cam ? 'Салонная камера' : null,
     hasGPS(d) ? 'GPS' : null,
     d.smartphone ? 'Wi-Fi' : null,
-    radarAntenna(d) ? 'Радар-детектор' : null,
+    radarAntenna(d) === "horn" ? UI_TERMS.horn : radarAntenna(d) ? 'Радар-детектор' : null,
     hasParkingMode(d) ? 'Режим парковки' : null,
     d.rotation ? 'Поворотная камера' : null,
   ].filter(Boolean);
@@ -14132,7 +15389,6 @@ function backToSearchResults() {
 function openModeChoice() {
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
-  renderModePopular();
   show("s-mode");
   const mode = document.getElementById("s-mode");
   if (mode) mode.scrollTo({top: 0, behavior: "instant"});
@@ -14161,7 +15417,7 @@ function el(id) { return document.getElementById(id); }
 
 function startQuiz() {
   qIdx = 0; answers = {};
-  el("header").style.display = "block";
+  el("header").style.display = "none";
   el("bottom-nav").style.display = "block";
   renderQ();
   show("s-question");
@@ -14399,6 +15655,7 @@ function resetSearchScene() {
 function showResults() {
   // Полный сброс — повторный подбор всегда начинается с первой фазы
   resetSearchScene();
+  el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
   el("hd-counter").style.display = "none";
   el("progress-fill").style.width = "100%";
@@ -15104,11 +16361,10 @@ function popularPlacementType(d) {
   return d && d.placementType === "promoted" ? "promoted" : "organic";
 }
 
-function renderModePopular() {
-  const list = document.getElementById("mode-popular-list");
+function renderModePopular(listId = "mode-popular-list") {
+  const list = document.getElementById(listId);
   if (!list) return;
-  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
-  const targetCount = isDesktop ? 8 : 4;
+  const targetCount = 3;
 
   // Партнёрские размещения (если есть в базе) — первыми, с маркировкой
   const promoted = DEVICES
@@ -15169,30 +16425,10 @@ document.addEventListener("click", event => {
 setupCopyEmailActions();
 setupTermTooltips();
 
-// ── Десктоп: «Ищут чаще остальных» переезжает в отдельную колонку ──
-function layoutModeColumns() {
-  const content = document.querySelector("#s-mode .mode-content");
-  const colLeft = document.querySelector("#s-mode .mode-col-left");
-  const popular = document.getElementById("mode-popular");
-  if (!content || !colLeft || !popular) return;
-  const isDesktop = window.matchMedia("(min-width: 900px)").matches;
-  if (isDesktop) {
-    if (popular.parentElement !== content) content.appendChild(popular);
-  } else {
-    if (popular.parentElement !== colLeft) colLeft.appendChild(popular);
-  }
-}
-const desktopModeQuery = window.matchMedia("(min-width: 900px)");
-desktopModeQuery.addEventListener("change", () => {
-  layoutModeColumns();
-  renderModePopular();
-});
-window.addEventListener("resize", layoutModeColumns);
 window.addEventListener("resize", () => {
   const bar = document.getElementById("cmp-bar");
   if (bar && bar.style.display !== "none") positionCompareBar(bar);
 });
-layoutModeColumns();
 renderIntroDbSticker();
 renderFavoritePanel();
 initIntroScene();
