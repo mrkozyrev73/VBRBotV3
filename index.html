@@ -1213,6 +1213,34 @@ html, body {
 .dev-profile-desc {
   margin-top: 8px;
 }
+.dev-profile-story {
+  margin: 2px 0 14px;
+  padding: 14px 15px;
+  border: 1px solid rgba(255, 115, 55, .22);
+  border-radius: 16px;
+  background: rgba(255, 115, 55, .055);
+}
+.dev-profile-story-title {
+  margin-bottom: 7px;
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.dev-profile-story p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.dev-profile-story p + p {
+  margin-top: 8px;
+}
+.dev-profile-story strong {
+  color: var(--text);
+  font-weight: 700;
+}
 .specs-full + .btn-site,
 .specs-full + .buy-links,
 .review-links + .btn-site,
@@ -9291,7 +9319,14 @@ html, body {
   background: var(--bg);
   overflow-y: auto;
 }
-#s-guide.on { display: flex !important; }
+#s-choose-guide {
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--bg);
+  overflow-y: auto;
+}
+#s-guide.on,
+#s-choose-guide.on { display: flex !important; }
 .guide-inner {
   width: 100%;
   max-width: 460px;
@@ -9340,6 +9375,12 @@ html, body {
 }
 .guide-intro-card p + p {
   margin-top: 10px;
+}
+#s-choose-guide .guide-intro-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .guide-full-article {
   margin-top: 20px;
@@ -9564,6 +9605,11 @@ html, body {
 }
 
 #s-guide {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(var(--blue-rgb), .08), transparent 260px),
+    var(--bg);
+}
+#s-choose-guide {
   background:
     radial-gradient(circle at 100% 0%, rgba(var(--blue-rgb), .08), transparent 260px),
     var(--bg);
@@ -10687,6 +10733,9 @@ canvas {
   min-height: 84px !important;
   padding: 14px 18px !important;
 }
+#s-mode:not(.mode-searching) .mode-guides {
+  margin-top: -2px;
+}
 
 @media (min-width: 900px) {
   #s-mode:not(.mode-searching) .mode-col-left {
@@ -10704,6 +10753,9 @@ canvas {
     min-height: 86px !important;
     padding: 14px 18px !important;
   }
+  #s-mode:not(.mode-searching) .mode-guides {
+    margin-top: -4px;
+  }
 }
 
 @media (max-width: 380px) {
@@ -10717,6 +10769,57 @@ canvas {
   #s-mode:not(.mode-searching) .mode-guide-card {
     min-height: 78px !important;
   }
+}
+
+.mode-guides {
+  width: 100%;
+}
+.mode-guides-label {
+  margin: 0 0 8px;
+  color: var(--text-2);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.mode-guide-post {
+  width: 100%;
+  min-height: 54px;
+  padding: 8px 0;
+  border: 0;
+  border-top: 1px solid rgba(105,113,137,.14);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.mode-guide-post:last-child {
+  border-bottom: 1px solid rgba(105,113,137,.14);
+}
+.mode-guide-post:hover .mode-guide-title {
+  color: var(--blue);
+}
+.mode-guide-post .mode-guide-title,
+.mode-guide-post .mode-guide-sub {
+  display: block;
+}
+.mode-guide-post .mode-guide-sub {
+  margin-top: 3px;
+}
+.mode-guide-post .mode-guide-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+}
+.mode-guide-post .mode-guide-arrow {
+  font-size: 22px;
+  text-align: right;
 }
 
 /* Desktop cleanup: keep dense tool headers and prevent helper cards from
@@ -11210,16 +11313,29 @@ canvas {
         <div id="intro-srch-results"></div>
       </section>
 
-      <button class="mode-guide-card" type="button" onclick="showGuide()">
-        <span class="mode-guide-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h10"/><path d="M4 19h7"/><path d="M17 15l3 3-3 3"/></svg>
-        </span>
-        <span class="mode-guide-copy">
-          <span class="mode-guide-title">Регистратор, информер или комбо?</span>
-          <span class="mode-guide-sub">Максимально подробный разбор простыми словами о сложных различиях</span>
-        </span>
-        <span class="mode-guide-arrow" aria-hidden="true">›</span>
-      </button>
+      <section class="mode-guides" aria-label="Полезные материалы">
+        <div class="mode-guides-label">Полезные материалы</div>
+        <button class="mode-guide-post" type="button" onclick="showGuide()">
+          <span class="mode-guide-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h11"/><path d="M5 10h14"/><path d="M5 15h10"/><path d="M16 18l3-3-3-3"/></svg>
+          </span>
+          <span class="mode-guide-copy">
+            <span class="mode-guide-title">Регистратор, информер или комбо?</span>
+            <span class="mode-guide-sub">Подробный разбор простыми словами о сложных различиях</span>
+          </span>
+          <span class="mode-guide-arrow" aria-hidden="true">›</span>
+        </button>
+        <button class="mode-guide-post" type="button" onclick="showChooseGuide()">
+          <span class="mode-guide-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h11"/><path d="M5 10h14"/><path d="M5 15h10"/><path d="M16 18l3-3-3-3"/></svg>
+          </span>
+          <span class="mode-guide-copy">
+            <span class="mode-guide-title">Как выбрать видеорегистратор</span>
+            <span class="mode-guide-sub">Главные характеристики простыми словами</span>
+          </span>
+          <span class="mode-guide-arrow" aria-hidden="true">›</span>
+        </button>
+      </section>
       </div>
     </div>
 
@@ -11352,6 +11468,87 @@ canvas {
           <p>Обычный видеорегистратор снимает дорогу и сохраняет видео. Видеорегистратор с GPS-информером снимает дорогу и предупреждает о заранее известных камерах по координатам. Комбо 3 в 1 делает все это и дополнительно пытается обнаруживать радарные комплексы по их сигналу.</p>
           <p>Комбо не становится лучшим выбором автоматически только потому, что функций больше. Лучшим будет то устройство, которое соответствует реальным маршрутам, бюджету и ожиданиям водителя. Для города часто хватает хорошего регистратора с GPS-информером. Для частых трассовых поездок комбо может быть заметно интереснее. А если нужна только доказательная видеозапись, обычный регистратор по-прежнему остается нормальным и честным вариантом.</p>
           <p>Главное — не путать GPS с радар-детектором, не верить слепо громким надписям на коробке и заранее понимать, за что именно вы платите. Тогда выбор становится гораздо спокойнее.</p>
+        </section>
+      </div>
+    </article>
+  </div>
+</div>
+
+<!-- ── CHOOSE GUIDE / ARTICLE ─────────────────────── -->
+<div id="s-choose-guide" class="screen">
+  <div class="guide-inner">
+    <article class="guide-article">
+      <h2 class="guide-title">Как выбрать видеорегистратор: 10 характеристик простыми словами</h2>
+      <div class="guide-intro-card">
+        <p>Видеорегистратор легко выбрать неправильно, если смотреть только на громкие надписи в карточке товара. Производитель пишет 4K, широкий угол, ночная съемка, Wi-Fi, GPS, суперконденсатор, а покупателю все равно непонятно, что из этого действительно важно.</p>
+        <p>Хорошая новость в том, что запоминать десятки терминов не нужно. Достаточно понять, какие характеристики влияют на запись, какие — на удобство, а какие просто красиво выглядят в описании.</p>
+      </div>
+      <div class="guide-full-article">
+        <section class="guide-section guide-text-section">
+          <h3>1. Разрешение: Full HD, 2K и 4K</h3>
+          <p>Разрешение отвечает за количество деталей в кадре. Full HD — базовый уровень, которого хватает, чтобы зафиксировать общую ситуацию на дороге. 2K обычно дает более приятную детализацию и лучше подходит как универсальный вариант. 4K может помочь с номерами, знаками и мелкими деталями, особенно днем.</p>
+          <p>Но главное слово здесь — «может». Само по себе 4K не делает регистратор хорошим. Если внутри слабая матрица, простая оптика или плохая обработка, картинка может быть крупной по разрешению, но мыльной по смыслу. Иногда хороший 2K снимает полезнее, чем дешевый 4K.</p>
+          <p>Поэтому разрешение стоит воспринимать как потенциал, а не как гарантию. Перед покупкой лучше смотреть реальные примеры записи: день, ночь, встречный свет, дождь, номера в движении. Именно там становится понятно, есть ли от заявленного разрешения реальная польза.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>2. Матрица и ночная съемка</h3>
+          <p>Матрица — одна из самых важных частей регистратора. Она принимает свет и превращает его в изображение. Днем разница между устройствами может быть не такой заметной, а ночью слабая матрица быстро показывает себя: шум, темная картинка, пересвеченные фары и номера, которые невозможно прочитать.</p>
+          <p>В описаниях часто встречаются Sony STARVIS, HDR, WDR, ночной режим. Это хорошие ориентиры, но не абсолютная гарантия. Важно, как производитель настроил всю связку: матрицу, объектив, процессор и обработку изображения.</p>
+          <p>Если вы часто ездите вечером, зимой, по трассе или по плохо освещенным улицам, ночную съемку лучше ставить выше многих второстепенных функций. Красивое приложение приятно, но нечитаемый номер в темноте может оказаться куда более серьезной проблемой.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>3. Угол обзора</h3>
+          <p>Угол обзора показывает, сколько пространства попадает в кадр. Если угол слишком узкий, регистратор может не захватить соседнюю полосу, обочину или важный момент сбоку. Если слишком широкий — края кадра могут сильно искажаться, а объекты становятся мельче.</p>
+          <p>Для большинства водителей нормальный диапазон — примерно 140-170 градусов. Но выбирать нужно не по максимальному числу, а по балансу: в кадре должно быть достаточно дороги, но номера и детали не должны превращаться в мелкую кашу.</p>
+          <p>Особенно осторожно стоит относиться к очень широким углам в бюджетных моделях. Иногда они хорошо выглядят на бумаге, но в реальности ухудшают читаемость по краям.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>4. Количество камер</h3>
+          <p>Одна камера снимает дорогу впереди. Это самый простой и понятный вариант. Две камеры добавляют запись сзади или внутри салона. Три камеры закрывают сразу несколько направлений: дорога, салон, задний вид.</p>
+          <p>Но больше камер — не всегда лучше. В двухканальных и трехканальных моделях важны не только количество объективов, но и качество каждой камеры. Иногда основная камера снимает хорошо, а задняя просто фиксирует общую ситуацию без нормальной детализации.</p>
+          <p>Для обычного личного автомобиля часто хватает одной хорошей камеры или комплекта 2CH. Для такси, семейных поездок, коммерческого транспорта и спорных ситуаций в салоне уже может быть полезна 3CH-модель. Главное — заранее понять, что именно вы хотите видеть на записи.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>5. Экран или скрытая установка</h3>
+          <p>Регистратор с экраном проще настроить без телефона. Можно сразу посмотреть, куда направлена камера, проверить запись, изменить параметры. Это удобно, если устройство покупается человеку, который не любит приложения и лишние настройки.</p>
+          <p>Модели без экрана обычно компактнее и аккуратнее смотрятся на стекле. Они меньше отвлекают и лучше подходят для скрытой установки, но почти всегда требуют приложения на смартфоне.</p>
+          <p>Здесь нет правильного варианта для всех. Если хочется максимум простоты — экран полезен. Если важна минималистичная установка и вы спокойно пользуетесь приложениями — можно смотреть модели без дисплея.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>6. Wi-Fi и приложение</h3>
+          <p>Wi-Fi в регистраторе нужен не для выхода в интернет, а для связи со смартфоном. Через приложение можно посмотреть ролик, скачать нужный фрагмент, изменить настройки, отформатировать карту памяти или обновить базу камер, если модель это поддерживает.</p>
+          <p>Это одна из тех функций, которые сначала кажутся необязательными, а потом сильно упрощают жизнь. Особенно если регистратор без экрана или установлен так, что доставать карту памяти неудобно.</p>
+          <p>Но есть нюанс: наличие Wi-Fi не означает, что приложение будет удобным. У одних производителей все работает понятно, у других приложение выглядит как технический компромисс. Поэтому отзывы о приложении иногда не менее важны, чем характеристики самого устройства.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>7. GPS и база камер</h3>
+          <p>GPS в характеристиках может означать разные вещи. Иногда устройство просто записывает координаты и скорость в видеофайл. Это полезно для разбора маршрута и спорных ситуаций, но само по себе не означает предупреждения о камерах.</p>
+          <p>Если вам нужны голосовые подсказки о камерах, средней скорости, полосах и других точках контроля, ищите именно GPS-информер или комбо 3 в 1. Там важна не только сама антенна GPS, но и база камер.</p>
+          <p>Главный вопрос: как часто обновляется база и насколько удобно это делать. Если обновление сложное, через компьютер и карту памяти, многие пользователи быстро перестают этим заниматься. А устаревшая база постепенно теряет смысл.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>8. Аккумулятор или суперконденсатор</h3>
+          <p>Внутренний аккумулятор в регистраторе обычно нужен не для долгой автономной работы, а для корректного завершения записи. Но маленькие аккумуляторы плохо любят жару, мороз и постоянную работу в машине.</p>
+          <p>Суперконденсатор чаще надежнее в автомобильных условиях. Он лучше переносит перепады температуры и помогает устройству корректно сохранить файл при отключении питания. Для регистратора это важнее, чем возможность несколько минут работать без провода.</p>
+          <p>Если машина часто стоит на солнце или используется зимой в мороз, наличие суперконденсатора — большой плюс для надежности.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>9. Крепление и питание</h3>
+          <p>Крепление кажется мелочью только до покупки. На практике именно оно определяет, насколько удобно пользоваться регистратором каждый день. Магнитное крепление полезно, если устройство нужно часто снимать. Поворотное крепление помогает быстро развернуть камеру, например, при разговоре с инспектором.</p>
+          <p>Питание через кронштейн тоже сильно влияет на удобство. Если провод подключается к креплению, сам регистратор проще снять и поставить обратно. Если провод каждый раз нужно вставлять в корпус, это быстро надоедает.</p>
+          <p>Еще стоит смотреть, насколько аккуратно можно проложить кабель и есть ли поддержка скрытого подключения. Хорошая установка делает устройство почти незаметным и избавляет от болтающихся проводов.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>10. Карта памяти и стабильность записи</h3>
+          <p>Карта памяти — это не аксессуар “на сдачу”, а часть системы записи. Регистратор постоянно пишет и перезаписывает видео, поэтому слабая карта может быстро начать сбоить. Самый неприятный сценарий — когда устройство вроде бы работает, но нужного ролика на карте нет.</p>
+          <p>Лучше использовать карты известных брендов, рассчитанные на видеонаблюдение, экшн-камеры или видеорегистраторы. Объем тоже важен: для 4K и двухканальной записи маленькая карта быстро забивается, а циклическая перезапись идет чаще.</p>
+          <p>Хорошая привычка — иногда проверять записи вручную. Не каждый день, но хотя бы периодически. Это простой способ убедиться, что карта жива, ролики сохраняются, дата и время корректные.</p>
+        </section>
+        <section class="guide-section guide-text-section guide-final">
+          <h3>Если совсем коротко</h3>
+          <p>Если нужен простой регистратор, смотрите на качество съемки, надежное питание, удобное крепление и хорошую карту памяти. Если часто ездите по городу и хотите подсказки о камерах, полезен GPS-информер с нормальной базой. Если много трассы и важны предупреждения не только по координатам, можно смотреть комбо 3 в 1.</p>
+          <p>Не стоит выбирать устройство только по количеству функций. Лучший регистратор — тот, который подходит под ваши маршруты, бюджет и привычки. Одному человеку важнее компактность, другому — ночная съемка, третьему — задняя камера, четвертому — спокойные предупреждения о камерах.</p>
+          <p>Хороший выбор начинается не с вопроса «какая модель самая крутая», а с вопроса «что мне действительно нужно каждый день».</p>
         </section>
       </div>
     </article>
@@ -13280,6 +13477,15 @@ function showGuide(updateHash = true) {
   if (sg) sg.scrollTo(0, 0);
 }
 
+function showChooseGuide(updateHash = true) {
+  if (updateHash) setSectionHash("chooseGuide");
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  show("s-choose-guide");
+  const sg = document.getElementById("s-choose-guide");
+  if (sg) sg.scrollTo(0, 0);
+}
+
 // ── Очистка разделов ──
 function clearCompareSection() {
   clearCompare(); // очищает список; refreshCompareUI перерисует пустое состояние
@@ -13742,7 +13948,7 @@ function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  ["s-intro","s-mode","s-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
+  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -13763,7 +13969,7 @@ function show(id) {
 
 // Подсветка активной вкладки нижнего меню по текущему экрану
 const NAV_TAB_BY_SCREEN = {
-  "s-intro": "home", "s-mode": "home", "s-guide": "home", "s-question": "home", "s-loading": "home", "s-results": "home",
+  "s-intro": "home", "s-mode": "home", "s-guide": "home", "s-choose-guide": "home", "s-question": "home", "s-loading": "home", "s-results": "home",
   "s-catalog": "catalog", "s-compare": "compare", "s-favorites": "favorites", "s-about": "about",
 };
 function updateNavActive(id) {
@@ -14377,6 +14583,7 @@ const SECTION_HASH_BY_NAME = {
   favorites: "#favorites",
   compare: "#compare",
   guide: "#guide",
+  chooseGuide: "#choose-guide",
   about: "#about",
 };
 
@@ -14496,6 +14703,7 @@ function openSectionFromHash() {
   if (hash === "#favorites") { showFavoritesSection(false); return true; }
   if (hash === "#compare") { showCompareSection(false); return true; }
   if (hash === "#guide") { showGuide(false); return true; }
+  if (hash === "#choose-guide") { showChooseGuide(false); return true; }
   if (hash === "#about") { showAbout(false); return true; }
   return false;
 }
@@ -15191,6 +15399,92 @@ function keyFeatureTagsHTML(d) {
   return candidates.slice(0, 5).map(t => `<span class="spec-tag">${t}</span>`).join('');
 }
 
+function hasDeviceScreen(d) {
+  const screen = String(d.screen || "").toLowerCase();
+  return isKnownSpecValue(d.screen) && !/без\s+экрана|нет/.test(screen);
+}
+
+function deviceCameraCount(d) {
+  const specCount = Number.parseInt(d.specs?.camera_count || "", 10);
+  if (Number.isFinite(specCount) && specCount > 0) return specCount;
+  return 1 + (d.rear_cam ? 1 : 0) + (d.ir_cam ? 1 : 0);
+}
+
+function shortQualityLabel(d) {
+  const q = QNAMES[d.q];
+  if (q === "4K") return "4K-съемкой";
+  if (q === "2K") return "2K-съемкой";
+  if (q === "Full HD") return "Full HD-съемкой";
+  return "указанным качеством съемки";
+}
+
+function joinRu(items) {
+  const clean = items.filter(Boolean);
+  if (clean.length <= 1) return clean.join("");
+  return `${clean.slice(0, -1).join(", ")} и ${clean[clean.length - 1]}`;
+}
+
+function deviceProfileDescriptionHTML(d) {
+  const type = deviceTypeLabel(d);
+  const typeRaw = String(d.type || "").toLowerCase();
+  const q = shortQualityLabel(d);
+  const camCount = deviceCameraCount(d);
+  const hasWifi = Boolean(d.smartphone || d.specs?.wifi_gen);
+  const hasGps = hasGPS(d);
+  const hasScreen = hasDeviceScreen(d);
+  const hasRadar = typeRaw === "комбо 3 в 1";
+  const antenna = radarAntenna(d);
+  const isRemote = Boolean(d.remote);
+  const hasSupercap = /суперконденс|super\s*capacitor/i.test(`${d.specs?.power_element || ""} ${d.desc || ""}`);
+
+  const featureParts = [
+    q,
+    camCount >= 3 ? "тремя камерами" : camCount === 2 ? "поддержкой задней камеры" : null,
+    d.ir_cam ? "салонной камерой" : null,
+    hasWifi ? "Wi-Fi" : null,
+    hasGps ? "GPS" : null,
+    isRemote ? "4G/удаленным доступом" : null,
+    antenna === "horn" ? "рупорной антенной" : antenna === "patch" ? "патч-антенной" : null,
+    hasScreen ? "экраном" : "без экрана",
+    hasSupercap ? "суперконденсатором" : null,
+  ];
+
+  let lead;
+  if (isRemote) {
+    lead = `${type} с ${joinRu(featureParts)}. Это вариант для тех, кому важны не только запись поездок, но и удаленные функции для контроля автомобиля.`;
+  } else if (hasRadar) {
+    lead = `${type} с ${joinRu(featureParts)}. Устройство совмещает видеозапись, GPS-базу камер и радарную часть, поэтому логичнее всего смотрится для частых поездок по городу и трассе.`;
+  } else if (isGpsInformerDisplay(d)) {
+    lead = `${type} с ${joinRu(featureParts)}. Такая модель не просто записывает дорогу, а еще предупреждает о камерах по базе координат.`;
+  } else {
+    lead = `${type} с ${joinRu(featureParts)}. Это понятный вариант для повседневной записи дороги без лишней радарной части.`;
+  }
+
+  const useCases = [];
+  if (camCount >= 2 && d.ir_cam) {
+    useCases.push("если важно видеть не только дорогу, но и салон");
+  } else if (camCount >= 2) {
+    useCases.push("если нужна запись спереди и сзади");
+  }
+  if (hasWifi) useCases.push("если хочется быстро смотреть и скачивать ролики на телефон");
+  if (hasGps && !hasRadar) useCases.push("если полезны координаты, скорость и предупреждения по базе камер");
+  if (hasRadar) {
+    useCases.push(antenna === "horn" ? "если часто бывают трассовые поездки" : "если нужна радарная часть без отдельного устройства");
+  }
+  if (!hasScreen) useCases.push("если хочется более скрытую установку");
+  if (hasSupercap) useCases.push("если важна устойчивость к жаре и морозу");
+
+  const second = useCases.length
+    ? `Модель особенно уместна, ${joinRu(useCases.slice(0, 3))}.`
+    : `При выборе стоит смотреть не только на характеристики, но и на реальные примеры записи, удобство крепления и обновления.`;
+
+  return `<div class="dev-profile-story">
+    <div class="dev-profile-story-title">Коротко о модели</div>
+    <p><strong>${attrSafe(d.name)}</strong> — ${attrSafe(lead)}</p>
+    <p>${attrSafe(second)}</p>
+  </div>`;
+}
+
 // Компактный, свёрнутый по умолчанию список параметров, которые реально
 // участвуют в поиске аналогов — без технических кодов сенсора и т.п.
 function matchCriteriaHTML(d) {
@@ -15312,7 +15606,7 @@ function renderDeviceProfile(d, exact, similar) {
         </div>
         ${deviceDecisionPanelHTML(d)}
         ${devicePhotoHTML(d)}
-        ${d.desc ? `<div class="dev-desc dev-profile-desc">${d.desc}</div>` : ''}
+        ${deviceProfileDescriptionHTML(d)}
         ${keyTags ? `<div class="specs-row">${keyTags}</div>` : ''}
         ${matchCriteriaHTML(d)}
         ${deviceFullSpecsHTML(d, DEVICES.indexOf(d))}
