@@ -11580,6 +11580,10 @@ canvas {
   min-height: 100dvh;
   padding-bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 16px) !important;
 }
+/* Заголовок первой страницы компактнее и ровно в 3 строки — поднимает контент выше меню */
+#s-intro.v2-home .home-v2-title { font-size: 23px !important; line-height: 1.16; letter-spacing: -.6px; }
+#s-intro.v2-home .home-v2-title .hv-line { display: block; }
+#s-intro.v2-home .home-v2-title .accent { display: block; font-size: 23px !important; margin-top: 6px !important; line-height: 1.16; }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -11725,7 +11729,7 @@ function enableMetrika(){
     <div class="home-v2-columns">
       <div class="home-v2-col-left">
         <section class="home-v2-hero">
-          <h1 class="home-v2-title"><span class="hv-line">Подбор</span> <span class="hv-line">видеорегистраторов и</span> <span class="hv-line">комбо-устройств</span> <span class="accent">легко и быстро</span></h1>
+          <h1 class="home-v2-title"><span class="hv-line">Подбор видеорегистраторов</span> <span class="hv-line">и комбо-устройств</span> <span class="accent">легко и быстро</span></h1>
           <p class="home-v2-subtitle">VBR БОТ помогает выбрать устройство под ваши задачи и требования</p>
           <div class="home-v2-sticker" id="intro-db-sticker">База обновляется</div>
         </section>
