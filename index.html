@@ -2736,7 +2736,7 @@ html, body {
 
 /* Compromise section — «Как расширить выбор» */
 .compromise-wrap {
-  display: flex; flex-direction: column; gap: 14px;
+  display: flex; flex-direction: column; gap: 10px;
   background: var(--violet-bg); border: 1px solid var(--violet-border);
   border-radius: 18px; padding: 14px 12px;
 }
@@ -2745,7 +2745,8 @@ html, body {
   text-transform: uppercase; letter-spacing: 0.5px;
   position: relative;
   padding-left: 53px;        /* текст в одной колонке с текстом строк ниже */
-  margin-bottom: 2px;
+  margin-bottom: 0;
+  line-height: 1.18;
 }
 .compromise-title svg {
   width: 16px; height: 16px; stroke: var(--violet-text); fill: none;
@@ -2754,9 +2755,11 @@ html, body {
 }
 /* подзаголовок — как текст блока «Такого устройства в базе нет», в той же колонке */
 .compromise-sub {
-  font-size: 14px; font-weight: 400; line-height: 1.5;
+  font-size: 14px; font-weight: 400; line-height: 1.32;
   color: var(--text-2);
   padding-left: 53px;
+  margin-top: -2px;
+  margin-bottom: 4px;
 }
 /* ── Единый компонент рекомендации (match-obstacle-card).
       Один визуальный язык на всех экранах: responsive меняет
@@ -3481,36 +3484,200 @@ html, body {
 .loading-ad {
   width: min(100%, 420px);
   margin: 0 auto;
-  padding: 16px 0 16px;
+  padding: 30px 0 4px;
 }
 .ad-banner-lg {
-  background: var(--card);
-  border: 1.5px dashed var(--border);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(var(--blue-rgb), .18), transparent 42%),
+    radial-gradient(circle at 0% 100%, rgba(61,219,255,.08), transparent 34%),
+    linear-gradient(145deg, var(--bg) 0%, var(--card) 54%, #151927 100%);
+  border: 1px solid rgba(var(--blue-rgb), .18);
   border-radius: 16px;
-  min-height: clamp(168px, 22dvh, 240px);
-  padding: 20px 16px;
+  min-height: 214px;
+  padding: 12px;
+  cursor: pointer;
+}
+.ad-banner-lg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: .55;
+  pointer-events: none;
+}
+.ad-promo-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 152px;
+  gap: 10px 12px;
+  align-items: end;
+}
+.ad-promo-copy {
+  min-width: 0;
+}
+.ad-promo-label {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--blue-rgb), .48);
+  background: rgba(var(--blue-rgb), .14);
+  color: #FFB18D;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ad-promo-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 5px rgba(var(--blue-rgb), .12);
+}
+.ad-promo-title {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+.ad-promo-title span {
+  color: var(--blue);
+}
+.ad-promo-desc {
+  margin-top: 7px;
+  color: var(--text-2);
+  font-size: 10.5px;
+  line-height: 1.3;
+}
+.ad-promo-desc b {
+  color: var(--text);
+  font-weight: 700;
+}
+.ad-promo-chips {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 9px;
+}
+.ad-promo-chip {
+  padding: 5px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.065);
+  color: var(--text);
+  font-size: 8.8px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ad-promo-product {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 9px;
+  align-items: center;
+}
+.ad-promo-photo {
+  width: 94%;
+  justify-self: center;
+  aspect-ratio: 1.45 / 1;
+  border-radius: 14px;
+  background: #fff;
+  padding: 10px 15px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.ad-promo-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ad-promo-price {
+  width: 94%;
+  justify-self: center;
+  min-height: 0;
+  padding: 0 4px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 6px;
 }
-.ad-icon-circle {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
+.ad-promo-price-note {
+  color: var(--text-2);
+  font-size: 7.6px;
+  line-height: 1;
 }
-.ad-icon-circle svg {
-  width: 19px; height: 19px;
-  stroke: var(--text-3); fill: none;
-  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+.ad-promo-price-value {
+  color: #FFB18D;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
 }
-.ad-text-lg {
-  font-size: 12px;
-  color: var(--text-3);
-  text-align: center;
-  line-height: 1.55;
+.ad-promo-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ad-promo-btn {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ad-promo-btn.site {
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.07);
+}
+.ad-promo-btn.market {
+  color: #17110e;
+  border: 1px solid rgba(var(--blue-rgb), .42);
+  background: var(--blue);
+}
+@media (max-width: 380px) {
+  .ad-promo-grid {
+    grid-template-columns: minmax(0, 1fr) 132px;
+    gap: 8px 9px;
+  }
+  .ad-promo-title {
+    font-size: 19px;
+  }
+  .ad-promo-desc {
+    font-size: 9.8px;
+  }
+  .ad-promo-chip {
+    font-size: 8px;
+    padding: 4px 5px;
+  }
+  .ad-promo-btn {
+    font-size: 9.8px;
+    min-height: 34px;
+    padding: 0 8px;
+  }
 }
 
 /* ── Ad banner ───────────────────────────────────── */
@@ -7281,6 +7448,177 @@ html, body {
   }
 }
 
+/* Desktop loading/search screen: not a stretched mobile column */
+@media (min-width: 1100px) {
+  #s-loading {
+    min-height: calc(100dvh - var(--app-nav-h) - env(safe-area-inset-bottom));
+    padding-top: 24px;
+    padding-bottom: 24px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #s-loading.on {
+    display: flex !important;
+  }
+
+  #s-loading .loading-wrap {
+    width: 100%;
+    max-width: min(1080px, calc(100vw - var(--desktop-content-inset) * 2));
+    min-height: 430px;
+    margin: 0 auto;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: minmax(360px, 430px) minmax(0, 1fr);
+    gap: 28px;
+    align-items: stretch;
+    background:
+      radial-gradient(circle at 18% 0%, rgba(var(--blue-rgb), .10), transparent 280px),
+      linear-gradient(180deg, rgba(22, 28, 41, .96), rgba(17, 22, 33, .92));
+    border: 1px solid rgba(var(--blue-rgb), .15);
+    border-radius: 28px;
+    box-shadow: 0 22px 52px rgba(0, 0, 0, .22);
+  }
+
+  #s-loading .loading-content {
+    height: 100%;
+    align-items: stretch;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  #s-loading .compare-loader {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow: none;
+  }
+
+  #s-loading .compare-model {
+    min-height: 108px;
+  }
+
+  #s-loading .loading-title,
+  #s-loading .loading-sub {
+    text-align: left;
+  }
+
+  #s-loading .loading-title {
+    margin: 2px 0 0;
+    font-size: 24px;
+    line-height: 1.15;
+  }
+
+  #s-loading .loading-sub {
+    margin: -8px 0 4px;
+    line-height: 1.35;
+    min-height: 20px;
+  }
+
+  #s-loading .search-card {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.06);
+    background: rgba(13, 18, 28, .58);
+  }
+
+  #s-loading .loading-ad {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  #s-loading .ad-banner-lg {
+    height: 100%;
+    min-height: 0;
+    padding: 22px;
+    border-radius: 24px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  #s-loading .ad-promo-grid {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(176px, 220px);
+    grid-template-rows: 1fr auto;
+    gap: 16px 18px;
+    align-items: center;
+  }
+
+  #s-loading .ad-promo-copy {
+    align-self: center;
+  }
+
+  #s-loading .ad-promo-label {
+    font-size: 10px;
+  }
+
+  #s-loading .ad-promo-title {
+    margin-top: 12px;
+    font-size: clamp(26px, 2.2vw, 34px);
+    line-height: 1;
+  }
+
+  #s-loading .ad-promo-desc {
+    max-width: 470px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.42;
+  }
+
+  #s-loading .ad-promo-chips {
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  #s-loading .ad-promo-chip {
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+
+  #s-loading .ad-promo-product {
+    align-self: center;
+    gap: 12px;
+  }
+
+  #s-loading .ad-promo-photo {
+    width: 100%;
+    max-width: 220px;
+    padding: 16px 18px;
+    border-radius: 18px;
+  }
+
+  #s-loading .ad-promo-price {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #s-loading .ad-promo-price-value {
+    font-size: 20px;
+  }
+
+  #s-loading .ad-promo-price-note {
+    font-size: 9px;
+  }
+
+  #s-loading .ad-promo-actions {
+    grid-column: 1 / -1;
+    align-self: end;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #s-loading .ad-promo-btn {
+    min-height: 42px;
+    font-size: 12px;
+  }
+}
+
 /* ══════════════════════════════════════════════════════════
    MODE PAGE UX PASS — «С чего начнём?»: два равнозначных
    сценария (подбор / знаю модель), компактнее и спокойнее
@@ -8283,7 +8621,12 @@ html, body {
   #s-results .compromise-icon svg { width: 17px; height: 17px; }
   #s-results .compromise-title { padding-left: 60px; }
   #s-results .compromise-title svg { left: 14px; }
-  #s-results .compromise-sub { padding-left: 60px; }
+  #s-results .compromise-sub {
+    padding-left: 60px;
+    line-height: 1.3;
+    margin-top: -3px;
+    margin-bottom: 2px;
+  }
   #s-results .compromise-info { max-width: 620px; gap: 2px; }
   #s-results .compromise-limiter { font-size: 13px; }
   #s-results .compromise-text { font-size: 12px; }
@@ -8334,7 +8677,7 @@ html, body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 380px;
     grid-template-areas:
-      "header  sidebar"
+      "header  header"
       "list    sidebar"
       "restart sidebar";
     column-gap: 32px;
@@ -8348,11 +8691,12 @@ html, body {
   .results-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+    align-self: start;
     position: sticky;
-    top: var(--dt-top);
-    padding-top: 22px; /* = верхний отступ .res-header: чип и заголовок на одной линии */
-    max-height: calc(100vh - var(--dt-top) - 24px);
+    top: 42px;
+    padding-top: 0;
+    max-height: calc(100dvh - 42px - var(--app-nav-h) - env(safe-area-inset-bottom) - 18px);
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -8364,6 +8708,37 @@ html, body {
   .results-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
   .results-sidebar .chips-wrap { padding: 0 !important; }
   .results-sidebar .no-exact-notice { margin: 0; }
+  #s-results .results-sidebar .no-exact-notice {
+    padding: 16px 18px;
+  }
+  #s-results .results-sidebar .no-exact-notice-text {
+    font-size: 13px;
+    line-height: 1.42;
+  }
+  #s-results .results-sidebar .no-exact-notice-text strong {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  #s-results .results-sidebar .compromise-wrap {
+    gap: 9px;
+    padding: 14px 12px;
+  }
+  #s-results .results-sidebar .compromise-title {
+    font-size: 13px;
+    line-height: 1.15;
+    padding-left: 42px;
+  }
+  #s-results .results-sidebar .compromise-title svg {
+    left: 10px;
+    top: 0;
+  }
+  #s-results .results-sidebar .compromise-sub {
+    padding-left: 42px;
+    font-size: 12px;
+    line-height: 1.28;
+    margin-top: -2px;
+    margin-bottom: 2px;
+  }
   /* в узкой колонке — mobile-компоновка того же компонента:
      текст, под ним одинаковая полноширинная кнопка */
   #s-results .results-sidebar .compromise-row {
@@ -10361,6 +10736,10 @@ html, body {
     font-size: 10.8px !important;
     line-height: 1.22 !important;
   }
+
+  #s-mode:not(.mode-searching) .mode-guides {
+    margin-top: 20px !important;
+  }
 }
 
 @media (max-width: 380px) {
@@ -11056,6 +11435,78 @@ canvas {
     margin-right: auto !important;
   }
 }
+
+/* Desktop choice screen: two primary actions on the left, useful reading on
+   the right. Mobile keeps the simple single-column order. */
+@media (min-width: 900px) {
+  #s-mode:not(.mode-searching) .mode-content {
+    display: grid !important;
+    grid-template-columns: minmax(0, 720px) minmax(300px, 420px);
+    column-gap: clamp(36px, 5vw, 72px) !important;
+    align-items: start;
+    justify-content: space-between;
+    margin-top: 20px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-col-left {
+    width: 100% !important;
+    max-width: 720px !important;
+    margin: 0 !important;
+    gap: 24px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guides {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 !important;
+    align-self: start;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guide-post {
+    min-height: 62px;
+    padding: 10px 0;
+    grid-template-columns: 36px minmax(0, 1fr) 20px;
+    gap: 12px;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guide-post .mode-guide-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 12px !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guide-post .mode-guide-title {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  #s-mode:not(.mode-searching) .mode-guide-post .mode-guide-sub {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    line-height: 1.28 !important;
+  }
+
+  #s-mode.mode-searching .mode-guides {
+    display: none !important;
+  }
+}
+
+/* Desktop article readability: both guide pages use the same comfortable
+   reading column inside the shared app corridor. */
+@media (min-width: 900px) {
+  #s-guide .guide-article,
+  #s-choose-guide .guide-article {
+    width: 100% !important;
+    max-width: 760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  #s-guide .guide-title,
+  #s-choose-guide .guide-title {
+    max-width: 760px !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -11133,10 +11584,10 @@ canvas {
         <div class="hd-sub">Ваш путеводитель в мире регистраторов!</div>
       </div>
     </div>
-    <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-hd-donate" id="btn-hd-donate">
+    <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="btn-hd-donate" id="btn-hd-donate">
       ☕ Поддержать
     </a>
-    <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="hd-support-block">
+    <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="hd-support-block">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6c-1.7-1.7-4.4-1.7-6.1 0L12 7.3 9.3 4.6c-1.7-1.7-4.4-1.7-6.1 0s-1.7 4.4 0 6.1L12 19.5l8.8-8.8c1.7-1.7 1.7-4.4 0-6.1Z"/></svg>
       <span>Донат и поддержка</span>
     </a>
@@ -11312,6 +11763,7 @@ canvas {
         </div>
         <div id="intro-srch-results"></div>
       </section>
+      </div>
 
       <section class="mode-guides" aria-label="Полезные материалы">
         <div class="mode-guides-label">Полезные материалы</div>
@@ -11336,7 +11788,6 @@ canvas {
           <span class="mode-guide-arrow" aria-hidden="true">›</span>
         </button>
       </section>
-      </div>
     </div>
 
     <div class="home-v2-spacer"></div>
@@ -11646,14 +12097,34 @@ canvas {
 
     <!-- Ad pinned to bottom -->
     <div class="loading-ad">
-      <div class="ad-banner-lg">
-        <div class="ad-icon-circle">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 11v2M18 4.5C15 7 10 8 7 8H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2c3 0 8 1 11 3.5V4.5z"/>
-            <path d="M7 14l1.5 5h2L9 14"/>
-          </svg>
+      <div class="ad-banner-lg" role="button" tabindex="0" onclick="openPromoDevice(event)" onkeydown="onPromoDeviceKey(event)" aria-label="Открыть карточку TrendVision Nano 2K Wi‑Fi CPL GPS">
+        <div class="ad-promo-grid">
+          <div class="ad-promo-copy">
+            <div class="ad-promo-label">Универсальный вариант</div>
+            <div class="ad-promo-title">TrendVision Nano <span>2K</span></div>
+            <div class="ad-promo-desc"><b>TrendVision Nano 2K Wi‑Fi CPL GPS</b> — компактный видеорегистратор с 2K, Wi‑Fi, GPS‑модулем и CPL‑фильтром. Управление со смартфона через Viidure.</div>
+            <div class="ad-promo-chips" aria-label="Ключевые характеристики">
+              <span class="ad-promo-chip">2K</span>
+              <span class="ad-promo-chip">Wi‑Fi</span>
+              <span class="ad-promo-chip">GPS</span>
+              <span class="ad-promo-chip">CPL</span>
+              <span class="ad-promo-chip">Магнит</span>
+            </div>
+          </div>
+          <div class="ad-promo-product">
+            <div class="ad-promo-photo">
+              <img src="assets/devices/trendvision-nano-2k-wi-fi-cpl-gps.webp" alt="TrendVision Nano 2K Wi‑Fi CPL GPS" loading="lazy" decoding="async">
+            </div>
+            <div class="ad-promo-price" aria-label="Примерная цена">
+              <span class="ad-promo-price-value">~3 500 ₽</span>
+              <span class="ad-promo-price-note">цена может измениться</span>
+            </div>
+          </div>
+          <div class="ad-promo-actions">
+              <a class="ad-promo-btn site" href="https://trendvision.ru/products/trendvision-nano-2k-wi-fi-cpl-gps/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Официальный сайт</a>
+              <a class="ad-promo-btn market" href="https://market.yandex.ru/cc/A4WfzR" target="_blank" rel="noopener" onclick="event.stopPropagation()">Купить на Я.Маркет</a>
+          </div>
         </div>
-        <div class="ad-text-lg">Здесь может быть<br>ваша реклама</div>
       </div>
     </div>
   </div>
@@ -11698,7 +12169,7 @@ canvas {
           <div class="support-title">Поддержать проект</div>
           <div class="support-sub">На развитие базы и проверку моделей.</div>
         </div>
-        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">Донат</a>
+        <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="btn-support">Донат</a>
       </div>
       <div class="support-or">или</div>
       <button type="button" class="support-contact-row copy-email" data-email="partners@vbrbot.ru" aria-label="Скопировать email для сотрудничества">
@@ -12049,7 +12520,7 @@ function deviceKey(d) {
 function manufacturerSearchUrl(d) {
   const q = encodeURIComponent((d.name || "").trim());
   const brand = String(d.brand || "").toLowerCase();
-  const fallback = d.url || `https://www.google.com/search?q=${q}`;
+  const fallback = safeExternalUrl(d.url, `https://www.google.com/search?q=${q}`);
 
   if (brand === "ibox") return `https://iboxstore.ru/search/?q=${q}`;
   if (brand === "roadgid") return `https://roadgid.ru/?s=${q}&post_type=product`;
@@ -12439,9 +12910,9 @@ function renderCompareScreen() {
         <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
       <div class="cmp-card-thumb">${thumbSrc ? `<img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">` : `<svg viewBox="0 0 24 24"><rect x="3" y="7" width="14" height="11" rx="2"/><path d="M17 10l4-2v8l-4-2z"/></svg>`}</div>
-      <div class="cmp-card-brand">${d.brand}</div>
-      <div class="cmp-card-name">${d.name}</div>
-      <div class="cmp-card-price">${d.price || 'цена не указана'}</div>
+      <div class="cmp-card-brand">${attrSafe(d.brand)}</div>
+      <div class="cmp-card-name">${attrSafe(d.name)}</div>
+      <div class="cmp-card-price">${attrSafe(d.price || 'цена не указана')}</div>
     </div>`;
   }).join("");
 
@@ -12454,9 +12925,9 @@ function renderCompareScreen() {
 
   const rowsHtml = rows.map((row, i) => `
     <div class="cmp-row cmp-row-anim" style="animation-delay:${Math.min(i * 22, 260)}ms">
-      <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${row.icon}"/></svg>${row.label}</div>
+      <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${attrSafe(row.icon)}"/></svg>${attrSafe(row.label)}</div>
       <div class="cmp-row-cells cmp-cols-${devices.length}">
-        ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${c.text}</div>`).join("")}
+        ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${attrSafe(c.text)}</div>`).join("")}
       </div>
     </div>
   `).join("");
@@ -14106,10 +14577,10 @@ function onIntroSearch(val) {
     return `<div${animAttr} onclick="openDeviceFromIntro(${idx})" role="button" tabindex="0">
       <div class="isr-thumb">${thumbHtml}</div>
       <div class="isr-info">
-        <div class="isr-brand">${d.brand}</div>
-        <div class="isr-name">${d.name}</div>
-        ${meta ? `<div class="isr-meta">${meta}</div>` : ''}
-        ${d.price ? `<div class="isr-price">${d.price}</div>` : ''}
+        <div class="isr-brand">${attrSafe(d.brand)}</div>
+        <div class="isr-name">${attrSafe(d.name)}</div>
+        ${meta ? `<div class="isr-meta">${attrSafe(meta)}</div>` : ''}
+        ${d.price ? `<div class="isr-price">${attrSafe(d.price)}</div>` : ''}
       </div>
       <svg class="isr-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
@@ -14303,6 +14774,26 @@ function attrSafe(text) {
     .replace(/>/g, "&gt;");
 }
 
+function safeExternalUrl(raw, fallback = "") {
+  const value = String(raw || "").trim();
+  if (!value) return fallback ? safeExternalUrl(fallback) : "";
+  try {
+    const url = new URL(value, location.href);
+    return /^https?:$/i.test(url.protocol) ? url.href : "";
+  } catch(e) {
+    return fallback ? safeExternalUrl(fallback) : "";
+  }
+}
+
+function safeAssetPath(raw) {
+  const value = String(raw || "").trim();
+  if (!value) return "";
+  if (/^(?:https?:)?\/\//i.test(value)) return "";
+  if (!/^assets\/[a-z0-9._\/%-]+$/i.test(value)) return "";
+  if (value.includes("..")) return "";
+  return value;
+}
+
 function termTip(key) {
   const text = TERM_HELP[key];
   const safe = attrSafe(text);
@@ -14335,8 +14826,7 @@ function deviceTypeLabel(d) {
 function deviceImageSrc(d) {
   const src = d?.image || d?.photoLocal || "";
   if (!isKnownSpecValue(src)) return "";
-  if (/^https?:\/\//i.test(src)) return "";
-  return src;
+  return safeAssetPath(src);
 }
 
 function devicePhotoHTML(d) {
@@ -14472,16 +14962,16 @@ function makeSearchCard(item, isExact) {
   if (d.rear_cam)   badges.push({text: "Поддержка КЗВ", hi: false});
 
   const badgesHTML = badges.map(b =>
-    `<span class="srch-badge${b.hi ? " hi" : ""}">${b.text}</span>`
+    `<span class="srch-badge${b.hi ? " hi" : ""}">${attrSafe(b.text)}</span>`
   ).join("");
 
   return `
     <div class="srch-match-card${isExact ? " is-exact" : ""}" onclick="openDeviceFromSearch(${DEVICES.indexOf(d)})">
       <div class="srch-match-info">
-        <div class="srch-match-brand">${d.brand}</div>
-        <div class="srch-match-name">${d.name}</div>
+        <div class="srch-match-brand">${attrSafe(d.brand)}</div>
+        <div class="srch-match-name">${attrSafe(d.name)}</div>
         <div class="srch-match-badges">${badgesHTML}</div>
-        <div class="srch-price">${d.price || ""}</div>
+        <div class="srch-price">${attrSafe(d.price || "")}</div>
       </div>
       <div class="srch-match-right">
         <div class="srch-match-actions">${favoriteButtonHTML(d)}${compareButtonHTML(d)}</div>
@@ -14864,6 +15354,21 @@ function openDeviceFromSearch(idx) {
   renderDeviceProfile(d, exact, similar);
 }
 
+function openPromoDevice(event) {
+  if (event && event.target && event.target.closest && event.target.closest('a')) return;
+  const idx = DEVICES.findIndex(d => d && d.name === "TrendVision Nano 2K Wi-Fi CPL GPS");
+  if (idx < 0) return;
+  lastSearchOrigin = 'intro';
+  lastSearchQuery = '';
+  openDeviceFromSearch(idx);
+}
+
+function onPromoDeviceKey(event) {
+  if (!event || (event.key !== "Enter" && event.key !== " ")) return;
+  event.preventDefault();
+  openPromoDevice(event);
+}
+
 function hasGPS(d) { return !!(isKnownSpecValue(d.gps) && d.gps !== 'нет'); }
 
 function primaryAngle(d) {
@@ -15164,13 +15669,13 @@ function renderAnalogCard(x, pct, diffs, delayIndex = 0) {
     <div class="analog-card-hdr"></div>
     ${thumbHtml}
     <div class="analog-card-body">
-      <div class="analog-card-brand">${x.brand}</div>
-      <div class="analog-card-name">${x.name}</div>
-      <div class="analog-card-status${isDim ? '' : ' full'}">${statusText}</div>
+      <div class="analog-card-brand">${attrSafe(x.brand)}</div>
+      <div class="analog-card-name">${attrSafe(x.name)}</div>
+      <div class="analog-card-status${isDim ? '' : ' full'}">${attrSafe(statusText)}</div>
       ${explanation}
       ${diffHtml}
       <div class="analog-card-bottom">
-        <div class="analog-card-price">${x.price}</div>
+        <div class="analog-card-price">${attrSafe(x.price)}</div>
       </div>
     </div>
     <div class="analog-card-side">
@@ -15301,14 +15806,16 @@ function sortExactAnalogsForProfile(items, d) {
 }
 
 function buyLinksHTML(d) {
-  const hasSite = !!d.url;
-  const hasMarket = !!d.market_url;
+  const siteUrl = safeExternalUrl(manufacturerSearchUrl(d));
+  const marketUrl = safeExternalUrl(d.market_url);
+  const hasSite = !!siteUrl;
+  const hasMarket = !!marketUrl;
   if (!hasSite && !hasMarket) return '';
-  const siteBtn = hasSite ? `<a class="btn-site" href="${attrSafe(manufacturerSearchUrl(d))}" target="_blank" rel="noopener">
+  const siteBtn = hasSite ? `<a class="btn-site" href="${attrSafe(siteUrl)}" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       <span>${hasMarket ? 'Сайт производителя' : 'Найти на сайте производителя'}</span>
     </a>` : '';
-  const marketBtn = hasMarket ? `<a class="btn-market" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
+  const marketBtn = hasMarket ? `<a class="btn-market" href="${attrSafe(marketUrl)}" target="_blank" rel="noopener">
       <span class="btn-market-logo" aria-hidden="true">Я</span>
       <span>Купить на Я.Маркет</span>
     </a>` : '';
@@ -15341,7 +15848,7 @@ function supportDonateCardHTML() {
         <div class="support-title">Поддержать проект</div>
         <div class="support-sub">На развитие базы и проверку моделей.</div>
       </div>
-      <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" class="btn-support">Донат</a>
+      <a href="https://pay.cloudtips.ru/p/e59b49db" target="_blank" rel="noopener" class="btn-support">Донат</a>
     </div>
   </div>`;
 }
@@ -15370,10 +15877,10 @@ function positiveFeatureTagsHTML(d) {
 
 function deviceSpecGridHTML(d) {
   return `<div class="dev-specs-grid">
-    <div class="spec-cell"><div class="spec-cell-label">Разрешение</div><div class="spec-cell-val">${isKnownSpecValue(d.resolution) ? d.resolution : '—'}</div></div>
-    <div class="spec-cell"><div class="spec-cell-label">Угол обзора</div><div class="spec-cell-val">${isKnownSpecValue(d.angle) ? d.angle : '—'}</div></div>
-    <div class="spec-cell"><div class="spec-cell-label">Экран</div><div class="spec-cell-val">${isKnownSpecValue(d.screen) ? d.screen : '—'}</div></div>
-    <div class="spec-cell"><div class="spec-cell-label">Сенсор</div><div class="spec-cell-val">${sensorLabel(d) || '—'}</div></div>
+    <div class="spec-cell"><div class="spec-cell-label">Разрешение</div><div class="spec-cell-val">${attrSafe(isKnownSpecValue(d.resolution) ? d.resolution : '—')}</div></div>
+    <div class="spec-cell"><div class="spec-cell-label">Угол обзора</div><div class="spec-cell-val">${attrSafe(isKnownSpecValue(d.angle) ? d.angle : '—')}</div></div>
+    <div class="spec-cell"><div class="spec-cell-label">Экран</div><div class="spec-cell-val">${attrSafe(isKnownSpecValue(d.screen) ? d.screen : '—')}</div></div>
+    <div class="spec-cell"><div class="spec-cell-label">Сенсор</div><div class="spec-cell-val">${attrSafe(sensorLabel(d) || '—')}</div></div>
   </div>`;
 }
 
@@ -15512,7 +16019,7 @@ function matchCriteriaHTML(d) {
       По каким параметрам ищем аналоги · ${list.length} <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
-      ${list.map(label => `<div class="specs-full-row"><span class="specs-full-label">✓ ${label}</span></div>`).join('')}
+      ${list.map(label => `<div class="specs-full-row"><span class="specs-full-label">✓ ${attrSafe(label)}</span></div>`).join('')}
     </div>
   </div>`;
 }
@@ -15528,8 +16035,8 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
     </button>
     <div class="specs-full-body">
       ${rows.map(([label, val]) => `<div class="specs-full-row">
-        <span class="specs-full-label">${label}</span>
-        <span class="specs-full-val">${val}</span>
+        <span class="specs-full-label">${attrSafe(label)}</span>
+        <span class="specs-full-val">${attrSafe(val)}</span>
       </div>`).join("")}
     </div>
   </div>`;
@@ -15538,8 +16045,10 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
 // Компактный блок полезных ссылок: вторичные (обзоры/сайт) + основной CTA "Купить".
 function usefulLinksHTML(d) {
   const query = encodeURIComponent((d.brand + " " + d.name + " обзор").trim());
-  const hasSite = !!d.url;
-  const hasMarket = !!d.market_url;
+  const siteUrl = safeExternalUrl(manufacturerSearchUrl(d));
+  const marketUrl = safeExternalUrl(d.market_url);
+  const hasSite = !!siteUrl;
+  const hasMarket = !!marketUrl;
 
   const secondaryBtns = [
     `<a class="btn-link-secondary" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
@@ -15550,13 +16059,13 @@ function usefulLinksHTML(d) {
       <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="5" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
       <span>Rutube</span>
     </a>`,
-    hasSite ? `<a class="btn-link-secondary" href="${attrSafe(manufacturerSearchUrl(d))}" target="_blank" rel="noopener">
+    hasSite ? `<a class="btn-link-secondary" href="${attrSafe(siteUrl)}" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       <span>Сайт</span>
     </a>` : ''
   ].filter(Boolean).join('');
 
-  const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(d.market_url)}" target="_blank" rel="noopener">
+  const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(marketUrl)}" target="_blank" rel="noopener">
       <span class="btn-market-logo" aria-hidden="true">Я</span>
       <span>Посмотреть на Маркете</span>
     </a>` : '';
@@ -15596,13 +16105,13 @@ function renderDeviceProfile(d, exact, similar) {
     </div>
     <div class="dev-hero">
       <div class="dev-hero-header">
-        <span class="dev-hero-header-brand">${d.brand}</span>
-        <span class="dev-hero-header-type">${deviceTypeLabel(d)}</span>
+        <span class="dev-hero-header-brand">${attrSafe(d.brand)}</span>
+        <span class="dev-hero-header-type">${attrSafe(deviceTypeLabel(d))}</span>
       </div>
       <div class="dev-hero-body">
         <div class="dev-profile-title">
-          <div class="dev-name">${d.name}</div>
-          <div class="dev-profile-meta">${deviceTypeLabel(d)} · ${QNAMES[d.q] || "качество не указано"}</div>
+          <div class="dev-name">${attrSafe(d.name)}</div>
+          <div class="dev-profile-meta">${attrSafe(deviceTypeLabel(d))} · ${attrSafe(QNAMES[d.q] || "качество не указано")}</div>
         </div>
         ${deviceDecisionPanelHTML(d)}
         ${devicePhotoHTML(d)}
@@ -15929,7 +16438,7 @@ function swapLoadingText(elem, text) {
 }
 
 // ════════════════════════════════════════════════════════
-//  SEARCH SCENE — сцена процесса поиска (~4800 мс).
+//  SEARCH SCENE — сцена процесса поиска.
 //  Реальный расчёт выполняется мгновенно в начале и сохраняется;
 //  дальше проигрывается визуальное объяснение логики VBR БОТ:
 //  анализ ответов → сравнение базы → проверка совпадений → отбор.
@@ -15992,18 +16501,18 @@ function showResults() {
   el("loading-sub2").classList.remove("loading-text-out");
   show("s-loading");
 
-  // Централизованный таймлайн сцены (~4800 мс)
-  [400, 1300, 2300, 3300].forEach((t, i) => {
+  // Централизованный таймлайн сцены (~9000 мс).
+  [400, 2000, 4000, 6000].forEach((t, i) => {
     loadingTimers.push(setTimeout(() => setSearchPhase(i + 1), t));
   });
   loadingTimers.push(setTimeout(() => {
     el("s-loading").classList.add("search-done");
     swapSearchStatus(el("loading-sub"), "Готово");
-  }, 4300));
+  }, 8000));
   loadingTimers.push(setTimeout(() => {
     resetSearchScene();
     _renderResults(_lastTop); // переход к заранее рассчитанным результатам
-  }, 4800));
+  }, 9000));
 }
 
 // Реально выбранные пользователем требования (без «неважно») — единый источник
@@ -16421,18 +16930,18 @@ function _renderResults(top) {
 
       card.innerHTML = `
       <div class="dev-card-header">
-        <span class="dev-card-header-brand">${d.brand}</span>
-        <span class="dev-card-header-type">${deviceTypeLabel(d)}</span>
+        <span class="dev-card-header-brand">${attrSafe(d.brand)}</span>
+        <span class="dev-card-header-type">${attrSafe(deviceTypeLabel(d))}</span>
       </div>
       <div class="dev-body">
         <div class="dev-meta">
-          <div class="match-pill ${isExact || isUpgrade ? "hi" : mc}" role="button" tabindex="0" onclick="toggleMatchPopover(event, this)" data-matched="${rmPill.matchedCount}" data-total="${rmPill.total}" title="Как считаем совпадение?">${pillLabel}</div>
+          <div class="match-pill ${isExact || isUpgrade ? "hi" : mc}" role="button" tabindex="0" onclick="toggleMatchPopover(event, this)" data-matched="${rmPill.matchedCount}" data-total="${rmPill.total}" title="Как считаем совпадение?">${attrSafe(pillLabel)}</div>
           <div class="dev-card-actions">${compareChipHTML(d)}</div>
         </div>
         <div class="card-toggle">
           <div style="flex:1;min-width:0;">
-            <div class="dev-name">${d.name}</div>
-            ${d.price ? `<div class="dev-price">${d.price}</div>` : ''}
+            <div class="dev-name">${attrSafe(d.name)}</div>
+            ${d.price ? `<div class="dev-price">${attrSafe(d.price)}</div>` : ''}
           </div>
           <span class="card-toggle-arrow" aria-hidden="true">›</span>
         </div>
@@ -16440,7 +16949,7 @@ function _renderResults(top) {
         <div class="card-collapsible">
           ${devicePhotoHTML(d)}
           ${reqMatchHTML(item, isExact, isUpgrade)}
-          ${deviceFullSpecsHTML(d, `res-${i}-${d.brand.replace(/\s/g,'')}`)}
+          ${deviceFullSpecsHTML(d, `res-${i}-${devIndex}`)}
           ${usefulLinksHTML(d)}
         </div>
       </div>
