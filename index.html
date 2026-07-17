@@ -11536,7 +11536,60 @@ canvas {
     max-width: 760px !important;
   }
 }
+/* Согласие с политикой на первой странице + ссылка на страницу политики */
+.home-v2-consent {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-2);
+  text-align: center;
+}
+.policy-link {
+  background: none; border: 0; padding: 0; font: inherit;
+  color: var(--text); text-decoration: underline; text-underline-offset: 2px;
+  cursor: pointer;
+}
+.policy-link:hover { color: var(--blue); }
+/* Страница «Политика конфиденциальности» — в стиле гайда */
+.policy-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 6px 0; margin-bottom: 10px;
+  color: var(--text-2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.policy-back svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.policy-back:hover { color: var(--text); }
+/* Компактное окошко согласия на обработку данных (между строкой о конфиденциальности и меню) */
+.consent-card {
+  margin-top: 12px;
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 12px 14px;
+}
+.consent-card input {
+  width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+  accent-color: var(--blue); cursor: pointer;
+}
+.consent-card label { font-size: 12px; line-height: 1.42; color: var(--text-2); cursor: pointer; }
+.consent-card .policy-link { font-size: 12px; }
+/* «Начать подбор» заблокирована, пока нет согласия */
+.home-v2-start:disabled,
+.home-v2-start.is-locked { opacity: .5; cursor: not-allowed; box-shadow: none; filter: grayscale(.15); }
 </style>
+<!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
+<script type="text/javascript">
+function enableMetrika(){
+    if (window._ymInited) return;
+    window._ymInited = true;
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110272214', 'ym');
+    ym(110272214, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+}
+</script>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -11621,8 +11674,8 @@ canvas {
       <span>Донат и поддержка</span>
     </a>
     <div class="hd-privacy-block">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-      <span>Конфиденциально. Никаких личных данных.</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg>
+      <span>Быстро · Бесплатно · Без регистрации</span>
     </div>
     <button type="button" class="hd-contact-block copy-email" data-email="partners@vbrbot.ru" aria-label="Скопировать email для сотрудничества">
       <div class="hd-contact-icon">
@@ -11716,9 +11769,13 @@ canvas {
         <span>partners@vbrbot.ru</span>
       </button>
       <div class="privacy">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>Конфиденциально. Никаких личных данных.</span>
+        <svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg>
+        <span>Быстро · Бесплатно · Без регистрации</span>
       </div>
+    </div>
+    <div class="consent-card" id="consent-card">
+      <input type="checkbox" id="consent-checkbox">
+      <label for="consent-checkbox">Согласен на обработку данных и использование cookie. <button type="button" class="policy-link" onclick="showPolicy()">Политика конфиденциальности</button></label>
     </div>
   </div>
 </div>
@@ -11830,8 +11887,8 @@ canvas {
         <span>partners@vbrbot.ru</span>
       </button>
       <div class="privacy">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>Конфиденциально. Никаких личных данных.</span>
+        <svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg>
+        <span>Быстро · Бесплатно · Без регистрации</span>
       </div>
     </div>
   </div>
@@ -12029,6 +12086,46 @@ canvas {
           <p>Если нужен простой регистратор, смотрите на качество съемки, надежное питание, удобное крепление и хорошую карту памяти. Если часто ездите по городу и хотите подсказки о камерах, полезен GPS-информер с нормальной базой. Если много трассы и важны предупреждения не только по координатам, можно смотреть комбо 3 в 1.</p>
           <p>Не стоит выбирать устройство только по количеству функций. Лучший регистратор — тот, который подходит под ваши маршруты, бюджет и привычки. Одному человеку важнее компактность, другому — ночная съемка, третьему — задняя камера, четвертому — спокойные предупреждения о камерах.</p>
           <p>Хороший выбор начинается не с вопроса «какая модель самая крутая», а с вопроса «что мне действительно нужно каждый день».</p>
+        </section>
+      </div>
+    </article>
+  </div>
+</div>
+
+<!-- ── PRIVACY POLICY ──────────────────────────────── -->
+<div id="s-policy" class="screen">
+  <div class="guide-inner">
+    <button class="policy-back" type="button" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Назад
+    </button>
+    <article class="guide-article">
+      <h2 class="guide-title">Политика конфиденциальности</h2>
+      <div class="guide-full-article">
+        <section class="guide-section guide-text-section">
+          <h3>Общие положения</h3>
+          <p>Настоящая Политика конфиденциальности определяет порядок использования файлов Cookie и сервиса веб-аналитики при использовании сайта VBR БОТ.</p>
+          <p>Используя сайт, вы соглашаетесь с условиями настоящей Политики.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Использование Cookie</h3>
+          <p>Для корректной работы сайта используются файлы Cookie. Они помогают сохранять настройки пользователя, обеспечивать стабильную работу сервиса и улучшать его функциональность.</p>
+          <p>При желании вы можете отключить использование Cookie в настройках своего браузера. При этом некоторые функции сайта могут работать некорректно.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Использование Яндекс.Метрики</h3>
+          <p>На сайте размещены счетчики <strong>Яндекс.Метрики</strong> для сбора обезличенной информации об использовании сайта, включая частоту посещений, просмотренные страницы, источники переходов и другие статистические сведения.</p>
+          <p>Яндекс.Метрика размещает постоянный Cookie-файл в вашем браузере для распознавания вас как уникального пользователя при повторных посещениях сайта. Этот Cookie-файл используется исключительно сервисом Яндекс, которому передаются сведения, собранные с его помощью.</p>
+          <p>Владелец сайта использует информацию, полученную через Яндекс.Метрику, только для анализа посещаемости, улучшения работы сайта и развития проекта. Полученные сведения не объединяются с персональными данными пользователей.</p>
+          <p>Использование и передача Яндексом информации, собранной посредством Яндекс.Метрики, регулируются политикой конфиденциальности Яндекса.</p>
+          <p>При желании вы можете запретить Яндекс.Метрике распознавать ваши повторные посещения сайта, отключив Cookie-файлы Яндекс.Метрики в настройках своего браузера.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Передача данных</h3>
+          <p>Сайт не собирает и не хранит персональные данные пользователей, если они не предоставляются ими добровольно. Обезличенная статистическая информация используется исключительно в целях развития и совершенствования сайта.</p>
+        </section>
+        <section class="guide-section guide-text-section">
+          <h3>Изменение политики</h3>
+          <p>Владелец сайта вправе вносить изменения в настоящую Политику конфиденциальности. Актуальная редакция всегда публикуется на данной странице.</p>
         </section>
       </div>
     </article>
@@ -13986,6 +14083,15 @@ function showChooseGuide(updateHash = true) {
   if (sg) sg.scrollTo(0, 0);
 }
 
+function showPolicy(updateHash = true) {
+  if (updateHash) setSectionHash("policy");
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  show("s-policy");
+  const sp = document.getElementById("s-policy");
+  if (sp) sp.scrollTo(0, 0);
+}
+
 // ── Очистка разделов ──
 function clearCompareSection() {
   clearCompare(); // очищает список; refreshCompareUI перерисует пустое состояние
@@ -14448,7 +14554,7 @@ function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about"].forEach(s => {
+  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -15104,6 +15210,7 @@ const SECTION_HASH_BY_NAME = {
   guide: "#guide",
   chooseGuide: "#choose-guide",
   about: "#about",
+  policy: "#policy",
 };
 
 function replaceHash(hash) {
@@ -15224,6 +15331,7 @@ function openSectionFromHash() {
   if (hash === "#guide") { showGuide(false); return true; }
   if (hash === "#choose-guide") { showChooseGuide(false); return true; }
   if (hash === "#about") { showAbout(false); return true; }
+  if (hash === "#policy") { showPolicy(false); return true; }
   return false;
 }
 
@@ -17313,5 +17421,28 @@ if (shouldResetRouteOnReload()) {
 }
 
 </script>
+
+<script>
+/* Согласие на обработку данных: пока не отмечена галочка — «Начать подбор» заблокирован
+   и Метрика не запускается. Отметка = согласие (сохраняется в localStorage). */
+(function(){
+  var KEY = 'vbr_consent';
+  var btn  = document.getElementById('btn-start');
+  var card = document.getElementById('consent-card');
+  var cb   = document.getElementById('consent-checkbox');
+  function giveConsent(){
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    if (typeof enableMetrika === 'function') enableMetrika();
+    if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
+    if (card) card.style.display = 'none';
+  }
+  var stored = false;
+  try { stored = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (stored) { giveConsent(); return; }
+  if (btn) { btn.disabled = true; btn.classList.add('is-locked'); }
+  if (cb) cb.addEventListener('change', function(){ if (cb.checked) giveConsent(); });
+})();
+</script>
+
 </body>
 </html>
