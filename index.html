@@ -11578,8 +11578,16 @@ canvas {
 #s-intro { overflow: hidden auto; align-items: flex-start; }
 #s-intro.v2-home .home-v2-inner {
   min-height: 100dvh;
-  padding-bottom: calc(var(--app-nav-h) + env(safe-area-inset-bottom) + 16px) !important;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
 }
+/* мигание окошка/галочки согласия при клике по заблокированной «Начать подбор» */
+@keyframes consentBlink {
+  0%, 100% { border-color: var(--border); box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0); }
+  25%, 75% { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(var(--blue-rgb), .30); }
+}
+@keyframes consentCbPulse { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.28); } }
+.consent-card.consent-blink { animation: consentBlink .55s ease 2; }
+.consent-card.consent-blink input { animation: consentCbPulse .55s ease 2; accent-color: var(--blue); }
 /* Заголовок первой страницы компактнее и ровно в 3 строки — поднимает контент выше меню */
 #s-intro.v2-home .home-v2-title { font-size: 23px !important; line-height: 1.16; letter-spacing: -.6px; }
 #s-intro.v2-home .home-v2-title .hv-line { display: block; }
@@ -14580,6 +14588,9 @@ function show(id) {
     }
   });
   updateNavActive(id);
+  // на первой странице нижнее меню скрыто (появляется со 2-й страницы)
+  const _appNav = document.getElementById("app-nav");
+  if (_appNav) _appNav.style.display = (id === "s-intro") ? "none" : "flex";
   renderCompareBar();
 }
 
@@ -17429,6 +17440,8 @@ if (shouldResetRouteOnReload()) {
 } else {
   openRouteFromHash();
 }
+// первая страница без нижнего меню
+(function(){ const n = document.getElementById("app-nav"); if (n) n.style.display = (currentScreenId === "s-intro") ? "none" : "flex"; })();
 
 </script>
 
@@ -17440,16 +17453,30 @@ if (shouldResetRouteOnReload()) {
   var btn  = document.getElementById('btn-start');
   var card = document.getElementById('consent-card');
   var cb   = document.getElementById('consent-checkbox');
+  var consented = false;
   function giveConsent(){
+    consented = true;
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
     if (typeof enableMetrika === 'function') enableMetrika();
     if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
     if (card) card.style.display = 'none';
   }
-  var stored = false;
-  try { stored = localStorage.getItem(KEY) === '1'; } catch (e) {}
-  if (stored) { giveConsent(); return; }
-  if (btn) { btn.disabled = true; btn.classList.add('is-locked'); }
+  function blinkConsent(){
+    if (!card) return;
+    try { card.scrollIntoView({block:'center', behavior:'smooth'}); } catch (e) {}
+    card.classList.remove('consent-blink');
+    void card.offsetWidth; // рестарт анимации
+    card.classList.add('consent-blink');
+  }
+  try { consented = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (consented) { giveConsent(); return; }
+  if (btn) btn.classList.add('is-locked'); // визуально заблокирована, но кликабельна
+  // клик по заблокированной кнопке: не переходим, а мигаем галочкой
+  document.addEventListener('click', function(e){
+    if (consented) return;
+    var t = e.target.closest ? e.target.closest('#btn-start') : null;
+    if (t) { e.stopImmediatePropagation(); e.preventDefault(); blinkConsent(); }
+  }, true);
   if (cb) cb.addEventListener('change', function(){ if (cb.checked) giveConsent(); });
 })();
 </script>
