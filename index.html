@@ -8578,12 +8578,14 @@ html, body {
   #s-results .restart-wrap {
     display: flex;
     justify-content: center;
+    gap: 12px;
     padding-top: 24px;
   }
   #s-results .btn-restart {
     width: auto;
-    min-width: 340px;
-    padding: 0 44px;
+    flex: 0 1 auto;
+    min-width: 200px;
+    padding: 0 28px;
   }
 
   /* — финальная панель результатов: новый подбор + поддержка + связь — */
@@ -8626,9 +8628,9 @@ html, body {
     border-color: rgba(105,113,137,.20);
   }
   #s-results .btn-restart {
-    min-width: 260px;
-    height: 64px;
-    padding: 0 24px;
+    min-width: 190px;
+    height: 56px;
+    padding: 0 22px;
     border-radius: 16px;
     font-size: 15px;
     white-space: nowrap;
@@ -8716,6 +8718,9 @@ html, body {
   .results-container.with-sidebar > .res-header   { grid-area: header; }
   .results-container.with-sidebar > .results-list { grid-area: list; }
   .results-container.with-sidebar > .results-sidebar { grid-area: sidebar; }
+  /* кнопки и блок поддержки — под обеими колонками, на всю ширину */
+  .results-container.with-sidebar > .restart-wrap,
+  .results-container.with-sidebar > .support-section { grid-column: 1 / -1; }
 
   .results-sidebar {
     display: flex;
@@ -11580,6 +11585,25 @@ canvas {
   min-height: 100dvh;
   padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
 }
+/* «Больше полезных статей» под блоком материалов */
+.mode-guides-more {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; margin-top: 10px; padding: 10px 0;
+  background: none; border: 0; cursor: pointer; font-family: inherit;
+  font-size: 13.5px; font-weight: 700; color: var(--blue);
+}
+.mode-guides-more span { font-size: 16px; line-height: 1; }
+.mode-guides-more:hover { text-decoration: underline; }
+#mode-guides-list { display: grid; gap: 10px; }
+/* страница «Полезные статьи» */
+.articles-title { font-size: 24px; font-weight: 800; letter-spacing: -.5px; color: var(--text); margin: 4px 0 6px; }
+.articles-sub { font-size: 13.5px; color: var(--text-2); margin: 0 0 16px; line-height: 1.45; }
+.articles-list { display: grid; gap: 12px; }
+/* подпись под рекламным блоком на экране поиска */
+.ad-place-note { margin-top: 8px; text-align: center; font-size: 11px; color: var(--text-2); opacity: .75; }
+/* согласие дано: окошко остаётся с проставленной галочкой, но бледное */
+.consent-card.consent-done { opacity: .55; }
+.consent-card.consent-done input { accent-color: var(--blue); }
 /* мигание окошка/галочки согласия при клике по заблокированной «Начать подбор» */
 @keyframes consentBlink {
   0%, 100% { border-color: var(--border); box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0); }
@@ -11608,6 +11632,87 @@ canvas {
   #s-intro.v2-home .consent-card { margin-top: clamp(10px, 2.2dvh, 26px) !important; }
 }
 
+/* «Новый подбор» + «Поделиться» — две компактные кнопки в ряд */
+.restart-wrap { display: flex; gap: 10px; }
+.restart-wrap .btn-restart {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 46px;
+  font-size: 14px;
+  gap: 7px;
+  white-space: nowrap;
+  margin-bottom: 14px;
+}
+.restart-wrap .btn-restart svg { width: 16px; height: 16px; flex-shrink: 0; }
+.btn-share-results {
+  background: none !important;
+  border: 1.5px solid var(--blue-border) !important;
+  color: var(--blue) !important;
+  box-shadow: none !important;
+}
+.btn-share-results svg { stroke: var(--blue); }
+
+/* «+» в кружке у «Показать ещё» */
+.show-more-plus {
+  width: 22px; height: 22px; flex-shrink: 0;
+  border: 1.6px solid var(--blue); border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 600; line-height: 1;
+}
+
+/* мобильная версия: финальный блок результатов — панель в стиле карточек,
+   той же ширины, компактные строки с иконками в подложках */
+@media (max-width: 899px) {
+  /* пара кнопок — скруглённые, компактные */
+  #s-results .restart-wrap .btn-restart { border-radius: 999px; height: 44px; font-size: 14px; }
+  /* секция выровнена по карточкам (18px, как .results-list), панель на всю ширину */
+  #s-results .support-section { border-top: 0; padding: 6px 18px 30px; background: var(--bg); }
+  #s-results .support-inner {
+    max-width: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2px 14px;
+  }
+  /* «Поддержать проект» */
+  #s-results .support-top,
+  #s-results .support-contact-row {
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    padding: 11px 0;
+    gap: 12px;
+    align-items: center;
+  }
+  #s-results .support-top { border-bottom: 1px solid rgba(105,113,137,.14) !important; }
+  #s-results .support-icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(233,57,74,.10);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #s-results .support-icon svg { width: 18px; height: 18px; }
+  #s-results .support-sub { display: none; }
+  #s-results .support-title { font-size: 14px; font-weight: 700; }
+  #s-results .support-or { display: none; }
+  #s-results .btn-support { padding: 8px 18px; font-size: 13px; font-weight: 700; }
+  /* «Сотрудничество и реклама» */
+  #s-results .support-contact-icon {
+    width: 38px; height: 38px; flex-shrink: 0; border-radius: 12px;
+    background: rgba(var(--blue-rgb), .10); color: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #s-results .support-contact-icon svg { width: 18px; height: 18px; }
+  #s-results .support-contact-title { font-size: 14px; font-weight: 700; }
+  #s-results .support-contact-sub { font-size: 12px; margin-top: 1px; }
+  #s-results .support-contact-row { position: relative; }
+  #s-results .support-contact-row::after {
+    content: "›";
+    margin-left: auto;
+    font-size: 19px; line-height: 1; color: var(--text-2);
+  }
+}
+
 /* ссылка на политику внизу «О проекте» */
 .about-policy-row { text-align: center; padding: 14px 0 4px; }
 .about-policy-row .policy-link { font-size: 12.5px; color: var(--text-2); }
@@ -11628,6 +11733,44 @@ function enableMetrika(){
 }
 </script>
 <!-- /Yandex.Metrika counter -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "VBR БОТ",
+      "url": "https://vbrbot.pro/",
+      "description": "Бесплатный помощник по выбору видеорегистратора: быстрый подбор по требованиям, каталог моделей, сравнение и избранное.",
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "WebApplication",
+      "name": "VBR БОТ — подбор видеорегистраторов",
+      "url": "https://vbrbot.pro/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Видеорегистратор, GPS-информер или комбо 3 в 1: в чем разница и за что мы вообще платим",
+      "url": "https://vbrbot.pro/#guide",
+      "inLanguage": "ru-RU",
+      "author": { "@type": "Person", "name": "PRO ГАДЖЕТЫ" },
+      "publisher": { "@type": "Organization", "name": "VBR БОТ" }
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Как выбрать видеорегистратор: 10 характеристик простыми словами",
+      "url": "https://vbrbot.pro/#choose-guide",
+      "inLanguage": "ru-RU",
+      "author": { "@type": "Person", "name": "PRO ГАДЖЕТЫ" },
+      "publisher": { "@type": "Organization", "name": "VBR БОТ" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="splash" id="splash" role="presentation" aria-hidden="true">
@@ -11891,26 +12034,8 @@ function enableMetrika(){
 
       <section class="mode-guides" aria-label="Полезные материалы">
         <div class="mode-guides-label">Полезные материалы</div>
-        <button class="mode-guide-post" type="button" onclick="showGuide()">
-          <span class="mode-guide-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h11"/><path d="M5 10h14"/><path d="M5 15h10"/><path d="M16 18l3-3-3-3"/></svg>
-          </span>
-          <span class="mode-guide-copy">
-            <span class="mode-guide-title">Регистратор, информер или комбо?</span>
-            <span class="mode-guide-sub">Подробный разбор простыми словами о сложных различиях</span>
-          </span>
-          <span class="mode-guide-arrow" aria-hidden="true">›</span>
-        </button>
-        <button class="mode-guide-post" type="button" onclick="showChooseGuide()">
-          <span class="mode-guide-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h11"/><path d="M5 10h14"/><path d="M5 15h10"/><path d="M16 18l3-3-3-3"/></svg>
-          </span>
-          <span class="mode-guide-copy">
-            <span class="mode-guide-title">Как выбрать видеорегистратор</span>
-            <span class="mode-guide-sub">Главные характеристики простыми словами</span>
-          </span>
-          <span class="mode-guide-arrow" aria-hidden="true">›</span>
-        </button>
+        <div id="mode-guides-list"></div>
+        <button class="mode-guides-more" type="button" onclick="showArticles()">Больше полезных статей <span aria-hidden="true">›</span></button>
       </section>
     </div>
 
@@ -12130,6 +12255,15 @@ function enableMetrika(){
   </div>
 </div>
 
+<!-- ── ARTICLES (все полезные статьи) ──────────────── -->
+<div id="s-articles" class="screen">
+  <div class="guide-inner">
+    <h2 class="articles-title">Полезные статьи</h2>
+    <p class="articles-sub">Разбираем видеорегистраторы простыми словами — без скучных инструкций.</p>
+    <div id="articles-list" class="articles-list"></div>
+  </div>
+</div>
+
 <!-- ── PRIVACY POLICY ──────────────────────────────── -->
 <div id="s-policy" class="screen">
   <div class="guide-inner">
@@ -12294,6 +12428,7 @@ function enableMetrika(){
           </div>
         </div>
       </div>
+      <div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div>
     </div>
   </div>
 </div>
@@ -12316,19 +12451,26 @@ function enableMetrika(){
     <!-- Desktop: правая аналитическая колонка (требования → вывод → рекомендации) -->
     <aside class="results-sidebar" id="results-sidebar" style="display:none;"></aside>
     <div class="results-list" id="results-list"></div>
-  </div><!-- /results-container -->
 
-  <div class="support-section">
-    <div class="support-inner">
       <div class="restart-wrap">
         <button class="btn-restart" onclick="restartQuiz()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
             <path d="M3 3v5h5"/>
           </svg>
-          Начать новый подбор
+          Новый подбор
+        </button>
+        <button class="btn-restart btn-share-results" onclick="shareQuizResults()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>
+          </svg>
+          Поделиться
         </button>
       </div>
+
+  <div class="support-section">
+    <div class="support-inner">
       <div class="support-top">
         <span class="support-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
@@ -12351,6 +12493,7 @@ function enableMetrika(){
       </button>
     </div>
   </div>
+  </div><!-- /results-container -->
 </div>
 
 <!-- ── COMPARE SCREEN ─────────────────────────────── -->
@@ -14137,6 +14280,53 @@ function showPolicy(updateHash = true) {
   if (sp) sp.scrollTo(0, 0);
 }
 
+// ══════════════════════════════════════════════════════════
+//  СТАТЬИ: единый реестр. Новую статью добавляй ПЕРВОЙ в список —
+//  она автоматически появится сверху в «Полезных материалах» (макс. 3)
+//  и на странице «Полезные статьи».
+// ══════════════════════════════════════════════════════════
+const ARTICLES = [
+  {
+    title: "Регистратор, информер или комбо?",
+    sub: "Подробный разбор простыми словами о сложных различиях",
+    open: "showGuide()",
+  },
+  {
+    title: "Как выбрать видеорегистратор",
+    sub: "Главные характеристики простыми словами",
+    open: "showChooseGuide()",
+  },
+];
+
+function articleCardHTML(a) {
+  return `<button class="mode-guide-post" type="button" onclick="${a.open}">
+    <span class="mode-guide-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h11"/><path d="M5 10h14"/><path d="M5 15h10"/><path d="M16 18l3-3-3-3"/></svg>
+    </span>
+    <span class="mode-guide-copy">
+      <span class="mode-guide-title">${a.title}</span>
+      <span class="mode-guide-sub">${a.sub}</span>
+    </span>
+    <span class="mode-guide-arrow" aria-hidden="true">›</span>
+  </button>`;
+}
+
+function renderModeGuides() {
+  const box = document.getElementById("mode-guides-list");
+  if (box) box.innerHTML = ARTICLES.slice(0, 3).map(articleCardHTML).join("");
+}
+
+function showArticles(updateHash = true) {
+  if (updateHash) setSectionHash("articles");
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  const list = document.getElementById("articles-list");
+  if (list) list.innerHTML = ARTICLES.map(articleCardHTML).join("");
+  show("s-articles");
+  const sa = document.getElementById("s-articles");
+  if (sa) sa.scrollTo(0, 0);
+}
+
 // ── Очистка разделов ──
 function clearCompareSection() {
   clearCompare(); // очищает список; refreshCompareUI перерисует пустое состояние
@@ -14602,6 +14792,7 @@ const VBR_SCREEN_TITLES = {
   "s-compare": "Сравнение", "s-catalog": "Каталог", "s-favorites": "Избранное",
   "s-about": "О проекте", "s-guide": "Гайд: типы устройств", "s-choose-guide": "Гайд: как выбрать",
   "s-policy": "Политика конфиденциальности",
+  "s-articles": "Полезные статьи",
 };
 function vbrTrack(goal, params) {
   try { if (typeof ym === "function") ym(110272214, "reachGoal", goal, params || {}); } catch (e) {}
@@ -14618,7 +14809,7 @@ function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy"].forEach(s => {
+  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -15280,6 +15471,7 @@ const SECTION_HASH_BY_NAME = {
   chooseGuide: "#choose-guide",
   about: "#about",
   policy: "#policy",
+  articles: "#articles",
 };
 
 function replaceHash(hash) {
@@ -15401,11 +15593,45 @@ function openSectionFromHash() {
   if (hash === "#choose-guide") { showChooseGuide(false); return true; }
   if (hash === "#about") { showAbout(false); return true; }
   if (hash === "#policy") { showPolicy(false); return true; }
+  if (hash === "#articles") { showArticles(false); return true; }
   return false;
 }
 
+// ── Шеринг результатов подбора: ответы квиза зашиты в ссылку #r=… ──
+function shareQuizResults() {
+  let url;
+  try {
+    url = location.origin + location.pathname + "#r=" + encodeURIComponent(JSON.stringify(answers));
+  } catch (e) { return; }
+  vbrTrack("share_results");
+  const title = "Мой подбор видеорегистратора в VBR БОТ";
+  if (navigator.share) {
+    navigator.share({ title, url }).catch(() => {});
+    return;
+  }
+  copyTextToClipboard(url)
+    .then(() => showCopyToast("Ссылка на подбор скопирована"))
+    .catch(() => { try { window.prompt("Скопируйте ссылку:", url); } catch (e) {} });
+}
+
+function openSharedResultsFromHash() {
+  if (!location.hash.startsWith("#r=")) return false;
+  let parsed;
+  try { parsed = JSON.parse(decodeURIComponent(location.hash.slice(3))); } catch (e) { return false; }
+  if (!parsed || typeof parsed !== "object") return false;
+  answers = parsed;
+  sortMode = "match";
+  showAllNearResults = false;
+  _lastTop = getTop();
+  vbrTrack("shared_open");
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  _renderResults(_lastTop);
+  return true;
+}
+
 function openRouteFromHash() {
-  return openDeviceFromHash() || openCompareFromHash() || openFavoritesFromHash() || openSectionFromHash();
+  return openSharedResultsFromHash() || openDeviceFromHash() || openCompareFromHash() || openFavoritesFromHash() || openSectionFromHash();
 }
 
 function isReloadNavigation() {
@@ -17197,7 +17423,7 @@ function _renderResults(top) {
       const more = document.createElement("button");
       more.className = "show-more-card";
       more.type = "button";
-      more.innerHTML = `Показать ещё ${items.length - visibleItems.length}`;
+      more.innerHTML = `<span class="show-more-plus" aria-hidden="true">+</span>Показать ещё ${items.length - visibleItems.length}`;
       more.addEventListener("click", () => {
         showAllNearResults = true;
         _renderResults(_lastTop);
@@ -17496,6 +17722,7 @@ window.addEventListener("resize", () => {
 });
 renderIntroDbSticker();
 renderFavoritePanel();
+renderModeGuides();
 initIntroScene();
 // Deep-link: #m=<модель>, #cmp=<модель,модель> или разделы #catalog/#favorites/#compare/#about.
 window.addEventListener("hashchange", openRouteFromHash);
@@ -17526,7 +17753,9 @@ if (shouldResetRouteOnReload()) {
     if (typeof enableMetrika === 'function') enableMetrika();
     if (firstTime && typeof vbrTrack === 'function') vbrTrack('consent_given');
     if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
-    if (card) card.style.display = 'none';
+    // окошко не прячем: галочка проставлена и зафиксирована, поле бледнеет
+    if (cb) { cb.checked = true; cb.disabled = true; }
+    if (card) card.classList.add('consent-done');
   }
   function blinkConsent(){
     if (!card) return;
