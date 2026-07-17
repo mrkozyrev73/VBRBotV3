@@ -8949,7 +8949,7 @@ html, body {
   box-shadow: 0 -4px 22px rgba(0,0,0,.20);
 }
 /* въезд меню в общей последовательной анимации интро (после блоков-преимуществ) */
-.app-nav.nav-enter { animation: navRise .42s cubic-bezier(.22,1,.36,1) 1.55s both; }
+.app-nav.nav-enter { animation: navRise .3s cubic-bezier(.22,1,.36,1) both; }
 @keyframes navRise { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .app-nav.nav-enter { animation: none; } }
 .app-nav-item {
@@ -11595,6 +11595,23 @@ canvas {
 /* приподнимаем главный экран — меньше верхнего воздуха, чтобы всё влезало */
 #s-intro.v2-home .home-v2-inner { padding-top: 12px !important; }
 #s-intro.v2-home .home-v2-hero { margin-top: 14px !important; }
+/* ── Первая страница: отступы масштабируются от высоты экрана (универсально
+      для iPhone 15 Pro / 16 Pro Max и т.п.). На низких экранах — минимумы
+      (текущая подгонка), на высоких — равномерно растут по всей странице. ── */
+@media (max-width: 899px) {
+  #s-intro.v2-home .home-v2-hero { margin-top: clamp(10px, 1.6dvh, 26px) !important; }
+  #s-intro.v2-home .home-v2-subtitle { margin-top: clamp(10px, 2.2dvh, 30px) !important; }
+  #s-intro.v2-home .home-v2-sticker { margin-top: clamp(12px, 2.6dvh, 34px) !important; }
+  #s-intro.v2-home .home-v2-spacer { flex: 1 1 auto; min-height: clamp(8px, 1.8dvh, 34px); }
+  #s-intro.v2-home .home-v2-features { margin-top: clamp(14px, 3.2dvh, 42px) !important; gap: clamp(12px, 2.6dvh, 30px) !important; }
+  #s-intro.v2-home .home-v2-footer { margin-top: clamp(12px, 2.8dvh, 34px) !important; padding-top: clamp(12px, 2.4dvh, 26px) !important; }
+  #s-intro.v2-home .consent-card { margin-top: clamp(10px, 2.2dvh, 26px) !important; }
+}
+
+/* ссылка на политику внизу «О проекте» */
+.about-policy-row { text-align: center; padding: 14px 0 4px; }
+.about-policy-row .policy-link { font-size: 12.5px; color: var(--text-2); }
+.about-policy-row .policy-link:hover { color: var(--blue); }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -12148,6 +12165,10 @@ function enableMetrika(){
           <h3>Изменение политики</h3>
           <p>Владелец сайта вправе вносить изменения в настоящую Политику конфиденциальности. Актуальная редакция всегда публикуется на данной странице.</p>
         </section>
+        <section class="guide-section guide-text-section">
+          <h3>Контакты</h3>
+          <p>По вопросам, связанным с настоящей Политикой, пишите на почту: <a class="about-email" href="mailto:partners@vbrbot.ru" style="color:var(--blue);font-weight:700;text-decoration:none;">partners@vbrbot.ru</a></p>
+        </section>
       </div>
     </article>
   </div>
@@ -12422,7 +12443,7 @@ function enableMetrika(){
               <div class="about-action-title">Сообщить об ошибке</div>
               <div class="about-action-text">Неточность в модели или пожелание.</div>
             </div>
-            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+            <button class="about-action-link copy-email" type="button" data-email="partners@vbrbot.ru" aria-label="Скопировать почту">Скопировать почту</button>
           </div>
 
           <div class="about-action">
@@ -12431,7 +12452,7 @@ function enableMetrika(){
               <div class="about-action-title">Сотрудничество</div>
               <div class="about-action-text">Для производителей и партнёров.</div>
             </div>
-            <button class="about-action-link copy-email" type="button" data-email="theboxcollab@gmail.com" aria-label="Скопировать почту">Скопировать почту</button>
+            <button class="about-action-link copy-email" type="button" data-email="partners@vbrbot.ru" aria-label="Скопировать почту">Скопировать почту</button>
           </div>
         </div>
 
@@ -12452,6 +12473,9 @@ function enableMetrika(){
             </a>
           </div>
         </div>
+      </div>
+      <div class="about-policy-row">
+        <button type="button" class="policy-link" onclick="showPolicy()">Политика конфиденциальности</button>
       </div>
     </div>
   </div>
@@ -14571,6 +14595,25 @@ function getCompromises() {
 
 let currentScreenId = "s-intro";
 
+// ── Аналитика: виртуальные просмотры экранов и цели (работает только после согласия) ──
+const VBR_SCREEN_TITLES = {
+  "s-intro": "Главная", "s-mode": "С чего начнём", "s-question": "Квиз: вопросы",
+  "s-loading": "Подбор: поиск", "s-results": "Результаты подбора", "s-search": "Карточка устройства",
+  "s-compare": "Сравнение", "s-catalog": "Каталог", "s-favorites": "Избранное",
+  "s-about": "О проекте", "s-guide": "Гайд: типы устройств", "s-choose-guide": "Гайд: как выбрать",
+  "s-policy": "Политика конфиденциальности",
+};
+function vbrTrack(goal, params) {
+  try { if (typeof ym === "function") ym(110272214, "reachGoal", goal, params || {}); } catch (e) {}
+}
+function vbrHit(screenId) {
+  try {
+    if (typeof ym !== "function") return;
+    const title = VBR_SCREEN_TITLES[screenId] || screenId;
+    ym(110272214, "hit", "/" + screenId.replace(/^s-/, ""), { title: "VBR БОТ — " + title });
+  } catch (e) {}
+}
+
 function show(id) {
   currentScreenId = id;
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
@@ -14594,6 +14637,8 @@ function show(id) {
   // на первой странице нижнее меню скрыто (появляется со 2-й страницы)
   const _appNav = document.getElementById("app-nav");
   if (_appNav) _appNav.style.display = (id === "s-intro") ? "none" : "flex";
+  vbrHit(id);
+  if (id === "s-results") vbrTrack("quiz_done");
   renderCompareBar();
 }
 
@@ -15490,6 +15535,7 @@ async function shareFavorites(event) {
 function openDeviceFromSearch(idx) {
   const d = DEVICES[idx];
   if (!d) return;
+  vbrTrack("device_open", { model: d.name });
   setDeviceHash(d); // ссылкой на карточку можно поделиться
 
   // If called from an analog card (not from intro), keep origin as-is
@@ -16415,6 +16461,7 @@ function el(id) { return document.getElementById(id); }
 
 function startQuiz() {
   qIdx = 0; answers = {};
+  vbrTrack("quiz_start");
   el("header").style.display = "none";
   el("bottom-nav").style.display = "block";
   renderQ();
@@ -17429,6 +17476,20 @@ document.addEventListener("click", event => {
 setupCopyEmailActions();
 setupTermTooltips();
 
+// ── Аналитика: клики «Купить на Я.Маркет» и «Донат» ──
+document.addEventListener("click", (e) => {
+  const a = e.target.closest ? e.target.closest("a[href]") : null;
+  if (!a) return;
+  const href = a.href || "";
+  if (href.indexOf("market.yandex") !== -1) {
+    const card = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card");
+    const nameEl = card ? card.querySelector(".dev-name, .srch-match-name, .catalog-row-name") : null;
+    vbrTrack("buy_click", { model: nameEl ? nameEl.textContent.trim() : href });
+  } else if (href.indexOf("cloudtips.ru") !== -1) {
+    vbrTrack("donate_click");
+  }
+}, true);
+
 window.addEventListener("resize", () => {
   const bar = document.getElementById("cmp-bar");
   if (bar && bar.style.display !== "none") positionCompareBar(bar);
@@ -17458,9 +17519,12 @@ if (shouldResetRouteOnReload()) {
   var cb   = document.getElementById('consent-checkbox');
   var consented = false;
   function giveConsent(){
+    var firstTime = false;
+    try { firstTime = localStorage.getItem(KEY) !== '1'; } catch (e) {}
     consented = true;
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
     if (typeof enableMetrika === 'function') enableMetrika();
+    if (firstTime && typeof vbrTrack === 'function') vbrTrack('consent_given');
     if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
     if (card) card.style.display = 'none';
   }
