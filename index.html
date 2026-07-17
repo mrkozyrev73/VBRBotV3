@@ -8586,21 +8586,52 @@ html, body {
     padding: 0 44px;
   }
 
-  /* — «Поддержать проект» и «Сотрудничество» рядом, без «или» — */
-  .support-inner {
-    max-width: var(--dt-standard);
-    margin-inline: auto;
+  /* — финальная панель результатов: новый подбор + поддержка + связь — */
+  #s-results .support-section {
+    width: 100%;
+    max-width: var(--dt-wide);
+    margin: 28px auto 0;
+    padding: 18px 0 34px;
+    border-top: 1px solid var(--border);
+    background: transparent;
+  }
+
+  #s-results .support-inner {
+    max-width: none;
+    margin-inline: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
   }
   .support-inner .support-or { display: none; }
+  #s-results .support-inner .restart-wrap {
+    grid-column: 3;
+    grid-row: 1;
+    justify-content: flex-end;
+    padding: 0 !important;
+  }
   .support-inner .support-top,
   .support-inner .support-contact-row {
     margin: 0;
     height: 100%;
     box-sizing: border-box;
+  }
+  #s-results .support-top,
+  #s-results .support-contact-row {
+    min-height: 64px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(22,28,41,.72);
+    border-color: rgba(105,113,137,.20);
+  }
+  #s-results .btn-restart {
+    min-width: 260px;
+    height: 64px;
+    padding: 0 24px;
+    border-radius: 16px;
+    font-size: 15px;
+    white-space: nowrap;
   }
 
   /* — рекомендации на desktop: текст слева, кнопка справа на одной линии — */
@@ -8678,14 +8709,12 @@ html, body {
     grid-template-columns: minmax(0, 1fr) 380px;
     grid-template-areas:
       "header  header"
-      "list    sidebar"
-      "restart sidebar";
+      "list    sidebar";
     column-gap: 32px;
     align-items: start;
   }
   .results-container.with-sidebar > .res-header   { grid-area: header; }
   .results-container.with-sidebar > .results-list { grid-area: list; }
-  .results-container.with-sidebar > .restart-wrap { grid-area: restart; }
   .results-container.with-sidebar > .results-sidebar { grid-area: sidebar; }
 
   .results-sidebar {
@@ -12148,19 +12177,19 @@ canvas {
     <!-- Desktop: правая аналитическая колонка (требования → вывод → рекомендации) -->
     <aside class="results-sidebar" id="results-sidebar" style="display:none;"></aside>
     <div class="results-list" id="results-list"></div>
-    <div class="restart-wrap">
-    <button class="btn-restart" onclick="restartQuiz()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-        <path d="M3 3v5h5"/>
-      </svg>
-      Начать новый подбор
-    </button>
-  </div>
   </div><!-- /results-container -->
 
   <div class="support-section">
     <div class="support-inner">
+      <div class="restart-wrap">
+        <button class="btn-restart" onclick="restartQuiz()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          Начать новый подбор
+        </button>
+      </div>
       <div class="support-top">
         <span class="support-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
