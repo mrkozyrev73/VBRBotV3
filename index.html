@@ -15387,6 +15387,7 @@ function openPromoDevice(event) {
   if (event && event.target && event.target.closest && event.target.closest('a')) return;
   const idx = DEVICES.findIndex(d => d && d.name === "TrendVision Nano 2K Wi-Fi CPL GPS");
   if (idx < 0) return;
+  stopActiveSearchScene();
   lastSearchOrigin = 'intro';
   lastSearchQuery = '';
   openDeviceFromSearch(idx);
@@ -16003,7 +16004,11 @@ function deviceProfileDescriptionHTML(d) {
     useCases.push("если нужна запись спереди и сзади");
   }
   if (hasWifi) useCases.push("если хочется быстро смотреть и скачивать ролики на телефон");
-  if (hasGps && !hasRadar) useCases.push("если полезны координаты, скорость и предупреждения по базе камер");
+  if (isGpsInformerDisplay(d)) {
+    useCases.push("если нужны предупреждения по базе камер");
+  } else if (hasGps && !hasRadar) {
+    useCases.push("если полезны координаты и скорость в записи");
+  }
   if (hasRadar) {
     useCases.push(antenna === "horn" ? "если часто бывают трассовые поездки" : "если нужна радарная часть без отдельного устройства");
   }
@@ -16511,6 +16516,12 @@ function resetSearchScene() {
   const sub = el("loading-sub");
   sub.textContent = "";
   sub.classList.remove("loading-text-out", "loading-text-in");
+}
+
+function stopActiveSearchScene() {
+  if (currentScreenId !== "s-loading") return;
+  resetSearchScene();
+  el("bottom-nav").style.display = "block";
 }
 
 function showResults() {
