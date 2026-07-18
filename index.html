@@ -11806,9 +11806,7 @@ function applyInsets(){
   --tg-safe-bottom: 0px;
   --tg-viewport-h: 100dvh;
   --tg-page-top: 64px;
-  --tg-sticky-top: 132px;
-  --tg-sticky-cover: 286px;
-  --tg-layer-top: 2147483000;
+  --tg-sticky-top: 118px;
 }
 html.tg-app-root,
 html.tg-app-root body {
@@ -11840,51 +11838,24 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   body.tg-app #s-favorites {
     padding-top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
   }
-  html.tg-app-root body.tg-mask-on,
-  body.tg-app.tg-mask-on {
-    overflow: hidden;
-  }
-  html.tg-app-root body.tg-mask-on .screen.on,
-  body.tg-app.tg-mask-on .screen.on {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: var(--tg-viewport-h);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    background: var(--bg);
-    isolation: isolate;
-  }
-  html.tg-app-root body.tg-mask-on #tg-top-mask,
-  body.tg-app.tg-mask-on #tg-top-mask {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: max(var(--tg-safe-top), var(--tg-sticky-cover));
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 92%, rgba(11, 14, 20, 0) 100%);
-    pointer-events: none;
-    z-index: var(--tg-layer-top);
-  }
   html.tg-app-root #s-catalog .catalog-head,
   body.tg-app #s-catalog .catalog-head {
     top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
-    z-index: calc(var(--tg-layer-top) + 1);
-    background: var(--bg);
+    z-index: 80;
+    background: rgba(11, 14, 20, .98);
+    box-shadow: 0 -140px 0 140px var(--bg);
   }
   html.tg-app-root #s-compare .section-head,
   body.tg-app #s-compare .section-head,
   html.tg-app-root #s-favorites .section-head,
   body.tg-app #s-favorites .section-head {
     position: relative;
-    z-index: calc(var(--tg-layer-top) + 1);
+    z-index: 80;
   }
   html.tg-app-root #s-compare .cmp-sticky-head,
   body.tg-app #s-compare .cmp-sticky-head {
     top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
-    z-index: calc(var(--tg-layer-top) + 2);
+    z-index: 81;
   }
 }
 </style>
