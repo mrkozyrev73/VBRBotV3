@@ -11770,7 +11770,7 @@ canvas {
       if (canFullscreen && wa.requestFullscreen && !wa.isFullscreen) wa.requestFullscreen();
     } catch (e) {}
   }
-  function applyInsets(){
+function applyInsets(){
     try {
       var s = wa.safeAreaInset || {}, c = wa.contentSafeAreaInset || {};
       var top = (s.top || 0) + (c.top || 0);
@@ -11782,6 +11782,7 @@ canvas {
       if (document.body) {
         document.body.classList.add('tg-app');
         document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen));
+        if (typeof window.updateTelegramTopMask === 'function') window.updateTelegramTopMask();
       }
     } catch (e) {}
   }
@@ -11807,6 +11808,7 @@ canvas {
   --tg-page-top: 64px;
   --tg-sticky-top: 132px;
   --tg-sticky-cover: 286px;
+  --tg-layer-top: 2147483000;
 }
 html.tg-app-root,
 html.tg-app-root body {
@@ -11817,6 +11819,9 @@ body.tg-app .screen { padding-top: var(--tg-safe-top); }
 body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
 body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
+#tg-top-mask {
+  display: none;
+}
 @media (max-width: 899px) {
   body.tg-fullscreen .screen {
     padding-top: max(var(--tg-safe-top), var(--tg-page-top)) !important;
@@ -11835,38 +11840,51 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   body.tg-app #s-favorites {
     padding-top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
   }
-  html.tg-app-root #s-catalog::before,
-  body.tg-app #s-catalog::before,
-  html.tg-app-root #s-compare::before,
-  body.tg-app #s-compare::before,
-  html.tg-app-root #s-favorites::before,
-  body.tg-app #s-favorites::before {
-    content: "";
+  html.tg-app-root body.tg-mask-on,
+  body.tg-app.tg-mask-on {
+    overflow: hidden;
+  }
+  html.tg-app-root body.tg-mask-on .screen.on,
+  body.tg-app.tg-mask-on .screen.on {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: var(--tg-viewport-h);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg);
+    isolation: isolate;
+  }
+  html.tg-app-root body.tg-mask-on #tg-top-mask,
+  body.tg-app.tg-mask-on #tg-top-mask {
+    display: block;
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     height: max(var(--tg-safe-top), var(--tg-sticky-cover));
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 86%, rgba(11, 14, 20, 0) 100%);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 92%, rgba(11, 14, 20, 0) 100%);
     pointer-events: none;
-    z-index: 120;
+    z-index: var(--tg-layer-top);
   }
   html.tg-app-root #s-catalog .catalog-head,
   body.tg-app #s-catalog .catalog-head {
     top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
-    z-index: 121;
+    z-index: calc(var(--tg-layer-top) + 1);
+    background: var(--bg);
   }
   html.tg-app-root #s-compare .section-head,
   body.tg-app #s-compare .section-head,
   html.tg-app-root #s-favorites .section-head,
   body.tg-app #s-favorites .section-head {
     position: relative;
-    z-index: 121;
+    z-index: calc(var(--tg-layer-top) + 1);
   }
   html.tg-app-root #s-compare .cmp-sticky-head,
   body.tg-app #s-compare .cmp-sticky-head {
     top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
-    z-index: 122;
+    z-index: calc(var(--tg-layer-top) + 2);
   }
 }
 </style>
@@ -12776,6 +12794,8 @@ function enableMetrika(){
   </div>
 </div>
 
+<div id="tg-top-mask" aria-hidden="true"></div>
+
 <!-- ── QUIZ STEP NAV (Назад/Далее) ─────────────────── -->
 <div id="bottom-nav" style="display:none">
   <div class="nav-row">
@@ -13122,7 +13142,7 @@ function refreshCompareUI() {
   updateCompareHeader();
   if (currentScreenId === "s-catalog") {
     if (_catalogFilters.includes("compared")) {
-      renderCatalog();
+      updateCatalogView();
     } else {
       refreshCatalogHeaderOnly();
     }
@@ -13607,7 +13627,7 @@ function renderFavoritePanel() {
   updateFavoritesHeader();
   if (currentScreenId === "s-catalog") {
     if (_catalogFilters.includes("saved")) {
-      renderCatalog();
+      updateCatalogView();
     } else {
       refreshCatalogHeaderOnly();
     }
@@ -14045,6 +14065,7 @@ function catalogRowInnerHTML(d) {
     ${d.price ? `<span class="catalog-row-price">${attrSafe(d.price)}</span>` : ""}`;
 }
 function renderCatalog() {
+  _catalogRenderFrame = 0;
   const list = document.getElementById("catalog-list");
   const count = document.getElementById("catalog-count");
   const reset = document.getElementById("catalog-reset");
@@ -14063,6 +14084,20 @@ function renderCatalog() {
   list.innerHTML = items.length
     ? (_catalogSort === "brand" ? catalogGroupsHTML(items) : catalogFlatListHTML(items))
     : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
+}
+let _catalogRenderFrame = 0;
+function scheduleCatalogRender() {
+  if (_catalogRenderFrame) cancelAnimationFrame(_catalogRenderFrame);
+  _catalogRenderFrame = requestAnimationFrame(() => {
+    _catalogRenderFrame = requestAnimationFrame(() => {
+      renderCatalog();
+      updateCatalogHeadStuck();
+    });
+  });
+}
+function updateCatalogView() {
+  if (currentScreenId === "s-catalog") scheduleCatalogRender();
+  else renderCatalog();
 }
 function refreshCatalogHeaderOnly() {
   const count = document.getElementById("catalog-count");
@@ -14088,7 +14123,7 @@ function setCatalogScenario(id) {
   } else if (_catalogSort === "scenario") {
     _catalogSort = "brand";
   }
-  renderCatalog();
+  updateCatalogView();
 }
 function toggleCatalogScenarioMenu(event) {
   event?.stopPropagation?.();
@@ -14099,7 +14134,7 @@ function setCatalogSort(id) {
   if (!CATALOG_SORTS.some(sort => sort.id === id)) return;
   _catalogScenarioMenuOpen = false;
   _catalogSort = id;
-  renderCatalog();
+  updateCatalogView();
 }
 function updateCatalogHeadStuck() {
   const head = document.querySelector("#s-catalog .catalog-head");
@@ -14134,7 +14169,7 @@ function onCatalogSearch(value) {
   _catalogQuery = value || "";
   const clear = document.getElementById("catalog-clear");
   if (clear) clear.style.display = _catalogQuery ? "block" : "none";
-  renderCatalog();
+  updateCatalogView();
 }
 function toggleCatalogFilter(id) {
   const filter = catalogFilterById(id);
@@ -14145,7 +14180,7 @@ function toggleCatalogFilter(id) {
     _catalogFilters = _catalogFilters.filter(x => catalogFilterById(x)?.group !== filter.group);
     _catalogFilters.push(id);
   }
-  renderCatalog();
+  updateCatalogView();
 }
 function clearCatalogSearch() {
   const inp = document.getElementById("catalog-search-input");
@@ -14163,15 +14198,15 @@ function resetCatalogFilters() {
   if (inp) inp.value = "";
   const clear = document.getElementById("catalog-clear");
   if (clear) clear.style.display = "none";
-  renderCatalog();
+  updateCatalogView();
 }
 function showCatalog(updateHash = true) {
   if (updateHash) setSectionHash("catalog");
-  renderCatalog();
   show("s-catalog");
   const sc = document.getElementById("s-catalog");
   if (sc) sc.scrollTo(0, 0);
   updateCatalogHeadStuck();
+  scheduleCatalogRender();
 }
 function openCatalogDevice(idx) {
   lastSearchOrigin = "catalog";
@@ -14963,6 +14998,12 @@ function getCompromises() {
 // ════════════════════════════════════════════════════════
 
 let currentScreenId = "s-intro";
+function updateTelegramTopMask(id = currentScreenId) {
+  const maskScreens = new Set(["s-catalog", "s-compare", "s-favorites"]);
+  const isTelegram = document.documentElement.classList.contains("tg-app-root") || document.body?.classList.contains("tg-app");
+  document.body?.classList.toggle("tg-mask-on", Boolean(isTelegram && maskScreens.has(id)));
+}
+window.updateTelegramTopMask = updateTelegramTopMask;
 
 // ── Аналитика: виртуальные просмотры экранов и цели (работает только после согласия) ──
 const VBR_SCREEN_TITLES = {
@@ -14986,6 +15027,7 @@ function vbrHit(screenId) {
 
 function show(id) {
   currentScreenId = id;
+  updateTelegramTopMask(id);
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles"].forEach(s => {
