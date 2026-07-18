@@ -9446,6 +9446,13 @@ html, body {
   .catalog-row-fav { width: 30px; height: 30px; }
 }
 
+@media (max-width: 899px) {
+  .catalog-row.catalog-anim,
+  .catalog-brand-head.catalog-anim {
+    animation: none !important;
+  }
+}
+
 @media (min-width: 900px) {
   #s-catalog,
   #s-compare,
@@ -14035,6 +14042,19 @@ function catalogRowInnerHTML(d) {
     </span>
     ${d.price ? `<span class="catalog-row-price">${attrSafe(d.price)}</span>` : ""}`;
 }
+let _catalogRenderedSignature = "";
+function catalogRenderSignature(items, active) {
+  return [
+    DEVICES.length,
+    _catalogSort,
+    _catalogScenario,
+    _catalogQuery.trim(),
+    _catalogFilters.join(","),
+    active ? "active" : "all",
+    items.length,
+    items.map(deviceKey).join("|")
+  ].join("::");
+}
 function renderCatalog() {
   _catalogRenderFrame = 0;
   const list = document.getElementById("catalog-list");
@@ -14052,6 +14072,11 @@ function renderCatalog() {
   }
   if (reset) reset.classList.toggle("show", Boolean(active));
   list.classList.toggle("catalog-list-flat", _catalogSort !== "brand");
+  const signature = catalogRenderSignature(items, active);
+  if (_catalogRenderedSignature === signature && list.children.length) {
+    return;
+  }
+  _catalogRenderedSignature = signature;
   list.innerHTML = items.length
     ? (_catalogSort === "brand" ? catalogGroupsHTML(items) : catalogFlatListHTML(items))
     : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
