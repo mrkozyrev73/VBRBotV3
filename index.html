@@ -11835,6 +11835,11 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   display: none;
 }
 @media (max-width: 899px) {
+  html.tg-app-root .screen.screen-enter,
+  body.tg-app .screen.screen-enter {
+    animation: none !important;
+  }
+
   body.tg-fullscreen .screen {
     padding-top: max(var(--tg-safe-top), var(--tg-page-top)) !important;
   }
@@ -11854,10 +11859,13 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   }
   html.tg-app-root #s-catalog .catalog-head,
   body.tg-app #s-catalog .catalog-head {
-    top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
-    z-index: 80;
-    background: rgba(11, 14, 20, .98);
-    box-shadow: 0 14px 28px rgba(0,0,0,.22);
+    position: static !important;
+    top: auto !important;
+    z-index: auto;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   html.tg-app-root #s-compare .section-head,
   body.tg-app #s-compare .section-head,
@@ -11868,10 +11876,13 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   }
   html.tg-app-root #s-compare .cmp-sticky-head,
   body.tg-app #s-compare .cmp-sticky-head {
-    top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
-    z-index: 81;
-    background: rgba(18, 23, 34, .99);
-    box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    position: static !important;
+    top: auto !important;
+    z-index: auto;
+    background: rgba(18, 23, 34, .96);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 </style>
@@ -15047,6 +15058,7 @@ function show(id) {
   updateTelegramTopMask(id);
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isTelegram = document.documentElement.classList.contains("tg-app-root") || document.body?.classList.contains("tg-app");
   ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
@@ -15054,7 +15066,7 @@ function show(id) {
     el.classList.remove("screen-enter");
     if (s === id) {
       el.style.display = (s === "s-intro" || s === "s-mode") ? "flex" : "block";
-      if (!reduced) {
+      if (!reduced && !isTelegram) {
         void el.offsetWidth;
         el.classList.add("screen-enter");
       }
