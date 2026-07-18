@@ -14371,40 +14371,55 @@ function startFavoriteDrag(event, orderIndex) {
     pointerId: event.pointerId,
     startX: event.clientX,
     startY: event.clientY,
+    ready: false,
+    pressTimer: 0,
     offsetX: 0,
     offsetY: 0,
     active: false,
   };
+  favoriteDrag.pressTimer = setTimeout(() => {
+    if (favoriteDrag && favoriteDrag.pointerId === event.pointerId) favoriteDrag.ready = true;
+  }, 170);
   try { card.setPointerCapture(event.pointerId); } catch(e) {}
   card.addEventListener("pointermove", onFavoriteDragMove);
   card.addEventListener("pointerup", finishFavoriteDrag);
   card.addEventListener("pointercancel", cancelFavoriteDrag);
 }
 
+function activateFavoriteDrag(event) {
+  if (!favoriteDrag || favoriteDrag.active) return;
+  favoriteDrag.active = true;
+  suppressFavoriteClick = true;
+  const rect = favoriteDrag.card.getBoundingClientRect();
+  favoriteDrag.offsetX = event.clientX - rect.left;
+  favoriteDrag.offsetY = event.clientY - rect.top;
+  favoriteDrag.placeholder = document.createElement("div");
+  favoriteDrag.placeholder.className = "fav-drag-placeholder";
+  favoriteDrag.placeholder.style.height = `${rect.height}px`;
+  favoriteDrag.list?.classList.add("is-sorting");
+  favoriteDrag.card.parentNode.insertBefore(favoriteDrag.placeholder, favoriteDrag.card.nextSibling);
+  Object.assign(favoriteDrag.card.style, {
+    position: "fixed",
+    left: `${rect.left}px`,
+    top: `${rect.top}px`,
+    width: `${rect.width}px`,
+    zIndex: "10020",
+    pointerEvents: "none",
+  });
+  favoriteDrag.card.classList.add("is-dragging");
+}
+
 function onFavoriteDragMove(event) {
   if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
   const dx = event.clientX - favoriteDrag.startX;
   const dy = event.clientY - favoriteDrag.startY;
-  if (!favoriteDrag.active && Math.hypot(dx, dy) > 10) {
-    favoriteDrag.active = true;
-    suppressFavoriteClick = true;
-    const rect = favoriteDrag.card.getBoundingClientRect();
-    favoriteDrag.offsetX = event.clientX - rect.left;
-    favoriteDrag.offsetY = event.clientY - rect.top;
-    favoriteDrag.placeholder = document.createElement("div");
-    favoriteDrag.placeholder.className = "fav-drag-placeholder";
-    favoriteDrag.placeholder.style.height = `${rect.height}px`;
-    favoriteDrag.list?.classList.add("is-sorting");
-    favoriteDrag.card.parentNode.insertBefore(favoriteDrag.placeholder, favoriteDrag.card.nextSibling);
-    Object.assign(favoriteDrag.card.style, {
-      position: "fixed",
-      left: `${rect.left}px`,
-      top: `${rect.top}px`,
-      width: `${rect.width}px`,
-      zIndex: "10020",
-      pointerEvents: "none",
-    });
-    favoriteDrag.card.classList.add("is-dragging");
+  if (!favoriteDrag.active) {
+    if (!favoriteDrag.ready && Math.hypot(dx, dy) > 8) {
+      cleanupFavoriteDrag();
+      return;
+    }
+    if (!favoriteDrag.ready) return;
+    activateFavoriteDrag(event);
   }
   if (!favoriteDrag.active) return;
   event.preventDefault();
@@ -14448,6 +14463,10 @@ function finishFavoriteDrag(event) {
   if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
   const drag = favoriteDrag;
   if (!drag.active) {
+    if (drag.ready) {
+      suppressFavoriteClick = true;
+      setTimeout(() => { suppressFavoriteClick = false; }, 160);
+    }
     cleanupFavoriteDrag();
     return;
   }
@@ -14464,18 +14483,19 @@ function finishFavoriteDrag(event) {
     refreshFavoriteUI();
     showCopyToast("Порядок избранного обновлён");
   }
-  setTimeout(() => { suppressFavoriteClick = false; }, 0);
+  setTimeout(() => { suppressFavoriteClick = false; }, 160);
 }
 
 function cancelFavoriteDrag(event) {
   if (!favoriteDrag || event.pointerId !== favoriteDrag.pointerId) return;
   cleanupFavoriteDrag();
-  setTimeout(() => { suppressFavoriteClick = false; }, 0);
+  setTimeout(() => { suppressFavoriteClick = false; }, 160);
 }
 
 function cleanupFavoriteDrag() {
   if (!favoriteDrag) return;
-  const {card, pointerId, placeholder, list} = favoriteDrag;
+  const {card, pointerId, placeholder, list, pressTimer} = favoriteDrag;
+  if (pressTimer) clearTimeout(pressTimer);
   card.classList.remove("is-dragging");
   card.style.position = "";
   card.style.left = "";
