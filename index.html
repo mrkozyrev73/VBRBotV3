@@ -16141,6 +16141,7 @@ function upgradeScore(x, d) {
   // в блок «Похожие, но лучше» сам по себе.
   const antennaRankDiff = radarAntennaRank(x) - radarAntennaRank(d);
   if (antennaRankDiff > 0) score += antennaRankDiff * 15;
+  if (antennaRankDiff < 0) score -= Math.abs(antennaRankDiff) * 18;
   if (x.rear_cam && !d.rear_cam) score += 6;
   if (x.smartphone && !d.smartphone) score += 5;
   if (x.magnetic && !d.magnetic) score += 4;
@@ -16152,7 +16153,16 @@ function isBetterAlternative(x, d) {
   // Иначе модель со слабым сенсором, но большим углом/доп. камерой ошибочно
   // всплывает как upgrade к более сильной 4K-модели.
   if ((x.q || 0) < (d.q || 0)) return false;
-  if (shootingQualityScore(x) < shootingQualityScore(d) - 2) return false;
+  if (radarAntennaRank(x) < radarAntennaRank(d)) return false;
+  if (hasGPS(d) && !hasGPS(x)) return false;
+  if (d.rear_cam && !x.rear_cam) return false;
+  if (d.smartphone && !x.smartphone) return false;
+  if (d.magnetic && !x.magnetic) return false;
+  if (d.touch && !x.touch) return false;
+
+  const antennaUpgrade = radarAntenna(d) === "patch" && radarAntenna(x) === "horn";
+  if (!antennaUpgrade && shootingQualityScore(x) < shootingQualityScore(d) - 2) return false;
+  if (antennaUpgrade) return true;
   return upgradeScore(x, d) > 0;
 }
 
@@ -16329,7 +16339,7 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
 function renderAnalogCard(x, pct, diffs, delayIndex = 0, target = null) {
   const antenna = radarAntenna(x);
   const targetAntenna = target ? radarAntenna(target) : null;
-  const antennaDiff = antenna === "horn" && targetAntenna !== "horn" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
+  const antennaDiff = antenna === "horn" && targetAntenna === "patch" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
     ? [{text: UI_TERMS.horn, type: "antenna"}]
     : [];
   const shownDiffs = diffs ? [...antennaDiff, ...diffs].slice(0, 4) : antennaDiff;
