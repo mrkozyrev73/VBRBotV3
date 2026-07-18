@@ -11805,7 +11805,8 @@ canvas {
   --tg-safe-bottom: 0px;
   --tg-viewport-h: 100dvh;
   --tg-page-top: 64px;
-  --tg-sticky-top: 128px;
+  --tg-sticky-top: 132px;
+  --tg-sticky-cover: 214px;
 }
 html.tg-app-root,
 html.tg-app-root body {
@@ -11826,12 +11827,37 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   body.tg-fullscreen #header {
     padding-top: max(var(--tg-safe-top), var(--tg-page-top));
   }
-  body.tg-fullscreen #s-catalog .catalog-head,
-  body.tg-fullscreen #s-compare .section-head {
-    top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
+  html.tg-app-root #s-catalog,
+  body.tg-app #s-catalog,
+  html.tg-app-root #s-compare,
+  body.tg-app #s-compare {
+    padding-top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
   }
-  body.tg-fullscreen #s-compare .cmp-sticky-head {
+  html.tg-app-root #s-catalog::before,
+  body.tg-app #s-catalog::before,
+  html.tg-app-root #s-compare::before,
+  body.tg-app #s-compare::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: max(var(--tg-safe-top), var(--tg-sticky-cover));
+    background: linear-gradient(180deg, var(--bg) 0%, rgba(11, 14, 20, .98) 72%, rgba(11, 14, 20, 0) 100%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  html.tg-app-root #s-catalog .catalog-head,
+  body.tg-app #s-catalog .catalog-head,
+  html.tg-app-root #s-compare .section-head,
+  body.tg-app #s-compare .section-head {
+    top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
+    z-index: 8;
+  }
+  html.tg-app-root #s-compare .cmp-sticky-head,
+  body.tg-app #s-compare .cmp-sticky-head {
     top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
+    z-index: 9;
   }
 }
 </style>
