@@ -11611,6 +11611,22 @@ canvas {
 /* согласие дано: окошко остаётся с проставленной галочкой, но бледное */
 .consent-card.consent-done { opacity: .55; }
 .consent-card.consent-done input { accent-color: var(--blue); }
+#s-intro.v2-home:not(.intro-consent-ready) .consent-card {
+  opacity: 0 !important;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+#s-intro.v2-home .consent-card {
+  transition: opacity .22s ease, transform .22s ease;
+}
+#s-intro.v2-home.intro-consent-ready .consent-card {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+#s-intro.v2-home.intro-consent-ready .consent-card.consent-done {
+  opacity: .55;
+}
 /* мигание окошка/галочки согласия при клике по заблокированной «Начать подбор» */
 @keyframes consentBlink {
   0%, 100% { border-color: var(--border); box-shadow: 0 0 0 0 rgba(var(--blue-rgb), 0); }
@@ -11765,7 +11781,7 @@ canvas {
       if (vh) document.documentElement.style.setProperty('--tg-viewport-h', vh + 'px');
       if (document.body) {
         document.body.classList.add('tg-app');
-        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen) || window.innerWidth < 900);
+        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen));
       }
     } catch (e) {}
   }
@@ -11784,7 +11800,13 @@ canvas {
 </script>
 <style>
 /* Внутри Telegram-fullscreen: контент и фикс-элементы не заезжают под статусбар */
-:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; --tg-fullscreen-top: 128px; }
+:root {
+  --tg-safe-top: 0px;
+  --tg-safe-bottom: 0px;
+  --tg-viewport-h: 100dvh;
+  --tg-page-top: 64px;
+  --tg-sticky-top: 128px;
+}
 html.tg-app-root,
 html.tg-app-root body {
   min-height: var(--tg-viewport-h);
@@ -11795,17 +11817,21 @@ body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
 body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
 @media (max-width: 899px) {
-  html.tg-app-root .screen,
-  body.tg-app .screen {
-    padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top)) !important;
+  body.tg-fullscreen .screen {
+    padding-top: max(var(--tg-safe-top), var(--tg-page-top)) !important;
   }
-  html.tg-app-root .srch-topbar,
-  body.tg-app .srch-topbar {
-    top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
+  body.tg-fullscreen .srch-topbar {
+    top: max(var(--tg-safe-top), var(--tg-sticky-top));
   }
-  html.tg-app-root #header,
-  body.tg-app #header {
-    padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
+  body.tg-fullscreen #header {
+    padding-top: max(var(--tg-safe-top), var(--tg-page-top));
+  }
+  body.tg-fullscreen #s-catalog .catalog-head,
+  body.tg-fullscreen #s-compare .section-head {
+    top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
+  }
+  body.tg-fullscreen #s-compare .cmp-sticky-head {
+    top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
   }
 }
 </style>
@@ -13059,7 +13085,13 @@ function refreshCompareUI() {
   });
   renderCompareBar();
   updateCompareHeader();
-  if (currentScreenId === "s-catalog") renderCatalog();
+  if (currentScreenId === "s-catalog") {
+    if (_catalogFilters.includes("compared")) {
+      renderCatalog();
+    } else {
+      refreshCatalogHeaderOnly();
+    }
+  }
   if (currentScreenId === "s-compare") {
     if (compareList.length >= 2) renderCompareScreen();
     else renderCompareEmpty();
@@ -13538,7 +13570,13 @@ function refreshFavoriteUI() {
 function renderFavoritePanel() {
   updateNavBadges();
   updateFavoritesHeader();
-  if (currentScreenId === "s-catalog") renderCatalog();
+  if (currentScreenId === "s-catalog") {
+    if (_catalogFilters.includes("saved")) {
+      renderCatalog();
+    } else {
+      refreshCatalogHeaderOnly();
+    }
+  }
   if (currentScreenId === "s-favorites") renderFavoritesPage();
 }
 
@@ -13990,6 +14028,21 @@ function renderCatalog() {
   list.innerHTML = items.length
     ? (_catalogSort === "brand" ? catalogGroupsHTML(items) : catalogFlatListHTML(items))
     : `<div class="catalog-empty">Ничего не найдено. Сбросьте быстрый выбор или измените запрос.</div>`;
+}
+function refreshCatalogHeaderOnly() {
+  const count = document.getElementById("catalog-count");
+  const reset = document.getElementById("catalog-reset");
+  if (!count && !reset) return;
+  const items = catalogCurrentItems();
+  const active = _catalogFilters.length > 0 || _catalogQuery.trim() || _catalogScenario;
+  renderCatalogFilters();
+  renderCatalogSort();
+  if (count) {
+    count.textContent = active
+      ? `Подходит ${items.length} ${pluralRu(items.length, "модель", "модели", "моделей")}`
+      : `Все модели: ${items.length}`;
+  }
+  if (reset) reset.classList.toggle("show", Boolean(active));
 }
 function setCatalogScenario(id) {
   if (!CATALOG_SCENARIOS.some(s => s.id === id)) return;
@@ -17692,9 +17745,13 @@ function playIntroScene() {
 
   let alreadyPlayed = false;
   try { alreadyPlayed = !!sessionStorage.getItem(INTRO_SCENE_KEY); } catch (e) {}
-  if (prefersReducedMotion() || alreadyPlayed) return; // сразу конечное состояние
+  if (prefersReducedMotion() || alreadyPlayed) {
+    intro.classList.add("intro-consent-ready");
+    return; // сразу конечное состояние
+  }
 
   try { sessionStorage.setItem(INTRO_SCENE_KEY, "1"); } catch (e) {}
+  intro.classList.remove("intro-consent-ready");
 
   // Счётчик стартует с нуля вместе с появлением плашки
   const sticker = document.getElementById("intro-db-sticker");
@@ -17715,6 +17772,7 @@ function playIntroScene() {
   // Завершение сцены: снимаем классы — страница полностью успокаивается
   timers.push(setTimeout(() => {
     intro.classList.remove("scene-play");
+    intro.classList.add("intro-consent-ready");
     const btn = document.getElementById("btn-start");
     if (btn) btn.classList.remove("arrow-nudge");
   }, 2100));
