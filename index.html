@@ -13764,6 +13764,14 @@ function catalogIsCombo(d) {
 function catalogIsSuperCap(d) {
   return /суперконденсатор/i.test(String(d.specs?.power_element || ""));
 }
+function catalogCameraCount(d) {
+  const declared = Number.parseInt(d.specs?.camera_count || "", 10);
+  const byFlags = 1 + (d.rear_cam === true ? 1 : 0) + (d.ir_cam === true ? 1 : 0);
+  return Math.max(Number.isFinite(declared) ? declared : 1, byFlags);
+}
+function catalogIsThreeChannel(d) {
+  return catalogCameraCount(d) >= 3 || (d.rear_cam === true && d.ir_cam === true);
+}
 function catalogScenarioScore(d, scenarioId = _catalogScenario) {
   const id = scenarioId || "";
   const price = parsePrice(d.price);
@@ -13787,13 +13795,14 @@ function catalogScenarioScore(d, scenarioId = _catalogScenario) {
     ].filter(Boolean).length;
   }
   if (id === "taxi") {
-    return [
-      d.rear_cam === true || Number.parseInt(d.specs?.camera_count || "", 10) >= 2,
-      Number(d.q) >= 2,
-      catalogHasScreen(d),
-      catalogHasGps(d),
-      catalogHasWifi(d),
-    ].filter(Boolean).length;
+    return (catalogIsThreeChannel(d) ? 100 : 0)
+      + (d.ir_cam === true ? 36 : 0)
+      + (d.rear_cam === true ? 18 : 0)
+      + (Number(d.q) >= 2 ? 12 : 0)
+      + (catalogHasWifi(d) ? 8 : 0)
+      + (catalogHasGps(d) ? 6 : 0)
+      + (catalogHasScreen(d) ? 4 : 0)
+      + (Number.isFinite(price) && price <= 25000 ? 3 : 0);
   }
   if (id === "easy") {
     return [
@@ -13805,13 +13814,19 @@ function catalogScenarioScore(d, scenarioId = _catalogScenario) {
     ].filter(Boolean).length;
   }
   if (id === "gift") {
-    return [
-      giftBudget,
-      Number(d.q) >= 2,
-      catalogHasWifi(d),
-      catalogHasScreen(d),
-      !/зеркало/i.test(String(d.form || "")),
-    ].filter(Boolean).length;
+    if (!giftBudget) return -1000;
+    return 100
+      + (popularPlacementType(d) === "promoted" ? 16 : 0)
+      + (Number(d.q) >= 2 ? 18 : 0)
+      + (Number(d.q) >= 3 ? 8 : 0)
+      + (catalogHasWifi(d) ? 14 : 0)
+      + (catalogHasGps(d) ? 8 : 0)
+      + (d.magnetic === true ? 8 : 0)
+      + (d.specs?.cpl === true ? 6 : 0)
+      + (d.rear_cam === true || d.ir_cam === true ? 7 : 0)
+      + (catalogHasScreen(d) ? 4 : 0)
+      + (!/зеркало/i.test(String(d.form || "")) ? 3 : 0)
+      + (Number.isFinite(price) && price <= 7000 ? 5 : 0);
   }
   return 0;
 }
@@ -13822,6 +13837,10 @@ function catalogApplyScenario(items) {
     if (scenario.id === "gift") {
       const price = parsePrice(d.price);
       if (!Number.isFinite(price) || price > 10000) return false;
+      return catalogScenarioScore(d, scenario.id) >= 118;
+    }
+    if (scenario.id === "taxi") {
+      return d.ir_cam === true || catalogIsThreeChannel(d);
     }
     return catalogScenarioScore(d, scenario.id) >= (scenario.min || 1);
   });
@@ -13922,6 +13941,19 @@ function catalogSortItems(items) {
   const radarRank = d => String(d.type || "").toLowerCase() === "комбо 3 в 1" ? 1 : 0;
   return items.slice().sort((a, b) => {
     if (_catalogSort === "scenario" && _catalogScenario) {
+      if (_catalogScenario === "taxi") {
+        return Number(catalogIsThreeChannel(b)) - Number(catalogIsThreeChannel(a))
+          || catalogCameraCount(b) - catalogCameraCount(a)
+          || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
+          || catalogScenarioScore(b, _catalogScenario) - catalogScenarioScore(a, _catalogScenario)
+          || (Number(b.q) || 0) - (Number(a.q) || 0)
+          || withName(a, b);
+      }
+      if (_catalogScenario === "gift") {
+        return catalogScenarioScore(b, _catalogScenario) - catalogScenarioScore(a, _catalogScenario)
+          || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
+          || withName(a, b);
+      }
       return catalogScenarioScore(b, _catalogScenario) - catalogScenarioScore(a, _catalogScenario)
         || (Number(b.q) || 0) - (Number(a.q) || 0)
         || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
