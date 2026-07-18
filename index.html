@@ -11727,7 +11727,7 @@ canvas {
 <script>
 (function(){
   var wa = window.Telegram && window.Telegram.WebApp;
-  if (!wa || !wa.initData) return; // открыто не из Telegram — ничего не делаем
+  if (!wa) return; // открыто не из Telegram — ничего не делаем
   document.documentElement.classList.add('tg-app-root');
   function requestTelegramFullscreen(){
     try { wa.ready(); } catch (e) {}
@@ -11768,7 +11768,7 @@ canvas {
 </script>
 <style>
 /* Внутри Telegram-fullscreen: контент и фикс-элементы не заезжают под статусбар */
-:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; --tg-fullscreen-top: 96px; }
+:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; --tg-fullscreen-top: 128px; }
 html.tg-app-root,
 html.tg-app-root body {
   min-height: var(--tg-viewport-h);
@@ -11779,12 +11779,15 @@ body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
 body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
 @media (max-width: 899px) {
+  html.tg-app-root .screen,
   body.tg-app .screen {
     padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top)) !important;
   }
+  html.tg-app-root .srch-topbar,
   body.tg-app .srch-topbar {
     top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
   }
+  html.tg-app-root #header,
   body.tg-app #header {
     padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
   }
