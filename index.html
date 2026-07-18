@@ -11749,7 +11749,7 @@ canvas {
       if (vh) document.documentElement.style.setProperty('--tg-viewport-h', vh + 'px');
       if (document.body) {
         document.body.classList.add('tg-app');
-        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen));
+        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen) || window.innerWidth < 900);
       }
     } catch (e) {}
   }
@@ -11779,13 +11779,13 @@ body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
 body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
 @media (max-width: 899px) {
-  body.tg-app.tg-fullscreen .screen {
+  body.tg-app .screen {
     padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top)) !important;
   }
-  body.tg-app.tg-fullscreen .srch-topbar {
+  body.tg-app .srch-topbar {
     top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
   }
-  body.tg-app.tg-fullscreen #header {
+  body.tg-app #header {
     padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
   }
 }
