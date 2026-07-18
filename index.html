@@ -11806,7 +11806,7 @@ canvas {
   --tg-viewport-h: 100dvh;
   --tg-page-top: 64px;
   --tg-sticky-top: 132px;
-  --tg-sticky-cover: 214px;
+  --tg-sticky-cover: 286px;
 }
 html.tg-app-root,
 html.tg-app-root body {
@@ -11830,34 +11830,43 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   html.tg-app-root #s-catalog,
   body.tg-app #s-catalog,
   html.tg-app-root #s-compare,
-  body.tg-app #s-compare {
+  body.tg-app #s-compare,
+  html.tg-app-root #s-favorites,
+  body.tg-app #s-favorites {
     padding-top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
   }
   html.tg-app-root #s-catalog::before,
   body.tg-app #s-catalog::before,
   html.tg-app-root #s-compare::before,
-  body.tg-app #s-compare::before {
+  body.tg-app #s-compare::before,
+  html.tg-app-root #s-favorites::before,
+  body.tg-app #s-favorites::before {
     content: "";
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     height: max(var(--tg-safe-top), var(--tg-sticky-cover));
-    background: linear-gradient(180deg, var(--bg) 0%, rgba(11, 14, 20, .98) 72%, rgba(11, 14, 20, 0) 100%);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 86%, rgba(11, 14, 20, 0) 100%);
     pointer-events: none;
-    z-index: 5;
+    z-index: 120;
   }
   html.tg-app-root #s-catalog .catalog-head,
-  body.tg-app #s-catalog .catalog-head,
-  html.tg-app-root #s-compare .section-head,
-  body.tg-app #s-compare .section-head {
+  body.tg-app #s-catalog .catalog-head {
     top: max(var(--tg-safe-top), var(--tg-sticky-top)) !important;
-    z-index: 8;
+    z-index: 121;
+  }
+  html.tg-app-root #s-compare .section-head,
+  body.tg-app #s-compare .section-head,
+  html.tg-app-root #s-favorites .section-head,
+  body.tg-app #s-favorites .section-head {
+    position: relative;
+    z-index: 121;
   }
   html.tg-app-root #s-compare .cmp-sticky-head,
   body.tg-app #s-compare .cmp-sticky-head {
     top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
-    z-index: 9;
+    z-index: 122;
   }
 }
 </style>
