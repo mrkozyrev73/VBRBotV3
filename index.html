@@ -3047,6 +3047,13 @@ html, body {
   padding: 4px 11px;
   border-radius: 999px;
 }
+.dev-antenna-note.weak {
+  color: var(--amber-text);
+  background: var(--amber-bg);
+  border: 1px solid rgba(255,184,107,.22);
+  padding: 4px 11px;
+  border-radius: 999px;
+}
 
 /* Extended specs grid */
 .dev-specs-grid {
@@ -11863,6 +11870,10 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   body.tg-app #s-compare .cmp-sticky-head {
     top: calc(max(var(--tg-safe-top), var(--tg-sticky-top)) + 8px) !important;
     z-index: 81;
+    background: rgba(18, 23, 34, .99);
+    box-shadow:
+      0 -150px 0 150px var(--bg),
+      0 10px 24px rgba(0,0,0,.22);
   }
 }
 </style>
@@ -14782,6 +14793,18 @@ function sortItems(items) {
   return arr;
 }
 
+function sortResultItemsByFit(items) {
+  const arr = [...items];
+  arr.sort((a, b) =>
+    b.pct - a.pct ||
+    comboSearchPriority(b) - comboSearchPriority(a) ||
+    recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
+    b.d.q - a.d.q ||
+    primaryAngle(b.d) - primaryAngle(a.d)
+  );
+  return arr;
+}
+
 // ════════════════════════════════════════════════════════
 //  COMPROMISE SUGGESTER
 // ════════════════════════════════════════════════════════
@@ -16103,13 +16126,16 @@ function radarAntennaRank(d) {
 // Видимая пометка о радарной антенне на карточке результата.
 // Рупорная — акцентная плашка (объясняет, почему модель выше в выдаче и дороже),
 // патч — нейтральная подпись.
-function cardAntennaBadgeHTML(d) {
+function cardAntennaBadgeHTML(d, weakPatch = false) {
   const antenna = radarAntenna(d);
   if (!antenna) return "";
   const label = radarAntennaLabel(d);
   const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M8.5 9.5a5 5 0 0 1 7 0"/><path d="M5.7 6.7a9 9 0 0 1 12.6 0"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>';
   if (antenna === "horn") {
     return `<div class="dev-antenna-note hi">${icon}${label} · мощнее патч-антенны</div>`;
+  }
+  if (weakPatch) {
+    return `<div class="dev-antenna-note weak">${icon}${label} · слабее рупорной</div>`;
   }
   return `<div class="dev-antenna-note">${icon}${label}</div>`;
 }
@@ -17409,9 +17435,10 @@ function _renderResults(top) {
   chipsWrap.style.display = chips ? "block" : "none";
   chipsWrap.classList.remove("open"); // по умолчанию свёрнут
 
-  const exact    = top.filter(t => t.mm.length === 0);
-  const near     = top.filter(t => t.mm.length > 0);
+  const exact    = sortResultItemsByFit(top.filter(t => t.mm.length === 0));
+  const near     = sortResultItemsByFit(top.filter(t => t.mm.length > 0));
   const upgrades = getUpgrades(exact);
+  const hasHornCandidate = isComboSearch() && [...exact, ...near, ...upgrades].some(t => radarAntenna(t.d) === "horn");
   const bestPct  = top.length ? Math.max(...top.map(t => t.pct)) : 0;
 
   // ── Заголовок результата ──
@@ -17653,7 +17680,7 @@ function _renderResults(top) {
           </div>
           <span class="card-toggle-arrow" aria-hidden="true">›</span>
         </div>
-        ${cardAntennaBadgeHTML(d)}
+        ${cardAntennaBadgeHTML(d, hasHornCandidate && radarAntenna(d) === "patch")}
         <div class="card-collapsible">
           ${devicePhotoHTML(d)}
           ${reqMatchHTML(item, isExact, isUpgrade)}
