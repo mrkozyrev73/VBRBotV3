@@ -871,6 +871,9 @@ html, body {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
+#s-search.profile-mode .srch-topbar {
+  display: none;
+}
 .srch-topbar-inner {
   display: flex;
   align-items: center;
@@ -11746,7 +11749,10 @@ canvas {
     try { if (wa.setHeaderColor) wa.setHeaderColor('#0B0E14'); } catch (e) {}
     try { if (wa.disableVerticalSwipes) wa.disableVerticalSwipes(); } catch (e) {}
     // Полный экран в поддерживаемых клиентах Telegram.
-    try { if (wa.requestFullscreen && !wa.isFullscreen) wa.requestFullscreen(); } catch (e) {}
+    try {
+      var canFullscreen = !wa.isVersionAtLeast || wa.isVersionAtLeast('8.0');
+      if (canFullscreen && wa.requestFullscreen && !wa.isFullscreen) wa.requestFullscreen();
+    } catch (e) {}
   }
   function applyInsets(){
     try {
@@ -13004,7 +13010,7 @@ function toggleCompareByIndex(event, idx) {
   }
   saveCompare();
   refreshCompareUI();
-  if (event) showFavTooltip(event);
+  if (event && currentScreenId !== "s-search") showFavTooltip(event);
 }
 
 function removeCompareByIndex(event, idx) {
@@ -13495,7 +13501,7 @@ function toggleFavoriteByIndex(event, idx) {
   saveFavorites();
   refreshFavoriteUI();
   showCopyToast(wasFavorite ? "Удалено из избранного" : "Добавлено в избранное");
-  if (event) showFavTooltip(event);
+  if (event && currentScreenId !== "s-search") showFavTooltip(event);
 }
 
 function removeFavoriteByIndex(event, idx) {
@@ -14975,6 +14981,33 @@ function setIntroSearchMode(active) {
   }
 }
 
+function resetIntroSearchState() {
+  const mode = document.getElementById('s-mode');
+  const inner = mode ? mode.querySelector('.mode-inner') : null;
+  const inp = document.getElementById("intro-srch");
+  const clearBtn = document.getElementById("intro-srch-clear");
+  const resultsEl = document.getElementById("intro-srch-results");
+  if (inner) {
+    inner.style.transition = "";
+    inner.style.transform = "";
+  }
+  if (mode) {
+    mode.classList.remove("mode-searching");
+    mode.scrollTo({top: 0, behavior: "instant"});
+  }
+  if (inp) inp.value = "";
+  if (clearBtn) clearBtn.style.display = "none";
+  if (resultsEl) {
+    resultsEl.innerHTML = "";
+    resultsEl.classList.remove("isr-enter");
+    resultsEl.scrollTop = 0;
+  }
+  lastIntroSearchQuery = "";
+  showAllIntroSearch = false;
+  introSearchListOpen = false;
+  introSearchSaved = null;
+}
+
 let lastIntroSearchQuery = "";
 let showAllIntroSearch = false;
 let introSearchListOpen = false; // entrance-анимация только при «нет списка → появился»
@@ -14987,7 +15020,7 @@ function introSearchMetaLine(d) {
   if (q) items.push(q);
   const type = String(d.type || "").toLowerCase();
   if (type === "комбо 3 в 1") items.push("комбо 3 в 1");
-  else if (type === "gps-информер") items.push("база камер");
+  else if (type === "gps-информер") items.push("GPS-информер");
   else if (type === "4g-регистратор") items.push("4G");
   if (d.gps && d.gps !== "нет") items.push("GPS");
   if (d.smartphone) items.push("Wi-Fi");
@@ -15103,6 +15136,11 @@ function openDeviceFromIntro(idx) {
     listScroll: resultsEl ? resultsEl.scrollTop : 0,
     pageScroll: mode ? mode.scrollTop : 0,
   };
+  const inner = mode ? mode.querySelector('.mode-inner') : null;
+  if (inner) {
+    inner.style.transition = "";
+    inner.style.transform = "";
+  }
   lastSearchOrigin = 'intro';
   openDeviceFromSearch(idx);
 }
@@ -15463,6 +15501,7 @@ function makeSearchCard(item, isExact) {
 }
 
 function renderSearchResults(results, query) {
+  document.getElementById("s-search")?.classList.remove("profile-mode");
   const area = document.getElementById("srch-results-area");
   if (!results || results.length === 0) {
     area.innerHTML = query
@@ -16611,6 +16650,7 @@ function deviceDecisionPanelHTML(d) {
 
 function renderDeviceProfile(d, exact, similar) {
   const area = document.getElementById('srch-results-area');
+  document.getElementById('s-search')?.classList.add('profile-mode');
   const exactShown = sortExactAnalogsForProfile(exact, d).slice(0, 6);
   // Внутри каждой секции карточки сортируются по проценту, который
   // реально показан на карточке (similarPct) — иначе порядок (по upgradeScore)
@@ -16744,6 +16784,7 @@ function backToSearchResults() {
 function openModeChoice() {
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
+  resetIntroSearchState();
   show("s-mode");
   const mode = document.getElementById("s-mode");
   if (mode) mode.scrollTo({top: 0, behavior: "instant"});
