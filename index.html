@@ -11718,6 +11718,44 @@ canvas {
 .about-policy-row .policy-link { font-size: 12.5px; color: var(--text-2); }
 .about-policy-row .policy-link:hover { color: var(--blue); }
 </style>
+<!-- Telegram Mini App: полноэкранный режим при открытии внутри Telegram -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+(function(){
+  var wa = window.Telegram && window.Telegram.WebApp;
+  if (!wa || !wa.initData) return; // открыто не из Telegram — ничего не делаем
+  try { wa.ready(); } catch (e) {}
+  try { wa.expand(); } catch (e) {}
+  try { if (wa.disableVerticalSwipes) wa.disableVerticalSwipes(); } catch (e) {}
+  // Полный экран (Bot API 8.0+, Telegram 11+)
+  try { if (wa.requestFullscreen) wa.requestFullscreen(); } catch (e) {}
+  // Отступы под статусбар/чёлку в fullscreen
+  function applyInsets(){
+    try {
+      var s = wa.safeAreaInset || {}, c = wa.contentSafeAreaInset || {};
+      var top = (s.top || 0) + (c.top || 0);
+      var bottom = Math.max(s.bottom || 0, c.bottom || 0);
+      document.documentElement.style.setProperty('--tg-safe-top', top + 'px');
+      document.documentElement.style.setProperty('--tg-safe-bottom', bottom + 'px');
+      document.body && document.body.classList.add('tg-app');
+    } catch (e) {}
+  }
+  try {
+    wa.onEvent && wa.onEvent('fullscreenChanged', applyInsets);
+    wa.onEvent && wa.onEvent('safeAreaChanged', applyInsets);
+    wa.onEvent && wa.onEvent('contentSafeAreaChanged', applyInsets);
+  } catch (e) {}
+  if (document.body) applyInsets(); else document.addEventListener('DOMContentLoaded', applyInsets);
+})();
+</script>
+<style>
+/* Внутри Telegram-fullscreen: контент и фикс-элементы не заезжают под статусбар */
+:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; }
+body.tg-app .screen { padding-top: var(--tg-safe-top); }
+body.tg-app .srch-topbar { top: var(--tg-safe-top); }
+body.tg-app #header { padding-top: var(--tg-safe-top); }
+body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
+</style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
 function enableMetrika(){
