@@ -16326,9 +16326,10 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
   </div>`;
 }
 
-function renderAnalogCard(x, pct, diffs, delayIndex = 0) {
+function renderAnalogCard(x, pct, diffs, delayIndex = 0, target = null) {
   const antenna = radarAntenna(x);
-  const antennaDiff = antenna === "horn" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
+  const targetAntenna = target ? radarAntenna(target) : null;
+  const antennaDiff = antenna === "horn" && targetAntenna !== "horn" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
     ? [{text: UI_TERMS.horn, type: "antenna"}]
     : [];
   const shownDiffs = diffs ? [...antennaDiff, ...diffs].slice(0, 4) : antennaDiff;
@@ -16814,7 +16815,7 @@ function renderDeviceProfile(d, exact, similar) {
 
   if (exact.length > 0) {
     html += `<div class="dev-section-hdr exact">Полные аналоги <span class="dev-section-pct">100%</span></div>`;
-    html += `<div class="analog-card-grid">${exactShown.map((a, i) => renderAnalogCard(a, 100, exactAnalogSavingsDiff(a, d), i)).join('')}</div>`;
+    html += `<div class="analog-card-grid">${exactShown.map((a, i) => renderAnalogCard(a, 100, exactAnalogSavingsDiff(a, d), i, d)).join('')}</div>`;
   } else if (similar.length > 0) {
     html += `<div class="dev-no-exact">
       <div class="dev-no-exact-icon">!</div>
@@ -16827,12 +16828,12 @@ function renderDeviceProfile(d, exact, similar) {
 
   if (betterSimilar.length > 0) {
     html += `<div class="dev-section-hdr upgrade">Похожие, но лучше</div>`;
-    html += `<div class="analog-card-grid">${betterSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i)).join('')}</div>`;
+    html += `<div class="analog-card-grid">${betterSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i, d)).join('')}</div>`;
   }
 
   if (regularSimilar.length > 0) {
     html += `<div class="dev-section-hdr similar">${similarSectionTitle(d)}</div>`;
-    html += `<div class="analog-card-grid">${regularSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i)).join('')}</div>`;
+    html += `<div class="analog-card-grid">${regularSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i, d)).join('')}</div>`;
   } else if (exact.length === 0 && betterSimilar.length === 0) {
     html += `<div class="dev-no-exact">
       <div class="dev-no-exact-icon">?</div>
