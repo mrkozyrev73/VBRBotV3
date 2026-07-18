@@ -11727,7 +11727,18 @@ canvas {
 <script>
 (function(){
   var wa = window.Telegram && window.Telegram.WebApp;
-  if (!wa) return; // открыто не из Telegram — ничего не делаем
+  function hasTelegramLaunchContext(){
+    var launchParams = String(location.search || "") + String(location.hash || "");
+    return Boolean(
+      wa &&
+      (
+        (wa.initData && wa.initData.length) ||
+        (wa.platform && wa.platform !== "unknown") ||
+        /tgWebApp(?:Data|Version|Platform|ThemeParams|StartParam)/i.test(launchParams)
+      )
+    );
+  }
+  if (!hasTelegramLaunchContext()) return; // обычный домен/браузер — ничего не делаем
   document.documentElement.classList.add('tg-app-root');
   function requestTelegramFullscreen(){
     try { wa.ready(); } catch (e) {}
