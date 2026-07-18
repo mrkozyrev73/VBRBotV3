@@ -3,9 +3,13 @@
 <html lang="ru" style="background:#0B0E14">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0B0E14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="VBR БОТ">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="VBR БОТ помогает выбрать видеорегистратор, GPS-информер или комбо-устройство по задачам, бюджету и характеристикам. Каталог, сравнение, избранное и быстрый подбор моделей.">
 <meta name="keywords" content="видеорегистратор, GPS-информер, комбо 3 в 1, подбор видеорегистратора, сравнение видеорегистраторов, VBR БОТ">
 <meta name="robots" content="index, follow">
@@ -11724,33 +11728,49 @@ canvas {
 (function(){
   var wa = window.Telegram && window.Telegram.WebApp;
   if (!wa || !wa.initData) return; // открыто не из Telegram — ничего не делаем
-  try { wa.ready(); } catch (e) {}
-  try { wa.expand(); } catch (e) {}
-  try { if (wa.disableVerticalSwipes) wa.disableVerticalSwipes(); } catch (e) {}
-  // Полный экран (Bot API 8.0+, Telegram 11+)
-  try { if (wa.requestFullscreen) wa.requestFullscreen(); } catch (e) {}
-  // Отступы под статусбар/чёлку в fullscreen
+  document.documentElement.classList.add('tg-app-root');
+  function requestTelegramFullscreen(){
+    try { wa.ready(); } catch (e) {}
+    try { wa.expand(); } catch (e) {}
+    try { if (wa.setBackgroundColor) wa.setBackgroundColor('#0B0E14'); } catch (e) {}
+    try { if (wa.setHeaderColor) wa.setHeaderColor('#0B0E14'); } catch (e) {}
+    try { if (wa.disableVerticalSwipes) wa.disableVerticalSwipes(); } catch (e) {}
+    // Полный экран в поддерживаемых клиентах Telegram.
+    try { if (wa.requestFullscreen && !wa.isFullscreen) wa.requestFullscreen(); } catch (e) {}
+  }
   function applyInsets(){
     try {
       var s = wa.safeAreaInset || {}, c = wa.contentSafeAreaInset || {};
       var top = (s.top || 0) + (c.top || 0);
       var bottom = Math.max(s.bottom || 0, c.bottom || 0);
+      var vh = wa.viewportStableHeight || wa.viewportHeight || window.innerHeight || 0;
       document.documentElement.style.setProperty('--tg-safe-top', top + 'px');
       document.documentElement.style.setProperty('--tg-safe-bottom', bottom + 'px');
+      if (vh) document.documentElement.style.setProperty('--tg-viewport-h', vh + 'px');
       document.body && document.body.classList.add('tg-app');
     } catch (e) {}
   }
+  requestTelegramFullscreen();
   try {
+    wa.onEvent && wa.onEvent('viewportChanged', function(){ requestTelegramFullscreen(); applyInsets(); });
     wa.onEvent && wa.onEvent('fullscreenChanged', applyInsets);
     wa.onEvent && wa.onEvent('safeAreaChanged', applyInsets);
     wa.onEvent && wa.onEvent('contentSafeAreaChanged', applyInsets);
   } catch (e) {}
+  [120, 450, 1000].forEach(function(delay){
+    setTimeout(function(){ requestTelegramFullscreen(); applyInsets(); }, delay);
+  });
   if (document.body) applyInsets(); else document.addEventListener('DOMContentLoaded', applyInsets);
 })();
 </script>
 <style>
 /* Внутри Telegram-fullscreen: контент и фикс-элементы не заезжают под статусбар */
-:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; }
+:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; }
+html.tg-app-root,
+html.tg-app-root body {
+  min-height: var(--tg-viewport-h);
+  background: var(--bg);
+}
 body.tg-app .screen { padding-top: var(--tg-safe-top); }
 body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
