@@ -11747,7 +11747,10 @@ canvas {
       document.documentElement.style.setProperty('--tg-safe-top', top + 'px');
       document.documentElement.style.setProperty('--tg-safe-bottom', bottom + 'px');
       if (vh) document.documentElement.style.setProperty('--tg-viewport-h', vh + 'px');
-      document.body && document.body.classList.add('tg-app');
+      if (document.body) {
+        document.body.classList.add('tg-app');
+        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen));
+      }
     } catch (e) {}
   }
   requestTelegramFullscreen();
@@ -11765,7 +11768,7 @@ canvas {
 </script>
 <style>
 /* Внутри Telegram-fullscreen: контент и фикс-элементы не заезжают под статусбар */
-:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; }
+:root { --tg-safe-top: 0px; --tg-safe-bottom: 0px; --tg-viewport-h: 100dvh; --tg-fullscreen-top: 96px; }
 html.tg-app-root,
 html.tg-app-root body {
   min-height: var(--tg-viewport-h);
@@ -11775,6 +11778,17 @@ body.tg-app .screen { padding-top: var(--tg-safe-top); }
 body.tg-app .srch-topbar { top: var(--tg-safe-top); }
 body.tg-app #header { padding-top: var(--tg-safe-top); }
 body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg-safe-bottom)); }
+@media (max-width: 899px) {
+  body.tg-app.tg-fullscreen .screen {
+    padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top)) !important;
+  }
+  body.tg-app.tg-fullscreen .srch-topbar {
+    top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
+  }
+  body.tg-app.tg-fullscreen #header {
+    padding-top: max(var(--tg-safe-top), var(--tg-fullscreen-top));
+  }
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
