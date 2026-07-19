@@ -13417,7 +13417,7 @@ function renderCompareScreen() {
     <div class="cmp-row cmp-row-anim" style="animation-delay:${Math.min(i * 22, 260)}ms">
       <div class="cmp-row-label"><svg viewBox="0 0 24 24"><path d="${attrSafe(row.icon)}"/></svg>${attrSafe(row.label)}</div>
       <div class="cmp-row-cells cmp-cols-${devices.length}">
-        ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${attrSafe(c.text)}</div>`).join("")}
+        ${row.cells.map(c => `<div class="cmp-cell${c.best ? " best" : ""}">${attrSafe(c.text)}${/ms\s*battery/i.test(String(c.text)) ? termTip("msbattery") : ""}</div>`).join("")}
       </div>
     </div>
   `).join("");
@@ -14250,11 +14250,19 @@ function resetCatalogFilters() {
 }
 function showCatalog(updateHash = true) {
   if (updateHash) setSectionHash("catalog");
+  const alreadyHere = currentScreenId === "s-catalog"; // повторный тап по «Каталог» — наверх
   show("s-catalog");
   const sc = document.getElementById("s-catalog");
-  if (sc) sc.scrollTo(0, 0);
+  const target = alreadyHere ? 0 : (_catalogScrollPos || 0);
   updateCatalogHeadStuck();
   scheduleCatalogRender();
+  // восстанавливаем позицию после рендера списка (фильтры и так сохраняются)
+  setTimeout(() => {
+    if (currentScreenId !== "s-catalog") return;
+    if (sc) sc.scrollTop = target;
+    try { window.scrollTo(0, target); } catch (e) {}
+    updateCatalogHeadStuck();
+  }, 80);
 }
 function openCatalogDevice(idx) {
   lastSearchOrigin = "catalog";
@@ -15105,7 +15113,13 @@ function vbrHit(screenId) {
   } catch (e) {}
 }
 
+let _catalogScrollPos = 0;
 function show(id) {
+  // уходим из каталога — запоминаем позицию прокрутки, чтобы вернуть её при возврате
+  if (currentScreenId === "s-catalog" && id !== "s-catalog") {
+    const sc = document.getElementById("s-catalog");
+    _catalogScrollPos = Math.max(sc ? sc.scrollTop : 0, window.scrollY || document.documentElement.scrollTop || 0);
+  }
   currentScreenId = id;
   updateTelegramTopMask(id);
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
@@ -15492,7 +15506,8 @@ const TERM_HELP = {
   patch: "Патч-антенна — компактная радарная антенна, обычно слабее рупорной.",
   interpolation: "Интерполяция — программное увеличение разрешения. Детализация обычно ниже, чем у нативной съёмки.",
   lna: "LNA — усилитель сигнала радарной части.",
-  sensor: "Сенсор камеры влияет на детализацию и ночную съёмку. Сравнивается вместе с разрешением, а не вместо него."
+  sensor: "Сенсор камеры влияет на детализацию и ночную съёмку. Сравнивается вместе с разрешением, а не вместо него.",
+  msbattery: "MS Battery — резервная кнопочная аккумуляторная батарея. Нужна для сохранения настроек и завершения записи."
 };
 
 function attrSafe(text) {
@@ -16823,7 +16838,7 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
     <div class="specs-full-body">
       ${rows.map(([label, val]) => `<div class="specs-full-row">
         <span class="specs-full-label">${attrSafe(label)}</span>
-        <span class="specs-full-val">${attrSafe(val)}</span>
+        <span class="specs-full-val">${attrSafe(val)}${/ms\s*battery/i.test(String(val)) ? termTip("msbattery") : ""}</span>
       </div>`).join("")}
     </div>
   </div>`;
