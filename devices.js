@@ -71,6 +71,7 @@ window.DEVICES = [
     "photo": "https://img.ixbt.site/live/topics/preview/00/03/04/50/b6ca243506.jpg",
     "image": "assets/devices/ibox-rover-wifi-gps-dual.webp",
     "specs": {
+      "cpl": false,
       "sensor": "Sony STARVIS IMX307",
       "processor": null,
       "display_type": "IPS",
@@ -108,6 +109,7 @@ window.DEVICES = [
     "photo": "https://car-radar.ru/wa-data/public/shop/products/26/38/3826/images/17409/17409.750.jpg",
     "image": "assets/devices/ibox-range-2-laservision-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -180,6 +182,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-flip-2k-wifi-dual.webp",
     "specs": {
+      "cpl": false,
       "sensor": "GalaxyCore GC4653",
       "processor": "Eeasy 230L",
       "display_type": null,
@@ -216,6 +219,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-flip-gps-dual.webp",
     "specs": {
+      "cpl": false,
       "sensor": "GalaxyCore GC2053",
       "processor": "Jieli 5701",
       "display_type": null,
@@ -2250,89 +2254,6 @@ window.DEVICES = [
     }
   },
   {
-    "name": "TrendVision Online Sky 4G",
-    "brand": "TrendVision",
-    "type": "видеорегистратор",
-    "form": "без экрана",
-    "q": 1,
-    "magnetic": false,
-    "smartphone": false,
-    "rear_cam": false,
-    "touch": false,
-    "rotation": true,
-    "ir_cam": false,
-    "remote": true,
-    "desc": "Ультракомпактный Full HD регистратор с 4G онлайн-мониторингом 24/7. Электронное ограждение, GPS-трек, парковочный режим, уведомления о событиях. Скрытая установка.",
-    "resolution": "Full HD 1920×1080 @30fps",
-    "angle": "150°",
-    "screen": "без экрана",
-    "gps": "GPS встроенный",
-    "price": "~11 990 ₽",
-    "url": "https://trendvision.ru/products/trendvision-online-sky-4g/",
-    "market_url": "https://market.yandex.ru/cc/A4Yk7C",
-    "photo": "https://trendvision.ru/uploads/xlarge_Online_4_G_skyverh_niz_ba7c3736b1.jpg",
-    "image": "assets/devices/trendvision-online-sky-4g.webp",
-    "specs": {
-      "sensor": "GalaxyCore GC2063",
-      "processor": "Ingenic T23",
-      "max_sd": "128 ГБ",
-      "power_element": "Бортовая сеть автомобиля",
-      "power_type": "USB Type-C",
-      "gsensor": true,
-      "motion": false,
-      "timelapse": true,
-      "cpl": false,
-      "camera_count": "1",
-      "bracket": "Механическое (на защёлке)",
-      "connector": "USB Type-C",
-      "codec": "H.264",
-      "format": "REC",
-      "app": "Есть для iOS и Android / Приложение HOTKam / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО",
-      "features": "4G, 3G, голосовые подсказки, функции \"Электронное ограждение\" и \"Поиск автомобиля в один клик\", уведомления на телефон о \"тревожных\" событиях"
-    }
-  },
-  {
-    "name": "TrendVision Online Sky 4G Dual",
-    "brand": "TrendVision",
-    "type": "видеорегистратор",
-    "form": "без экрана",
-    "q": 2,
-    "magnetic": false,
-    "smartphone": false,
-    "rear_cam": false,
-    "touch": false,
-    "rotation": true,
-    "ir_cam": false,
-    "remote": true,
-    "desc": "2K регистратор с 4G, задней Full HD камерой в комплекте и двусторонней голосовой связью. Электронное ограждение, GPS, парковочный режим.",
-    "resolution": "2K 2560×1440 @30fps",
-    "angle": "150°+110°",
-    "screen": "без экрана",
-    "gps": "GPS встроенный",
-    "price": "~13 990 ₽",
-    "url": "https://trendvision.ru/products/trendvision-online-sky-4g-dual/",
-    "photo": "https://trendvision.ru/uploads/xlarge_Online_4_G_skybochka_870e8160ec.jpg",
-    "image": "assets/devices/trendvision-online-sky-4g-dual.webp",
-    "specs": {
-      "sensor": "GalaxyCore GC4653",
-      "processor": "Cortex-A7 (Hisilicon HI3516CV610)",
-      "max_sd": "256 ГБ",
-      "power_element": "Бортовая сеть автомобиля",
-      "power_type": "USB Type-C",
-      "gsensor": true,
-      "motion": false,
-      "timelapse": true,
-      "cpl": false,
-      "camera_count": "2",
-      "bracket": "Механическое (на защёлке)",
-      "connector": "USB Type-C",
-      "codec": "H.264",
-      "format": "MP4",
-      "app": "Есть для iOS и Android / Приложение HOTKam / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО",
-      "features": "4G, 3G, голосовые подсказки, функции \"Электронное ограждение\" и \"Поиск автомобиля в один клик\", уведомления на телефон о \"тревожных\" событиях"
-    }
-  },
-  {
     "name": "TrendVision Online Air 4G",
     "brand": "TrendVision",
     "type": "видеорегистратор",
@@ -2377,50 +2298,6 @@ window.DEVICES = [
     }
   },
   {
-    "name": "TrendVision Online Cloud 4G",
-    "brand": "TrendVision",
-    "type": "видеорегистратор",
-    "form": "с экраном",
-    "q": 1,
-    "magnetic": false,
-    "smartphone": true,
-    "rear_cam": true,
-    "touch": false,
-    "rotation": true,
-    "ir_cam": false,
-    "remote": true,
-    "desc": "Full HD регистратор с 4G и облачным мониторингом CMSv6 для автопарков. Задняя камера в комплекте, двусторонняя связь, умный парковочный режим.",
-    "resolution": "Full HD 1920×1080 @30fps",
-    "angle": "140°",
-    "screen": "2\"",
-    "gps": "GPS встроенный",
-    "price": "~18 490 ₽",
-    "url": "https://trendvision.ru/products/trendvision-online-cloud-4g/",
-    "market_url": "https://market.yandex.ru/cc/A4WkZx",
-    "photo": "https://trendvision.ru/uploads/Trendvision_online_cloud_4g_1_7a99fc8d0d.jpg",
-    "image": "assets/devices/trendvision-online-cloud-4g.webp",
-    "specs": {
-      "sensor": "GalaxyCore, модель не указана",
-      "processor": "SL8521E Cortex-A53 Dual Core 1.3GHz",
-      "screen_size": "2\"",
-      "max_sd": "128 ГБ",
-      "power_element": "Бортовая сеть автомобиля",
-      "power_type": "уникальный",
-      "gsensor": true,
-      "motion": false,
-      "timelapse": false,
-      "wifi_gen": "Wi-Fi",
-      "cpl": false,
-      "rear_resolution": "VGA (640×480) 15 к/с",
-      "camera_count": "2",
-      "bracket": "Механическое (\"салазки\")",
-      "connector": "уникальный",
-      "codec": "H.264",
-      "app": "CloudDVR",
-      "features": "4G, 3G, возможность подключения к CMSV6 с облачным мониторингом, голосовые подсказки"
-    }
-  },
-  {
     "name": "iBOX City PRO",
     "brand": "iBox",
     "type": "видеорегистратор",
@@ -2443,6 +2320,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-city-pro.webp",
     "specs": {
+      "cpl": false,
       "sensor": "GalaxyCore GC2083",
       "processor": "GP6247",
       "display_type": null,
@@ -2479,6 +2357,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-epic-wifi-dual.webp",
     "specs": {
+      "cpl": false,
       "sensor": "GalaxyCore GC2053",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -2515,6 +2394,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-epic-2k-wifi.webp",
     "specs": {
+      "cpl": false,
       "sensor": "GalaxyCore GC4653",
       "processor": null,
       "display_type": null,
@@ -2552,6 +2432,7 @@ window.DEVICES = [
     "photo": "https://s3.regru.cloud/iboxstore-upload/resize_cache/341524/f6e5b326a22b0348aad67cbb31d5615d/iblock/0ff/0ff7af7afaebc33e38313098c48903a8/iBOX_RoadScan.jpg",
     "image": "assets/devices/ibox-roadscan.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -2589,6 +2470,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-roadscan-4k-gps.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX415",
       "processor": null,
       "display_type": null,
@@ -2626,6 +2508,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-roadscan-pro-4k.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX415",
       "processor": null,
       "display_type": null,
@@ -2663,6 +2546,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-icon-2-laservision-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "SC501",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -2700,6 +2584,7 @@ window.DEVICES = [
     "photo": "https://s3.regru.cloud/iboxstore-upload/resize_cache/340561/f6e5b326a22b0348aad67cbb31d5615d/iblock/cea/cea2e80fb46cfdccd21971afd8614a1f/iBOX_Alta_WiFi.jpg",
     "image": "assets/devices/ibox-alta-laserscan-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "GalaxyCore GC2053",
       "processor": null,
       "display_type": null,
@@ -2736,6 +2621,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-f5-pro-4k-laserscan-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX415",
       "processor": null,
       "display_type": null,
@@ -2772,6 +2658,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-alpha-wifi.webp",
     "specs": {
+      "cpl": false,
       "sensor": "SmartSens SC2336",
       "processor": "Jieli JL5601",
       "display_type": "IPS",
@@ -2809,6 +2696,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-epic-4k.webp",
     "specs": {
+      "cpl": false,
       "processor": null,
       "sensor": "Sony STARVIS IMX415",
       "display_type": null,
@@ -2846,6 +2734,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-roadscan-2k.webp",
     "specs": {
+      "cpl": true,
       "sensor": "SmartSens SC533",
       "processor": "SigmaStar 8825",
       "display_type": null,
@@ -2883,6 +2772,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-alta.webp",
     "specs": {
+      "cpl": true,
       "sensor": "GalaxyCore GC2053",
       "processor": "SigmaStar 8336",
       "display_type": null,
@@ -2919,6 +2809,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-icon-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -2955,6 +2846,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-icon-laservision-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -2991,6 +2883,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-icon-dual.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -3027,6 +2920,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-range.webp",
     "specs": {
+      "cpl": false,
       "sensor": "Sony STARVIS",
       "processor": null,
       "display_type": null,
@@ -3064,6 +2958,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-evo.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX307",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -3100,6 +2995,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-evo-4k.webp",
     "specs": {
+      "cpl": true,
       "sensor": "Sony STARVIS IMX415",
       "processor": "SigmaStar 8629",
       "display_type": null,
@@ -3137,6 +3033,7 @@ window.DEVICES = [
     "photo": null,
     "image": "assets/devices/ibox-f5-plus-wifi.webp",
     "specs": {
+      "cpl": true,
       "sensor": "SC501",
       "processor": "SigmaStar 8339",
       "display_type": null,
@@ -12629,21 +12526,28 @@ window.DEVICES = [
     "price": "~11 990 ₽",
     "url": "https://trendvision.ru/products/trendvision-online-sky-4g/",
     "market_url": "https://market.yandex.ru/cc/A4Yk7C",
-    "photo": "",
+    "photo": "https://trendvision.ru/uploads/xlarge_Online_4_G_skyverh_niz_ba7c3736b1.jpg",
     "image": "assets/devices/trendvision-online-sky-4g.webp",
     "specs": {
       "processor": "Ingenic T23",
       "display_type": null,
       "screen_size": null,
       "max_sd": "128 ГБ",
-      "power_element": null,
-      "power_type": null,
+      "power_element": "Бортовая сеть автомобиля",
+      "power_type": "USB Type-C",
       "gsensor": true,
       "motion": false,
       "timelapse": false,
       "wifi_gen": null,
       "app": "CloudDVR — просмотр в реальном времени, GPS-трек, уведомления, «Электронное ограждение»",
-      "features": "4G удалённый доступ 24/7, облачный мониторинг, оповещения о тревожных событиях и запуске двигателя"
+      "features": "4G удалённый доступ 24/7, облачный мониторинг, оповещения о тревожных событиях и запуске двигателя",
+      "sensor": "GalaxyCore GC2063",
+      "cpl": false,
+      "camera_count": "1",
+      "bracket": "Механическое (на защёлке)",
+      "connector": "USB Type-C",
+      "codec": "H.264",
+      "format": "REC"
     }
   },
   {
@@ -12666,21 +12570,28 @@ window.DEVICES = [
     "gps": "встроенный GPS",
     "price": "~13 990 ₽",
     "url": "https://trendvision.ru/products/trendvision-online-sky-4g-dual/",
-    "photo": "",
+    "photo": "https://trendvision.ru/uploads/xlarge_Online_4_G_skybochka_870e8160ec.jpg",
     "image": "assets/devices/trendvision-online-sky-4g-dual.webp",
     "specs": {
       "processor": "Cortex-A7",
       "display_type": null,
       "screen_size": null,
       "max_sd": "256 ГБ",
-      "power_element": null,
-      "power_type": null,
+      "power_element": "Бортовая сеть автомобиля",
+      "power_type": "USB Type-C",
       "gsensor": true,
       "motion": false,
       "timelapse": false,
       "wifi_gen": null,
       "app": "CloudDVR — просмотр в реальном времени, GPS-трек, уведомления, «Электронное ограждение», двусторонняя связь",
-      "features": "4G удалённый доступ 24/7, функция «Рация» (двусторонняя голосовая связь), доп. камера в комплекте"
+      "features": "4G удалённый доступ 24/7, функция «Рация» (двусторонняя голосовая связь), доп. камера в комплекте",
+      "sensor": "GalaxyCore GC4653",
+      "cpl": false,
+      "camera_count": "2",
+      "bracket": "Механическое (на защёлке)",
+      "connector": "USB Type-C",
+      "codec": "H.264",
+      "format": "MP4"
     }
   },
   {
@@ -12704,7 +12615,7 @@ window.DEVICES = [
     "price": "~18 490 ₽",
     "url": "https://trendvision.ru/products/trendvision-online-cloud-4g/",
     "market_url": "https://market.yandex.ru/cc/A4WkZx",
-    "photo": "",
+    "photo": "https://trendvision.ru/uploads/Trendvision_online_cloud_4g_1_7a99fc8d0d.jpg",
     "image": "assets/devices/trendvision-online-cloud-4g.webp",
     "specs": {
       "processor": "Cortex-A53 1.3 ГГц (UNISOC SL8521E)",
@@ -12712,14 +12623,20 @@ window.DEVICES = [
       "display_type": null,
       "screen_size": null,
       "max_sd": "128 ГБ",
-      "power_element": null,
-      "power_type": null,
+      "power_element": "Бортовая сеть автомобиля",
+      "power_type": "уникальный",
       "gsensor": true,
       "motion": false,
       "timelapse": true,
       "wifi_gen": "Wi-Fi",
       "app": "CloudDVR + облачный мониторинг CMSv6 (до 10 устройств бесплатно)",
-      "features": "4G удалённый доступ 24/7, облачный мониторинг CMSv6, функция «Рация», доп. камера и Wi-Fi в комплекте"
+      "features": "4G удалённый доступ 24/7, облачный мониторинг CMSv6, функция «Рация», доп. камера и Wi-Fi в комплекте",
+      "cpl": false,
+      "rear_resolution": "VGA (640×480) 15 к/с",
+      "camera_count": "2",
+      "bracket": "Механическое (\"салазки\")",
+      "connector": "уникальный",
+      "codec": "H.264"
     }
   }
 ];

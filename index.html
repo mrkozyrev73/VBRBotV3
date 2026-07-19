@@ -13355,6 +13355,19 @@ function buildCompareRows(devices) {
     });
   }
 
+  // CPL-фильтр в комплекте: показываем строку, если хотя бы у одной модели поле задано
+  const cpls = devices.map(d => (d.specs ? d.specs.cpl : undefined));
+  if (cpls.some(v => v === true || v === false)) {
+    rows.push({
+      icon: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10z',
+      label: 'CPL-фильтр в комплекте',
+      cells: cpls.map(v => ({
+        text: v === true ? 'есть' : (v === false ? 'нет' : 'не указано'),
+        rank: v === true ? 1 : (v === false ? 0 : null)
+      }))
+    });
+  }
+
   const prices = devices.map(d => {
     const n = String(d.price || '').replace(/[^\d]/g, '');
     return n ? parseInt(n, 10) : null;
@@ -16531,7 +16544,7 @@ function fullSpecRows(d) {
     ["Размер экрана", d.specs?.screen_size],
     ["Количество камер", d.specs?.camera_count],
     ["Разрешение доп. камеры", d.specs?.rear_resolution],
-    ["CPL-фильтр", d.specs?.cpl === true ? "есть" : null],
+    ["CPL-фильтр в комплекте", d.specs?.cpl === true ? "есть" : (d.specs?.cpl === false ? "нет" : null)],
     ["Крепление", d.specs?.bracket],
     ["Карта памяти", d.specs?.max_sd],
     ["Элемент питания", d.specs?.power_element],
