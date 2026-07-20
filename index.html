@@ -13487,6 +13487,7 @@ function setCompareDiffMode(onlyDiff) {
 
 function renderCompareScreen() {
   updateCompareHeader();
+  if (typeof trackComparePairs === "function") trackComparePairs();
   const body = document.getElementById("compare-body");
   if (!body) return;
   const devices = compareList.map(key => DEVICES.find(d => deviceKey(d) === key)).filter(Boolean);
@@ -14743,28 +14744,20 @@ async function adminLoad() {
 }
 function adminRenderHTML(s) {
   const fmt = n => (n == null ? "0" : Number(n).toLocaleString("ru-RU"));
-  const f = s.funnel || {};    // уникальные пользователи по шагам
-  const a = s.actions || {};   // всего действий за период
-  const prev = s.prev || {};
+  const a = s.actions || {};
+  const c = s.clicks || {};
+  const ad = s.ads || {};
   const empty = `<div class="adm-empty">Пока нет данных</div>`;
-
-  // процент от предыдущего шага воронки: тире если посчитать нельзя / >100
-  const rel = (cur, base) => {
-    if (base == null || base === 0 || cur == null) return "—";
-    const v = Math.round(cur / base * 100);
-    return isFinite(v) && v >= 0 && v <= 100 ? v + "%" : "—";
+  const ctr = (cl, v) => (v ? (Math.round(cl / v * 1000) / 10) + "%" : "—");
+  const fmtTime = sec => {
+    sec = Number(sec) || 0;
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), sc = sec % 60;
+    if (h) return h + " ч " + m + " мин";
+    if (m) return m + " мин " + sc + " с";
+    return sc + " с";
   };
-  // дельта к прошлому периоду для верхних метрик
-  const delta = (cur, was) => {
-    if (was == null || was === 0) return "";
-    const d = Math.round((cur - was) / was * 100);
-    if (!isFinite(d) || d === 0) return "";
-    return `<span class="adm-kpi-d ${d > 0 ? "up" : "down"}">${d > 0 ? "+" : ""}${d}%</span>`;
-  };
-  const kpi = (val, label, was) =>
-    `<div class="adm-kpi"><div class="adm-kpi-v">${fmt(val)}</div><div class="adm-kpi-l">${label}</div>${delta(val, was)}</div>`;
 
-  // компактный график посетителей по дням (низкий)
+  // компактный график посетителей по дням
   const days = s.days || [];
   let chart;
   if (!days.length) { chart = empty; }
@@ -14772,35 +14765,21 @@ function adminRenderHTML(s) {
     const maxDay = Math.max(1, ...days.map(d => d.uniques));
     chart = `<div class="adm-chart">${days.map(d =>
       `<div class="adm-bar-wrap" title="${d.date}: ${d.uniques} посетителей">
-        <div class="adm-bar" style="height:${Math.max(2, Math.round(d.uniques / maxDay * 34))}px"></div>
+        <div class="adm-bar" style="height:${Math.max(2, Math.round(d.uniques / maxDay * 40))}px"></div>
         <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
       </div>`).join("")}</div>`;
   }
 
-  // простой список «название — число» (макс 5)
-  const list = (title, items, hint) =>
-    `<div class="adm-card"><div class="adm-card-title">${title}</div>${hint ? `<div class="adm-card-hint">${hint}</div>` : ""}
+  const list = (title, items) =>
+    `<div class="adm-card"><div class="adm-card-title">${title}</div>
       ${(items && items.length) ? items.slice(0, 5).map(i =>
         `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}</span></div>`).join("") : empty}
     </div>`;
-
-  const stepRow = (label, val, base) =>
-    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val)}${base !== undefined ? ` · <b>${rel(val, base)}</b>` : ""}</span></div>`;
   const actRow = (label, val) =>
     `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val || 0)}</span></div>`;
+  const valRow = (label, text) =>
+    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${text}</span></div>`;
 
-  // модели: Открыли · Я.Маркет · Сайт · В избранное
-  const models = (s.models && s.models.length) ? s.models.slice(0, 5).map(m =>
-    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(m.name)}</div>
-      <div class="adm-mstats"><span>Открыли <b>${fmt(m.opens)}</b></span><span>Я.Маркет <b>${fmt(m.market)}</b></span><span>Сайт <b>${fmt(m.site)}</b></span><span>♥ <b>${fmt(m.fav)}</b></span></div>
-    </div>`).join("") : empty;
-
-  // реклама: охват (уникальные) / клики / CTR + разбивка «куда вёл клик»
-  const ad = s.ads || {};
-  const at = s.adTargets || {};
-  const ctr = (c, v) => (v ? (Math.round(c / v * 1000) / 10) + "%" : "—");
-
-  // платформы: понятные названия вместо tg-ios / web-desktop
   const PLAT = {
     "tg-android": "Telegram · Android", "tg-ios": "Telegram · iOS", "tg-desktop": "Telegram · компьютер",
     "web-android": "Браузер · телефон", "web-ios": "Браузер · телефон", "web-desktop": "Браузер · компьютер",
@@ -14808,55 +14787,35 @@ function adminRenderHTML(s) {
   const plats = (s.platforms && s.platforms.length) ? s.platforms.slice(0, 5).map(p =>
     `<div class="adm-row"><span class="adm-row-name">${attrSafe(PLAT[p.name] || p.name)}</span><span class="adm-row-val">${fmt(p.count)}</span></div>`).join("") : empty;
 
+  const t = s.totals || {};
   return `
     <div class="adm-kpis adm-kpis-4">
-      ${kpi(s.totals?.uniques, "Посетители", prev.uniques)}
-      ${kpi(f.quiz_start, "Начали подбор", prev.quiz_start)}
-      ${kpi(f.quiz_done, "Завершили", prev.quiz_done)}
-      ${kpi(f.device_open, "Открыли карточку", prev.device_open)}
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(t.uniques)}</div><div class="adm-kpi-l">Уникальные посетители</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(t.visits)}</div><div class="adm-kpi-l">Всего входов</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(c.site)}</div><div class="adm-kpi-l">Клики на офиц. сайт</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(c.market)}</div><div class="adm-kpi-l">Клики на Я.Маркет</div></div>
     </div>
-
-    <div class="adm-money">
-      <div class="adm-money-item"><div class="adm-money-v">${fmt(a.market_click)}</div><div class="adm-money-l">переходов на Я.Маркет</div></div>
-      <div class="adm-money-item"><div class="adm-money-v">${fmt(a.site_click)}</div><div class="adm-money-l">на офиц. сайт</div></div>
-    </div>
-    <div class="adm-sessions">Сессии за период: <b>${fmt(s.totals?.visits)}</b></div>
 
     <div class="adm-card"><div class="adm-card-title">Посетители по дням</div>${chart}</div>
 
-    <div class="adm-card"><div class="adm-card-title">Путь пользователя</div>
-      ${stepRow("Начали подбор", f.quiz_start)}
-      ${stepRow("Завершили подбор", f.quiz_done, f.quiz_start)}
-      ${stepRow("Открыли карточку модели", f.device_open, f.quiz_done)}
-      ${stepRow("Перешли на Я.Маркет", f.market_click, f.device_open)}
-      ${stepRow("Перешли на официальный сайт", f.site_click, f.device_open)}
+    <div class="adm-card"><div class="adm-card-title">Реклама во время подбора</div>
+      ${actRow("Всего просмотров рекламы", ad.views)}
+      ${valRow("Общее время просмотра", fmtTime((ad.views || 0) * 8))}
+      ${actRow("Кликов по карточке рекламы", ad.clicks)}
+      ${valRow("CTR по рекламе", ctr(ad.clicks, ad.views))}
     </div>
 
-    <div class="adm-card"><div class="adm-card-title">Реклама на экране подбора</div>
-      <div class="adm-adkpi">
-        <div><div class="adm-adkpi-v">${fmt(ad.reach)}</div><div class="adm-adkpi-l">Охват (людей)</div></div>
-        <div><div class="adm-adkpi-v">${fmt(ad.clicks)}</div><div class="adm-adkpi-l">Клики</div></div>
-        <div><div class="adm-adkpi-v">${ctr(ad.clicks, ad.views)}</div><div class="adm-adkpi-l">CTR</div></div>
-      </div>
-      <div class="adm-adsub">Показов всего: <b>${fmt(ad.views)}</b></div>
-      <div class="adm-card-hint" style="margin-top:8px">Куда вёл клик</div>
-      ${actRow("Открыли карточку товара", at.card)}
-      ${actRow("Перешли на Я.Маркет", at.market)}
-      ${actRow("Перешли на официальный сайт", at.site)}
-    </div>
-
-    <div class="adm-card"><div class="adm-card-title">Популярные модели</div>${models}</div>
-    ${list("Что искали", s.topSearches, "Ввод в поиск каталога")}
-    ${list("Откуда приходят", s.sources)}
+    ${list("Чаще всего искали в каталоге и поиске", s.searches)}
+    ${list("Чаще всего выдавался при подборе", s.quizResults)}
+    ${list("Чаще всего сравнивали между собой", s.comparePairs)}
+    ${list("Чаще всего добавляли в избранное", s.favs)}
 
     <div class="adm-card"><div class="adm-card-title">Действия за период</div>
-      ${actRow("Просмотры обзора на YouTube", a.video_youtube)}
-      ${actRow("Просмотры обзора на Rutube", a.video_rutube)}
-      ${actRow("Добавления в избранное", a.fav_add)}
-      ${actRow("Добавления в сравнение", a.cmp_add)}
+      ${actRow("Клики на YouTube", a.video_youtube)}
+      ${actRow("Клики на Rutube", a.video_rutube)}
+      ${actRow("Клики на «Донат»", a.donate_click)}
       ${actRow("Поделились подбором", a.share_results)}
-      ${actRow("Клики по рекламе", a.ad_click)}
-      ${actRow("Нажатия на «Донат»", a.donate_click)}
+      ${actRow("Поделились сравнением", a.share_compare)}
     </div>
 
     <div class="adm-card"><div class="adm-card-title">Платформы</div>${plats}</div>
@@ -15410,29 +15369,28 @@ function vbrPlatform() {
   const os = /iPhone|iPad/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : "desktop";
   return (tg ? "tg-" : "web-") + os;
 }
-// Откуда пользователь пришёл в бот (по реферреру / контексту Telegram)
-function vbrSource() {
-  try { if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) return "Telegram"; } catch (e) {}
-  const r = document.referrer || "";
-  if (!r) return "Прямые заходы";
-  let host = "";
-  try { host = new URL(r).hostname.replace(/^www\./, ""); } catch (e) { return "Прямые заходы"; }
-  if (!host || host === location.hostname) return "Прямые заходы";
-  if (/t\.me|telegram/i.test(host)) return "Telegram";
-  if (/vk\.(com|ru)/i.test(host)) return "ВКонтакте";
-  if (/google\./i.test(host)) return "Google";
-  if (/yandex\.|ya\.ru/i.test(host)) return "Яндекс";
-  if (/dzen|zen\.yandex/i.test(host)) return "Дзен";
-  if (/youtube|youtu\.be/i.test(host)) return "YouTube";
-  if (/rutube/i.test(host)) return "Rutube";
-  return host;
-}
-function trackSource() {
+// «Вход в приложение» — считаем один раз за сессию
+function trackVisit() {
   try {
     if (localStorage.getItem("vbr_consent") !== "1") return;
-    if (sessionStorage.getItem("vbr_src_sent")) return;
-    sessionStorage.setItem("vbr_src_sent", "1");
-    sendStats("source", vbrSource());
+    if (sessionStorage.getItem("vbr_visit_sent")) return;
+    sessionStorage.setItem("vbr_visit_sent", "1");
+    sendStats("visit", "");
+  } catch (e) {}
+}
+// Пары моделей в сравнении — фиксируем один раз за сессию на каждую пару
+const _cmpPairsSent = new Set();
+function trackComparePairs() {
+  try {
+    const names = compareList.map(k => (DEVICES.find(d => deviceKey(d) === k) || {}).name).filter(Boolean);
+    for (let i = 0; i < names.length; i++) {
+      for (let j = i + 1; j < names.length; j++) {
+        const pair = [names[i], names[j]].sort().join(" + ");
+        if (_cmpPairsSent.has(pair)) continue;
+        _cmpPairsSent.add(pair);
+        sendStats("cmp_pair", pair);
+      }
+    }
   } catch (e) {}
 }
 let _statsQueue = [];
@@ -16431,6 +16389,7 @@ async function shareDevice(event, idx) {
 async function shareCompare(event) {
   if (event) { event.preventDefault(); event.stopPropagation(); }
   if (compareList.length < 2) return;
+  sendStats("share_compare", "");
   const url = compareShareUrl();
   const title = "Сравнение моделей — VBR БОТ";
   if (navigator.share) {
@@ -17662,6 +17621,8 @@ function showResults() {
   sortMode = "match";
   showAllNearResults = false;
   _lastTop = getTop();
+  // какие модели чаще всего выдаются в подборе — топ-3 результата
+  (_lastTop || []).slice(0, 3).forEach(t => { if (t && t.d && t.d.name) sendStats("quiz_result", t.d.name); });
 
   el("loading-sub2").textContent = "Этапы подбора";
   el("loading-sub2").classList.remove("loading-text-out");
@@ -18502,7 +18463,7 @@ if (shouldResetRouteOnReload()) {
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
     if (typeof enableMetrika === 'function') enableMetrika();
     if (firstTime && typeof vbrTrack === 'function') vbrTrack('consent_given');
-    if (typeof trackSource === 'function') trackSource();
+    if (typeof trackVisit === 'function') trackVisit();
     if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
     // окошко не прячем: галочка проставлена и зафиксирована, поле бледнеет
     if (cb) { cb.checked = true; cb.disabled = true; }
