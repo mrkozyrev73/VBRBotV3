@@ -29,7 +29,6 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
-<meta name="apple-mobile-web-app-title" content="VBR БОТ">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -11632,6 +11631,46 @@ canvas {
 .admin-range button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 .admin-loading { text-align: center; color: var(--text-2); padding: 40px 0; font-size: 14px; line-height: 1.5; }
 .adm-empty { color: var(--text-2); font-size: 13px; text-align: center; padding: 10px 0; }
+/* обратная связь */
+.about-feedback-row { text-align: center; margin-top: 14px; }
+.feedback-link { background: none; border: 0; color: var(--blue); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: underline; }
+.fb-modal { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.fb-dialog { width: 100%; max-width: 440px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
+.fb-dialog-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.fb-dialog textarea { width: 100%; box-sizing: border-box; background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 11px; color: var(--text); font-size: 14px; font-family: inherit; resize: vertical; outline: none; }
+.fb-dialog textarea:focus { border-color: var(--blue); }
+.fb-dialog-actions { display: flex; gap: 10px; margin-top: 12px; }
+.fb-cancel, .fb-send { flex: 1; height: 42px; border-radius: 11px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.fb-cancel { background: none; border: 1px solid var(--border); color: var(--text-2); }
+.fb-send { background: var(--blue); border: 0; color: #fff; }
+.fb-send:disabled { opacity: .6; }
+.fb-dialog-note { font-size: 12px; color: var(--text-2); text-align: center; margin-top: 8px; min-height: 14px; }
+/* вкладки Статистика / Управление */
+.admin-tabs { display: flex; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 12px; }
+.admin-tabs button { flex: 1; height: 34px; border: 0; border-radius: 9px; background: none; color: var(--text-2); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.admin-tabs button.active { background: var(--blue); color: #fff; }
+/* формы управления */
+.adm-f { display: block; margin: 8px 0; }
+.adm-f > span { display: block; font-size: 11px; color: var(--text-2); margin-bottom: 4px; }
+.adm-f input, .adm-f textarea, .adm-search { width: 100%; box-sizing: border-box; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; color: var(--text); font-size: 14px; font-family: inherit; outline: none; }
+.adm-f input:focus, .adm-f textarea:focus, .adm-search:focus { border-color: var(--blue); }
+.adm-f textarea { resize: vertical; }
+.adm-switch { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 700; color: var(--text); cursor: pointer; margin-bottom: 4px; }
+.adm-switch input { width: 20px; height: 20px; accent-color: var(--blue); }
+.adm-save { width: 100%; height: 42px; margin-top: 10px; border: 0; border-radius: 11px; background: var(--blue); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.adm-save:disabled { opacity: .6; }
+.adm-search { margin: 8px 0; }
+.ov-hit { display: block; width: 100%; text-align: left; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 8px 11px; margin-bottom: 5px; color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit; }
+.ov-hit:hover { border-color: var(--blue); }
+.ov-edit { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 11px; margin-top: 6px; }
+.ov-edit-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.ov-row { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid rgba(105,113,137,.10); }
+.ov-row-name { font-size: 13px; color: var(--text); }
+.ov-row-meta { font-size: 11px; color: var(--text-2); grid-column: 1; }
+.ov-del { grid-row: 1 / span 2; align-self: center; background: none; border: 1px solid var(--border); border-radius: 8px; color: #E24B4A; font-size: 11px; padding: 5px 10px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.fb-row { padding: 9px 0; border-bottom: 1px solid rgba(105,113,137,.10); }
+.fb-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+.fb-meta { font-size: 11px; color: var(--text-2); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
 .adm-card-hint { font-size: 11px; color: var(--text-2); margin: -3px 0 8px; }
 .adm-row-val b { color: var(--blue); }
 /* 4 равнозначные компактные метрики */
@@ -12513,12 +12552,21 @@ function enableMetrika(){
       <p class="admin-auth-err" id="admin-auth-err" style="display:none">Неверный ключ</p>
     </div>
     <div id="admin-body" style="display:none">
-      <div class="admin-range" id="admin-range">
-        <button data-days="7" onclick="adminSetRange(7)">7 дней</button>
-        <button data-days="30" class="active" onclick="adminSetRange(30)">30 дней</button>
-        <button data-days="90" onclick="adminSetRange(90)">90 дней</button>
+      <div class="admin-tabs">
+        <button id="admin-tab-stats" class="active" type="button" onclick="adminSetView('stats')">Статистика</button>
+        <button id="admin-tab-manage" type="button" onclick="adminSetView('manage')">Управление</button>
       </div>
-      <div id="admin-content"><div class="admin-loading">Загрузка…</div></div>
+      <div id="admin-view-stats">
+        <div class="admin-range" id="admin-range">
+          <button data-days="7" onclick="adminSetRange(7)">7 дней</button>
+          <button data-days="30" class="active" onclick="adminSetRange(30)">30 дней</button>
+          <button data-days="90" onclick="adminSetRange(90)">90 дней</button>
+        </div>
+        <div id="admin-content"><div class="admin-loading">Загрузка…</div></div>
+      </div>
+      <div id="admin-view-manage" style="display:none">
+        <div id="admin-manage"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -12657,38 +12705,7 @@ function enableMetrika(){
     </div>
 
     <!-- Ad pinned to bottom -->
-    <div class="loading-ad">
-      <div class="ad-banner-lg" role="button" tabindex="0" onclick="openPromoDevice(event)" onkeydown="onPromoDeviceKey(event)" aria-label="Открыть карточку TrendVision Nano 2K Wi‑Fi CPL GPS">
-        <div class="ad-promo-grid">
-          <div class="ad-promo-copy">
-            <div class="ad-promo-label">Универсальный вариант</div>
-            <div class="ad-promo-title">TrendVision Nano <span>2K</span></div>
-            <div class="ad-promo-desc"><b>TrendVision Nano 2K Wi‑Fi CPL GPS</b> — компактный видеорегистратор с 2K, Wi‑Fi, GPS‑модулем и CPL‑фильтром. Управление со смартфона через Viidure.</div>
-            <div class="ad-promo-chips" aria-label="Ключевые характеристики">
-              <span class="ad-promo-chip">2K</span>
-              <span class="ad-promo-chip">Wi‑Fi</span>
-              <span class="ad-promo-chip">GPS</span>
-              <span class="ad-promo-chip">CPL</span>
-              <span class="ad-promo-chip">Магнит</span>
-            </div>
-          </div>
-          <div class="ad-promo-product">
-            <div class="ad-promo-photo">
-              <img src="assets/devices/trendvision-nano-2k-wi-fi-cpl-gps.webp" alt="TrendVision Nano 2K Wi‑Fi CPL GPS" loading="lazy" decoding="async">
-            </div>
-            <div class="ad-promo-price" aria-label="Примерная цена">
-              <span class="ad-promo-price-value">~3 500 ₽</span>
-              <span class="ad-promo-price-note">цена может измениться</span>
-            </div>
-          </div>
-          <div class="ad-promo-actions">
-              <a class="ad-promo-btn site" href="https://trendvision.ru/products/trendvision-nano-2k-wi-fi-cpl-gps/" target="_blank" rel="noopener" onclick="event.stopPropagation()">Официальный сайт</a>
-              <a class="ad-promo-btn market" href="https://market.yandex.ru/cc/A4WfzR" target="_blank" rel="noopener" onclick="event.stopPropagation()">Купить на Я.Маркет</a>
-          </div>
-        </div>
-      </div>
-      <div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div>
-    </div>
+    <div class="loading-ad" id="loading-ad"><!-- заполняется renderPromoAd() из конфига --></div>
   </div>
 </div>
 
@@ -12876,10 +12893,26 @@ function enableMetrika(){
           </div>
         </div>
       </div>
+      <div class="about-feedback-row">
+        <button type="button" class="feedback-link" onclick="openFeedback()">Нашли ошибку? Предложить модель</button>
+      </div>
       <div class="about-policy-row">
         <button type="button" class="policy-link" onclick="showPolicy()">Политика конфиденциальности</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── ОБРАТНАЯ СВЯЗЬ (модалка) ─────────────────────── -->
+<div id="feedback-modal" class="fb-modal" style="display:none" onclick="if(event.target===this)closeFeedback()">
+  <div class="fb-dialog">
+    <div class="fb-dialog-title">Сообщить об ошибке или предложить модель</div>
+    <textarea id="feedback-text" rows="4" placeholder="Опишите, что не так или какую модель добавить…"></textarea>
+    <div class="fb-dialog-actions">
+      <button type="button" class="fb-cancel" onclick="closeFeedback()">Отмена</button>
+      <button type="button" class="fb-send" id="feedback-send" onclick="sendFeedback()">Отправить</button>
+    </div>
+    <div class="fb-dialog-note" id="feedback-note"></div>
   </div>
 </div>
 
@@ -14693,6 +14726,50 @@ function showPolicy(updateHash = true) {
 }
 
 // ══════════════════════════════════════════════════════════
+//  ОБРАТНАЯ СВЯЗЬ от пользователей
+// ══════════════════════════════════════════════════════════
+function feedbackContext() {
+  const scr = (VBR_SCREEN_TITLES && VBR_SCREEN_TITLES[currentScreenId]) || currentScreenId || "";
+  let dev = "";
+  try {
+    const el = document.querySelector("#s-search .dev-name, #s-search .srch-match-name");
+    if (el) dev = el.textContent.trim().slice(0, 80);
+  } catch (e) {}
+  return [scr, dev].filter(Boolean).join(" · ");
+}
+function openFeedback() {
+  const m = document.getElementById("feedback-modal");
+  if (!m) return;
+  document.getElementById("feedback-text").value = "";
+  document.getElementById("feedback-note").textContent = "";
+  const send = document.getElementById("feedback-send");
+  send.disabled = false; send.textContent = "Отправить";
+  m.dataset.ctx = feedbackContext();
+  m.style.display = "flex";
+}
+function closeFeedback() {
+  const m = document.getElementById("feedback-modal");
+  if (m) m.style.display = "none";
+}
+async function sendFeedback() {
+  const text = (document.getElementById("feedback-text").value || "").trim();
+  const note = document.getElementById("feedback-note");
+  if (text.length < 3) { note.textContent = "Напишите чуть подробнее"; return; }
+  const send = document.getElementById("feedback-send");
+  send.disabled = true; send.textContent = "Отправляю…";
+  let ok = false;
+  try {
+    const r = await fetch(VBR_STATS_URL + "/feedback", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text.slice(0, 1000), ctx: document.getElementById("feedback-modal").dataset.ctx || "" }),
+    });
+    ok = r.ok;
+  } catch (e) {}
+  if (ok) { note.textContent = "Спасибо! Отправлено."; setTimeout(closeFeedback, 1200); }
+  else { send.disabled = false; send.textContent = "Отправить"; note.textContent = "Не отправилось, попробуйте позже"; }
+}
+
+// ══════════════════════════════════════════════════════════
 //  АДМИНКА (скрытая): дашборд собственной статистики с Worker'а
 // ══════════════════════════════════════════════════════════
 let _adminDays = 30;
@@ -14702,6 +14779,11 @@ function showAdmin() {
   show("s-admin");
   const sa = document.getElementById("s-admin");
   if (sa) sa.scrollTo(0, 0);
+  const st = document.getElementById("admin-view-stats");
+  const mn = document.getElementById("admin-view-manage");
+  if (st && mn) { st.style.display = ""; mn.style.display = "none"; }
+  const ts = document.getElementById("admin-tab-stats"), tm = document.getElementById("admin-tab-manage");
+  if (ts && tm) { ts.classList.add("active"); tm.classList.remove("active"); }
   adminLoad();
 }
 function adminKey() { try { return localStorage.getItem("vbr_admin_key") || ""; } catch (e) { return ""; } }
@@ -14721,6 +14803,156 @@ function adminAuthHeaders() {
   const k = adminKey(); if (k) h["X-Admin-Key"] = k;
   try { const tg = window.Telegram && window.Telegram.WebApp; if (tg && tg.initData) h["X-Tg-Init"] = tg.initData; } catch (e) {}
   return h;
+}
+async function adminPost(path, body) {
+  try {
+    const r = await fetch(VBR_STATS_URL + path, {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, adminAuthHeaders()),
+      body: JSON.stringify(body || {}),
+    });
+    return r.ok;
+  } catch (e) { return false; }
+}
+async function adminGet(path) {
+  const r = await fetch(VBR_STATS_URL + path, { headers: adminAuthHeaders() });
+  return r.json();
+}
+
+// ── Переключатель вкладок Статистика / Управление ──
+function adminSetView(v) {
+  const isStats = v === "stats";
+  document.getElementById("admin-view-stats").style.display = isStats ? "" : "none";
+  document.getElementById("admin-view-manage").style.display = isStats ? "none" : "";
+  document.getElementById("admin-tab-stats").classList.toggle("active", isStats);
+  document.getElementById("admin-tab-manage").classList.toggle("active", !isStats);
+  if (isStats) { adminLoad(); } else { adminRenderManage(); }
+}
+
+// ── УПРАВЛЕНИЕ: реклама + цены/ссылки + обратная связь ──
+function adminManageInput(id, label, val, ph) {
+  return `<label class="adm-f"><span>${label}</span><input id="${id}" value="${attrSafe(val || "")}" placeholder="${attrSafe(ph || "")}"></label>`;
+}
+function adminRenderManage() {
+  const ad = getEffectiveAd();
+  const box = document.getElementById("admin-manage");
+  box.innerHTML = `
+    <div class="adm-card">
+      <div class="adm-card-title">Реклама на экране подбора</div>
+      <label class="adm-switch"><input type="checkbox" id="ad-enabled" ${ad.enabled ? "checked" : ""}><span>Показывать рекламу</span></label>
+      <div class="adm-card-hint">Выключишь — во время подбора рекламы не будет вообще.</div>
+      ${adminManageInput("ad-label", "Плашка сверху", ad.label, "Универсальный вариант")}
+      ${adminManageInput("ad-title", "Заголовок", ad.title, "Название товара")}
+      <label class="adm-f"><span>Описание</span><textarea id="ad-desc" rows="2" placeholder="Короткое описание">${attrSafe((ad.desc || "").replace(/<[^>]+>/g, ""))}</textarea></label>
+      ${adminManageInput("ad-chips", "Теги через запятую", ad.chips, "2K, Wi-Fi, GPS")}
+      ${adminManageInput("ad-price", "Цена", ad.price, "~3 500 ₽")}
+      ${adminManageInput("ad-image", "Ссылка на картинку", ad.image, "https://… или assets/devices/…")}
+      ${adminManageInput("ad-btn1t", "Кнопка 1 — текст", ad.btn1_text, "Официальный сайт")}
+      ${adminManageInput("ad-btn1u", "Кнопка 1 — ссылка", ad.btn1_url, "https://…")}
+      ${adminManageInput("ad-btn2t", "Кнопка 2 — текст", ad.btn2_text, "Купить на Я.Маркет")}
+      ${adminManageInput("ad-btn2u", "Кнопка 2 — ссылка", ad.btn2_url, "https://market.yandex.ru/cc/…")}
+      <button class="adm-save" type="button" onclick="adminSaveAd(this)">Сохранить рекламу</button>
+    </div>
+
+    <div class="adm-card">
+      <div class="adm-card-title">Цены и ссылки</div>
+      <div class="adm-card-hint">Найди модель, поменяй цену или добавь ссылку на Я.Маркет — сайт подхватит.</div>
+      <input id="ov-search" class="adm-search" placeholder="Поиск модели…" oninput="adminOverrideSearch(this.value)">
+      <div id="ov-results"></div>
+      <div id="ov-form"></div>
+      <div class="adm-card-title" style="margin-top:12px;font-size:11px">Активные правки</div>
+      <div id="ov-list"><div class="admin-loading">Загрузка…</div></div>
+    </div>
+
+    <div class="adm-card">
+      <div class="adm-card-title">Обратная связь</div>
+      <div id="fb-list"><div class="admin-loading">Загрузка…</div></div>
+    </div>
+  `;
+  adminLoadOverrides();
+  adminLoadFeedback();
+}
+
+async function adminSaveAd(btn) {
+  const g = id => (document.getElementById(id) || {}).value || "";
+  const ad = {
+    enabled: document.getElementById("ad-enabled").checked,
+    label: g("ad-label"), title: g("ad-title"), desc: g("ad-desc"),
+    chips: g("ad-chips"), price: g("ad-price"), image: g("ad-image"),
+    btn1_text: g("ad-btn1t"), btn1_url: g("ad-btn1u"),
+    btn2_text: g("ad-btn2t"), btn2_url: g("ad-btn2u"),
+  };
+  btn.textContent = "Сохраняю…"; btn.disabled = true;
+  const ok = await adminPost("/admin/save-ad", { ad });
+  btn.disabled = false; btn.textContent = ok ? "Сохранено ✓" : "Ошибка, повторить";
+  if (ok) { window.VBR_CONFIG.ad = ad; renderPromoAd(); setTimeout(() => { btn.textContent = "Сохранить рекламу"; }, 1500); }
+}
+
+function adminOverrideSearch(q) {
+  const box = document.getElementById("ov-results");
+  q = (q || "").trim().toLowerCase();
+  if (q.length < 2) { box.innerHTML = ""; return; }
+  const hits = DEVICES.filter(d => d.name.toLowerCase().includes(q)).slice(0, 8);
+  box.innerHTML = hits.map(d => `<button class="ov-hit" type="button" onclick="adminOverrideForm('${attrSafe(d.name).replace(/'/g, "\\'")}')">${attrSafe(d.name)}</button>`).join("") || `<div class="adm-empty">Ничего не найдено</div>`;
+}
+function adminOverrideForm(name) {
+  const d = DEVICES.find(x => x.name === name); if (!d) return;
+  document.getElementById("ov-results").innerHTML = "";
+  document.getElementById("ov-search").value = "";
+  const f = document.getElementById("ov-form");
+  f.innerHTML = `<div class="ov-edit">
+    <div class="ov-edit-name">${attrSafe(d.name)}</div>
+    ${adminManageInput("ov-price", "Цена", d.price, "~10 000 ₽")}
+    ${adminManageInput("ov-market", "Ссылка на Я.Маркет", d.market_url, "https://market.yandex.ru/cc/…")}
+    ${adminManageInput("ov-url", "Ссылка на офиц. сайт", d.url, "https://…")}
+    <button class="adm-save" type="button" onclick="adminSaveOverride(this, '${attrSafe(d.name).replace(/'/g, "\\'")}')">Сохранить правку</button>
+  </div>`;
+}
+async function adminSaveOverride(btn, name) {
+  const g = id => (document.getElementById(id) || {}).value || "";
+  btn.textContent = "Сохраняю…"; btn.disabled = true;
+  const ok = await adminPost("/admin/save-override", { model: name, price: g("ov-price"), market_url: g("ov-market"), url: g("ov-url") });
+  btn.disabled = false; btn.textContent = ok ? "Сохранено ✓" : "Ошибка";
+  if (ok) {
+    window.VBR_CONFIG.overrides[name] = { price: g("ov-price"), market_url: g("ov-market"), url: g("ov-url") };
+    applyOverrides();
+    setTimeout(() => { document.getElementById("ov-form").innerHTML = ""; adminLoadOverrides(); }, 800);
+  }
+}
+async function adminLoadOverrides() {
+  try {
+    const data = await adminGet("/admin/overrides");
+    const rows = data.overrides || [];
+    const box = document.getElementById("ov-list");
+    box.innerHTML = rows.length ? rows.map(r => `<div class="ov-row">
+      <div class="ov-row-name">${attrSafe(r.model)}</div>
+      <div class="ov-row-meta">${[r.price, r.market_url ? "Я.Маркет ✓" : "", r.url ? "сайт ✓" : ""].filter(Boolean).map(attrSafe).join(" · ")}</div>
+      <button class="ov-del" type="button" onclick="adminDelOverride('${attrSafe(r.model).replace(/'/g, "\\'")}')">Сбросить</button>
+    </div>`).join("") : `<div class="adm-empty">Правок пока нет</div>`;
+  } catch (e) {}
+}
+async function adminDelOverride(name) {
+  await adminPost("/admin/del-override", { model: name });
+  delete window.VBR_CONFIG.overrides[name];
+  adminLoadOverrides();
+}
+async function adminLoadFeedback() {
+  try {
+    const data = await adminGet("/admin/feedback");
+    const rows = data.feedback || [];
+    const box = document.getElementById("fb-list");
+    box.innerHTML = rows.length ? rows.map(r => {
+      const dt = new Date(r.ts).toLocaleString("ru-RU", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+      return `<div class="fb-row">
+        <div class="fb-text">${attrSafe(r.text)}</div>
+        <div class="fb-meta">${dt}${r.ctx ? " · " + attrSafe(r.ctx) : ""} <button class="ov-del" type="button" onclick="adminDelFeedback(${r.id})">Удалить</button></div>
+      </div>`;
+    }).join("") : `<div class="adm-empty">Обращений пока нет</div>`;
+  } catch (e) {}
+}
+async function adminDelFeedback(id) {
+  await adminPost("/admin/del-feedback", { id });
+  adminLoadFeedback();
 }
 async function adminLoad() {
   const auth = document.getElementById("admin-auth");
@@ -15369,6 +15601,92 @@ function vbrPlatform() {
   const os = /iPhone|iPad/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : "desktop";
   return (tg ? "tg-" : "web-") + os;
 }
+// ══════════════════════════════════════════════════════════
+//  КОНФИГ САЙТА: реклама (с рубильником) + правки цен/ссылок
+// ══════════════════════════════════════════════════════════
+const DEFAULT_AD = {
+  enabled: true,
+  label: "Универсальный вариант",
+  title: "TrendVision Nano 2K",
+  desc: "<b>TrendVision Nano 2K Wi‑Fi CPL GPS</b> — компактный видеорегистратор с 2K, Wi‑Fi, GPS‑модулем и CPL‑фильтром.",
+  chips: "2K, Wi‑Fi, GPS, CPL, Магнит",
+  price: "~3 500 ₽",
+  image: "assets/devices/trendvision-nano-2k-wi-fi-cpl-gps.webp",
+  btn1_text: "Официальный сайт",
+  btn1_url: "https://trendvision.ru/products/trendvision-nano-2k-wi-fi-cpl-gps/",
+  btn2_text: "Купить на Я.Маркет",
+  btn2_url: "https://market.yandex.ru/cc/A4WfzR",
+};
+window.VBR_CONFIG = { ad: null, overrides: {} };
+function getEffectiveAd() {
+  const a = window.VBR_CONFIG && window.VBR_CONFIG.ad;
+  return (a && typeof a === "object") ? Object.assign({}, DEFAULT_AD, a) : DEFAULT_AD;
+}
+let _adEnabledNow = true;
+function renderPromoAd() {
+  const box = document.getElementById("loading-ad");
+  if (!box) return;
+  const ad = getEffectiveAd();
+  _adEnabledNow = !!ad.enabled;
+  if (!ad.enabled) { box.style.display = "none"; box.innerHTML = ""; return; }
+  box.style.display = "";
+  const esc = s => attrSafe(s);
+  const chips = String(ad.chips || "").split(",").map(c => c.trim()).filter(Boolean)
+    .map(c => `<span class="ad-promo-chip">${esc(c)}</span>`).join("");
+  const btn = (t, u, cls) => (t && u) ? `<a class="ad-promo-btn ${cls}" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(t)}</a>` : "";
+  box.innerHTML = `
+    <div class="ad-banner-lg" role="button" tabindex="0" onclick="openPromoAd(event)" onkeydown="onPromoAdKey(event)" aria-label="Реклама: ${esc(ad.title)}">
+      <div class="ad-promo-grid">
+        <div class="ad-promo-copy">
+          ${ad.label ? `<div class="ad-promo-label">${esc(ad.label)}</div>` : ""}
+          <div class="ad-promo-title">${esc(ad.title)}</div>
+          <div class="ad-promo-desc">${ad.desc || ""}</div>
+          ${chips ? `<div class="ad-promo-chips">${chips}</div>` : ""}
+        </div>
+        <div class="ad-promo-product">
+          ${ad.image ? `<div class="ad-promo-photo"><img src="${esc(ad.image)}" alt="${esc(ad.title)}" loading="lazy" decoding="async"></div>` : ""}
+          ${ad.price ? `<div class="ad-promo-price"><span class="ad-promo-price-value">${esc(ad.price)}</span><span class="ad-promo-price-note">цена может измениться</span></div>` : ""}
+        </div>
+        <div class="ad-promo-actions">${btn(ad.btn1_text, ad.btn1_url, "site")}${btn(ad.btn2_text, ad.btn2_url, "market")}</div>
+      </div>
+    </div>
+    <div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div>`;
+}
+// Клик по рекламной карточке (тело) — открывает первую ссылку рекламы
+function openPromoAd(event) {
+  if (event && event.target && event.target.closest && event.target.closest("a")) return;
+  const ad = getEffectiveAd();
+  const url = ad.btn2_url || ad.btn1_url;
+  if (url) window.open(url, "_blank", "noopener");
+}
+function onPromoAdKey(event) {
+  if (!event || (event.key !== "Enter" && event.key !== " ")) return;
+  event.preventDefault(); openPromoAd(event);
+}
+// Правки цен/ссылок из кабинета — накладываем поверх базы
+function applyOverrides() {
+  const ov = (window.VBR_CONFIG && window.VBR_CONFIG.overrides) || {};
+  let changed = false;
+  Object.keys(ov).forEach(name => {
+    const d = DEVICES.find(x => x.name === name);
+    if (!d) return;
+    const o = ov[name];
+    if (o.price) { d.price = o.price; changed = true; }
+    if (o.market_url) { d.market_url = o.market_url; changed = true; }
+    if (o.url) { d.url = o.url; changed = true; }
+  });
+  if (changed && typeof currentScreenId !== "undefined") {
+    if (currentScreenId === "s-catalog" && typeof scheduleCatalogRender === "function") scheduleCatalogRender();
+  }
+}
+function loadSiteConfig() {
+  fetch(VBR_STATS_URL + "/config").then(r => r.json()).then(cfg => {
+    window.VBR_CONFIG = { ad: cfg.ad || null, overrides: cfg.overrides || {} };
+    applyOverrides();
+    renderPromoAd();
+  }).catch(() => { renderPromoAd(); });
+}
+
 // «Вход в приложение» — считаем один раз за сессию
 function trackVisit() {
   try {
@@ -17626,8 +17944,9 @@ function showResults() {
 
   el("loading-sub2").textContent = "Этапы подбора";
   el("loading-sub2").classList.remove("loading-text-out");
+  renderPromoAd();
   show("s-loading");
-  sendStats("ad_view", PROMO_AD_NAME); // показ рекламной карточки
+  if (_adEnabledNow) sendStats("ad_view", getEffectiveAd().title); // показ рекламы (если включена)
 
   // Централизованный таймлайн сцены (~9000 мс).
   [400, 2000, 4000, 6000].forEach((t, i) => {
@@ -18399,11 +18718,9 @@ function _clickModelName(a) {
   return nameEl ? nameEl.textContent.trim() : "";
 }
 document.addEventListener("click", (e) => {
-  // клик по рекламной карточке во время подбора: фиксируем, КУДА повёл клик
-  if (e.target.closest && e.target.closest(".loading-ad")) {
-    const target = e.target.closest(".ad-promo-btn.market") ? "market"
-      : e.target.closest(".ad-promo-btn.site") ? "site" : "card";
-    sendStats("ad_click", target);
+  // клик по рекламной карточке во время подбора
+  if (_adEnabledNow && e.target.closest && e.target.closest(".loading-ad")) {
+    sendStats("ad_click", getEffectiveAd().title);
   }
 
   const a = e.target.closest ? e.target.closest("a[href]") : null;
@@ -18434,6 +18751,7 @@ window.addEventListener("resize", () => {
 renderIntroDbSticker();
 renderFavoritePanel();
 renderModeGuides();
+loadSiteConfig();
 initIntroScene();
 // Deep-link: #m=<модель>, #cmp=<модель,модель> или разделы #catalog/#favorites/#compare/#about.
 window.addEventListener("hashchange", openRouteFromHash);
