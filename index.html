@@ -11667,6 +11667,11 @@ canvas {
 .ad-item-btn.del { color: #E24B4A; }
 .adm-add { width: 100%; height: 38px; margin-top: 10px; border: 1px dashed var(--blue-border); border-radius: 10px; background: none; color: var(--blue); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
 .ad-edit { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 11px; margin-top: 8px; }
+.ad-edit-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.ad-edit-close { background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text-2); font-size: 11px; padding: 5px 10px; cursor: pointer; font-family: inherit; }
+.ad-preview-label { font-size: 11px; color: var(--text-2); margin: 12px 0 6px; }
+.ad-preview { pointer-events: none; }
+.ad-preview .ad-banner-lg { cursor: default; }
 .adm-search { margin: 8px 0; }
 .ov-hit { display: block; width: 100%; text-align: left; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 8px 11px; margin-bottom: 5px; color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit; }
 .ov-hit:hover { border-color: var(--blue); }
@@ -14892,11 +14897,15 @@ function adminRenderAdList() {
 async function adminToggleAd(i, on) {
   const ads = adminAds(); if (!ads[i]) return;
   ads[i].enabled = on;
-  await adminSaveAds();
+  const ok = await adminSaveAds();
+  if (!ok) { ads[i].enabled = !on; adminRenderAdList(); alert("Не удалось сохранить. Обнови код Worker'а (vbr-stats) и повтори."); }
 }
-function adminDelAd(i) {
-  const ads = adminAds(); ads.splice(i, 1);
-  adminSaveAds(); adminRenderAdList();
+async function adminDelAd(i) {
+  const ads = adminAds();
+  const removed = ads.splice(i, 1);
+  const ok = await adminSaveAds();
+  if (!ok) { ads.splice(i, 0, removed[0]); alert("Не удалось сохранить. Обнови код Worker'а (vbr-stats) и повтори."); return; }
+  adminRenderAdList();
   const ed = document.getElementById("ad-editor"); if (ed) ed.innerHTML = "";
 }
 function adminAdEditor(i) {
@@ -14906,37 +14915,55 @@ function adminAdEditor(i) {
     btn1_text: "", btn1_url: "", btn2_text: "Купить на Я.Маркет", btn2_url: "",
   });
   const ed = document.getElementById("ad-editor");
+  const oi = ' oninput="adminAdPreview()"';
+  const inp = (id, label, val, ph) => `<label class="adm-f"><span>${label}</span><input id="${id}" value="${attrSafe(val || "")}" placeholder="${attrSafe(ph || "")}"${oi}></label>`;
   ed.innerHTML = `<div class="ad-edit">
-    <div class="ov-edit-name">${i >= 0 ? "Изменить рекламу" : "Новая реклама"}</div>
-    ${adminManageInput("ad-label", "Плашка сверху", a.label, "Универсальный вариант")}
-    ${adminManageInput("ad-title", "Заголовок", a.title, "Название товара")}
-    <label class="adm-f"><span>Описание</span><textarea id="ad-desc" rows="2" placeholder="Короткое описание">${attrSafe((a.desc || "").replace(/<[^>]+>/g, ""))}</textarea></label>
-    ${adminManageInput("ad-chips", "Теги через запятую", a.chips, "2K, Wi-Fi, GPS")}
-    ${adminManageInput("ad-price", "Цена", a.price, "~3 500 ₽")}
-    ${adminManageInput("ad-image", "Ссылка на картинку", a.image, "https://… или assets/devices/…")}
-    ${adminManageInput("ad-btn1t", "Кнопка 1 — текст", a.btn1_text, "Официальный сайт")}
-    ${adminManageInput("ad-btn1u", "Кнопка 1 — ссылка", a.btn1_url, "https://…")}
-    ${adminManageInput("ad-btn2t", "Кнопка 2 — текст", a.btn2_text, "Купить на Я.Маркет")}
-    ${adminManageInput("ad-btn2u", "Кнопка 2 — ссылка", a.btn2_url, "https://market.yandex.ru/cc/…")}
+    <div class="ad-edit-head">
+      <div class="ov-edit-name">${i >= 0 ? "Изменить рекламу" : "Новая реклама"}</div>
+      <button class="ad-edit-close" type="button" onclick="adminCloseEditor()">Свернуть ✕</button>
+    </div>
+    ${inp("ad-label", "Плашка сверху", a.label, "Универсальный вариант")}
+    ${inp("ad-title", "Заголовок", a.title, "Название товара")}
+    <label class="adm-f"><span>Описание</span><textarea id="ad-desc" rows="2" placeholder="Короткое описание"${oi}>${attrSafe((a.desc || "").replace(/<[^>]+>/g, ""))}</textarea></label>
+    ${inp("ad-chips", "Теги через запятую", a.chips, "2K, Wi-Fi, GPS")}
+    ${inp("ad-price", "Цена", a.price, "~3 500 ₽")}
+    ${inp("ad-image", "Ссылка на картинку", a.image, "https://… или assets/devices/…")}
+    ${inp("ad-btn1t", "Кнопка 1 — текст", a.btn1_text, "Официальный сайт")}
+    ${inp("ad-btn1u", "Кнопка 1 — ссылка", a.btn1_url, "https://…")}
+    ${inp("ad-btn2t", "Кнопка 2 — текст", a.btn2_text, "Купить на Я.Маркет")}
+    ${inp("ad-btn2u", "Кнопка 2 — ссылка", a.btn2_url, "https://market.yandex.ru/cc/…")}
+    <div class="ad-preview-label">Как будет выглядеть:</div>
+    <div class="ad-preview" id="ad-preview"></div>
     <button class="adm-save" type="button" onclick="adminSaveAdItem(this, ${i})">Сохранить</button>
   </div>`;
+  adminAdPreview();
   ed.scrollIntoView({ block: "nearest", behavior: "smooth" });
 }
-async function adminSaveAdItem(btn, i) {
+function adminCloseEditor() {
+  const ed = document.getElementById("ad-editor"); if (ed) ed.innerHTML = "";
+}
+function adminAdFromForm() {
   const g = id => (document.getElementById(id) || {}).value || "";
-  const ads = adminAds();
-  const base = i >= 0 ? ads[i] : { id: "ad" + Date.now(), enabled: true };
-  const item = Object.assign(base, {
+  return {
     label: g("ad-label"), title: g("ad-title"), desc: g("ad-desc"),
     chips: g("ad-chips"), price: g("ad-price"), image: g("ad-image"),
     btn1_text: g("ad-btn1t"), btn1_url: g("ad-btn1u"),
     btn2_text: g("ad-btn2t"), btn2_url: g("ad-btn2u"),
-  });
-  if (i < 0) ads.push(item);
+  };
+}
+function adminAdPreview() {
+  const box = document.getElementById("ad-preview"); if (!box) return;
+  box.innerHTML = `<div class="ad-banner-lg">${adGridHTML(adminAdFromForm())}</div>`;
+}
+async function adminSaveAdItem(btn, i) {
+  const ads = adminAds();
+  const base = i >= 0 ? ads[i] : { id: "ad" + Date.now(), enabled: true };
+  Object.assign(base, adminAdFromForm());
+  if (i < 0) ads.push(base);
   btn.textContent = "Сохраняю…"; btn.disabled = true;
   const ok = await adminSaveAds();
   btn.disabled = false; btn.textContent = ok ? "Сохранено ✓" : "Ошибка";
-  if (ok) { adminRenderAdList(); setTimeout(() => { document.getElementById("ad-editor").innerHTML = ""; }, 700); }
+  if (ok) { adminRenderAdList(); setTimeout(adminCloseEditor, 700); }
 }
 async function adminSaveAds() {
   const ads = adminAds();
@@ -15675,11 +15702,13 @@ const DEFAULT_AD = {
   btn2_url: "https://market.yandex.ru/cc/A4WfzR",
 };
 window.VBR_CONFIG = { ads: null, overrides: {} };
-// Список реклам: из конфига или дефолтная (TrendVision)
+// Список реклам. Пока НИЧЕГО не настроено (ads == null) — показываем TrendVision
+// как «первую добавленную» (её же увидишь в кабинете). Как только список сохранён —
+// уважаем его как есть: пустой список = рекламы нет, удалённое не возвращается.
 function getAds() {
   const a = window.VBR_CONFIG && window.VBR_CONFIG.ads;
-  if (Array.isArray(a) && a.length) return a;
-  return [Object.assign({ id: "default" }, DEFAULT_AD)];
+  if (Array.isArray(a)) return a;
+  return [Object.assign({ id: "trendvision" }, DEFAULT_AD)];
 }
 // Выбор рекламы: случайная среди отмеченных «показывать».
 // Выбирается заново на каждый подбор (renderPromoAd в showResults).
@@ -15690,6 +15719,26 @@ function pickAd() {
 }
 let _adEnabledNow = true;
 window._currentAd = null;
+// Разметка рекламной карточки (переиспользуется в подборе и в предпросмотре кабинета)
+function adGridHTML(ad) {
+  const esc = s => attrSafe(s);
+  const chips = String(ad.chips || "").split(",").map(c => c.trim()).filter(Boolean)
+    .map(c => `<span class="ad-promo-chip">${esc(c)}</span>`).join("");
+  const btn = (t, u, cls) => t ? `<a class="ad-promo-btn ${cls}" ${u ? `href="${esc(u)}"` : ""} target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(t)}</a>` : "";
+  return `<div class="ad-promo-grid">
+    <div class="ad-promo-copy">
+      ${ad.label ? `<div class="ad-promo-label">${esc(ad.label)}</div>` : ""}
+      <div class="ad-promo-title">${esc(ad.title || "Заголовок")}</div>
+      <div class="ad-promo-desc">${ad.desc || ""}</div>
+      ${chips ? `<div class="ad-promo-chips">${chips}</div>` : ""}
+    </div>
+    <div class="ad-promo-product">
+      ${ad.image ? `<div class="ad-promo-photo"><img src="${esc(ad.image)}" alt="${esc(ad.title)}" loading="lazy" decoding="async"></div>` : ""}
+      ${ad.price ? `<div class="ad-promo-price"><span class="ad-promo-price-value">${esc(ad.price)}</span><span class="ad-promo-price-note">цена может измениться</span></div>` : ""}
+    </div>
+    <div class="ad-promo-actions">${btn(ad.btn1_text, ad.btn1_url, "site")}${btn(ad.btn2_text, ad.btn2_url, "market")}</div>
+  </div>`;
+}
 function renderPromoAd() {
   const box = document.getElementById("loading-ad");
   if (!box) return;
@@ -15698,25 +15747,9 @@ function renderPromoAd() {
   _adEnabledNow = !!ad;
   if (!ad) { box.style.display = "none"; box.innerHTML = ""; return; }
   box.style.display = "";
-  const esc = s => attrSafe(s);
-  const chips = String(ad.chips || "").split(",").map(c => c.trim()).filter(Boolean)
-    .map(c => `<span class="ad-promo-chip">${esc(c)}</span>`).join("");
-  const btn = (t, u, cls) => (t && u) ? `<a class="ad-promo-btn ${cls}" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(t)}</a>` : "";
   box.innerHTML = `
-    <div class="ad-banner-lg" role="button" tabindex="0" onclick="openPromoAd(event)" onkeydown="onPromoAdKey(event)" aria-label="Реклама: ${esc(ad.title)}">
-      <div class="ad-promo-grid">
-        <div class="ad-promo-copy">
-          ${ad.label ? `<div class="ad-promo-label">${esc(ad.label)}</div>` : ""}
-          <div class="ad-promo-title">${esc(ad.title)}</div>
-          <div class="ad-promo-desc">${ad.desc || ""}</div>
-          ${chips ? `<div class="ad-promo-chips">${chips}</div>` : ""}
-        </div>
-        <div class="ad-promo-product">
-          ${ad.image ? `<div class="ad-promo-photo"><img src="${esc(ad.image)}" alt="${esc(ad.title)}" loading="lazy" decoding="async"></div>` : ""}
-          ${ad.price ? `<div class="ad-promo-price"><span class="ad-promo-price-value">${esc(ad.price)}</span><span class="ad-promo-price-note">цена может измениться</span></div>` : ""}
-        </div>
-        <div class="ad-promo-actions">${btn(ad.btn1_text, ad.btn1_url, "site")}${btn(ad.btn2_text, ad.btn2_url, "market")}</div>
-      </div>
+    <div class="ad-banner-lg" role="button" tabindex="0" onclick="openPromoAd(event)" onkeydown="onPromoAdKey(event)" aria-label="Реклама: ${attrSafe(ad.title)}">
+      ${adGridHTML(ad)}
     </div>
     <div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div>`;
 }
