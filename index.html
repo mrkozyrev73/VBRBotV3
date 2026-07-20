@@ -11631,6 +11631,12 @@ canvas {
 }
 .admin-range button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 .admin-loading { text-align: center; color: var(--text-2); padding: 40px 0; font-size: 14px; line-height: 1.5; }
+.adm-hero { background: linear-gradient(135deg, var(--blue), var(--blue-strong)); border-radius: 16px; padding: 18px; margin-bottom: 12px; text-align: center; color: #fff; }
+.adm-hero-v { font-size: 40px; font-weight: 800; line-height: 1; }
+.adm-hero-l { font-size: 12px; opacity: .9; margin-top: 6px; }
+.adm-empty { background: var(--card); border: 1px dashed var(--border); border-radius: 12px; padding: 14px; color: var(--text-2); font-size: 13px; text-align: center; margin-bottom: 12px; line-height: 1.5; }
+.adm-card-hint { font-size: 11px; color: var(--text-2); margin: -4px 0 10px; }
+.adm-row-val b { color: var(--blue); }
 .adm-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
 .adm-kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; text-align: center; }
 .adm-kpi-v { font-size: 22px; font-weight: 800; color: var(--blue); }
@@ -12488,8 +12494,8 @@ function enableMetrika(){
     </div>
     <div id="admin-body" style="display:none">
       <div class="admin-range" id="admin-range">
-        <button data-days="7" class="active" onclick="adminSetRange(7)">7 дней</button>
-        <button data-days="30" onclick="adminSetRange(30)">30 дней</button>
+        <button data-days="7" onclick="adminSetRange(7)">7 дней</button>
+        <button data-days="30" class="active" onclick="adminSetRange(30)">30 дней</button>
         <button data-days="90" onclick="adminSetRange(90)">90 дней</button>
       </div>
       <div id="admin-content"><div class="admin-loading">Загрузка…</div></div>
@@ -13731,6 +13737,8 @@ let _adminTaps = [];
 function navGo(tab) {
   // скрытый вход в админку: 5 тапов по «О проекте» за 4 секунды
   if (tab === "about") {
+    // уже в админке — лишние тапы игнорируем (не сбрасываем и не выходим)
+    if (currentScreenId === "s-admin") return;
     const now = Date.now();
     _adminTaps = _adminTaps.filter(t => now - t < 4000);
     _adminTaps.push(now);
@@ -14666,7 +14674,7 @@ function showPolicy(updateHash = true) {
 // ══════════════════════════════════════════════════════════
 //  АДМИНКА (скрытая): дашборд собственной статистики с Worker'а
 // ══════════════════════════════════════════════════════════
-let _adminDays = 7;
+let _adminDays = 30;
 function showAdmin() {
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
@@ -14715,39 +14723,72 @@ async function adminLoad() {
 }
 function adminRenderHTML(s) {
   const fmt = n => (n == null ? "0" : Number(n).toLocaleString("ru-RU"));
-  const maxDay = Math.max(1, ...(s.days || []).map(d => d.visits));
-  const bars = (s.days || []).map(d =>
-    `<div class="adm-bar-wrap" title="${d.date}: ${d.visits} визитов, ${d.uniques} уник.">
-      <div class="adm-bar" style="height:${Math.max(3, Math.round(d.visits / maxDay * 68))}px"></div>
-      <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
-    </div>`).join("");
-  const list = (title, items, unit) => !items || !items.length ? "" :
-    `<div class="adm-card"><div class="adm-card-title">${title}</div>
-      ${items.map(i => `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}${unit || ""}</span></div>`).join("")}
-    </div>`;
   const f = s.funnel || {};
   const pct = (a, b) => (b ? Math.round(a / b * 100) : 0);
+
+  // график: визиты + линия уникальных посетителей поверх столбиков
+  const days = s.days || [];
+  const maxDay = Math.max(1, ...days.map(d => Math.max(d.visits, d.uniques)));
+  const bars = days.map(d =>
+    `<div class="adm-bar-wrap" title="${d.date}: ${d.uniques} посетителей, ${d.visits} визитов">
+      <div class="adm-bar" style="height:${Math.max(3, Math.round(d.uniques / maxDay * 68))}px"></div>
+      <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
+    </div>`).join("");
+
+  const list = (title, items, hint) => !items || !items.length ? "" :
+    `<div class="adm-card"><div class="adm-card-title">${title}</div>
+      ${hint ? `<div class="adm-card-hint">${hint}</div>` : ""}
+      ${items.map(i => `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}</span></div>`).join("")}
+    </div>`;
+
+  // строка воронки с процентом от предыдущего шага
+  const step = (label, val, base) =>
+    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val)}${base != null ? ` · <b>${pct(val, base)}%</b>` : ""}</span></div>`;
+
+  const emptyHint = (s.totals?.visits || 0) === 0
+    ? `<div class="adm-empty">Пока нет данных за этот период. Как появятся посетители — здесь всё оживёт.</div>` : "";
+
   return `
+    ${emptyHint}
+    <div class="adm-hero">
+      <div class="adm-hero-v">${fmt(s.totals?.uniques)}</div>
+      <div class="adm-hero-l">уникальных посетителей за ${s.days ? s.days.length : _adminDays} дн.</div>
+    </div>
     <div class="adm-kpis">
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.visits)}</div><div class="adm-kpi-l">визитов</div></div>
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.uniques)}</div><div class="adm-kpi-l">посетителей</div></div>
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(f.buy_click)}</div><div class="adm-kpi-l">кликов «Купить»</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.visits)}</div><div class="adm-kpi-l">всего заходов</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(f.quiz_start)}</div><div class="adm-kpi-l">начали подбор</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt((f.market_click || 0) + (f.site_click || 0))}</div><div class="adm-kpi-l">переходов в магазин</div></div>
     </div>
-    <div class="adm-card"><div class="adm-card-title">Визиты по дням</div><div class="adm-chart">${bars}</div></div>
-    <div class="adm-card"><div class="adm-card-title">Воронка подбора</div>
-      <div class="adm-row"><span class="adm-row-name">Начали подбор</span><span class="adm-row-val">${fmt(f.quiz_start)}</span></div>
-      <div class="adm-row"><span class="adm-row-name">Дошли до результатов</span><span class="adm-row-val">${fmt(f.quiz_done)} · ${pct(f.quiz_done, f.quiz_start)}%</span></div>
-      <div class="adm-row"><span class="adm-row-name">Открыли карточку</span><span class="adm-row-val">${fmt(f.device_open)}</span></div>
-      <div class="adm-row"><span class="adm-row-name">Кликнули «Купить»</span><span class="adm-row-val">${fmt(f.buy_click)}</span></div>
-      <div class="adm-row"><span class="adm-row-name">Донат</span><span class="adm-row-val">${fmt(f.donate_click)}</span></div>
-      <div class="adm-row"><span class="adm-row-name">Поделились подбором</span><span class="adm-row-val">${fmt(f.share_results)}</span></div>
+
+    <div class="adm-card"><div class="adm-card-title">Посетители по дням</div><div class="adm-chart">${bars}</div></div>
+
+    <div class="adm-card"><div class="adm-card-title">Путь пользователя</div>
+      <div class="adm-card-hint">Сколько людей доходит до каждого шага</div>
+      ${step("Начали подбор", f.quiz_start)}
+      ${step("Дошли до результата", f.quiz_done, f.quiz_start)}
+      ${step("Открыли карточку модели", f.device_open, f.quiz_done)}
+      ${step("Перешли на Я.Маркет", f.market_click, f.device_open)}
+      ${step("Перешли на сайт производителя", f.site_click, f.device_open)}
     </div>
-    ${list("Топ моделей — открытия", s.topOpens)}
-    ${list("Топ моделей — «Купить»", s.topBuys)}
-    ${list("Топ избранного", s.topFavs)}
-    ${list("Поисковые запросы", s.topSearches)}
-    ${list("Экраны", s.topScreens)}
-    ${list("Платформы", s.platforms)}
+
+    <div class="adm-card"><div class="adm-card-title">Действия за период</div>
+      ${step("Переходы на Я.Маркет", f.market_click)}
+      ${step("Переходы на сайт производителя", f.site_click)}
+      ${step("Смотрели обзор на YouTube", f.video_youtube)}
+      ${step("Смотрели обзор на Rutube", f.video_rutube)}
+      ${step("Добавили в избранное", f.fav_add)}
+      ${step("Добавили в сравнение", f.cmp_add)}
+      ${step("Поделились подбором", f.share_results)}
+      ${step("Нажали «Донат»", f.donate_click)}
+    </div>
+
+    ${list("Топ моделей — что открывали", s.topOpens)}
+    ${list("Топ моделей — переход в магазин", s.topBuys, "Я.Маркет + сайт производителя")}
+    ${list("Топ брендов — что открывали", s.topBrandsOpen)}
+    ${list("Топ брендов — переход в магазин", s.topBrandsBuy)}
+    ${list("Что искали", s.topSearches, "Ввод в поиск каталога")}
+    ${list("Топ в избранном", s.topFavs)}
+    ${list("Откуда заходят", s.platforms, "Telegram / браузер · устройство")}
   `;
 }
 
@@ -16329,6 +16370,7 @@ function openDeviceFromSearch(idx) {
   const d = DEVICES[idx];
   if (!d) return;
   vbrTrack("device_open", { model: d.name });
+  if (d.brand) sendStats("brand_open", d.brand);
   setDeviceHash(d); // ссылкой на карточку можно поделиться
 
   // If called from an analog card (not from intro), keep origin as-is
@@ -18292,15 +18334,36 @@ document.addEventListener("click", event => {
 setupCopyEmailActions();
 setupTermTooltips();
 
-// ── Аналитика: клики «Купить на Я.Маркет» и «Донат» ──
+// ── Аналитика: клики по Я.Маркет / офиц. сайту / донату ──
+function _clickModelName(a) {
+  const card = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card");
+  const nameEl = card ? card.querySelector(".dev-name, .srch-match-name, .catalog-row-name") : null;
+  return nameEl ? nameEl.textContent.trim() : "";
+}
+function _brandByName(name) {
+  const d = name && DEVICES.find(x => x.name === name);
+  return d ? d.brand : "";
+}
 document.addEventListener("click", (e) => {
   const a = e.target.closest ? e.target.closest("a[href]") : null;
   if (!a) return;
   const href = a.href || "";
+  const isSiteBtn = a.classList.contains("btn-site") || (a.classList.contains("ad-promo-btn") && a.classList.contains("site"));
+  const isYoutube = a.classList.contains("btn-youtube") || href.indexOf("youtube.com") !== -1 || href.indexOf("youtu.be") !== -1;
+  const isRutube = a.classList.contains("btn-rutube") || href.indexOf("rutube.ru") !== -1;
   if (href.indexOf("market.yandex") !== -1) {
-    const card = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card");
-    const nameEl = card ? card.querySelector(".dev-name, .srch-match-name, .catalog-row-name") : null;
-    vbrTrack("buy_click", { model: nameEl ? nameEl.textContent.trim() : href });
+    const name = _clickModelName(a);
+    try { if (typeof ym === "function") ym(110272214, "reachGoal", "buy_click", { model: name || href }); } catch (x) {}
+    sendStats("market_click", name);
+    const br = _brandByName(name); if (br) sendStats("brand_market", br);
+  } else if (isSiteBtn) {
+    const name = _clickModelName(a);
+    sendStats("site_click", name);
+    const br = _brandByName(name); if (br) sendStats("brand_site", br);
+  } else if (isYoutube) {
+    sendStats("video_youtube", _clickModelName(a));
+  } else if (isRutube) {
+    sendStats("video_rutube", _clickModelName(a));
   } else if (href.indexOf("cloudtips.ru") !== -1) {
     vbrTrack("donate_click");
   }
