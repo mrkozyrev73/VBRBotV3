@@ -11610,6 +11610,41 @@ canvas {
   min-height: 100dvh;
   padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
 }
+/* ── Админка (скрытая) ── */
+#s-admin { min-height: 100dvh; background: var(--bg); }
+.admin-wrap { max-width: 640px; margin: 0 auto; padding: 18px 16px calc(var(--app-nav-h) + 30px); }
+.admin-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.admin-title { font-size: 24px; font-weight: 800; letter-spacing: -.5px; color: var(--text); margin: 0; }
+.admin-auth-text { color: var(--text-2); font-size: 14px; margin: 20px 0 10px; }
+.admin-auth-row { display: flex; gap: 10px; }
+.admin-auth-row input {
+  flex: 1; height: 46px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); padding: 0 14px; font-size: 15px; outline: none;
+}
+.admin-auth-row input:focus { border-color: var(--blue); }
+.admin-auth-btn { height: 46px; padding: 0 20px; border: 0; border-radius: 12px; background: var(--blue); color: #fff; font-weight: 700; cursor: pointer; }
+.admin-auth-err { color: #E24B4A; font-size: 13px; margin-top: 10px; }
+.admin-range { display: flex; gap: 8px; margin-bottom: 14px; }
+.admin-range button {
+  flex: 1; height: 38px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text-2); font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.admin-range button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.admin-loading { text-align: center; color: var(--text-2); padding: 40px 0; font-size: 14px; line-height: 1.5; }
+.adm-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.adm-kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; text-align: center; }
+.adm-kpi-v { font-size: 22px; font-weight: 800; color: var(--blue); }
+.adm-kpi-l { font-size: 11px; color: var(--text-2); margin-top: 2px; }
+.adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.adm-card-title { font-size: 13px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
+.adm-chart { display: flex; align-items: flex-end; gap: 3px; height: 88px; }
+.adm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; min-width: 0; }
+.adm-bar { width: 100%; max-width: 22px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
+.adm-bar-l { font-size: 9px; color: var(--text-2); }
+.adm-row { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(105,113,137,.10); font-size: 13px; }
+.adm-row:last-child { border-bottom: 0; }
+.adm-row-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-row-val { color: var(--text-2); font-weight: 700; white-space: nowrap; }
 /* «Больше полезных статей» под блоком материалов */
 .mode-guides-more {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -12436,6 +12471,32 @@ function enableMetrika(){
   </div>
 </div>
 
+<!-- ── ADMIN (скрытая, 5 тапов по «О проекте») ─────── -->
+<div id="s-admin" class="screen">
+  <div class="admin-wrap">
+    <div class="admin-head">
+      <h2 class="admin-title">Статистика</h2>
+      <button class="sec-btn sec-back" type="button" onclick="goHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Выйти</button>
+    </div>
+    <div id="admin-auth" style="display:none">
+      <p class="admin-auth-text">Введите ключ доступа:</p>
+      <div class="admin-auth-row">
+        <input id="admin-key-input" type="password" placeholder="Ключ" autocomplete="off">
+        <button class="admin-auth-btn" type="button" onclick="adminSaveKey()">Войти</button>
+      </div>
+      <p class="admin-auth-err" id="admin-auth-err" style="display:none">Неверный ключ</p>
+    </div>
+    <div id="admin-body" style="display:none">
+      <div class="admin-range" id="admin-range">
+        <button data-days="7" class="active" onclick="adminSetRange(7)">7 дней</button>
+        <button data-days="30" onclick="adminSetRange(30)">30 дней</button>
+        <button data-days="90" onclick="adminSetRange(90)">90 дней</button>
+      </div>
+      <div id="admin-content"><div class="admin-loading">Загрузка…</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ── PRIVACY POLICY ──────────────────────────────── -->
 <div id="s-policy" class="screen">
   <div class="guide-inner">
@@ -13090,6 +13151,7 @@ function toggleCompareByIndex(event, idx) {
       return;
     }
     compareList = [...compareList, key];
+    sendStats("cmp_add", d.name);
   }
   saveCompare();
   refreshCompareUI();
@@ -13600,6 +13662,7 @@ function toggleFavoriteByIndex(event, idx) {
   favorites = wasFavorite
     ? favorites.filter(x => x !== key)
     : [key, ...favorites].slice(0, 24);
+  if (!wasFavorite) sendStats("fav_add", d.name);
   saveFavorites();
   refreshFavoriteUI();
   showCopyToast(wasFavorite ? "Удалено из избранного" : "Добавлено в избранное");
@@ -13664,7 +13727,15 @@ function openFavoriteDevice(idx) {
 //  НИЖНЕЕ МЕНЮ: разделы (каталог / сравнение / избранное / о проекте)
 // ════════════════════════════════════════════════════════
 
+let _adminTaps = [];
 function navGo(tab) {
+  // скрытый вход в админку: 5 тапов по «О проекте» за 4 секунды
+  if (tab === "about") {
+    const now = Date.now();
+    _adminTaps = _adminTaps.filter(t => now - t < 4000);
+    _adminTaps.push(now);
+    if (_adminTaps.length >= 5) { _adminTaps = []; showAdmin(); return; }
+  } else { _adminTaps = []; }
   // покидаем квиз: прячем прогресс-шапку и шаговую навигацию «Назад/Далее»
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
@@ -14230,11 +14301,16 @@ function updateFavoritesHeader() {
   if (share) share.hidden = n === 0;
 }
 
+let _searchStatTimer = null;
 function onCatalogSearch(value) {
   _catalogQuery = value || "";
   const clear = document.getElementById("catalog-clear");
   if (clear) clear.style.display = _catalogQuery ? "block" : "none";
   updateCatalogView();
+  // статистика поисковых запросов (с паузой, чтобы не слать каждую букву)
+  clearTimeout(_searchStatTimer);
+  const q = _catalogQuery.trim();
+  if (q.length >= 2) _searchStatTimer = setTimeout(() => sendStats("search", q.toLowerCase()), 1500);
 }
 function toggleCatalogFilter(id) {
   const filter = catalogFilterById(id);
@@ -14585,6 +14661,94 @@ function showPolicy(updateHash = true) {
   show("s-policy");
   const sp = document.getElementById("s-policy");
   if (sp) sp.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════════════════
+//  АДМИНКА (скрытая): дашборд собственной статистики с Worker'а
+// ══════════════════════════════════════════════════════════
+let _adminDays = 7;
+function showAdmin() {
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  show("s-admin");
+  const sa = document.getElementById("s-admin");
+  if (sa) sa.scrollTo(0, 0);
+  adminLoad();
+}
+function adminKey() { try { return localStorage.getItem("vbr_admin_key") || ""; } catch (e) { return ""; } }
+function adminSaveKey() {
+  const v = (document.getElementById("admin-key-input").value || "").trim();
+  if (!v) return;
+  try { localStorage.setItem("vbr_admin_key", v); } catch (e) {}
+  adminLoad();
+}
+function adminSetRange(days) {
+  _adminDays = days;
+  document.querySelectorAll("#admin-range button").forEach(b => b.classList.toggle("active", Number(b.dataset.days) === days));
+  adminLoad();
+}
+function adminAuthHeaders() {
+  const h = {};
+  const k = adminKey(); if (k) h["X-Admin-Key"] = k;
+  try { const tg = window.Telegram && window.Telegram.WebApp; if (tg && tg.initData) h["X-Tg-Init"] = tg.initData; } catch (e) {}
+  return h;
+}
+async function adminLoad() {
+  const auth = document.getElementById("admin-auth");
+  const body = document.getElementById("admin-body");
+  const content = document.getElementById("admin-content");
+  const err = document.getElementById("admin-auth-err");
+  try {
+    const r = await fetch(VBR_STATS_URL + "/stats?days=" + _adminDays, { headers: adminAuthHeaders() });
+    if (r.status === 401 || r.status === 403) {
+      auth.style.display = "block"; body.style.display = "none";
+      err.style.display = adminKey() ? "block" : "none";
+      return;
+    }
+    const s = await r.json();
+    auth.style.display = "none"; body.style.display = "block"; err.style.display = "none";
+    content.innerHTML = adminRenderHTML(s);
+  } catch (e) {
+    auth.style.display = "none"; body.style.display = "block";
+    content.innerHTML = `<div class="admin-loading">Worker недоступен (${attrSafe(e.message)}).<br>Проверь, что vbr-stats задеплоен.</div>`;
+  }
+}
+function adminRenderHTML(s) {
+  const fmt = n => (n == null ? "0" : Number(n).toLocaleString("ru-RU"));
+  const maxDay = Math.max(1, ...(s.days || []).map(d => d.visits));
+  const bars = (s.days || []).map(d =>
+    `<div class="adm-bar-wrap" title="${d.date}: ${d.visits} визитов, ${d.uniques} уник.">
+      <div class="adm-bar" style="height:${Math.max(3, Math.round(d.visits / maxDay * 68))}px"></div>
+      <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
+    </div>`).join("");
+  const list = (title, items, unit) => !items || !items.length ? "" :
+    `<div class="adm-card"><div class="adm-card-title">${title}</div>
+      ${items.map(i => `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}${unit || ""}</span></div>`).join("")}
+    </div>`;
+  const f = s.funnel || {};
+  const pct = (a, b) => (b ? Math.round(a / b * 100) : 0);
+  return `
+    <div class="adm-kpis">
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.visits)}</div><div class="adm-kpi-l">визитов</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.uniques)}</div><div class="adm-kpi-l">посетителей</div></div>
+      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(f.buy_click)}</div><div class="adm-kpi-l">кликов «Купить»</div></div>
+    </div>
+    <div class="adm-card"><div class="adm-card-title">Визиты по дням</div><div class="adm-chart">${bars}</div></div>
+    <div class="adm-card"><div class="adm-card-title">Воронка подбора</div>
+      <div class="adm-row"><span class="adm-row-name">Начали подбор</span><span class="adm-row-val">${fmt(f.quiz_start)}</span></div>
+      <div class="adm-row"><span class="adm-row-name">Дошли до результатов</span><span class="adm-row-val">${fmt(f.quiz_done)} · ${pct(f.quiz_done, f.quiz_start)}%</span></div>
+      <div class="adm-row"><span class="adm-row-name">Открыли карточку</span><span class="adm-row-val">${fmt(f.device_open)}</span></div>
+      <div class="adm-row"><span class="adm-row-name">Кликнули «Купить»</span><span class="adm-row-val">${fmt(f.buy_click)}</span></div>
+      <div class="adm-row"><span class="adm-row-name">Донат</span><span class="adm-row-val">${fmt(f.donate_click)}</span></div>
+      <div class="adm-row"><span class="adm-row-name">Поделились подбором</span><span class="adm-row-val">${fmt(f.share_results)}</span></div>
+    </div>
+    ${list("Топ моделей — открытия", s.topOpens)}
+    ${list("Топ моделей — «Купить»", s.topBuys)}
+    ${list("Топ избранного", s.topFavs)}
+    ${list("Поисковые запросы", s.topSearches)}
+    ${list("Экраны", s.topScreens)}
+    ${list("Платформы", s.platforms)}
+  `;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -15119,10 +15283,46 @@ const VBR_SCREEN_TITLES = {
   "s-policy": "Политика конфиденциальности",
   "s-articles": "Полезные статьи",
 };
+// ── Собственная статистика (Cloudflare Worker, админка) ──
+const VBR_STATS_URL = "https://vbr-stats.kozyrant.workers.dev";
+function vbrUid() {
+  try {
+    let id = localStorage.getItem("vbr_uid");
+    if (!id) { id = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("vbr_uid", id); }
+    return id;
+  } catch (e) { return "anon"; }
+}
+function vbrPlatform() {
+  const tg = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+  const ua = navigator.userAgent || "";
+  const os = /iPhone|iPad/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : "desktop";
+  return (tg ? "tg-" : "web-") + os;
+}
+let _statsQueue = [];
+let _statsTimer = null;
+function sendStats(name, param) {
+  try {
+    if (localStorage.getItem("vbr_consent") !== "1") return; // только после согласия
+    _statsQueue.push({ n: name, p: param == null ? "" : String(param).slice(0, 120), ts: Date.now() });
+    if (_statsTimer) return;
+    _statsTimer = setTimeout(() => {
+      const batch = _statsQueue.splice(0); _statsTimer = null;
+      fetch(VBR_STATS_URL + "/track", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: vbrUid(), plat: vbrPlatform(), ev: batch })
+      }).catch(() => {});
+    }, 1200);
+  } catch (e) {}
+}
+
 function vbrTrack(goal, params) {
   try { if (typeof ym === "function") ym(110272214, "reachGoal", goal, params || {}); } catch (e) {}
+  sendStats(goal, params && (params.model || params.q || params.i));
 }
 function vbrHit(screenId) {
+  sendStats("screen", screenId.replace(/^s-/, ""));
   try {
     if (typeof ym !== "function") return;
     const title = VBR_SCREEN_TITLES[screenId] || screenId;
@@ -15142,7 +15342,7 @@ function show(id) {
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isTelegram = document.documentElement.classList.contains("tg-app-root") || document.body?.classList.contains("tg-app");
-  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles"].forEach(s => {
+  ["s-intro","s-mode","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles","s-admin"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -17152,6 +17352,7 @@ function renderQ() {
   if (nextRelevant !== qIdx) {
     qIdx = nextRelevant;
   }
+  sendStats("quiz_q", qIdx + 1);
 
   const q = QS[qIdx];
   const { current, total } = visibleQuestionStats();
