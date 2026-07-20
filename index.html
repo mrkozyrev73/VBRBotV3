@@ -11643,6 +11643,10 @@ canvas {
 .adm-kpi-d { display: block; font-size: 9px; font-weight: 700; margin-top: 2px; }
 .adm-kpi-d.up { color: #4CAF77; }
 .adm-kpi-d.down { color: var(--text-2); }
+.adm-money { display: grid; grid-template-columns: 2fr 1fr; gap: 7px; margin-bottom: 8px; }
+.adm-money-item { background: linear-gradient(135deg, rgba(255,122,61,.16), rgba(255,122,61,.06)); border: 1px solid rgba(255,122,61,.35); border-radius: 12px; padding: 11px 12px; }
+.adm-money-v { font-size: 22px; font-weight: 800; color: #FF7A3D; line-height: 1; }
+.adm-money-l { font-size: 10px; color: var(--text-2); margin-top: 3px; }
 .adm-sessions { font-size: 11px; color: var(--text-2); text-align: center; margin-bottom: 10px; }
 .adm-sessions b { color: var(--text); }
 .adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 9px; }
@@ -11665,7 +11669,8 @@ canvas {
 .adm-adkpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
 .adm-adkpi-v { font-size: 18px; font-weight: 800; color: var(--blue); }
 .adm-adkpi-l { font-size: 10px; color: var(--text-2); margin-top: 2px; }
-.adm-adkpi + .adm-mrow { margin-top: 8px; }
+.adm-adsub { font-size: 11px; color: var(--text-2); text-align: center; margin-top: 8px; }
+.adm-adsub b { color: var(--text); }
 /* «Больше полезных статей» под блоком материалов */
 .mode-guides-more {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -14790,19 +14795,10 @@ function adminRenderHTML(s) {
       <div class="adm-mstats"><span>Открыли <b>${fmt(m.opens)}</b></span><span>Я.Маркет <b>${fmt(m.market)}</b></span><span>Сайт <b>${fmt(m.site)}</b></span><span>♥ <b>${fmt(m.fav)}</b></span></div>
     </div>`).join("") : empty;
 
-  // бренды: Открыли · Я.Маркет · Сайт
-  const brands = (s.brands && s.brands.length) ? s.brands.slice(0, 5).map(b =>
-    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(b.name)}</div>
-      <div class="adm-mstats"><span>Открыли <b>${fmt(b.opens)}</b></span><span>Я.Маркет <b>${fmt(b.market)}</b></span><span>Сайт <b>${fmt(b.site)}</b></span></div>
-    </div>`).join("") : empty;
-
-  // реклама: показы / клики / CTR
+  // реклама: охват (уникальные) / клики / CTR + разбивка «куда вёл клик»
   const ad = s.ads || {};
+  const at = s.adTargets || {};
   const ctr = (c, v) => (v ? (Math.round(c / v * 1000) / 10) + "%" : "—");
-  const adTop = (s.topAds && s.topAds.length > 1) ? s.topAds.slice(0, 5).map(x =>
-    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(x.name)}</div>
-      <div class="adm-mstats"><span>Показы <b>${fmt(x.views)}</b></span><span>Клики <b>${fmt(x.clicks)}</b></span><span>CTR <b>${ctr(x.clicks, x.views)}</b></span></div>
-    </div>`).join("") : "";
 
   // платформы: понятные названия вместо tg-ios / web-desktop
   const PLAT = {
@@ -14819,6 +14815,11 @@ function adminRenderHTML(s) {
       ${kpi(f.quiz_done, "Завершили", prev.quiz_done)}
       ${kpi(f.device_open, "Открыли карточку", prev.device_open)}
     </div>
+
+    <div class="adm-money">
+      <div class="adm-money-item"><div class="adm-money-v">${fmt(a.market_click)}</div><div class="adm-money-l">переходов на Я.Маркет</div></div>
+      <div class="adm-money-item"><div class="adm-money-v">${fmt(a.site_click)}</div><div class="adm-money-l">на офиц. сайт</div></div>
+    </div>
     <div class="adm-sessions">Сессии за период: <b>${fmt(s.totals?.visits)}</b></div>
 
     <div class="adm-card"><div class="adm-card-title">Посетители по дням</div>${chart}</div>
@@ -14831,19 +14832,24 @@ function adminRenderHTML(s) {
       ${stepRow("Перешли на официальный сайт", f.site_click, f.device_open)}
     </div>
 
-    <div class="adm-card"><div class="adm-card-title">Реклама</div>
+    <div class="adm-card"><div class="adm-card-title">Реклама на экране подбора</div>
       <div class="adm-adkpi">
-        <div><div class="adm-adkpi-v">${fmt(ad.views)}</div><div class="adm-adkpi-l">Показы</div></div>
+        <div><div class="adm-adkpi-v">${fmt(ad.reach)}</div><div class="adm-adkpi-l">Охват (людей)</div></div>
         <div><div class="adm-adkpi-v">${fmt(ad.clicks)}</div><div class="adm-adkpi-l">Клики</div></div>
         <div><div class="adm-adkpi-v">${ctr(ad.clicks, ad.views)}</div><div class="adm-adkpi-l">CTR</div></div>
       </div>
-      ${adTop}
+      <div class="adm-adsub">Показов всего: <b>${fmt(ad.views)}</b></div>
+      <div class="adm-card-hint" style="margin-top:8px">Куда вёл клик</div>
+      ${actRow("Открыли карточку товара", at.card)}
+      ${actRow("Перешли на Я.Маркет", at.market)}
+      ${actRow("Перешли на официальный сайт", at.site)}
     </div>
 
+    <div class="adm-card"><div class="adm-card-title">Популярные модели</div>${models}</div>
+    ${list("Что искали", s.topSearches, "Ввод в поиск каталога")}
+    ${list("Откуда приходят", s.sources)}
+
     <div class="adm-card"><div class="adm-card-title">Действия за период</div>
-      ${actRow("Переходы на Я.Маркет", a.market_click)}
-      ${actRow("Переходы на официальный сайт", a.site_click)}
-      ${actRow("Переходы на сторонние сайты", a.ext_click)}
       ${actRow("Просмотры обзора на YouTube", a.video_youtube)}
       ${actRow("Просмотры обзора на Rutube", a.video_rutube)}
       ${actRow("Добавления в избранное", a.fav_add)}
@@ -14853,11 +14859,6 @@ function adminRenderHTML(s) {
       ${actRow("Нажатия на «Донат»", a.donate_click)}
     </div>
 
-    ${(s.extSites && s.extSites.length) ? list("Сторонние сайты", s.extSites) : ""}
-
-    <div class="adm-card"><div class="adm-card-title">Популярные модели</div>${models}</div>
-    <div class="adm-card"><div class="adm-card-title">Популярные бренды</div>${brands}</div>
-    ${list("Что искали", s.topSearches, "Ввод в поиск каталога")}
     <div class="adm-card"><div class="adm-card-title">Платформы</div>${plats}</div>
   `;
 }
@@ -15408,6 +15409,31 @@ function vbrPlatform() {
   const ua = navigator.userAgent || "";
   const os = /iPhone|iPad/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : "desktop";
   return (tg ? "tg-" : "web-") + os;
+}
+// Откуда пользователь пришёл в бот (по реферреру / контексту Telegram)
+function vbrSource() {
+  try { if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) return "Telegram"; } catch (e) {}
+  const r = document.referrer || "";
+  if (!r) return "Прямые заходы";
+  let host = "";
+  try { host = new URL(r).hostname.replace(/^www\./, ""); } catch (e) { return "Прямые заходы"; }
+  if (!host || host === location.hostname) return "Прямые заходы";
+  if (/t\.me|telegram/i.test(host)) return "Telegram";
+  if (/vk\.(com|ru)/i.test(host)) return "ВКонтакте";
+  if (/google\./i.test(host)) return "Google";
+  if (/yandex\.|ya\.ru/i.test(host)) return "Яндекс";
+  if (/dzen|zen\.yandex/i.test(host)) return "Дзен";
+  if (/youtube|youtu\.be/i.test(host)) return "YouTube";
+  if (/rutube/i.test(host)) return "Rutube";
+  return host;
+}
+function trackSource() {
+  try {
+    if (localStorage.getItem("vbr_consent") !== "1") return;
+    if (sessionStorage.getItem("vbr_src_sent")) return;
+    sessionStorage.setItem("vbr_src_sent", "1");
+    sendStats("source", vbrSource());
+  } catch (e) {}
 }
 let _statsQueue = [];
 let _statsTimer = null;
@@ -16440,7 +16466,6 @@ function openDeviceFromSearch(idx) {
   const d = DEVICES[idx];
   if (!d) return;
   vbrTrack("device_open", { model: d.name });
-  if (d.brand) sendStats("brand_open", d.brand);
   setDeviceHash(d); // ссылкой на карточку можно поделиться
 
   // If called from an analog card (not from intro), keep origin as-is
@@ -18412,16 +18437,13 @@ function _clickModelName(a) {
   const nameEl = card ? card.querySelector(".dev-name, .srch-match-name, .catalog-row-name") : null;
   return nameEl ? nameEl.textContent.trim() : "";
 }
-function _brandByName(name) {
-  const d = name && DEVICES.find(x => x.name === name);
-  return d ? d.brand : "";
-}
-function _domainOf(href) {
-  try { return new URL(href, location.href).hostname.replace(/^www\./, ""); } catch (e) { return ""; }
-}
 document.addEventListener("click", (e) => {
-  // клик по рекламной карточке во время подбора (карточка целиком + её кнопки)
-  if (e.target.closest && e.target.closest(".loading-ad")) sendStats("ad_click", PROMO_AD_NAME);
+  // клик по рекламной карточке во время подбора: фиксируем, КУДА повёл клик
+  if (e.target.closest && e.target.closest(".loading-ad")) {
+    const target = e.target.closest(".ad-promo-btn.market") ? "market"
+      : e.target.closest(".ad-promo-btn.site") ? "site" : "card";
+    sendStats("ad_click", target);
+  }
 
   const a = e.target.closest ? e.target.closest("a[href]") : null;
   if (!a) return;
@@ -18433,22 +18455,14 @@ document.addEventListener("click", (e) => {
     const name = _clickModelName(a);
     try { if (typeof ym === "function") ym(110272214, "reachGoal", "buy_click", { model: name || href }); } catch (x) {}
     sendStats("market_click", name);
-    const br = _brandByName(name); if (br) sendStats("brand_market", br);
   } else if (isSiteBtn) {
-    const name = _clickModelName(a);
-    sendStats("site_click", name);
-    const br = _brandByName(name); if (br) sendStats("brand_site", br);
+    sendStats("site_click", _clickModelName(a));
   } else if (isYoutube) {
     sendStats("video_youtube", _clickModelName(a));
   } else if (isRutube) {
     sendStats("video_rutube", _clickModelName(a));
   } else if (href.indexOf("cloudtips.ru") !== -1) {
     vbrTrack("donate_click");
-  } else {
-    // сторонние сайты: любой другой внешний переход внутри карточки товара
-    const inDevice = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card, .buy-links, .review-links, .loading-ad");
-    const host = _domainOf(href);
-    if (inDevice && host && host !== location.hostname) sendStats("ext_click", host);
   }
 }, true);
 
@@ -18488,6 +18502,7 @@ if (shouldResetRouteOnReload()) {
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
     if (typeof enableMetrika === 'function') enableMetrika();
     if (firstTime && typeof vbrTrack === 'function') vbrTrack('consent_given');
+    if (typeof trackSource === 'function') trackSource();
     if (btn) { btn.disabled = false; btn.classList.remove('is-locked'); }
     // окошко не прячем: галочка проставлена и зафиксирована, поле бледнеет
     if (cb) { cb.checked = true; cb.disabled = true; }
