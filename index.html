@@ -11631,26 +11631,41 @@ canvas {
 }
 .admin-range button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 .admin-loading { text-align: center; color: var(--text-2); padding: 40px 0; font-size: 14px; line-height: 1.5; }
-.adm-hero { background: linear-gradient(135deg, var(--blue), var(--blue-strong)); border-radius: 16px; padding: 18px; margin-bottom: 12px; text-align: center; color: #fff; }
-.adm-hero-v { font-size: 40px; font-weight: 800; line-height: 1; }
-.adm-hero-l { font-size: 12px; opacity: .9; margin-top: 6px; }
-.adm-empty { background: var(--card); border: 1px dashed var(--border); border-radius: 12px; padding: 14px; color: var(--text-2); font-size: 13px; text-align: center; margin-bottom: 12px; line-height: 1.5; }
-.adm-card-hint { font-size: 11px; color: var(--text-2); margin: -4px 0 10px; }
+.adm-empty { color: var(--text-2); font-size: 13px; text-align: center; padding: 10px 0; }
+.adm-card-hint { font-size: 11px; color: var(--text-2); margin: -3px 0 8px; }
 .adm-row-val b { color: var(--blue); }
-.adm-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-.adm-kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; text-align: center; }
-.adm-kpi-v { font-size: 22px; font-weight: 800; color: var(--blue); }
-.adm-kpi-l { font-size: 11px; color: var(--text-2); margin-top: 2px; }
-.adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-.adm-card-title { font-size: 13px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
-.adm-chart { display: flex; align-items: flex-end; gap: 3px; height: 88px; }
-.adm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; min-width: 0; }
-.adm-bar { width: 100%; max-width: 22px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
-.adm-bar-l { font-size: 9px; color: var(--text-2); }
-.adm-row { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(105,113,137,.10); font-size: 13px; }
+/* 4 равнозначные компактные метрики */
+.adm-kpis { display: grid; gap: 7px; margin-bottom: 8px; }
+.adm-kpis-4 { grid-template-columns: repeat(4, 1fr); }
+.adm-kpi { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 6px; text-align: center; }
+.adm-kpi-v { font-size: 19px; font-weight: 800; color: var(--blue); line-height: 1.05; }
+.adm-kpi-l { font-size: 10px; color: var(--text-2); margin-top: 3px; line-height: 1.15; }
+.adm-kpi-d { display: block; font-size: 9px; font-weight: 700; margin-top: 2px; }
+.adm-kpi-d.up { color: #4CAF77; }
+.adm-kpi-d.down { color: var(--text-2); }
+.adm-sessions { font-size: 11px; color: var(--text-2); text-align: center; margin-bottom: 10px; }
+.adm-sessions b { color: var(--text); }
+.adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 9px; }
+.adm-card-title { font-size: 12px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
+.adm-chart { display: flex; align-items: flex-end; gap: 3px; height: 44px; }
+.adm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; min-width: 0; }
+.adm-bar { width: 100%; max-width: 20px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
+.adm-bar-l { font-size: 8px; color: var(--text-2); }
+.adm-row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(105,113,137,.10); font-size: 13px; }
 .adm-row:last-child { border-bottom: 0; }
 .adm-row-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .adm-row-val { color: var(--text-2); font-weight: 700; white-space: nowrap; }
+/* строки моделей/брендов: название + мелкие показатели */
+.adm-mrow { padding: 7px 0; border-bottom: 1px solid rgba(105,113,137,.10); }
+.adm-mrow:last-child { border-bottom: 0; }
+.adm-mname { font-size: 13px; color: var(--text); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-mstats { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--text-2); }
+.adm-mstats b { color: var(--text); font-weight: 700; }
+/* реклама: показы / клики / CTR */
+.adm-adkpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+.adm-adkpi-v { font-size: 18px; font-weight: 800; color: var(--blue); }
+.adm-adkpi-l { font-size: 10px; color: var(--text-2); margin-top: 2px; }
+.adm-adkpi + .adm-mrow { margin-top: 8px; }
 /* «Больше полезных статей» под блоком материалов */
 .mode-guides-more {
   display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -14723,72 +14738,127 @@ async function adminLoad() {
 }
 function adminRenderHTML(s) {
   const fmt = n => (n == null ? "0" : Number(n).toLocaleString("ru-RU"));
-  const f = s.funnel || {};
-  const pct = (a, b) => (b ? Math.round(a / b * 100) : 0);
+  const f = s.funnel || {};    // уникальные пользователи по шагам
+  const a = s.actions || {};   // всего действий за период
+  const prev = s.prev || {};
+  const empty = `<div class="adm-empty">Пока нет данных</div>`;
 
-  // график: визиты + линия уникальных посетителей поверх столбиков
+  // процент от предыдущего шага воронки: тире если посчитать нельзя / >100
+  const rel = (cur, base) => {
+    if (base == null || base === 0 || cur == null) return "—";
+    const v = Math.round(cur / base * 100);
+    return isFinite(v) && v >= 0 && v <= 100 ? v + "%" : "—";
+  };
+  // дельта к прошлому периоду для верхних метрик
+  const delta = (cur, was) => {
+    if (was == null || was === 0) return "";
+    const d = Math.round((cur - was) / was * 100);
+    if (!isFinite(d) || d === 0) return "";
+    return `<span class="adm-kpi-d ${d > 0 ? "up" : "down"}">${d > 0 ? "+" : ""}${d}%</span>`;
+  };
+  const kpi = (val, label, was) =>
+    `<div class="adm-kpi"><div class="adm-kpi-v">${fmt(val)}</div><div class="adm-kpi-l">${label}</div>${delta(val, was)}</div>`;
+
+  // компактный график посетителей по дням (низкий)
   const days = s.days || [];
-  const maxDay = Math.max(1, ...days.map(d => Math.max(d.visits, d.uniques)));
-  const bars = days.map(d =>
-    `<div class="adm-bar-wrap" title="${d.date}: ${d.uniques} посетителей, ${d.visits} визитов">
-      <div class="adm-bar" style="height:${Math.max(3, Math.round(d.uniques / maxDay * 68))}px"></div>
-      <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
-    </div>`).join("");
+  let chart;
+  if (!days.length) { chart = empty; }
+  else {
+    const maxDay = Math.max(1, ...days.map(d => d.uniques));
+    chart = `<div class="adm-chart">${days.map(d =>
+      `<div class="adm-bar-wrap" title="${d.date}: ${d.uniques} посетителей">
+        <div class="adm-bar" style="height:${Math.max(2, Math.round(d.uniques / maxDay * 34))}px"></div>
+        <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
+      </div>`).join("")}</div>`;
+  }
 
-  const list = (title, items, hint) => !items || !items.length ? "" :
-    `<div class="adm-card"><div class="adm-card-title">${title}</div>
-      ${hint ? `<div class="adm-card-hint">${hint}</div>` : ""}
-      ${items.map(i => `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}</span></div>`).join("")}
+  // простой список «название — число» (макс 5)
+  const list = (title, items, hint) =>
+    `<div class="adm-card"><div class="adm-card-title">${title}</div>${hint ? `<div class="adm-card-hint">${hint}</div>` : ""}
+      ${(items && items.length) ? items.slice(0, 5).map(i =>
+        `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}</span></div>`).join("") : empty}
     </div>`;
 
-  // строка воронки с процентом от предыдущего шага
-  const step = (label, val, base) =>
-    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val)}${base != null ? ` · <b>${pct(val, base)}%</b>` : ""}</span></div>`;
+  const stepRow = (label, val, base) =>
+    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val)}${base !== undefined ? ` · <b>${rel(val, base)}</b>` : ""}</span></div>`;
+  const actRow = (label, val) =>
+    `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val || 0)}</span></div>`;
 
-  const emptyHint = (s.totals?.visits || 0) === 0
-    ? `<div class="adm-empty">Пока нет данных за этот период. Как появятся посетители — здесь всё оживёт.</div>` : "";
+  // модели: Открыли · Я.Маркет · Сайт · В избранное
+  const models = (s.models && s.models.length) ? s.models.slice(0, 5).map(m =>
+    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(m.name)}</div>
+      <div class="adm-mstats"><span>Открыли <b>${fmt(m.opens)}</b></span><span>Я.Маркет <b>${fmt(m.market)}</b></span><span>Сайт <b>${fmt(m.site)}</b></span><span>♥ <b>${fmt(m.fav)}</b></span></div>
+    </div>`).join("") : empty;
+
+  // бренды: Открыли · Я.Маркет · Сайт
+  const brands = (s.brands && s.brands.length) ? s.brands.slice(0, 5).map(b =>
+    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(b.name)}</div>
+      <div class="adm-mstats"><span>Открыли <b>${fmt(b.opens)}</b></span><span>Я.Маркет <b>${fmt(b.market)}</b></span><span>Сайт <b>${fmt(b.site)}</b></span></div>
+    </div>`).join("") : empty;
+
+  // реклама: показы / клики / CTR
+  const ad = s.ads || {};
+  const ctr = (c, v) => (v ? (Math.round(c / v * 1000) / 10) + "%" : "—");
+  const adTop = (s.topAds && s.topAds.length > 1) ? s.topAds.slice(0, 5).map(x =>
+    `<div class="adm-mrow"><div class="adm-mname">${attrSafe(x.name)}</div>
+      <div class="adm-mstats"><span>Показы <b>${fmt(x.views)}</b></span><span>Клики <b>${fmt(x.clicks)}</b></span><span>CTR <b>${ctr(x.clicks, x.views)}</b></span></div>
+    </div>`).join("") : "";
+
+  // платформы: понятные названия вместо tg-ios / web-desktop
+  const PLAT = {
+    "tg-android": "Telegram · Android", "tg-ios": "Telegram · iOS", "tg-desktop": "Telegram · компьютер",
+    "web-android": "Браузер · телефон", "web-ios": "Браузер · телефон", "web-desktop": "Браузер · компьютер",
+  };
+  const plats = (s.platforms && s.platforms.length) ? s.platforms.slice(0, 5).map(p =>
+    `<div class="adm-row"><span class="adm-row-name">${attrSafe(PLAT[p.name] || p.name)}</span><span class="adm-row-val">${fmt(p.count)}</span></div>`).join("") : empty;
 
   return `
-    ${emptyHint}
-    <div class="adm-hero">
-      <div class="adm-hero-v">${fmt(s.totals?.uniques)}</div>
-      <div class="adm-hero-l">уникальных посетителей за ${s.days ? s.days.length : _adminDays} дн.</div>
+    <div class="adm-kpis adm-kpis-4">
+      ${kpi(s.totals?.uniques, "Посетители", prev.uniques)}
+      ${kpi(f.quiz_start, "Начали подбор", prev.quiz_start)}
+      ${kpi(f.quiz_done, "Завершили", prev.quiz_done)}
+      ${kpi(f.device_open, "Открыли карточку", prev.device_open)}
     </div>
-    <div class="adm-kpis">
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(s.totals?.visits)}</div><div class="adm-kpi-l">всего заходов</div></div>
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt(f.quiz_start)}</div><div class="adm-kpi-l">начали подбор</div></div>
-      <div class="adm-kpi"><div class="adm-kpi-v">${fmt((f.market_click || 0) + (f.site_click || 0))}</div><div class="adm-kpi-l">переходов в магазин</div></div>
-    </div>
+    <div class="adm-sessions">Сессии за период: <b>${fmt(s.totals?.visits)}</b></div>
 
-    <div class="adm-card"><div class="adm-card-title">Посетители по дням</div><div class="adm-chart">${bars}</div></div>
+    <div class="adm-card"><div class="adm-card-title">Посетители по дням</div>${chart}</div>
 
     <div class="adm-card"><div class="adm-card-title">Путь пользователя</div>
-      <div class="adm-card-hint">Сколько людей доходит до каждого шага</div>
-      ${step("Начали подбор", f.quiz_start)}
-      ${step("Дошли до результата", f.quiz_done, f.quiz_start)}
-      ${step("Открыли карточку модели", f.device_open, f.quiz_done)}
-      ${step("Перешли на Я.Маркет", f.market_click, f.device_open)}
-      ${step("Перешли на сайт производителя", f.site_click, f.device_open)}
+      ${stepRow("Начали подбор", f.quiz_start)}
+      ${stepRow("Завершили подбор", f.quiz_done, f.quiz_start)}
+      ${stepRow("Открыли карточку модели", f.device_open, f.quiz_done)}
+      ${stepRow("Перешли на Я.Маркет", f.market_click, f.device_open)}
+      ${stepRow("Перешли на официальный сайт", f.site_click, f.device_open)}
+    </div>
+
+    <div class="adm-card"><div class="adm-card-title">Реклама</div>
+      <div class="adm-adkpi">
+        <div><div class="adm-adkpi-v">${fmt(ad.views)}</div><div class="adm-adkpi-l">Показы</div></div>
+        <div><div class="adm-adkpi-v">${fmt(ad.clicks)}</div><div class="adm-adkpi-l">Клики</div></div>
+        <div><div class="adm-adkpi-v">${ctr(ad.clicks, ad.views)}</div><div class="adm-adkpi-l">CTR</div></div>
+      </div>
+      ${adTop}
     </div>
 
     <div class="adm-card"><div class="adm-card-title">Действия за период</div>
-      ${step("Переходы на Я.Маркет", f.market_click)}
-      ${step("Переходы на сайт производителя", f.site_click)}
-      ${step("Смотрели обзор на YouTube", f.video_youtube)}
-      ${step("Смотрели обзор на Rutube", f.video_rutube)}
-      ${step("Добавили в избранное", f.fav_add)}
-      ${step("Добавили в сравнение", f.cmp_add)}
-      ${step("Поделились подбором", f.share_results)}
-      ${step("Нажали «Донат»", f.donate_click)}
+      ${actRow("Переходы на Я.Маркет", a.market_click)}
+      ${actRow("Переходы на официальный сайт", a.site_click)}
+      ${actRow("Переходы на сторонние сайты", a.ext_click)}
+      ${actRow("Просмотры обзора на YouTube", a.video_youtube)}
+      ${actRow("Просмотры обзора на Rutube", a.video_rutube)}
+      ${actRow("Добавления в избранное", a.fav_add)}
+      ${actRow("Добавления в сравнение", a.cmp_add)}
+      ${actRow("Поделились подбором", a.share_results)}
+      ${actRow("Клики по рекламе", a.ad_click)}
+      ${actRow("Нажатия на «Донат»", a.donate_click)}
     </div>
 
-    ${list("Топ моделей — что открывали", s.topOpens)}
-    ${list("Топ моделей — переход в магазин", s.topBuys, "Я.Маркет + сайт производителя")}
-    ${list("Топ брендов — что открывали", s.topBrandsOpen)}
-    ${list("Топ брендов — переход в магазин", s.topBrandsBuy)}
+    ${(s.extSites && s.extSites.length) ? list("Сторонние сайты", s.extSites) : ""}
+
+    <div class="adm-card"><div class="adm-card-title">Популярные модели</div>${models}</div>
+    <div class="adm-card"><div class="adm-card-title">Популярные бренды</div>${brands}</div>
     ${list("Что искали", s.topSearches, "Ввод в поиск каталога")}
-    ${list("Топ в избранном", s.topFavs)}
-    ${list("Откуда заходят", s.platforms, "Telegram / браузер · устройство")}
+    <div class="adm-card"><div class="adm-card-title">Платформы</div>${plats}</div>
   `;
 }
 
@@ -17571,6 +17641,7 @@ function showResults() {
   el("loading-sub2").textContent = "Этапы подбора";
   el("loading-sub2").classList.remove("loading-text-out");
   show("s-loading");
+  sendStats("ad_view", PROMO_AD_NAME); // показ рекламной карточки
 
   // Централизованный таймлайн сцены (~9000 мс).
   [400, 2000, 4000, 6000].forEach((t, i) => {
@@ -18334,7 +18405,8 @@ document.addEventListener("click", event => {
 setupCopyEmailActions();
 setupTermTooltips();
 
-// ── Аналитика: клики по Я.Маркет / офиц. сайту / донату ──
+// ── Аналитика внешних переходов и действий ──
+const PROMO_AD_NAME = "TrendVision Nano 2K"; // рекламная карточка на экране подбора
 function _clickModelName(a) {
   const card = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card");
   const nameEl = card ? card.querySelector(".dev-name, .srch-match-name, .catalog-row-name") : null;
@@ -18344,7 +18416,13 @@ function _brandByName(name) {
   const d = name && DEVICES.find(x => x.name === name);
   return d ? d.brand : "";
 }
+function _domainOf(href) {
+  try { return new URL(href, location.href).hostname.replace(/^www\./, ""); } catch (e) { return ""; }
+}
 document.addEventListener("click", (e) => {
+  // клик по рекламной карточке во время подбора (карточка целиком + её кнопки)
+  if (e.target.closest && e.target.closest(".loading-ad")) sendStats("ad_click", PROMO_AD_NAME);
+
   const a = e.target.closest ? e.target.closest("a[href]") : null;
   if (!a) return;
   const href = a.href || "";
@@ -18366,6 +18444,11 @@ document.addEventListener("click", (e) => {
     sendStats("video_rutube", _clickModelName(a));
   } else if (href.indexOf("cloudtips.ru") !== -1) {
     vbrTrack("donate_click");
+  } else {
+    // сторонние сайты: любой другой внешний переход внутри карточки товара
+    const inDevice = a.closest(".dev-hero, .dev-card, .srch-match-card, .catalog-row, .analog-card, .buy-links, .review-links, .loading-ad");
+    const host = _domainOf(href);
+    if (inDevice && host && host !== location.hostname) sendStats("ext_click", host);
   }
 }, true);
 
