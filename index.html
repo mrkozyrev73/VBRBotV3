@@ -11672,6 +11672,8 @@ canvas {
 .ad-preview-label { font-size: 11px; color: var(--text-2); margin: 12px 0 6px; }
 .ad-preview { pointer-events: none; }
 .ad-preview .ad-banner-lg { cursor: default; }
+.ad-db-pick { margin-bottom: 8px; }
+.ad-db-pick .ov-hit { margin-top: 5px; }
 .adm-search { margin: 8px 0; }
 .ov-hit { display: block; width: 100%; text-align: left; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 8px 11px; margin-bottom: 5px; color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit; }
 .ov-hit:hover { border-color: var(--blue); }
@@ -14922,6 +14924,11 @@ function adminAdEditor(i) {
       <div class="ov-edit-name">${i >= 0 ? "Изменить рекламу" : "Новая реклама"}</div>
       <button class="ad-edit-close" type="button" onclick="adminCloseEditor()">Свернуть ✕</button>
     </div>
+    <div class="ad-db-pick">
+      <div class="adm-card-hint">Можно заполнить из модели базы или ввести стороннюю рекламу вручную.</div>
+      <input id="ad-db-search" class="adm-search" placeholder="Взять из базы: начни вводить модель…" oninput="adminAdDbSearch(this.value)">
+      <div id="ad-db-results"></div>
+    </div>
     ${inp("ad-label", "Плашка сверху", a.label, "Универсальный вариант")}
     ${inp("ad-title", "Заголовок", a.title, "Название товара")}
     <label class="adm-f"><span>Описание</span><textarea id="ad-desc" rows="2" placeholder="Короткое описание"${oi}>${attrSafe((a.desc || "").replace(/<[^>]+>/g, ""))}</textarea></label>
@@ -14953,7 +14960,43 @@ function adminAdFromForm() {
 }
 function adminAdPreview() {
   const box = document.getElementById("ad-preview"); if (!box) return;
-  box.innerHTML = `<div class="ad-banner-lg">${adGridHTML(adminAdFromForm())}</div>`;
+  // тот же контейнер, что и на экране подбора → предпросмотр 1-в-1
+  box.innerHTML = `<div class="loading-ad" style="display:block"><div class="ad-banner-lg">${adGridHTML(adminAdFromForm())}</div><div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div></div>`;
+}
+// Заполнение рекламы из модели базы
+function deviceAdChips(d) {
+  const c = [];
+  const r = String(d.resolution || "");
+  if (/4K/i.test(r)) c.push("4K"); else if (/2K|1440/i.test(r)) c.push("2K"); else if (/1080|Full ?HD/i.test(r)) c.push("Full HD");
+  if (d.smartphone) c.push("Wi-Fi");
+  if (typeof hasGPS === "function" && hasGPS(d)) c.push("GPS");
+  if (d.specs && d.specs.cpl === true) c.push("CPL");
+  if (d.magnetic) c.push("Магнит");
+  return c.slice(0, 5).join(", ");
+}
+function adminAdDbSearch(q) {
+  const box = document.getElementById("ad-db-results");
+  q = (q || "").trim().toLowerCase();
+  if (q.length < 2) { box.innerHTML = ""; return; }
+  const hits = DEVICES.filter(d => d.name.toLowerCase().includes(q)).slice(0, 8);
+  box.innerHTML = hits.map(d => `<button class="ov-hit" type="button" onclick="adminAdFromDevice('${attrSafe(d.name).replace(/'/g, "\\'")}')">${attrSafe(d.name)}</button>`).join("") || `<div class="adm-empty">Ничего не найдено</div>`;
+}
+function adminAdFromDevice(name) {
+  const d = DEVICES.find(x => x.name === name); if (!d) return;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ""; };
+  set("ad-label", "Рекомендуем");
+  set("ad-title", d.name);
+  set("ad-desc", (d.desc || "").replace(/<[^>]+>/g, ""));
+  set("ad-chips", deviceAdChips(d));
+  set("ad-price", d.price || "");
+  set("ad-image", d.image || "");
+  set("ad-btn1t", "Официальный сайт");
+  set("ad-btn1u", d.url || "");
+  set("ad-btn2t", "Купить на Я.Маркет");
+  set("ad-btn2u", d.market_url || "");
+  document.getElementById("ad-db-results").innerHTML = "";
+  document.getElementById("ad-db-search").value = "";
+  adminAdPreview();
 }
 async function adminSaveAdItem(btn, i) {
   const ads = adminAds();
