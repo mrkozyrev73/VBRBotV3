@@ -8246,7 +8246,8 @@ window.DEVICES = [
     "screen": "2\"",
     "gps": "GPS",
     "price": "~10 990 ₽",
-    "url": "https://lamobile.ru/catalog/aksessuary-v-avto/videoregistrator-70mai-a500s-kamera-zadnego-vida",
+    "url": "https://lamobile.ru/catalog/aksessuary-v-avto/videoregistrator-70mai-a500s",
+    "market_url": "https://market.yandex.ru/card/videoregistrator-70mai-dash-cam-pro-plus-a500s-russkaya-versiya/102397599731?businessId=915520&clid=915520&model_id=926280698&distr_type=8&pp=605&utm_source=pro_gadgets_vbr&utm_campaign=pro_gadgets_vbr&utm_content=a500s",
     "image": "assets/devices/70mai-a500s-pro-plus.webp",
     "specs": {
       "release": "02/2021",
@@ -8577,7 +8578,8 @@ window.DEVICES = [
     "screen": "2\"",
     "gps": "нет",
     "price": "~8 990 ₽",
-    "url": "https://lamobile.ru/catalog/aksessuary-v-avto/videoregistrator-70mai-dash-cam-a200-set",
+    "url": "https://lamobile.ru/catalog/aksessuary-v-avto/videoregistrator-70mai-dash-cam-a200",
+    "market_url": "https://market.yandex.ru/card/videoregistrator-70mai-dash-cam-a200-ru/102411268807?businessId=915520&clid=915520&model_id=926280698&distr_type=8&pp=605&utm_source=pro_gadgets_vbr&utm_campaign=pro_gadgets_vbr&utm_content=a200",
     "image": "assets/devices/70mai-a200.webp",
     "specs": {
       "release": "2023",
@@ -8915,7 +8917,8 @@ window.DEVICES = [
     "screen": "2\"",
     "gps": "GPS + ГЛОНАСС",
     "price": "~8 990 ₽",
-    "url": "https://lamobile.ru/catalog/videoregistratory/videoregistrator-70mai-dash-cam-a410-set",
+    "url": "https://lamobile.ru/catalog/aksessuary-v-avto/registratory/videoregistrator-70mai-dash-cam-a410",
+    "market_url": "https://market.yandex.ru/card/videoregistrator-70mai-dash-cam-a410/5793708142?businessId=915520&clid=915520&model_id=5748865397&distr_type=8&pp=605&utm_source=pro_gadgets_vbr&utm_campaign=pro_gadgets_vbr&utm_content=a410",
     "image": "assets/devices/70mai-a410.webp",
     "specs": {
       "release": "09/2025",
@@ -9122,7 +9125,8 @@ window.DEVICES = [
     "screen": "нет",
     "gps": "нет",
     "price": "цена уточняется",
-    "url": "https://lamobile.ru/catalog/videoregistratory/videoregistrator-70mai-dash-cam-m310-plus-4k",
+    "url": "https://lamobile.ru/catalog/videoregistratory/videoregistrator-70mai-dash-cam-m310-plus-4k-",
+    "market_url": "https://market.yandex.ru/card/videoregistrator-70mai-dash-cam-m310-plus-4k/5905353578?businessId=915520&clid=915520&model_id=5905353574&distr_type=8&pp=605&utm_source=pro_gadgets_vbr&utm_campaign=pro_gadgets_vbr&utm_content=m310plus4k",
     "image": "assets/devices/70mai-m310-plus-4k.webp",
     "specs": {
       "release": "ожидается",
