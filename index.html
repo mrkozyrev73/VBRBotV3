@@ -11713,10 +11713,28 @@ canvas {
 .adm-row:last-child { border-bottom: 0; }
 .adm-row-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .adm-row-val { color: var(--text-2); font-weight: 700; white-space: nowrap; }
+.adm-device-link {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.adm-device-link:hover,
+.adm-device-link:focus-visible {
+  color: var(--blue);
+  outline: none;
+}
 /* строки моделей/брендов: название + мелкие показатели */
 .adm-mrow { padding: 7px 0; border-bottom: 1px solid rgba(105,113,137,.10); }
 .adm-mrow:last-child { border-bottom: 0; }
 .adm-mname { font-size: 13px; color: var(--text); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-mname.adm-device-link {
+  display: block;
+  width: 100%;
+}
 .adm-mstats { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--text-2); }
 .adm-mstats b { color: var(--text); font-weight: 700; }
 /* реклама: показы / клики / CTR */
@@ -11957,6 +11975,30 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
   html.tg-app-root .screen.screen-enter,
   body.tg-app .screen.screen-enter {
     animation: none !important;
+  }
+  html.tg-app-root .catalog-row.catalog-anim,
+  html.tg-app-root .catalog-brand-head.catalog-anim,
+  html.tg-app-root .cmp-row.cmp-row-anim,
+  html.tg-app-root .cmp-card.cmp-row-anim,
+  html.tg-app-root .fav-card.fav-anim,
+  body.tg-app .catalog-row.catalog-anim,
+  body.tg-app .catalog-brand-head.catalog-anim,
+  body.tg-app .cmp-row.cmp-row-anim,
+  body.tg-app .cmp-card.cmp-row-anim,
+  body.tg-app .fav-card.fav-anim {
+    animation: none !important;
+  }
+  html.tg-app-root .catalog-chip,
+  html.tg-app-root .catalog-sort-chip,
+  html.tg-app-root .catalog-row,
+  html.tg-app-root .cmp-row,
+  html.tg-app-root .fav-card,
+  body.tg-app .catalog-chip,
+  body.tg-app .catalog-sort-chip,
+  body.tg-app .catalog-row,
+  body.tg-app .cmp-row,
+  body.tg-app .fav-card {
+    transition: none !important;
   }
 
   body.tg-fullscreen .screen {
@@ -13229,7 +13271,7 @@ function toggleCompareByIndex(event, idx) {
   }
   saveCompare();
   refreshCompareUI();
-  if (event && currentScreenId !== "s-search") showFavTooltip(event);
+  if (event && currentScreenId !== "s-search" && !isTelegramApp()) showFavTooltip(event);
 }
 
 function removeCompareByIndex(event, idx) {
@@ -13741,7 +13783,7 @@ function toggleFavoriteByIndex(event, idx) {
   saveFavorites();
   refreshFavoriteUI();
   showCopyToast(wasFavorite ? "Удалено из избранного" : "Добавлено в избранное");
-  if (event && currentScreenId !== "s-search") showFavTooltip(event);
+  if (event && currentScreenId !== "s-search" && !isTelegramApp()) showFavTooltip(event);
 }
 
 function removeFavoriteByIndex(event, idx) {
@@ -14103,7 +14145,7 @@ function catalogSortItems(items) {
     const n = parsePrice(d.price);
     return Number.isFinite(n) ? n : null;
   };
-  const radarRank = d => String(d.type || "").toLowerCase() === "комбо 3 в 1" ? 1 : 0;
+  const radarRank = d => isComboDevice(d) ? radarAntennaRank(d) : 0;
   return items.slice().sort((a, b) => {
     if (_catalogSort === "scenario" && _catalogScenario) {
       if (_catalogScenario === "taxi") {
@@ -14301,11 +14343,16 @@ function renderCatalog() {
 let _catalogRenderFrame = 0;
 function scheduleCatalogRender() {
   if (_catalogRenderFrame) cancelAnimationFrame(_catalogRenderFrame);
-  _catalogRenderFrame = requestAnimationFrame(() => {
-    _catalogRenderFrame = requestAnimationFrame(() => {
+  const run = () => {
       renderCatalog();
       updateCatalogHeadStuck();
-    });
+  };
+  if (isTelegramApp()) {
+    _catalogRenderFrame = requestAnimationFrame(run);
+    return;
+  }
+  _catalogRenderFrame = requestAnimationFrame(() => {
+    _catalogRenderFrame = requestAnimationFrame(run);
   });
 }
 function updateCatalogView() {
@@ -14423,7 +14470,7 @@ function showCatalog(updateHash = true) {
   const alreadyHere = currentScreenId === "s-catalog"; // повторный тап по «Каталог» — наверх
   show("s-catalog");
   const sc = document.getElementById("s-catalog");
-  const target = alreadyHere ? 0 : (_catalogScrollPos || 0);
+  const target = (alreadyHere || isTelegramApp()) ? 0 : (_catalogScrollPos || 0);
   updateCatalogHeadStuck();
   scheduleCatalogRender();
   // восстанавливаем позицию после рендера списка (фильтры и так сохраняются)
@@ -14788,10 +14835,13 @@ async function sendFeedback() {
 //  АДМИНКА (скрытая): дашборд собственной статистики с Worker'а
 // ══════════════════════════════════════════════════════════
 let _adminDays = 30;
+let _adminReturnState = null;
 function showAdmin() {
   el("header").style.display = "none";
   el("bottom-nav").style.display = "none";
   show("s-admin");
+  const appNav = document.getElementById("app-nav");
+  if (appNav) appNav.style.display = "none";
   const sa = document.getElementById("s-admin");
   if (sa) sa.scrollTo(0, 0);
   const st = document.getElementById("admin-view-stats");
@@ -14842,6 +14892,68 @@ function adminSetView(v) {
   document.getElementById("admin-tab-stats").classList.toggle("active", isStats);
   document.getElementById("admin-tab-manage").classList.toggle("active", !isStats);
   if (isStats) { adminLoad(); } else { adminRenderManage(); }
+}
+
+function adminDeviceArg(name) {
+  return encodeURIComponent(String(name || ""));
+}
+function adminDeviceNorm(value) {
+  return typeof catalogSearchNormalize === "function"
+    ? catalogSearchNormalize(value)
+    : String(value || "").toLowerCase().replace(/ё/g, "е").replace(/\s+/g, " ").trim();
+}
+function adminFindDeviceByText(text) {
+  const raw = String(text || "").trim();
+  if (!raw) return null;
+  const target = adminDeviceNorm(raw);
+  if (!target) return null;
+  let found = DEVICES.find(d => adminDeviceNorm(d.name) === target);
+  if (found) return found;
+  found = DEVICES.find(d => adminDeviceNorm(`${d.brand} ${d.name}`) === target);
+  if (found) return found;
+  return DEVICES.find(d => {
+    const n = adminDeviceNorm(d.name);
+    const full = adminDeviceNorm(`${d.brand} ${d.name}`);
+    return target.includes(n) || target.includes(full);
+  }) || null;
+}
+function adminDeviceNameHTML(name) {
+  const d = adminFindDeviceByText(name);
+  if (!d) return `<span class="adm-row-name">${attrSafe(name)}</span>`;
+  return `<button class="adm-row-name adm-device-link" type="button" title="Открыть карточку устройства" onclick="adminOpenDeviceByName('${adminDeviceArg(d.name)}')">${attrSafe(name)}</button>`;
+}
+function adminOpenDeviceByName(encodedName) {
+  const name = decodeURIComponent(String(encodedName || ""));
+  const d = adminFindDeviceByText(name);
+  if (!d) return;
+  const sa = document.getElementById("s-admin");
+  const manage = document.getElementById("admin-view-manage");
+  _adminReturnState = {
+    scrollTop: sa ? sa.scrollTop : 0,
+    view: manage && manage.style.display !== "none" ? "manage" : "stats",
+  };
+  lastSearchOrigin = "admin";
+  lastSearchQuery = "";
+  openDeviceFromSearch(DEVICES.indexOf(d));
+}
+function backToAdminFromDeviceProfile() {
+  el("header").style.display = "none";
+  el("bottom-nav").style.display = "none";
+  show("s-admin");
+  const appNav = document.getElementById("app-nav");
+  if (appNav) appNav.style.display = "none";
+  const state = _adminReturnState || { view: "stats", scrollTop: 0 };
+  const isStats = state.view !== "manage";
+  const st = document.getElementById("admin-view-stats");
+  const mn = document.getElementById("admin-view-manage");
+  const ts = document.getElementById("admin-tab-stats");
+  const tm = document.getElementById("admin-tab-manage");
+  if (st && mn) { st.style.display = isStats ? "" : "none"; mn.style.display = isStats ? "none" : ""; }
+  if (ts && tm) { ts.classList.toggle("active", isStats); tm.classList.toggle("active", !isStats); }
+  requestAnimationFrame(() => {
+    const sa = document.getElementById("s-admin");
+    if (sa) sa.scrollTo({ top: state.scrollTop || 0, behavior: "instant" });
+  });
 }
 
 // ── УПРАВЛЕНИЕ: реклама + цены/ссылки + обратная связь ──
@@ -15132,7 +15244,7 @@ function adminRenderHTML(s) {
   const list = (title, items) =>
     `<div class="adm-card"><div class="adm-card-title">${title}</div>
       ${(items && items.length) ? items.slice(0, 5).map(i =>
-        `<div class="adm-row"><span class="adm-row-name">${attrSafe(i.name)}</span><span class="adm-row-val">${fmt(i.count)}</span></div>`).join("") : empty}
+        `<div class="adm-row">${adminDeviceNameHTML(i.name)}<span class="adm-row-val">${fmt(i.count)}</span></div>`).join("") : empty}
     </div>`;
   const actRow = (label, val) =>
     `<div class="adm-row"><span class="adm-row-name">${label}</span><span class="adm-row-val">${fmt(val || 0)}</span></div>`;
@@ -15455,6 +15567,79 @@ function parsePrice(p) {
   return isNaN(n) ? Infinity : n;
 }
 
+function auditDeviceData() {
+  const report = {
+    duplicates: [],
+    missing: [],
+    contradictions: [],
+    radar: [],
+    price: [],
+  };
+  const seen = new Map();
+  DEVICES.forEach((d, index) => {
+    const key = `${String(d.brand || "").toLowerCase()}::${String(d.name || "").toLowerCase()}`;
+    if (seen.has(key)) {
+      report.duplicates.push({index, firstIndex: seen.get(key), brand: d.brand, name: d.name});
+    } else {
+      seen.set(key, index);
+    }
+
+    const missing = [];
+    if (!d.brand) missing.push("brand");
+    if (!d.name) missing.push("name");
+    if (!d.type) missing.push("type");
+    if (!d.form) missing.push("form");
+    if (!d.price || /не указана/i.test(String(d.price))) missing.push("price");
+    if (!deviceImageSrc(d)) missing.push("image");
+    if (missing.length) report.missing.push({index, brand: d.brand, name: d.name, fields: missing});
+
+    const type = String(d.type || "").toLowerCase();
+    const gps = hasGPS(d);
+    const antenna = radarAntenna(d);
+    const desc = String(d.desc || "").toLowerCase();
+    const issues = [];
+    if (type === "gps-информер" && !gps) issues.push("GPS-информер без GPS/базы");
+    if (type === "комбо 3 в 1" && !antenna) issues.push("комбо без типа радарной антенны");
+    if (type !== "комбо 3 в 1" && antenna) issues.push("антенна указана не у комбо");
+    if (d.ir_cam === true && !/3ch|3сh|3 ch|3 камеры|три камеры|салон|внутрисалон/i.test(`${d.name} ${d.desc} ${d.specs?.camera_count || ""}`)) {
+      issues.push("внутрисалонная камера требует проверки");
+    }
+    if (d.rear_cam === true && /без задн|без второй/i.test(desc)) issues.push("конфликт задней камеры в описании");
+    if (issues.length) report.contradictions.push({index, brand: d.brand, name: d.name, issues});
+
+    if (type === "комбо 3 в 1") {
+      if (antenna === "patch" && hasLNA(d)) {
+        report.radar.push({index, brand: d.brand, name: d.name, issue: "патч-антенна с LNA: не считать апгрейдом"});
+      }
+      if (!antenna && /радар|сигнатур|детектор/i.test(`${d.name} ${d.desc}`)) {
+        report.radar.push({index, brand: d.brand, name: d.name, issue: "есть радарная часть, но не определён тип антенны"});
+      }
+    }
+
+    const price = parsePrice(d.price);
+    if (!Number.isFinite(price)) {
+      report.price.push({index, brand: d.brand, name: d.name, issue: "цена не распознана", price: d.price});
+    } else if (price > 0 && (price < 1000 || price > 90000)) {
+      report.price.push({index, brand: d.brand, name: d.name, issue: "подозрительная цена", price: d.price});
+    }
+  });
+  return report;
+}
+
+window.VBRAudit = function() {
+  const report = auditDeviceData();
+  const summary = Object.fromEntries(Object.entries(report).map(([key, rows]) => [key, rows.length]));
+  console.table(summary);
+  Object.entries(report).forEach(([key, rows]) => {
+    if (rows.length) console.groupCollapsed(`VBR audit: ${key} (${rows.length})`);
+    if (rows.length) {
+      console.table(rows);
+      console.groupEnd();
+    }
+  });
+  return report;
+};
+
 function sortItems(items) {
   if (sortMode === "match") return items;
   const arr = [...items];
@@ -15477,8 +15662,8 @@ function sortResultItemsByFit(items) {
   const arr = [...items];
   arr.sort((a, b) =>
     b.pct - a.pct ||
-    comboSearchPriority(b) - comboSearchPriority(a) ||
     recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
+    comboSearchPriority(b) - comboSearchPriority(a) ||
     b.d.q - a.d.q ||
     primaryAngle(b.d) - primaryAngle(a.d)
   );
@@ -15546,7 +15731,13 @@ function compromisePool() {
 function evaluateCompromise() {
   const scored = compromisePool()
     .map(d => ({ d, ...scoreDevice(d) }))
-    .sort((a, b) => b.pct - a.pct || b.d.q - a.d.q || parsePrice(a.d.price) - parsePrice(b.d.price));
+    .sort((a, b) =>
+      b.pct - a.pct ||
+      recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
+      comboSearchPriority(b) - comboSearchPriority(a) ||
+      b.d.q - a.d.q ||
+      parsePrice(a.d.price) - parsePrice(b.d.price)
+    );
   const exact = scored.filter(t => t.mm.length === 0);
   const strong = exact.length ? exact : scored.filter(t => t.pct >= 80);
   const bestPct = scored[0]?.pct || 0;
@@ -15727,6 +15918,11 @@ function vbrPlatform() {
   const ua = navigator.userAgent || "";
   const os = /iPhone|iPad/i.test(ua) ? "ios" : /Android/i.test(ua) ? "android" : "desktop";
   return (tg ? "tg-" : "web-") + os;
+}
+function isTelegramApp() {
+  return document.documentElement.classList.contains("tg-app-root") ||
+    document.body?.classList.contains("tg-app") ||
+    Boolean(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
 }
 // ══════════════════════════════════════════════════════════
 //  КОНФИГ САЙТА: реклама (с рубильником) + правки цен/ссылок
@@ -16950,8 +17146,8 @@ function seededShuffle(items, seedText) {
 }
 
 function radarAntenna(d) {
-  const txt = `${d.name || ""} ${d.desc || ""} ${d.gps || ""}`.toLowerCase();
-  if (/рупор/.test(txt)) return "horn";
+  const txt = `${d.brand || ""} ${d.name || ""} ${d.type || ""} ${d.desc || ""} ${d.gps || ""} ${d.specs?.radar || ""}`.toLowerCase();
+  if (/рупор|horn|exd|допплеровск/.test(txt)) return "horn";
   if (/патч|patch/.test(txt)) return "patch";
   return null;
 }
@@ -16973,6 +17169,10 @@ function radarAntennaRank(d) {
   if (antenna === "horn") return 2;
   if (antenna === "patch") return 1;
   return 0;
+}
+
+function isComboDevice(d) {
+  return String(d?.type || "").toLowerCase() === "комбо 3 в 1";
 }
 
 // Видимая пометка о радарной антенне на карточке результата.
@@ -17058,7 +17258,6 @@ function isExactAnalog(x, d) {
   const dAntenna = radarAntenna(d);
   if ((x.type === "комбо 3 в 1" || d.type === "комбо 3 в 1") && xAntenna !== dAntenna) return false;
   if (xAntenna && dAntenna && xAntenna !== dAntenna) return false;
-  if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) !== hasLNA(d)) return false;
   return ANALOG_BOOLS.every(k => x[k] === d[k]);
 }
 
@@ -17073,7 +17272,7 @@ function similarPct(x, d) {
   if (x.remote    === d.remote)     p += 6;
   if (hasGPS(x)   === hasGPS(d))    p += 8;
   if (radarAntenna(x) && radarAntenna(d)) p += radarAntenna(x) === radarAntenna(d) ? 8 : radarAntennaRank(x) > radarAntennaRank(d) ? 6 : 2;
-  if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) === hasLNA(d)) p += 4;
+  if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) && hasLNA(d)) p += 2;
   const qDiff = Math.abs(x.q - d.q);
   p += qDiff === 0 ? 14 : x.q > d.q ? 12 : qDiff === 1 ? 6 : 0;
   const xSensorRank = sensorPriorityScore(x);
@@ -17674,7 +17873,9 @@ function renderDeviceProfile(d, exact, similar) {
   const betterSimilar = similar.filter(a => isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const regularSimilar = similar.filter(a => !isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const keyTags = keyFeatureTagsHTML(d);
-  const backLabel = lastSearchOrigin === "results" ? "Назад к результатам" : "Назад";
+  const backLabel = lastSearchOrigin === "results"
+    ? "Назад к результатам"
+    : (lastSearchOrigin === "admin" ? "Назад в админку" : "Назад");
 
   let html = `
     <div class="dev-profile-back" onclick="backToSearchResults()">
@@ -17760,6 +17961,10 @@ function backToSearchResults() {
     show('s-favorites');
     const f = document.getElementById('s-favorites');
     if (f) f.scrollTo(0, 0);
+    return;
+  }
+  if (lastSearchOrigin === 'admin') {
+    backToAdminFromDeviceProfile();
     return;
   }
   if (lastSearchOrigin === 'intro') {
