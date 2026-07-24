@@ -11705,10 +11705,53 @@ canvas {
 .adm-sessions b { color: var(--text); }
 .adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 9px; }
 .adm-card-title { font-size: 12px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
-.adm-chart { display: flex; align-items: flex-end; gap: 3px; height: 44px; }
-.adm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; min-width: 0; }
-.adm-bar { width: 100%; max-width: 20px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
-.adm-bar-l { font-size: 8px; color: var(--text-2); }
+.adm-chart-scroll {
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.adm-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  min-height: 70px;
+}
+.adm-bar-wrap {
+  flex: 1 0 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  min-width: 28px;
+}
+.adm-bar-v {
+  font-size: 9px;
+  line-height: 1;
+  color: var(--text);
+  font-weight: 800;
+}
+.adm-bar { width: 100%; max-width: 18px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
+.adm-bar-l { font-size: 9px; line-height: 1; color: var(--text-2); white-space: nowrap; }
+.adm-day-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(105,113,137,.12);
+}
+.adm-day-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-2);
+  min-width: 0;
+}
+.adm-day-row b { color: var(--text); font-weight: 800; }
 .adm-row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(105,113,137,.10); font-size: 13px; }
 .adm-row:last-child { border-bottom: 0; }
 .adm-row-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -15227,18 +15270,37 @@ function adminRenderHTML(s) {
     if (m) return m + " мин " + sc + " с";
     return sc + " с";
   };
+  const fmtDateShort = value => {
+    const m = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? `${m[3]}.${m[2]}` : String(value || "");
+  };
+  const fmtDateFull = value => {
+    const m = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? `${m[3]}.${m[2]}.${m[1]}` : String(value || "");
+  };
 
   // компактный график посетителей по дням
   const days = s.days || [];
   let chart;
   if (!days.length) { chart = empty; }
   else {
-    const maxDay = Math.max(1, ...days.map(d => d.uniques));
-    chart = `<div class="adm-chart">${days.map(d =>
-      `<div class="adm-bar-wrap" title="${d.date}: ${d.uniques} посетителей">
-        <div class="adm-bar" style="height:${Math.max(2, Math.round(d.uniques / maxDay * 40))}px"></div>
-        <div class="adm-bar-l">${d.date.slice(8, 10)}</div>
+    const dayRows = days.map(d => ({
+      date: d.date,
+      label: fmtDateShort(d.date),
+      full: fmtDateFull(d.date),
+      visits: Number(d.visits ?? d.count ?? d.uniques ?? 0) || 0,
+      uniques: Number(d.uniques ?? 0) || 0,
+    }));
+    const maxDay = Math.max(1, ...dayRows.map(d => d.visits));
+    chart = `<div class="adm-chart-scroll"><div class="adm-chart">${dayRows.map(d =>
+      `<div class="adm-bar-wrap" title="${d.full}: ${d.visits} посещений${d.uniques ? `, ${d.uniques} уникальных` : ""}">
+        <div class="adm-bar-v">${fmt(d.visits)}</div>
+        <div class="adm-bar" style="height:${Math.max(3, Math.round(d.visits / maxDay * 44))}px"></div>
+        <div class="adm-bar-l">${d.label}</div>
       </div>`).join("")}</div>`;
+    chart += `</div><div class="adm-day-list">${dayRows.slice().reverse().map(d =>
+      `<div class="adm-day-row"><span>${d.full}</span><b>${fmt(d.visits)}</b></div>`
+    ).join("")}</div>`;
   }
 
   const list = (title, items) =>
@@ -15267,7 +15329,7 @@ function adminRenderHTML(s) {
       <div class="adm-kpi"><div class="adm-kpi-v">${fmt(c.market)}</div><div class="adm-kpi-l">Клики на Я.Маркет</div></div>
     </div>
 
-    <div class="adm-card"><div class="adm-card-title">Посетители по дням</div>${chart}</div>
+    <div class="adm-card"><div class="adm-card-title">Посещения по дням</div>${chart}</div>
 
     <div class="adm-card"><div class="adm-card-title">Реклама во время подбора</div>
       ${actRow("Всего просмотров рекламы", ad.views)}
@@ -15640,6 +15702,42 @@ window.VBRAudit = function() {
   return report;
 };
 
+window.VBRAuditRecommendationLogic = function() {
+  const issues = [];
+  DEVICES.forEach(target => {
+    DEVICES.forEach(candidate => {
+      if (candidate === target) return;
+      if (!compatibleProfileCandidate(candidate, target)) return;
+      if (!isBetterAlternative(candidate, target)) return;
+
+      const lost = [];
+      if ((candidate.q || 0) < (target.q || 0)) lost.push("качество ниже");
+      if (radarAntennaRank(candidate) < radarAntennaRank(target)) lost.push("антенна слабее");
+      if (target.ir_cam && !candidate.ir_cam) lost.push("нет салонной камеры");
+      if (target.rear_cam && !candidate.rear_cam) lost.push("нет задней камеры");
+      if (target.remote && !candidate.remote) lost.push("нет 4G");
+      if (target.smartphone && !candidate.smartphone) lost.push("нет Wi-Fi");
+      if (target.magnetic && !candidate.magnetic) lost.push("нет магнита");
+      if (target.touch && !candidate.touch) lost.push("нет сенсора");
+      if (target.rotation && !candidate.rotation) lost.push("нет вращения");
+      if (!hasMeaningfulUpgrade(candidate, target)) lost.push("нет реального апгрейда");
+
+      if (lost.length) {
+        issues.push({
+          target: `${target.brand} ${target.name}`,
+          candidate: `${candidate.brand} ${candidate.name}`,
+          lost: lost.join(", "),
+          targetAntenna: radarAntennaLabel(target) || "",
+          candidateAntenna: radarAntennaLabel(candidate) || "",
+        });
+      }
+    });
+  });
+
+  console.table(issues);
+  return issues;
+};
+
 function sortItems(items) {
   if (sortMode === "match") return items;
   const arr = [...items];
@@ -15709,7 +15807,6 @@ const COMPROMISE_CTAS = {
 };
 
 const COMPROMISE_PRIORITY = {
-  type: 0,
   quality: 1,
   form: 2,
   remote: 3,
@@ -15717,6 +15814,7 @@ const COMPROMISE_PRIORITY = {
   magnetic: 5,
   touch: 6,
   ir_cam: 7,
+  type: 40,
 };
 
 function compromisePool() {
@@ -15781,14 +15879,17 @@ function getCompromises() {
     return true;
   }
 
-  // Если пользователь выбрал GPS-информер/комбо, но остальные параметры
-  // лучше совпадают с обычными регистраторами, показываем это как первый ход.
+  // Тип устройства — не обычный фильтр, а намерение пользователя.
+  // Смену типа предлагаем только если внутри выбранного класса совсем пусто.
+  // Иначе при запросе 4G/комбо подсказка выглядит как "посмотрите обычный регистратор",
+  // хотя человеку важна именно эта категория.
   const typeVal = (answers.type || "").toLowerCase();
   const typeNames = {
     "gps-информер": "GPS-информер",
     "комбо 3 в 1": "Комбо 3 в 1",
+    "4g-регистратор": "4G-регистратор",
   };
-  if (typeNames[typeVal]) {
+  if (typeNames[typeVal] && currentStats.count === 0) {
     trySuggestion({
       key: "type", val: typeVal, next: "видеорегистратор",
       hint: "Посмотреть обычные видеорегистраторы",
@@ -17226,22 +17327,43 @@ function upgradeScore(x, d) {
   return score;
 }
 
+function hasMeaningfulUpgrade(x, d) {
+  if ((x.q || 0) > (d.q || 0)) return true;
+  if (sensorPriorityScore(x) > sensorPriorityScore(d) + 0.25 && (x.q || 0) >= (d.q || 0)) return true;
+  if (radarAntennaRank(x) > radarAntennaRank(d)) return true;
+  const xAngle = primaryAngle(x);
+  const dAngle = primaryAngle(d);
+  if (xAngle && dAngle && xAngle >= dAngle + 10) return true;
+  if (x.rear_cam && !d.rear_cam) return true;
+  if (x.ir_cam && !d.ir_cam) return true;
+  if (x.remote && !d.remote) return true;
+  if (x.smartphone && !d.smartphone) return true;
+  if (x.magnetic && !d.magnetic) return true;
+  if (x.touch && !d.touch) return true;
+  if (x.rotation && !d.rotation) return true;
+  return false;
+}
+
 function isBetterAlternative(x, d) {
   // "Лучше" не может быть хуже по главному для регистратора: съёмке.
   // Иначе модель со слабым сенсором, но большим углом/доп. камерой ошибочно
   // всплывает как upgrade к более сильной 4K-модели.
   if ((x.q || 0) < (d.q || 0)) return false;
   if (radarAntennaRank(x) < radarAntennaRank(d)) return false;
+  if ((x.q || 0) === (d.q || 0) && sensorPriorityScore(x) + 0.4 < sensorPriorityScore(d)) return false;
   if (hasGPS(d) && !hasGPS(x)) return false;
   if (d.rear_cam && !x.rear_cam) return false;
+  if (d.ir_cam && !x.ir_cam) return false;
+  if (d.remote && !x.remote) return false;
   if (d.smartphone && !x.smartphone) return false;
   if (d.magnetic && !x.magnetic) return false;
   if (d.touch && !x.touch) return false;
+  if (d.rotation && !x.rotation) return false;
 
   const antennaUpgrade = radarAntenna(d) === "patch" && radarAntenna(x) === "horn";
   if (!antennaUpgrade && shootingQualityScore(x) < shootingQualityScore(d) - 2) return false;
   if (antennaUpgrade) return true;
-  return upgradeScore(x, d) > 0;
+  return hasMeaningfulUpgrade(x, d) && upgradeScore(x, d) > 0;
 }
 
 function similarSectionTitle(d) {
