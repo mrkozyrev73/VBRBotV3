@@ -11705,53 +11705,55 @@ canvas {
 .adm-sessions b { color: var(--text); }
 .adm-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 9px; }
 .adm-card-title { font-size: 12px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
-.adm-chart-scroll {
-  overflow-x: auto;
-  padding-bottom: 2px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
 .adm-chart {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-  min-height: 70px;
+  display: grid;
+  gap: 7px;
 }
-.adm-bar-wrap {
-  flex: 1 0 28px;
-  display: flex;
-  flex-direction: column;
+.adm-day-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 42px;
   align-items: center;
-  justify-content: flex-end;
-  gap: 3px;
-  min-width: 28px;
+  gap: 10px;
+  min-height: 24px;
 }
-.adm-bar-v {
-  font-size: 9px;
+.adm-day-date {
+  font-size: 11px;
+  line-height: 1;
+  color: var(--text-2);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.adm-day-track {
+  position: relative;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(105,113,137,.14);
+}
+.adm-day-fill {
+  height: 100%;
+  min-width: 3px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255,122,61,.72), var(--blue));
+  box-shadow: 0 0 14px rgba(255,122,61,.16);
+}
+.adm-day-count {
+  font-size: 12px;
   line-height: 1;
   color: var(--text);
   font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
 }
-.adm-bar { width: 100%; max-width: 18px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--blue), var(--blue-strong)); }
-.adm-bar-l { font-size: 9px; line-height: 1; color: var(--text-2); white-space: nowrap; }
-.adm-day-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px 12px;
-  margin-top: 10px;
-  padding-top: 9px;
+.adm-chart-note {
+  margin-top: 9px;
+  padding-top: 8px;
   border-top: 1px solid rgba(105,113,137,.12);
-}
-.adm-day-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 11px;
   color: var(--text-2);
-  min-width: 0;
+  font-size: 10px;
+  line-height: 1.35;
 }
-.adm-day-row b { color: var(--text); font-weight: 800; }
 .adm-row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid rgba(105,113,137,.10); font-size: 13px; }
 .adm-row:last-child { border-bottom: 0; }
 .adm-row-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -15292,15 +15294,18 @@ function adminRenderHTML(s) {
       uniques: Number(d.uniques ?? 0) || 0,
     }));
     const maxDay = Math.max(1, ...dayRows.map(d => d.visits));
-    chart = `<div class="adm-chart-scroll"><div class="adm-chart">${dayRows.map(d =>
-      `<div class="adm-bar-wrap" title="${d.full}: ${d.visits} посещений${d.uniques ? `, ${d.uniques} уникальных` : ""}">
-        <div class="adm-bar-v">${fmt(d.visits)}</div>
-        <div class="adm-bar" style="height:${Math.max(3, Math.round(d.visits / maxDay * 44))}px"></div>
-        <div class="adm-bar-l">${d.label}</div>
-      </div>`).join("")}</div>`;
-    chart += `</div><div class="adm-day-list">${dayRows.slice().reverse().map(d =>
-      `<div class="adm-day-row"><span>${d.full}</span><b>${fmt(d.visits)}</b></div>`
-    ).join("")}</div>`;
+    const visibleDays = dayRows.slice(-14).reverse();
+    chart = `<div class="adm-chart">${visibleDays.map(d => {
+      const w = Math.max(3, Math.round(d.visits / maxDay * 100));
+      return `<div class="adm-day-row" title="${d.full}: ${d.visits} посещений${d.uniques ? `, ${d.uniques} уникальных` : ""}">
+        <div class="adm-day-date">${d.label}</div>
+        <div class="adm-day-track"><div class="adm-day-fill" style="width:${w}%"></div></div>
+        <div class="adm-day-count">${fmt(d.visits)}</div>
+      </div>`;
+    }).join("")}</div>`;
+    if (dayRows.length > visibleDays.length) {
+      chart += `<div class="adm-chart-note">Показаны последние ${visibleDays.length} дней из ${dayRows.length}. Для другого периода используйте переключатель выше.</div>`;
+    }
   }
 
   const list = (title, items) =>
