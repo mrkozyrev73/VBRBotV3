@@ -14,14 +14,21 @@
 <meta name="keywords" content="видеорегистратор, GPS-информер, комбо 3 в 1, подбор видеорегистратора, сравнение видеорегистраторов, VBR БОТ">
 <meta name="robots" content="index, follow">
 <meta name="application-name" content="VBR БОТ">
+<link rel="canonical" href="https://vbrbot.pro/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://vbrbot.pro/">
 <meta property="og:site_name" content="VBR БОТ">
 <meta property="og:title" content="VBR БОТ — подбор видеорегистраторов и комбо-устройств">
 <meta property="og:description" content="Бесплатный помощник по выбору видеорегистратора: каталог моделей, быстрый подбор, сравнение, избранное и сценарии выбора.">
+<meta property="og:image" content="https://vbrbot.pro/icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="VBR БОТ — подбор видеорегистраторов">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VBR БОТ — подбор видеорегистраторов">
 <meta name="twitter:description" content="Подберите видеорегистратор, GPS-информер или комбо-устройство по задачам, бюджету и характеристикам.">
+<meta name="twitter:image" content="https://vbrbot.pro/icon-512.png">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -12145,6 +12152,12 @@ function enableMetrika(){
       "inLanguage": "ru-RU"
     },
     {
+      "@type": "Organization",
+      "name": "VBR БОТ",
+      "url": "https://vbrbot.pro/",
+      "logo": "https://vbrbot.pro/icon-512.png"
+    },
+    {
       "@type": "WebApplication",
       "name": "VBR БОТ — подбор видеорегистраторов",
       "url": "https://vbrbot.pro/",
@@ -13088,7 +13101,7 @@ function enableMetrika(){
 const QS = [
   {
     key:"type", title:"Какой продукт?",
-    sub:"Выберите основной тип устройства",
+    sub:"Можно выбрать один или несколько типов",
     opts:[
       {l:"Видеорегистратор",   d:"Только запись дорожной обстановки",               v:"видеорегистратор"},
       {l:"GPS-информер",       d:"Видеорегистратор + база камер",                   v:"gps-информер"},
@@ -14305,6 +14318,17 @@ function renderCatalogFilters() {
   priceCandidates.forEach(filter => {
     priceVisible.push(`<button class="catalog-chip" type="button" onclick="toggleCatalogFilter('${filter.id}')">${attrSafe(filter.label)}</button>`);
   });
+  const signature = [
+    mainVisible.join(""),
+    priceVisible.join(""),
+    favorites.length,
+    compareList.length,
+  ].join("::");
+  if (_catalogFiltersRenderedSignature === signature) {
+    priceStrip.style.display = priceVisible.length ? "" : "none";
+    return;
+  }
+  _catalogFiltersRenderedSignature = signature;
   strip.innerHTML = mainVisible.join("");
   priceStrip.innerHTML = priceVisible.join("");
   priceStrip.style.display = priceVisible.length ? "" : "none";
@@ -14316,9 +14340,15 @@ function renderCatalogSort() {
   const scenarioControl = `<span class="catalog-scenario-wrap">
     <button class="catalog-sort-chip catalog-scenario-btn ${_catalogScenario ? "active" : ""}" type="button" onclick="toggleCatalogScenarioMenu(event)" aria-haspopup="true" aria-expanded="${_catalogScenarioMenuOpen ? "true" : "false"}">${attrSafe(currentScenario.short || currentScenario.label)}</button>
   </span>`;
-  row.innerHTML = `${scenarioControl}${CATALOG_SORTS.map(sort => (
+  const html = `${scenarioControl}${CATALOG_SORTS.map(sort => (
     `<button class="catalog-sort-chip ${_catalogSort === sort.id ? "active" : ""}" type="button" onclick="setCatalogSort('${sort.id}')">${attrSafe(sort.label)}</button>`
   )).join("")}`;
+  if (_catalogSortRenderedSignature === html) {
+    renderCatalogScenarioMenu();
+    return;
+  }
+  _catalogSortRenderedSignature = html;
+  row.innerHTML = html;
   renderCatalogScenarioMenu();
 }
 function renderCatalogScenarioMenu() {
@@ -14372,6 +14402,8 @@ function catalogRowInnerHTML(d) {
     </span>
     ${d.price ? `<span class="catalog-row-price">${attrSafe(d.price)}</span>` : ""}`;
 }
+let _catalogFiltersRenderedSignature = "";
+let _catalogSortRenderedSignature = "";
 let _catalogRenderedSignature = "";
 function catalogRenderSignature(items, active) {
   return [
@@ -15503,8 +15535,26 @@ function smartValue(a, b) {
   return pa - pb;
 }
 
+// Выбранные типы устройства: null = без фильтра («неважно»/не выбрано),
+// иначе массив (мультивыбор на первом вопросе).
+function selectedTypes() {
+  const t = answers.type;
+  if (!t || t === "неважно") return null;
+  const arr = Array.isArray(t) ? t : [t];
+  return arr.length ? arr : null;
+}
+function typeAllowed(d) {
+  const sel = selectedTypes();
+  if (!sel) return true;
+  const dt = String(d.type || "").toLowerCase();
+  return sel.some(v => String(v).toLowerCase() === dt);
+}
+
 function isComboSearch() {
-  return String(answers.type || "").toLowerCase() === "комбо 3 в 1";
+  // Комбо-приоритет (рупорная антенна) включается только при выборе РОВНО одного типа — комбо.
+  // При смешанном выборе типы соревнуются честно, без антенного бонуса.
+  const sel = selectedTypes();
+  return !!sel && sel.length === 1 && String(sel[0]).toLowerCase() === "комбо 3 в 1";
 }
 
 function comboSearchPriority(item) {
@@ -15516,21 +15566,19 @@ function getTop() {
 
   // Тип и форм-фактор — жёсткие границы. Если связки в базе нет,
   // лучше честно показать пустой результат, чем подмешать другой корпус.
-  if (answers.type && answers.type !== "неважно") {
-    pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
-  }
+  pool = pool.filter(typeAllowed);
   if (answers.form && answers.form !== "неважно") {
     pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
   }
 
   // Мягкий скоринг — все устройства получают %, но 0% не считаем похожими.
   const scored = pool.map(d => ({ d, ...scoreDevice(d) }));
-  // Сортируем по совпадению, а при РАВНОМ проценте — сначала дешевле
-  // (при равной цене — по реальной пользе: антенна, качество, угол).
+  // Сортируем по совпадению, а при РАВНОМ проценте в комбо-подборе
+  // сначала отдаём приоритет рупорной антенне, затем цене и остальным плюсам.
   scored.sort((a, b) =>
     b.pct - a.pct ||
-    smartValue(a, b) ||
     comboSearchPriority(b) - comboSearchPriority(a) ||
+    smartValue(a, b) ||
     b.d.q - a.d.q ||
     primaryAngle(b.d) - primaryAngle(a.d)
   );
@@ -15549,7 +15597,7 @@ function pickBrandDiverse(items, limit = 12, perBrand = 2) {
   const brands = [...groups.keys()].sort((a, b) => {
     const aa = groups.get(a)[0];
     const bb = groups.get(b)[0];
-    return bb.pct - aa.pct || smartValue(aa, bb) || comboSearchPriority(bb) - comboSearchPriority(aa) || bb.d.q - aa.d.q || a.localeCompare(b);
+    return bb.pct - aa.pct || comboSearchPriority(bb) - comboSearchPriority(aa) || smartValue(aa, bb) || bb.d.q - aa.d.q || a.localeCompare(b);
   });
 
   const picked = [];
@@ -15584,9 +15632,7 @@ function getUpgrades(exactItems) {
   const exactNames = new Set(exactItems.map(e => e.d.name));
 
   // Тот же пул с жёсткими фильтрами по типу/форму
-  let pool = DEVICES;
-  if (answers.type && answers.type !== "неважно")
-    pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
+  let pool = DEVICES.filter(typeAllowed);
   if (answers.form && answers.form !== "неважно")
     pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
 
@@ -15685,6 +15731,7 @@ function auditDeviceData() {
     contradictions: [],
     radar: [],
     price: [],
+    resolution: [],
   };
   const seen = new Map();
   DEVICES.forEach((d, index) => {
@@ -15732,6 +15779,21 @@ function auditDeviceData() {
       report.price.push({index, brand: d.brand, name: d.name, issue: "цена не распознана", price: d.price});
     } else if (price > 0 && (price < 1000 || price > 90000)) {
       report.price.push({index, brand: d.brand, name: d.name, issue: "подозрительная цена", price: d.price});
+    }
+
+    const resolution = String(d.resolution || "").toLowerCase();
+    const has4kText = /(?:^|[^a-zа-я0-9])(4k|4к|2160|3840|ultra hd)/i.test(resolution);
+    const has2kText = /(?:^|[^a-zа-я0-9])(2k|2к|2\.5k|2\.7k|3k|1296|1440|1600|1944|2304|2560|2592)/i.test(resolution);
+    const hasFullHdText = /(?:full\s*hd|fhd|1080|1920)/i.test(resolution);
+    const interpolated4k = has4kText && /интерполяц/i.test(resolution);
+    if (interpolated4k && d.q !== 2) {
+      report.resolution.push({index, brand: d.brand, name: d.name, issue: "4K указано как интерполяция, обычно q должен быть 2", q: d.q, resolution: d.resolution});
+    } else if (has4kText && !interpolated4k && d.q !== 3) {
+      report.resolution.push({index, brand: d.brand, name: d.name, issue: "в resolution указано 4K, но q не 3", q: d.q, resolution: d.resolution});
+    } else if (!has4kText && has2kText && d.q !== 2) {
+      report.resolution.push({index, brand: d.brand, name: d.name, issue: "в resolution указано 2K/выше Full HD, но q не 2", q: d.q, resolution: d.resolution});
+    } else if (!has4kText && !has2kText && hasFullHdText && d.q !== 1) {
+      report.resolution.push({index, brand: d.brand, name: d.name, issue: "в resolution указано Full HD, но q не 1", q: d.q, resolution: d.resolution});
     }
   });
   return report;
@@ -15807,10 +15869,11 @@ function sortItems(items) {
 
 function sortResultItemsByFit(items) {
   const arr = [...items];
+  // Тот же порядок, что и в getTop: совпадение → антенна в комбо → баланс цены/пользы → остальное.
   arr.sort((a, b) =>
     b.pct - a.pct ||
-    recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
     comboSearchPriority(b) - comboSearchPriority(a) ||
+    smartValue(a, b) ||
     b.d.q - a.d.q ||
     primaryAngle(b.d) - primaryAngle(a.d)
   );
@@ -15867,9 +15930,7 @@ const COMPROMISE_PRIORITY = {
 };
 
 function compromisePool() {
-  let pool = DEVICES;
-  if (answers.type && answers.type !== "неважно")
-    pool = pool.filter(d => d.type.toLowerCase() === answers.type.toLowerCase());
+  let pool = DEVICES.filter(typeAllowed);
   if (answers.form && answers.form !== "неважно")
     pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
   return pool;
@@ -15880,8 +15941,8 @@ function evaluateCompromise() {
     .map(d => ({ d, ...scoreDevice(d) }))
     .sort((a, b) =>
       b.pct - a.pct ||
-      recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
       comboSearchPriority(b) - comboSearchPriority(a) ||
+      recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
       b.d.q - a.d.q ||
       parsePrice(a.d.price) - parsePrice(b.d.price)
     );
@@ -15932,7 +15993,8 @@ function getCompromises() {
   // Смену типа предлагаем только если внутри выбранного класса совсем пусто.
   // Иначе при запросе 4G/комбо подсказка выглядит как "посмотрите обычный регистратор",
   // хотя человеку важна именно эта категория.
-  const typeVal = (answers.type || "").toLowerCase();
+  const _typeSel = selectedTypes();
+  const typeVal = (_typeSel && _typeSel.length === 1 ? String(_typeSel[0]) : "").toLowerCase();
   const typeNames = {
     "gps-информер": "GPS-информер",
     "комбо 3 в 1": "Комбо 3 в 1",
@@ -18214,8 +18276,14 @@ function startQuiz() {
 const FORM_SKIP_KEYS = ["magnetic", "touch"];
 
 function screenRequiredByType() {
-  const t = String(answers.type || "").toLowerCase();
-  return t === "gps-информер" || t === "комбо 3 в 1";
+  // Экран обязателен, только если ВСЕ выбранные типы его требуют.
+  // При смешанном выборе (например, регистратор + комбо) «без экрана» допустим.
+  const sel = selectedTypes();
+  if (!sel) return false;
+  return sel.every(t => {
+    const v = String(t).toLowerCase();
+    return v === "gps-информер" || v === "комбо 3 в 1";
+  });
 }
 
 function isOptionDisabled(q, option) {
@@ -18329,7 +18397,7 @@ function renderQ() {
     const disabled = isOptionDisabled(q, o);
     if (disabled && answers[q.key] === o.v) delete answers[q.key];
     const d = document.createElement("div");
-    d.className = "opt" + (answers[q.key] === o.v ? " sel" : "") + (disabled ? " disabled" : "");
+    d.className = "opt" + (isOptPicked(q.key, o.v) ? " sel" : "") + (disabled ? " disabled" : "");
     d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${o.d}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
     let lastTap = 0;
     d.onclick = () => {
@@ -18346,12 +18414,37 @@ function renderQ() {
   el("s-question").scrollTop = 0;
 }
 
+// Выбран ли вариант (учитывает мультивыбор типа)
+function isOptPicked(key, v) {
+  const a = answers[key];
+  return Array.isArray(a) ? a.includes(v) : a === v;
+}
+
 function pick(v) {
   const key = QS[qIdx].key;
   if (key === "form" && v === "без экрана" && screenRequiredByType()) return;
-  if (key === "type" && (v === "gps-информер" || v === "комбо 3 в 1") && answers.form === "без экрана") {
-    delete answers.form;
+
+  if (key === "type") {
+    // МУЛЬТИВЫБОР: типы можно комбинировать; «неважно» сбрасывает выбор.
+    if (v === "неважно") {
+      answers.type = "неважно";
+    } else {
+      let sel = Array.isArray(answers.type) ? [...answers.type]
+        : (answers.type && answers.type !== "неважно" ? [answers.type] : []);
+      if (sel.includes(v)) sel = sel.filter(x => x !== v); // повторный тап снимает
+      else sel.push(v);
+      if (!sel.length) delete answers.type;
+      else answers.type = sel.length === 1 ? sel[0] : sel;
+    }
+    // если теперь экран обязателен — «без экрана» больше недопустим
+    if (answers.form === "без экрана" && screenRequiredByType()) delete answers.form;
+    el("btn-next").disabled = !answers.type;
+    el("options").querySelectorAll(".opt").forEach((n, i) => {
+      n.classList.toggle("sel", isOptPicked("type", QS[qIdx].opts[i].v));
+    });
+    return;
   }
+
   // If changing form factor, clear auto-skip answers so they re-evaluate
   if (key === "form" && answers[key] !== v) {
     FORM_SKIP_KEYS.forEach(k => { delete answers[k]; });
@@ -18486,7 +18579,10 @@ function showResults() {
 // для чипов, счётчиков и блоков «Подошло / Не совпало» в карточках.
 function getUserRequirements() {
   const defs = [
-    {k:"type",       fn: v => v && v !== "неважно" ? v : null},
+    {k:"type",       fn: v => {
+      if (!v || v === "неважно") return null;
+      return Array.isArray(v) ? v.join(" или ") : v;
+    }},
     {k:"form",       fn: v => v && v !== "неважно" ? v : null},
     {k:"quality",    fn: v => ({хорошее:"Full HD", отличное:"2K", превосходное:"4K"}[v] || null)},
     {k:"smartphone", fn: v => v === "да" ? "Wi-Fi" : v === "нет" ? "Без Wi-Fi" : null},
@@ -18521,6 +18617,9 @@ function reqMatchData(item, isUpgrade = false) {
     if (!m) {
       if (isUpgrade && r.key === "quality") {
         bonus.push(`Съёмка лучше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`);
+      } else if (r.key === "type" && Array.isArray(answers.type)) {
+        // при мультивыборе показываем реальный тип конкретной модели
+        matched.push(deviceTypeText(item.d, true) || r.label);
       } else {
         matched.push(r.label);
       }
