@@ -2910,6 +2910,13 @@ html, body {
 .req-col.good .req-mark { color: var(--green-text); }
 .req-col.bad  .req-mark { color: var(--red-text); }
 .req-item.up .req-mark { color: var(--blue); }
+.req-bonus {
+  display: flex; align-items: baseline; gap: 6px;
+  margin-top: 10px; padding: 8px 10px;
+  background: rgba(var(--blue-rgb), .08); border: 1px solid rgba(var(--blue-rgb), .2);
+  border-radius: 9px; font-size: 12.5px; color: var(--text); line-height: 1.4;
+}
+.req-bonus-mark { color: var(--blue); font-weight: 800; flex-shrink: 0; }
 @media (max-width: 420px) {
   .req-match-cols { grid-template-columns: 1fr; }
 }
@@ -12091,6 +12098,25 @@ body.tg-app .app-nav { padding-bottom: max(env(safe-area-inset-bottom), var(--tg
     -webkit-backdrop-filter: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ЕДИНЫЙ ДЕСКТОП-КОНТЕЙНЕР — приводим все экраны к сетке Каталога:
+   одна ширина (1400px), центрирование, одинаковые боковые поля.
+   Только десктоп (min-width:1100) — мобильную версию не трогает.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (min-width: 1100px) {
+  #s-intro .home-v2-inner,
+  #s-mode .mode-inner,
+  #s-about .about-wrap,
+  #s-loading .loading-wrap {
+    max-width: var(--dt-wide) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: var(--dt-pad) !important;
+    padding-right: var(--dt-pad) !important;
+    box-sizing: border-box !important;
+  }
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -13161,9 +13187,9 @@ const DEVICES = window.DEVICES || [];
 
 const QRANK = {хорошее:1, отличное:2, превосходное:3};
 const QLABELS_Q = ["хорошее","отличное","превосходное"];
-const BOOLS = ["smartphone","magnetic","touch","ir_cam","remote"];
-const ANALOG_BOOLS = [...BOOLS, "rotation"];
-const PRIORITY_BRANDS = ["iBox"];
+const BOOLS = ["smartphone","magnetic","touch","ir_cam"];
+const ANALOG_BOOLS = [...BOOLS, "rotation", "remote"];
+const PRIORITY_BRANDS = [];
 const FAVORITES_KEY = "vbrbot_favorites_v1";
 
 DEVICES.forEach(d => {
@@ -15459,6 +15485,24 @@ function scoreDevice(dev) {
   return { pct: m === 0 ? 100 : Math.round(s/m*100), s, m, mm };
 }
 
+// Умный баланс при равном совпадении:
+//  • цены близки (разница ≤ 7%) → выше более ПОЛЕЗНАЯ модель (сенсор/антенна/угол);
+//  • разница ощутимая → выше более ДЕШЁВАЯ.
+// Модели без цены уходят в конец.
+const PRICE_TIE_PCT = 0.07;
+function smartValue(a, b) {
+  const pa = parsePrice(a.d.price), pb = parsePrice(b.d.price);
+  if (pa === Infinity && pb === Infinity) {
+    return recommendationFitScore(b.d) - recommendationFitScore(a.d);
+  }
+  const lo = Math.min(pa, pb);
+  const near = lo !== Infinity && Math.abs(pa - pb) <= lo * PRICE_TIE_PCT;
+  if (near) {
+    return (recommendationFitScore(b.d) - recommendationFitScore(a.d)) || (pa - pb);
+  }
+  return pa - pb;
+}
+
 function isComboSearch() {
   return String(answers.type || "").toLowerCase() === "комбо 3 в 1";
 }
@@ -15481,11 +15525,11 @@ function getTop() {
 
   // Мягкий скоринг — все устройства получают %, но 0% не считаем похожими.
   const scored = pool.map(d => ({ d, ...scoreDevice(d) }));
-  // Сортируем по совпадению, а внутри равных вариантов — по реальной пользе:
-  // рупорная антенна для комбо, качество съёмки и угол обзора.
+  // Сортируем по совпадению, а при РАВНОМ проценте — сначала дешевле
+  // (при равной цене — по реальной пользе: антенна, качество, угол).
   scored.sort((a, b) =>
     b.pct - a.pct ||
-    recommendationFitScore(b.d) - recommendationFitScore(a.d) ||
+    smartValue(a, b) ||
     comboSearchPriority(b) - comboSearchPriority(a) ||
     b.d.q - a.d.q ||
     primaryAngle(b.d) - primaryAngle(a.d)
@@ -15505,7 +15549,7 @@ function pickBrandDiverse(items, limit = 12, perBrand = 2) {
   const brands = [...groups.keys()].sort((a, b) => {
     const aa = groups.get(a)[0];
     const bb = groups.get(b)[0];
-    return bb.pct - aa.pct || comboSearchPriority(bb) - comboSearchPriority(aa) || bb.d.q - aa.d.q || a.localeCompare(b);
+    return bb.pct - aa.pct || smartValue(aa, bb) || comboSearchPriority(bb) - comboSearchPriority(aa) || bb.d.q - aa.d.q || a.localeCompare(b);
   });
 
   const picked = [];
@@ -18449,7 +18493,6 @@ function getUserRequirements() {
     {k:"magnetic",   fn: v => v === "да" ? "Магнит" : v === "нет" ? "Без магнита" : null},
     {k:"touch",      fn: v => v === "да" ? "Сенсорное управление" : v === "нет" ? "Физические кнопки" : null},
     {k:"ir_cam",     fn: v => v === "да" ? "Внутрисалонная камера" : v === "нет" ? "Без внутрисалонной камеры" : null},
-    {k:"remote",     fn: v => v === "да" ? "4G/удалённо" : v === "нет" ? "Без 4G" : null},
   ];
   return defs
     .map(c => { const label = c.fn(answers[c.k] || "неважно"); return label ? {key: c.k, label} : null; })
@@ -18472,23 +18515,24 @@ function reqMatchData(item, isUpgrade = false) {
   const mm = item.mm || [];
   const mmByKey = new Map(mm.map(m => [m.key, m]));
   const QUAL_BY_RANK = {1:"Full HD", 2:"2K", 3:"4K"};
-  const matched = [], missed = [];
+  const matched = [], missed = [], bonus = [];
   reqs.forEach(r => {
     const m = mmByKey.get(r.key);
     if (!m) {
       if (isUpgrade && r.key === "quality") {
-        missed.push({label: `Съёмка лучше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`, tone: "up"});
+        bonus.push(`Съёмка лучше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`);
       } else {
         matched.push(r.label);
       }
       return;
     }
-    if (m.type === "overspec")      missed.push({label: `Съёмка выше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`, tone: "up"});
+    // Улучшение (снимает лучше, чем просили) — это бонус, а не «не совпало»
+    if (m.type === "overspec")      bonus.push(`Съёмка выше запрошенной (${QUAL_BY_RANK[item.d.q] || ""})`);
     else if (m.type === "quality")  missed.push({label: "Съёмка ниже запрошенной", tone: "down"});
     else if (m.type === "extra")    missed.push({label: EXTRA_LABELS[r.key] || r.label, tone: "down"});
     else                            missed.push({label: MISS_LABELS[r.key] || r.label, tone: "down"});
   });
-  return {matched, missed, total: reqs.length, matchedCount: matched.length};
+  return {matched, missed, bonus, total: reqs.length, matchedCount: matched.length};
 }
 
 // «Почему подходит?» — короткое человеческое объяснение, собранное
@@ -18509,8 +18553,10 @@ function _whyJoin(list) {
 function whySuitableText(item, isExact, isUpgrade = false) {
   const rm = reqMatchData(item, isUpgrade);
   if (!rm.total) return "";
+  const bonusText = (rm.bonus && rm.bonus.length)
+    ? ` Бонус: ${rm.bonus.map(b => b.charAt(0).toLowerCase() + b.slice(1)).join(", ")}.` : "";
   if (isExact && !isUpgrade && rm.missed.length === 0) {
-    return "Полностью соответствует выбранным вами ключевым параметрам.";
+    return "Полностью соответствует выбранным вами ключевым параметрам." + bonusText;
   }
   // функции и качество важнее типа/форм-фактора (те совпадают всегда):
   // тип упоминаем, только если содержательных совпадений мало
@@ -18531,7 +18577,7 @@ function whySuitableText(item, isExact, isUpgrade = false) {
     : "Совпадений с выбранными требованиями немного.";
   if (bad.length === 1) text += ` Главное отличие — ${bad[0]}.`;
   else if (bad.length > 1) text += ` Но есть отличия: ${_whyJoin(bad)}.`;
-  return text;
+  return text + bonusText;
 }
 
 function toggleWhySuitable(btn) {
@@ -18553,13 +18599,17 @@ function reqMatchHTML(item, isExact, isUpgrade = false) {
     ? `<div class="req-col good"><div class="req-col-label">Подошло</div>${rm.matched.map(l => `<div class="req-item"><span class="req-mark">✓</span><span>${l}</span></div>`).join("")}</div>`
     : "";
   const bad = rm.missed.length
-    ? `<div class="req-col bad"><div class="req-col-label">Не совпало</div>${rm.missed.map(m => `<div class="req-item${m.tone === "up" ? " up" : ""}"><span class="req-mark">×</span><span>${m.label}</span></div>`).join("")}</div>`
+    ? `<div class="req-col bad"><div class="req-col-label">Не совпало</div>${rm.missed.map(m => `<div class="req-item"><span class="req-mark">×</span><span>${m.label}</span></div>`).join("")}</div>`
     : "";
   const single = (!good || !bad) ? " single" : "";
+  const bonus = (rm.bonus && rm.bonus.length)
+    ? `<div class="req-bonus"><span class="req-bonus-mark">★</span><span>${rm.bonus.join(", ")}</span></div>`
+    : "";
   return `<div class="req-match">
     <div class="req-match-head"><span>${head}</span>${whyText ? `<button class="why-btn" type="button" onclick="toggleWhySuitable(this)">Почему подходит?</button>` : ""}</div>
     ${whyText ? `<div class="why-text">${whyText}</div>` : ""}
     <div class="req-match-cols${single}">${good}${bad}</div>
+    ${bonus}
   </div>`;
 }
 
