@@ -15576,6 +15576,42 @@ function smartValue(a, b) {
   return pa - pb;
 }
 
+function resultFeatureScore(d) {
+  let score = 0;
+  score += shootingQualityScore(d) / 10;
+  score += sensorPriorityScore(d) * 8;
+  score += radarAntennaRank(d) * 18;
+  score += hasGPS(d) ? 7 : 0;
+  score += d.smartphone ? 6 : 0;
+  score += d.remote ? 7 : 0;
+  score += d.ir_cam ? 6 : 0;
+  score += d.magnetic ? 4 : 0;
+  score += d.touch ? 4 : 0;
+  score += d.rotation ? 4 : 0;
+  score += primaryAngle(d) ? Math.min(8, Math.max(0, primaryAngle(d) - 120) / 6) : 0;
+  return score;
+}
+
+function priceTieBreaker(a, b) {
+  const pa = parsePrice(a.d.price);
+  const pb = parsePrice(b.d.price);
+  const aUnknown = !Number.isFinite(pa);
+  const bUnknown = !Number.isFinite(pb);
+  if (aUnknown && bUnknown) return 0;
+  if (aUnknown) return 1;
+  if (bUnknown) return -1;
+  return pa - pb;
+}
+
+function resultFitCompare(a, b) {
+  return b.pct - a.pct ||
+    resultFeatureScore(b.d) - resultFeatureScore(a.d) ||
+    comboSearchPriority(b) - comboSearchPriority(a) ||
+    b.d.q - a.d.q ||
+    primaryAngle(b.d) - primaryAngle(a.d) ||
+    priceTieBreaker(a, b);
+}
+
 // Выбранные типы устройства: null = без фильтра («неважно»/не выбрано),
 // иначе массив (мультивыбор на первом вопросе).
 function selectedTypes() {
@@ -15621,15 +15657,10 @@ function getTop() {
       return Number.isFinite(price) && price <= budgetMax;
     });
   }
-  // Сортируем по совпадению, а при РАВНОМ проценте в комбо-подборе
-  // сначала отдаём приоритет рупорной антенне, затем цене и остальным плюсам.
-  scored.sort((a, b) =>
-    b.pct - a.pct ||
-    comboSearchPriority(b) - comboSearchPriority(a) ||
-    smartValue(a, b) ||
-    b.d.q - a.d.q ||
-    primaryAngle(b.d) - primaryAngle(a.d)
-  );
+  // Базовый режим "Лучшие для вас": сначала точность совпадения и функциональность.
+  // Цена используется только последним тай-брейком; отдельная сортировка по цене
+  // остаётся в кнопках "Сначала дешевле" / "Сначала дороже".
+  scored.sort(resultFitCompare);
 
   return pickBrandDiverse(scored.filter(t => t.pct > 0), 12, 2);
 }
@@ -15645,7 +15676,7 @@ function pickBrandDiverse(items, limit = 12, perBrand = 2) {
   const brands = [...groups.keys()].sort((a, b) => {
     const aa = groups.get(a)[0];
     const bb = groups.get(b)[0];
-    return bb.pct - aa.pct || comboSearchPriority(bb) - comboSearchPriority(aa) || smartValue(aa, bb) || bb.d.q - aa.d.q || a.localeCompare(b);
+    return resultFitCompare(aa, bb) || a.localeCompare(b);
   });
 
   const picked = [];
@@ -15917,14 +15948,8 @@ function sortItems(items) {
 
 function sortResultItemsByFit(items) {
   const arr = [...items];
-  // Тот же порядок, что и в getTop: совпадение → антенна в комбо → баланс цены/пользы → остальное.
-  arr.sort((a, b) =>
-    b.pct - a.pct ||
-    comboSearchPriority(b) - comboSearchPriority(a) ||
-    smartValue(a, b) ||
-    b.d.q - a.d.q ||
-    primaryAngle(b.d) - primaryAngle(a.d)
-  );
+  // Тот же порядок, что и в getTop: совпадение → функциональность → цена только последним тай-брейком.
+  arr.sort(resultFitCompare);
   return arr;
 }
 
@@ -19197,7 +19222,13 @@ function _renderResults(top) {
 
   if (sortMode !== "match") {
     // По цене: единый список без деления exact/near
-    const allSorted = sortItems([...exact, ...near]);
+    const seen = new Set();
+    const allSorted = sortItems([...exact, ...upgrades, ...near].filter(item => {
+      const key = item.d.slug || item.d.name;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }));
     const priceHeader = document.createElement("div");
     priceHeader.className = "res-section-header";
     priceHeader.textContent = sortMode === "price_asc"
