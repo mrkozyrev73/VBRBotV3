@@ -1595,6 +1595,34 @@ html, body {
   transition: opacity .15s, transform .2s cubic-bezier(.34,1.56,.64,1);
 }
 
+.budget-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.budget-options-grid .opt {
+  min-height: 78px;
+  padding: 12px 12px;
+  gap: 8px;
+  border-radius: 14px;
+}
+.budget-options-grid .opt-title {
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+.budget-options-grid .opt-desc {
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+.budget-options-grid .opt-radio {
+  width: 20px;
+  height: 20px;
+}
+.budget-options-grid .opt-radio-dot {
+  width: 10px;
+  height: 10px;
+}
+
 .opt.sel .opt-radio-dot { opacity: 1; transform: scale(1); }
 
 /* ── BOTTOM NAV ──────────────────────────────────── */
@@ -13165,18 +13193,30 @@ const QS = [
       {l:"Неважно", d:"Не принципиально",                            v:"неважно"},
     ]
   },
+  {
+    key:"budget", title:"Какой бюджет?",
+    sub:"Покажем только те варианты, которые реально укладываются в выбранную сумму",
+    opts:[
+      {l:"До 5 000 ₽",  d:"Только если такие модели есть под ваши требования", v:"до 5000",  max:5000},
+      {l:"До 10 000 ₽", d:"Популярный бюджет для простых и сбалансированных моделей", v:"до 10000", max:10000},
+      {l:"До 15 000 ₽", d:"Больше вариантов с хорошими характеристиками", v:"до 15000", max:15000},
+      {l:"До 20 000 ₽", d:"Чаще хватает для комбо и продвинутых регистраторов", v:"до 20000", max:20000},
+      {l:"До 30 000 ₽", d:"Широкий выбор продвинутых моделей", v:"до 30000", max:30000},
+      {l:"Неважно", d:"Цена не является главным ограничением", v:"неважно"},
+    ]
+  },
 ];
 
 const QLABELS = {
   type:"Тип устройства", form:"Форм-фактор", quality:"Качество съёмки",
   smartphone:"Управление со смартфона", magnetic:"Магнитное крепление",
   touch:"Сенсорное управление",
-  ir_cam:"Внутрисалонная камера", remote:"Удалённое управление"
+  ir_cam:"Внутрисалонная камера", remote:"Удалённое управление", budget:"Бюджет"
 };
 const QLABELS_SHORT = {
   quality:"Качество", smartphone:"Wi-Fi", magnetic:"Магнит",
   touch:"Сенсорное управление",
-  ir_cam:"Внутрисалонная камера", remote:"4G/удалённо"
+  ir_cam:"Внутрисалонная камера", remote:"4G/удалённо", budget:"Бюджет"
 };
 
 // Фразы для красных чипов (нет нужного)
@@ -13216,6 +13256,7 @@ DEVICES.forEach(d => {
 
 let qIdx = 0;
 let answers = {};
+let lastQuizOptionTap = { key: null, value: null, time: 0 };
 let favorites = loadFavorites();
 let loadingTimers = [];
 
@@ -15486,7 +15527,7 @@ function scoreDevice(dev) {
   // type и form — жёсткие фильтры, в % не входят
   let s = 0, m = 0, mm = [];
   QS.forEach(q => {
-    if (q.key === "type" || q.key === "form") return;
+    if (q.key === "type" || q.key === "form" || q.key === "budget") return;
     const a = (answers[q.key] || "неважно").toLowerCase();
     if (a === "неважно") return;
     m++;
@@ -15572,7 +15613,14 @@ function getTop() {
   }
 
   // Мягкий скоринг — все устройства получают %, но 0% не считаем похожими.
-  const scored = pool.map(d => ({ d, ...scoreDevice(d) }));
+  let scored = pool.map(d => ({ d, ...scoreDevice(d) }));
+  const budgetMax = selectedBudgetMax();
+  if (budgetMax != null) {
+    scored = scored.filter(item => {
+      const price = parsePrice(item.d.price);
+      return Number.isFinite(price) && price <= budgetMax;
+    });
+  }
   // Сортируем по совпадению, а при РАВНОМ проценте в комбо-подборе
   // сначала отдаём приоритет рупорной антенне, затем цене и остальным плюсам.
   scored.sort((a, b) =>
@@ -15933,6 +15981,13 @@ function compromisePool() {
   let pool = DEVICES.filter(typeAllowed);
   if (answers.form && answers.form !== "неважно")
     pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
+  const budgetMax = selectedBudgetMax();
+  if (budgetMax != null) {
+    pool = pool.filter(d => {
+      const price = parsePrice(d.price);
+      return Number.isFinite(price) && price <= budgetMax;
+    });
+  }
   return pool;
 }
 
@@ -17388,17 +17443,22 @@ function isComboDevice(d) {
 }
 
 // Видимая пометка о радарной антенне на карточке результата.
-// Рупорная — акцентная плашка (объясняет, почему модель выше в выдаче и дороже),
-// патч — нейтральная подпись.
-function cardAntennaBadgeHTML(d, weakPatch = false) {
+// Если в выдаче есть рупорный вариант, комбо с патч/неуказанной антенной получает
+// пояснение, чтобы "100% совпадение" не выглядело равным по радарной части.
+function cardAntennaBadgeHTML(d, weakRadarPart = false) {
   const antenna = radarAntenna(d);
-  if (!antenna) return "";
-  const label = radarAntennaLabel(d);
   const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M8.5 9.5a5 5 0 0 1 7 0"/><path d="M5.7 6.7a9 9 0 0 1 12.6 0"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg>';
+  if (!antenna) {
+    if (weakRadarPart && isComboDevice(d)) {
+      return `<div class="dev-antenna-note weak">${icon}Радарная часть · слабее рупорной</div>`;
+    }
+    return "";
+  }
+  const label = radarAntennaLabel(d);
   if (antenna === "horn") {
     return `<div class="dev-antenna-note hi">${icon}${label} · мощнее патч-антенны</div>`;
   }
-  if (weakPatch) {
+  if (weakRadarPart) {
     return `<div class="dev-antenna-note weak">${icon}${label} · слабее рупорной</div>`;
   }
   return `<div class="dev-antenna-note">${icon}${label}</div>`;
@@ -18266,6 +18326,7 @@ function el(id) { return document.getElementById(id); }
 
 function startQuiz() {
   qIdx = 0; answers = {};
+  lastQuizOptionTap = { key: null, value: null, time: 0 };
   vbrTrack("quiz_start");
   el("header").style.display = "none";
   el("bottom-nav").style.display = "block";
@@ -18286,8 +18347,49 @@ function screenRequiredByType() {
   });
 }
 
+function selectedBudgetMax() {
+  const q = QS.find(item => item.key === "budget");
+  const opt = q?.opts?.find(item => item.v === answers.budget);
+  return Number.isFinite(opt?.max) ? opt.max : null;
+}
+
+function budgetLabel(value) {
+  const q = QS.find(item => item.key === "budget");
+  return q?.opts?.find(item => item.v === value)?.l || "";
+}
+
+function budgetBasePool() {
+  let pool = DEVICES.filter(typeAllowed);
+  if (answers.form && answers.form !== "неважно") {
+    pool = pool.filter(d => d.form.toLowerCase() === answers.form.toLowerCase());
+  }
+  return pool;
+}
+
+function budgetOptionCount(option) {
+  if (!Number.isFinite(option?.max)) return 1;
+  return budgetBasePool()
+    .map(d => ({ d, ...scoreDevice(d) }))
+    .filter(item => {
+      const price = parsePrice(item.d.price);
+      if (!Number.isFinite(price) || price > option.max) return false;
+      return item.mm.length === 0 || item.pct >= 75;
+    })
+    .length;
+}
+
+function getOptionDisabledReason(q, option) {
+  if (q.key === "form" && option.v === "без экрана" && screenRequiredByType()) {
+    return "Для выбранного типа нужен экран";
+  }
+  if (q.key === "budget" && Number.isFinite(option.max) && budgetOptionCount(option) === 0) {
+    return "По вашим характеристикам такого бюджета нет";
+  }
+  return "";
+}
+
 function isOptionDisabled(q, option) {
-  return q.key === "form" && option.v === "без экрана" && screenRequiredByType();
+  return Boolean(getOptionDisabledReason(q, option));
 }
 
 function getQuestionNotice(q) {
@@ -18390,22 +18492,35 @@ function renderQ() {
     list.appendChild(notice);
   }
   const grid = document.createElement("div");
-  grid.className = "options-grid";
+  grid.className = "options-grid" + (q.key === "budget" ? " budget-options-grid" : "");
   list.appendChild(grid);
   btnNext.disabled = !answers[q.key];
   q.opts.forEach(o => {
-    const disabled = isOptionDisabled(q, o);
+    const disabledReason = getOptionDisabledReason(q, o);
+    const disabled = Boolean(disabledReason);
+    const budgetCount = q.key === "budget" && Number.isFinite(o.max) ? budgetOptionCount(o) : null;
+    const optionDesc = disabledReason || (budgetCount != null
+      ? `${pluralRu(budgetCount, "Подходит", "Подходят", "Подходят")} ${budgetCount} ${pluralRu(budgetCount, "модель", "модели", "моделей")}`
+      : o.d);
     if (disabled && answers[q.key] === o.v) delete answers[q.key];
     const d = document.createElement("div");
     d.className = "opt" + (isOptPicked(q.key, o.v) ? " sel" : "") + (disabled ? " disabled" : "");
-    d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${o.d}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
-    let lastTap = 0;
+    d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${optionDesc}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
     d.onclick = () => {
       if (disabled) return;
-      pick(o.v);
       const now = Date.now();
-      if (now - lastTap < 350) goNext();
-      lastTap = now;
+      const alreadyPicked = isOptPicked(q.key, o.v);
+      const quickRepeat = lastQuizOptionTap.key === q.key
+        && lastQuizOptionTap.value === o.v
+        && now - lastQuizOptionTap.time < 480;
+      lastQuizOptionTap = { key: q.key, value: o.v, time: now };
+
+      if (alreadyPicked && (q.key !== "type" || quickRepeat)) {
+        goNext();
+        return;
+      }
+
+      pick(o.v);
     };
     grid.appendChild(d);
   });
@@ -18589,6 +18704,7 @@ function getUserRequirements() {
     {k:"magnetic",   fn: v => v === "да" ? "Магнит" : v === "нет" ? "Без магнита" : null},
     {k:"touch",      fn: v => v === "да" ? "Сенсорное управление" : v === "нет" ? "Физические кнопки" : null},
     {k:"ir_cam",     fn: v => v === "да" ? "Внутрисалонная камера" : v === "нет" ? "Без внутрисалонной камеры" : null},
+    {k:"budget",     fn: v => v && v !== "неважно" ? budgetLabel(v) : null},
   ];
   return defs
     .map(c => { const label = c.fn(answers[c.k] || "неважно"); return label ? {key: c.k, label} : null; })
@@ -18776,7 +18892,7 @@ function _renderResults(top) {
   const exact    = sortResultItemsByFit(top.filter(t => t.mm.length === 0));
   const near     = sortResultItemsByFit(top.filter(t => t.mm.length > 0));
   const upgrades = getUpgrades(exact);
-  const hasHornCandidate = isComboSearch() && [...exact, ...near, ...upgrades].some(t => radarAntenna(t.d) === "horn");
+  const hasHornCandidate = [...top, ...upgrades].some(t => radarAntenna(t.d) === "horn");
   const bestPct  = top.length ? Math.max(...top.map(t => t.pct)) : 0;
 
   // ── Заголовок результата ──
@@ -18932,7 +19048,8 @@ function _renderResults(top) {
 
   // ── Всё «неважно» ────────────────────────────────
   const scoredKeys = ["quality","smartphone","magnetic","touch","ir_cam","remote"];
-  const allDontCare = scoredKeys.every(k => !answers[k] || answers[k] === "неважно");
+  const allDontCare = scoredKeys.every(k => !answers[k] || answers[k] === "неважно")
+    && (!answers.budget || answers.budget === "неважно");
   if (allDontCare) {
     const lazy = document.createElement("div");
     lazy.style.cssText = "display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center;";
@@ -18949,12 +19066,13 @@ function _renderResults(top) {
   // ── Пустой результат ─────────────────────────────
   if (top.length === 0) {
     const empty = document.createElement("div");
+    const budgetText = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget) : "";
     empty.style.cssText = "display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center;";
     empty.innerHTML = `
       <div style="font-size:56px;margin-bottom:20px;">🤔</div>
-      <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">Такой связки не нашлось</div>
-      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:12px;">Тип устройства и форм-фактор не совпали ни с одной моделью.</div>
-      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">Попробуйте изменить формат корпуса или выбрать «Неважно» в одном из первых вопросов.</div>`;
+      <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">${budgetText ? "В этом бюджете не нашлось" : "Такой связки не нашлось"}</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:12px;">${budgetText ? `Под выбранные характеристики нет моделей ${budgetText.toLowerCase()}.` : "Тип устройства и форм-фактор не совпали ни с одной моделью."}</div>
+      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">${budgetText ? "Вернитесь на шаг бюджета и выберите сумму выше или вариант «Неважно»." : "Попробуйте изменить формат корпуса или выбрать «Неважно» в одном из первых вопросов."}</div>`;
     list.appendChild(empty);
     appendCompromiseBlock();
     applyResultsStagger();
@@ -19018,7 +19136,7 @@ function _renderResults(top) {
           </div>
           <span class="card-toggle-arrow" aria-hidden="true">›</span>
         </div>
-        ${cardAntennaBadgeHTML(d, hasHornCandidate && radarAntenna(d) === "patch")}
+        ${cardAntennaBadgeHTML(d, hasHornCandidate && isComboDevice(d) && radarAntenna(d) !== "horn")}
         <div class="card-collapsible">
           ${devicePhotoHTML(d)}
           ${reqMatchHTML(item, isExact, isUpgrade)}
