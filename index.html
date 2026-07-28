@@ -22113,6 +22113,140 @@ html[data-theme="dark"] .theme-mini-btn {
   54% { opacity: 1; transform: translateX(-50%) scale(1.08); }
 }
 
+
+/* ══════════════════════════════════════════════════════════
+   ЕДИНЫЕ ЗАГОЛОВКИ РАЗДЕЛОВ + БЕЗОПАСНАЯ ЗОНА TELEGRAM
+   Заголовки вкладок раньше набирались тремя разными кеглями
+   (22 / 24 / 30 px) и жили в колонках разной ширины
+   (720 / 760 / 1080 / 1320 px) — из-за этого «Каталог»,
+   «Сравнение» и «О проекте» начинались от разных полей.
+   Ниже — одна колонка, один отступ, один кегль на все вкладки.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"], html[data-theme="dark"] {
+  --ap-page-x: clamp(16px, 4vw, 40px);   /* поле от края экрана */
+  --ap-page-max: 1080px;                 /* ширина контентной колонки */
+  --ap-title: clamp(26px, 3vw, 34px);    /* кегль заголовка вкладки */
+}
+
+/* 1. Поле от края — одно на всех экранах */
+html[data-theme="light"] #s-catalog, html[data-theme="dark"] #s-catalog,
+html[data-theme="light"] #s-compare, html[data-theme="dark"] #s-compare,
+html[data-theme="light"] #s-favorites, html[data-theme="dark"] #s-favorites,
+html[data-theme="light"] #s-articles, html[data-theme="dark"] #s-articles,
+html[data-theme="light"] #s-about, html[data-theme="dark"] #s-about,
+html[data-theme="light"] #s-policy, html[data-theme="dark"] #s-policy,
+html[data-theme="light"] #s-results, html[data-theme="dark"] #s-results,
+html[data-theme="light"] #s-search, html[data-theme="dark"] #s-search {
+  padding-left: clamp(16px, 4vw, 40px) !important;
+  padding-right: clamp(16px, 4vw, 40px) !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. Контентная колонка — одна ширина, всегда по центру, без своих боковых полей */
+html[data-theme="light"] #s-catalog .catalog-wrap, html[data-theme="dark"] #s-catalog .catalog-wrap,
+html[data-theme="light"] #s-catalog .catalog-head, html[data-theme="dark"] #s-catalog .catalog-head,
+html[data-theme="light"] #s-compare .section-head, html[data-theme="dark"] #s-compare .section-head,
+html[data-theme="light"] #s-compare .cmp-body, html[data-theme="dark"] #s-compare .cmp-body,
+html[data-theme="light"] #s-favorites .section-head, html[data-theme="dark"] #s-favorites .section-head,
+html[data-theme="light"] #s-favorites .fav-page-wrap, html[data-theme="dark"] #s-favorites .fav-page-wrap,
+html[data-theme="light"] #s-favorites #fav-page-list, html[data-theme="dark"] #s-favorites #fav-page-list,
+html[data-theme="light"] #s-articles .guide-inner, html[data-theme="dark"] #s-articles .guide-inner,
+html[data-theme="light"] #s-about .ap-about-wrap, html[data-theme="dark"] #s-about .ap-about-wrap,
+html[data-theme="light"] #s-policy .ap-doc, html[data-theme="dark"] #s-policy .ap-doc {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+html[data-theme="light"] #s-articles .guide-inner, html[data-theme="dark"] #s-articles .guide-inner {
+  min-height: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 3. Кегль и начертание заголовка — одни на все вкладки */
+html[data-theme="light"] #s-catalog .catalog-title, html[data-theme="dark"] #s-catalog .catalog-title,
+html[data-theme="light"] #s-compare .section-title h2, html[data-theme="dark"] #s-compare .section-title h2,
+html[data-theme="light"] #s-favorites .section-title h2, html[data-theme="dark"] #s-favorites .section-title h2,
+html[data-theme="light"] #s-articles .articles-title, html[data-theme="dark"] #s-articles .articles-title,
+html[data-theme="light"] #s-about .ap-about-title, html[data-theme="dark"] #s-about .ap-about-title,
+html[data-theme="light"] #s-policy .ap-doc-title, html[data-theme="dark"] #s-policy .ap-doc-title,
+html[data-theme="light"] #s-results .res-title, html[data-theme="dark"] #s-results .res-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: clamp(26px, 3vw, 34px) !important;
+  line-height: 1.1 !important;
+  font-weight: 600 !important;
+  letter-spacing: -.032em !important;
+  color: var(--text-1) !important;
+  text-wrap: pretty;
+}
+
+/* 4. Подзаголовок под заголовком — тоже одинаковый */
+html[data-theme="light"] #s-articles .articles-sub, html[data-theme="dark"] #s-articles .articles-sub,
+html[data-theme="light"] #s-policy .ap-doc-lead, html[data-theme="dark"] #s-policy .ap-doc-lead,
+html[data-theme="light"] #s-about .ap-about-lead, html[data-theme="dark"] #s-about .ap-about-lead {
+  margin: 10px 0 0 !important;
+  max-width: 62ch !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  letter-spacing: -.012em !important;
+  color: var(--text-2) !important;
+}
+
+/* 5. Текстовые страницы: колонка общая, но строки чтения остаются короткими */
+html[data-theme="light"] #s-articles .articles-list, html[data-theme="dark"] #s-articles .articles-list {
+  max-width: 760px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+html[data-theme="light"] #s-policy .ap-doc-sec, html[data-theme="dark"] #s-policy .ap-doc-sec {
+  max-width: 760px !important;
+}
+/* избранное остаётся компактным, но выровнено по левому краю заголовка */
+html[data-theme="light"] #s-favorites #fav-page-list, html[data-theme="dark"] #s-favorites #fav-page-list {
+  max-width: 760px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* ── Telegram Mini App: шапка не должна залезать под строку статуса
+   и под кнопки «Закрыть»/«…». Старый слой гасил отступ правилом
+   #header { padding: 0 !important } — возвращаем его со своим весом. ── */
+html[data-theme="light"] body.tg-app #header,
+html[data-theme="dark"] body.tg-app #header {
+  padding-top: max(var(--tg-safe-top, 0px), env(safe-area-inset-top, 0px)) !important;
+  padding-bottom: 0 !important;
+}
+html[data-theme="light"] body.tg-fullscreen #header,
+html[data-theme="dark"] body.tg-fullscreen #header {
+  padding-top: max(
+    var(--tg-safe-top, 0px),
+    var(--tg-page-top, 64px),
+    calc(env(safe-area-inset-top, 0px) + 46px)
+  ) !important;
+}
+/* липкие подшапки съезжают вниз ровно на высоту безопасной зоны */
+html[data-theme="light"] body.tg-app #s-compare .cmp-cards,
+html[data-theme="dark"] body.tg-app #s-compare .cmp-cards,
+html[data-theme="light"] body.tg-app .srch-topbar,
+html[data-theme="dark"] body.tg-app .srch-topbar {
+  top: calc(58px + max(var(--tg-safe-top, 0px), env(safe-area-inset-top, 0px))) !important;
+}
+html[data-theme="light"] body.tg-fullscreen #s-compare .cmp-cards,
+html[data-theme="dark"] body.tg-fullscreen #s-compare .cmp-cards,
+html[data-theme="light"] body.tg-fullscreen .srch-topbar,
+html[data-theme="dark"] body.tg-fullscreen .srch-topbar {
+  top: calc(58px + max(var(--tg-safe-top, 0px), var(--tg-page-top, 64px), calc(env(safe-area-inset-top, 0px) + 46px))) !important;
+}
+/* в Telegram верхний отступ экрана даёт шапка — второй раз не добавляем */
+html[data-theme="light"] body.tg-app .screen, html[data-theme="dark"] body.tg-app .screen,
+html[data-theme="light"] body.tg-fullscreen .screen, html[data-theme="dark"] body.tg-fullscreen .screen {
+  padding-top: clamp(16px, 2.4vh, 28px) !important;
+}
+
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
