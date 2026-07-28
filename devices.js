@@ -120,7 +120,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -380,8 +381,8 @@ window.DEVICES = [
     "price": "~30 600 ₽",
     "url": "https://trendvision.ru/products/trendvision-drivecam-real-4k-gps-2ch/",
     "market_url": "https://market.yandex.ru/cc/A97oAp",
-    "photo": "https://trendvision.ru/uploads/xlarge_6_klass_a92d6f18ab.jpg",
-    "image": "assets/devices/trendvision-drivecam-real-4k-gps-2ch.webp",
+    "photo": null,
+    "image": "assets/devices/trendvision-drivecam-real-4k-gps.webp",
     "specs": {
       "sensor": "Sony STARVIS IMX415",
       "processor": "MStar 8629",
@@ -730,7 +731,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -765,7 +767,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -801,7 +804,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -837,7 +841,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1808,7 +1813,8 @@ window.DEVICES = [
       "codec": "H.264",
       "format": "MOV",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Фильтр Z-сигнатур"
+      "features": "Фильтр Z-сигнатур",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1851,7 +1857,8 @@ window.DEVICES = [
       "codec": "H.264",
       "format": "MOV",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Голосовые подсказки"
+      "features": "Голосовые подсказки",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1896,7 +1903,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки"
+      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1941,7 +1949,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки"
+      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1985,7 +1994,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки"
+      "features": "Сенсор жестов, сенсорный дисплей, голосовые подсказки",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2028,7 +2038,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "MP4",
       "app": "Есть для iOS и Android / Приложение TV.DRIVE CAM / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)"
+      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2070,7 +2081,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "MP4",
       "app": "Есть для iOS и Android / Приложение TV.DRIVE CAM / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)"
+      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2115,7 +2127,8 @@ window.DEVICES = [
       "codec": "H.265",
       "format": "MP4",
       "app": "Есть для iOS и Android / Приложение TV.DRIVE CAM / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)"
+      "features": "Сенсор жестов, голосовые подсказки, выбор голоса (муж./жен.)",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2158,7 +2171,8 @@ window.DEVICES = [
       "codec": "H.264",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "AI искусственный интелект (определение знаков ограничения скорости), голосовые подсказки"
+      "features": "AI искусственный интелект (определение знаков ограничения скорости), голосовые подсказки",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2204,7 +2218,8 @@ window.DEVICES = [
       "codec": "H.264",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Фильтр Z-сигнатур"
+      "features": "Фильтр Z-сигнатур",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2250,13 +2265,14 @@ window.DEVICES = [
       "codec": "H.264",
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
-      "features": "Фильтр Z-сигнатур"
+      "features": "Фильтр Z-сигнатур",
+      "radar": "патч-антенна"
     }
   },
   {
     "name": "TrendVision Online Air 4G",
     "brand": "TrendVision",
-    "type": "видеорегистратор",
+    "type": "4g-регистратор",
     "form": "с экраном",
     "q": 2,
     "magnetic": false,
@@ -2514,6 +2530,7 @@ window.DEVICES = [
       "display_type": null,
       "screen_size": "3\"",
       "max_sd": "128 ГБ",
+      "built_in_memory": "64 ГБ",
       "power_element": "суперконденсатор",
       "power_type": null,
       "gsensor": true,
@@ -2595,7 +2612,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2783,7 +2801,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2931,7 +2950,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2969,7 +2989,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3006,7 +3027,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3080,7 +3102,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3116,7 +3139,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3227,7 +3251,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -3996,7 +4021,7 @@ window.DEVICES = [
     "name": "Roadgid Blick Combo",
     "brand": "Roadgid",
     "type": "комбо 3 в 1",
-    "form": "комбо-зеркало",
+    "form": "регистратор-зеркало",
     "q": 2,
     "magnetic": false,
     "smartphone": true,
@@ -4030,14 +4055,15 @@ window.DEVICES = [
       "parking_mode": "через адаптер скрытого подключения",
       "night_mode": "ультра-ночная",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
     "name": "Roadgid Blick Combo 2CH",
     "brand": "Roadgid",
     "type": "комбо 3 в 1",
-    "form": "комбо-зеркало",
+    "form": "регистратор-зеркало",
     "q": 1,
     "magnetic": false,
     "smartphone": true,
@@ -4072,7 +4098,8 @@ window.DEVICES = [
       "parking_mode": "через адаптер скрытого подключения",
       "night_mode": "ультра-ночная",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4428,7 +4455,8 @@ window.DEVICES = [
       "parking_mode": "через адаптер скрытого подключения",
       "night_mode": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4464,7 +4492,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4501,7 +4530,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4543,7 +4573,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4585,7 +4616,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4606,9 +4638,9 @@ window.DEVICES = [
     "angle": "170°",
     "screen": "3.5\" IPS",
     "gps": "GPS + сигнатурный радар",
-    "price": "~30 600 ₽",
+    "price": "~29 500 ₽",
     "url": "https://roadgid.ru/shop/gibrid/roadgid-premier-4pro",
-    "market_url": "https://market.yandex.ru/cc/A9QajS",
+    "market_url": "https://market.yandex.ru/cc/ANR9tS",
     "photo": null,
     "image": "assets/devices/roadgid-premier-4-pro.webp",
     "specs": {
@@ -4628,7 +4660,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4649,7 +4682,8 @@ window.DEVICES = [
     "angle": "170°",
     "screen": "3.5\" IPS",
     "gps": "GPS + сигнатурный радар",
-    "price": "~26 990 ₽",
+    "price": "~31 000 ₽",
+    "market_url": "https://market.yandex.ru/cc/ANRBaq",
     "url": "https://roadgid.ru/shop/gibrid/roadgid-premier4pro-2ch",
     "photo": null,
     "image": "assets/devices/roadgid-premier-4-pro-2ch.webp",
@@ -4670,7 +4704,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4792,7 +4827,8 @@ window.DEVICES = [
       "night_mode": "есть",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4834,7 +4870,8 @@ window.DEVICES = [
       "night_mode": "есть",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4941,7 +4978,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -4976,7 +5014,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5297,7 +5336,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -5332,7 +5372,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -5367,7 +5408,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5403,7 +5445,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5438,7 +5481,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5473,7 +5517,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5508,7 +5553,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5543,7 +5589,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -6604,7 +6651,8 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "cpl": false
+      "cpl": false,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -6640,7 +6688,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -6786,7 +6835,8 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "cpl": true
+      "cpl": true,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -7296,7 +7346,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -7333,7 +7384,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -7441,7 +7493,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -8443,8 +8496,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": true,
     "ir_cam": false,
-    "remote": true,
-    "desc": "Full HD одноканальный регистратор. с экраном 1.2\". OmniVision OS02K10 (2МП, 1/2.8\", 2.9μm). F1.5. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "Full HD одноканальный регистратор. с экраном 1.2\". OmniVision OS02K10 (2МП, 1/2.8\", 2.9μm). F1.5. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка",
     "resolution": "1920×1080, 60  fps (HDR OFF) 1920×1080, 30  fps (HDR ON)",
     "angle": "140°",
     "screen": "1.2\"",
@@ -8471,7 +8524,8 @@ window.DEVICES = [
       "voice": "EN",
       "adas": true,
       "features": "360 обзор, Онлайн просмотр через 4G hardwire kit, 120dB HDR"
-    }
+    },
+    "spin360": true
   },
   {
     "name": "70mai A810 4K",
@@ -8485,8 +8539,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": false,
-    "remote": true,
-    "desc": "4K двухканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.8. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K двухканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.8. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка",
     "resolution": "3840×2160 (25 fps) H.265 HDR 1920×1080, 60  fps + задняя камера 1080p 25 fps HDR",
     "angle": "150°",
     "screen": "3\"",
@@ -8655,8 +8709,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": false,
-    "remote": true,
-    "desc": "2.7K двухканальный регистратор. с экраном 2\". Sony Starvis 2 IMX675 (5МП, 1/2.8\", 2.0μm). F1.8. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "2.7K двухканальный регистратор. с экраном 2\". Sony Starvis 2 IMX675 (5МП, 1/2.8\", 2.0μm). F1.8. Wi-Fi 2.4 ГГц (+Bluetooth). GPS. ADAS. поддержка",
     "resolution": "2592×1944,30 fps,H.265 [4:3] 2592×1456,30 fps,H.265 [16:9] + задняя камера 1080p HDR",
     "angle": "138°",
     "screen": "2\"",
@@ -8698,8 +8752,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": false,
-    "remote": true,
-    "desc": "4K двухканальный регистратор. без экрана. Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 4 (2.4GHz/5GHz) +Bluetooth. GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K двухканальный регистратор. без экрана. Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 4 (2. GPS. ADAS. поддержка",
     "resolution": "3840×2160 (25 fps) H.265 HDR 1920х1080 60  fps без HDR 1920х1080 25  fps HDR + задняя камера 1080p 25 fps HDR",
     "angle": "146°",
     "screen": "нет",
@@ -8739,8 +8793,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": true,
     "ir_cam": false,
-    "remote": true,
-    "desc": "4K двухканальный регистратор. с экраном 1.4\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2.4GHz/5GHz) +Bluetooth. GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K двухканальный регистратор. с экраном 1.4\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2. GPS. ADAS. поддержка",
     "resolution": "перед: 4K\\30 fps (HDR)\\60 fps задняя: 1080p\\30 fps (HDR)",
     "angle": "146°",
     "screen": "1.4\"",
@@ -8768,7 +8822,8 @@ window.DEVICES = [
       "voice": "+",
       "adas": true,
       "features": "-PTZ 360°, 60 FPS, 2 х SONY STARVIS 2 HDR - 4G KIT"
-    }
+    },
+    "spin360": true
   },
   {
     "name": "70mai T800",
@@ -8782,8 +8837,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": true,
-    "remote": true,
-    "desc": "4K трёхканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2.4GHz/5GHz) +Bluetooth. GPS. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K трёхканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2. GPS. ADAS. поддержка",
     "resolution": "перед: 4K\\30 fps (HDR)\\60 fps задняя: 4K\\30 fps (HDR) салон: 1080p\\30 fps (HDR)",
     "angle": "146°",
     "screen": "3\"",
@@ -8868,8 +8923,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": false,
-    "remote": true,
-    "desc": "4K двухканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2.4 GHz), Bluetooth 5.0. GPS + ГЛОНАСС. ADAS. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K двухканальный регистратор. с экраном 3\". Sony Starvis 2 IMX678 (8МП, 1/1.8\", 2.0μm). F1.7. Wi-Fi 6 (2.4 GHz), Bluetooth 5.0. GPS + ГЛОНАСС. ADAS. поддержка",
     "resolution": "перед: 4K-30  fps (HDR) задняя: 1080p\\30 fps (HDR)",
     "angle": "146°",
     "screen": "3\"",
@@ -9158,8 +9213,8 @@ window.DEVICES = [
     "touch": false,
     "rotation": false,
     "ir_cam": false,
-    "remote": true,
-    "desc": "4K двухканальный регистратор. с экраном есть. GalaxyCore GC8613 (8МП, 1/2.7\", 1.5μm). F1.55. Wi-Fi 6 (2.4GHz/5GHz) +Bluetooth. GPS + ГЛОНАСС. поддержка 4G-модуля.",
+    "remote": false,
+    "desc": "4K двухканальный регистратор. с экраном есть. GalaxyCore GC8613 (8МП, 1/2.7\", 1.5μm). F1.55. Wi-Fi 6 (2. GPS + ГЛОНАСС. поддержка",
     "resolution": "перед: 4K\\30 fps (HDR) задняя: 1080p\\25 fps",
     "angle": "140°",
     "screen": "есть",
@@ -9228,7 +9283,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9270,7 +9326,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9312,7 +9369,8 @@ window.DEVICES = [
       "night_mode": "есть",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9354,7 +9412,8 @@ window.DEVICES = [
       "night_mode": "есть",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9395,7 +9454,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9436,7 +9496,8 @@ window.DEVICES = [
       "night_mode": "ультра-ночная",
       "cpl": "есть",
       "hdr_wdr": "есть",
-      "radar_detector": "сигнатурный"
+      "radar_detector": "сигнатурный",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -9472,7 +9533,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -10125,7 +10187,7 @@ window.DEVICES = [
   {
     "name": "TrendVision aMirror 15 Android",
     "brand": "TrendVision",
-    "type": "видеорегистратор",
+    "type": "4g-регистратор",
     "form": "регистратор-зеркало",
     "q": 1,
     "magnetic": false,
@@ -11167,7 +11229,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11202,7 +11265,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -11273,7 +11337,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11308,7 +11373,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11343,7 +11409,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11378,7 +11445,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -11413,7 +11481,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -11838,7 +11907,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11873,7 +11943,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -11908,7 +11979,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -12512,7 +12584,7 @@ window.DEVICES = [
   {
     "name": "TrendVision Online Sky 4G",
     "brand": "TrendVision",
-    "type": "4G-регистратор",
+    "type": "4g-регистратор",
     "form": "без экрана",
     "q": 1,
     "magnetic": false,
@@ -12557,7 +12629,7 @@ window.DEVICES = [
   {
     "name": "TrendVision Online Sky 4G Dual",
     "brand": "TrendVision",
-    "type": "4G-регистратор",
+    "type": "4g-регистратор",
     "form": "без экрана",
     "q": 2,
     "magnetic": false,
@@ -12601,7 +12673,7 @@ window.DEVICES = [
   {
     "name": "TrendVision Online Cloud 4G",
     "brand": "TrendVision",
-    "type": "4G-регистратор",
+    "type": "4g-регистратор",
     "form": "без экрана",
     "q": 1,
     "magnetic": false,
@@ -12818,7 +12890,8 @@ window.DEVICES = [
       "bracket": "Присоска / клейкая лента",
       "connector": "USB Type-C / AV-IN",
       "codec": "H.265",
-      "format": "TS"
+      "format": "TS",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -12910,7 +12983,8 @@ window.DEVICES = [
       "bracket": "Эластичные крепления",
       "connector": "AV-IN / GPS / DC 12V",
       "codec": "H.264",
-      "format": "MOV"
+      "format": "MOV",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -12955,7 +13029,8 @@ window.DEVICES = [
       "bracket": "Присоска / клейкая лента",
       "connector": "USB Type-C / AV-IN",
       "codec": "H.264",
-      "format": "TS"
+      "format": "TS",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -13006,7 +13081,7 @@ window.DEVICES = [
   {
     "name": "CARCAM CC-367",
     "brand": "CARCAM",
-    "type": "4G-регистратор",
+    "type": "4g-регистратор",
     "form": "без экрана",
     "q": 1,
     "magnetic": false,
@@ -13050,7 +13125,7 @@ window.DEVICES = [
   {
     "name": "CARCAM CC-369",
     "brand": "CARCAM",
-    "type": "4G-регистратор",
+    "type": "4g-регистратор",
     "form": "без экрана",
     "q": 1,
     "magnetic": false,
