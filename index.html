@@ -38,7 +38,10 @@
 <link rel="manifest" href="/manifest.json">
 <script>
 (function(){
+  // Тема применяется ДО первой отрисовки: сохранённый выбор пользователя,
+  // иначе всегда светлая. Системную тему устройства не учитываем намеренно.
   var theme = "light";
+  try { if (localStorage.getItem("vbr_apple_theme") === "dark") theme = "dark"; } catch (e) {}
   document.documentElement.setAttribute("data-theme", theme);
   document.documentElement.style.background = theme === "dark" ? "#000000" : "#FFFFFF";
   var meta = document.querySelector('meta[name="theme-color"]');
@@ -22303,6 +22306,81 @@ html[data-theme="light"] body.tg-fullscreen .screen, html[data-theme="dark"] bod
   padding-top: clamp(16px, 2.4vh, 28px) !important;
 }
 
+
+/* ── Подсказка у иконки смены темы: показывается один раз при первом запуске ── */
+.theme-mini-tip[hidden] { display: none !important; }
+.theme-mini-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--app-nav-h, 58px) + env(safe-area-inset-bottom) + 56px);
+  z-index: 5;
+  transform: translateX(-50%) translateY(4px);
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--hair-2, rgba(0,0,0,.08));
+  background: rgba(245,245,247,.86);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  color: var(--text-2, #6E6E73);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .24s ease, transform .24s ease;
+}
+.theme-mini-tip.is-on { opacity: 1; transform: translateX(-50%) translateY(0); }
+html[data-theme="dark"] .theme-mini-tip {
+  background: rgba(28,28,30,.72);
+  border-color: rgba(255,255,255,.09);
+  color: #A1A1AA;
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-mini-tip, .theme-mini-tip.is-on { transform: translateX(-50%); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ГЛАВНАЯ В TELEGRAM + РОВНАЯ ЛИНИЯ ЗАГОЛОВКОВ
+   Главная считала свою высоту как 100dvh − 58px, то есть
+   ровно под шапку без безопасной зоны. В мини-аппе шапка выше
+   на величину зоны, поэтому экран оказывался длиннее вьюпорта:
+   появлялся свайп, а герой уезжал ниже центра.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-intro.ap-home,
+html[data-theme="dark"] #s-intro.ap-home,
+html[data-theme="light"] #s-intro.ap-home > .ap-page,
+html[data-theme="dark"] #s-intro.ap-home > .ap-page {
+  height: calc(100dvh - 58px - var(--tg-header-top, 0px)) !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - 58px - var(--tg-header-top, 0px)) !important;
+  overflow: hidden !important;
+}
+
+/* Заголовки разделов начинаются на одной высоте:
+   один верхний отступ у экрана, ноль у всех промежуточных обёрток. */
+html[data-theme="light"] #s-catalog, html[data-theme="dark"] #s-catalog,
+html[data-theme="light"] #s-compare, html[data-theme="dark"] #s-compare,
+html[data-theme="light"] #s-favorites, html[data-theme="dark"] #s-favorites,
+html[data-theme="light"] #s-articles, html[data-theme="dark"] #s-articles,
+html[data-theme="light"] #s-about, html[data-theme="dark"] #s-about,
+html[data-theme="light"] #s-policy, html[data-theme="dark"] #s-policy {
+  padding-top: clamp(18px, 2.6vh, 28px) !important;
+}
+html[data-theme="light"] #s-catalog .catalog-wrap, html[data-theme="dark"] #s-catalog .catalog-wrap,
+html[data-theme="light"] #s-catalog .catalog-head, html[data-theme="dark"] #s-catalog .catalog-head,
+html[data-theme="light"] #s-compare .section-head, html[data-theme="dark"] #s-compare .section-head,
+html[data-theme="light"] #s-compare .section-title, html[data-theme="dark"] #s-compare .section-title,
+html[data-theme="light"] #s-favorites .fav-page-wrap, html[data-theme="dark"] #s-favorites .fav-page-wrap,
+html[data-theme="light"] #s-favorites .section-head, html[data-theme="dark"] #s-favorites .section-head,
+html[data-theme="light"] #s-favorites .section-title, html[data-theme="dark"] #s-favorites .section-title,
+html[data-theme="light"] #s-articles .guide-inner, html[data-theme="dark"] #s-articles .guide-inner,
+html[data-theme="light"] #s-about .ap-about-wrap, html[data-theme="dark"] #s-about .ap-about-wrap,
+html[data-theme="light"] #s-about .ap-about-top, html[data-theme="dark"] #s-about .ap-about-top,
+html[data-theme="light"] #s-policy .ap-doc, html[data-theme="dark"] #s-policy .ap-doc {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -22417,7 +22495,8 @@ function enableMetrika(){
        consent-checkbox, intro-db-sticker) сохранены — вся старая
        логика поиска, согласия и счётчика базы работает как была. -->
   <div class="ap-page">
-    <button class="theme-mini-btn" id="theme-mini-btn" type="button" hidden aria-label="Изменить тему">
+    <span class="theme-mini-tip" id="theme-mini-tip" hidden aria-hidden="true">Здесь можно сменить тему</span>
+      <button class="theme-mini-btn" id="theme-mini-btn" type="button" aria-label="Изменить тему">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 3v2.2M12 18.8V21M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M3 12h2.2M18.8 12H21M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>
         <circle cx="12" cy="12" r="4.2"/>
@@ -26375,7 +26454,8 @@ let _catalogScrollPos = 0;
 const VBR_THEME_KEY = "vbr_apple_theme";
 const VBR_THEME_ATTENTION_KEY = "vbr_theme_attention_seen";
 function getPreferredTheme() {
-  return "light";
+  // Только явный выбор пользователя. По умолчанию — светлая.
+  try { return localStorage.getItem(VBR_THEME_KEY) === "dark" ? "dark" : "light"; } catch (e) { return "light"; }
 }
 function applyScreenTheme(theme) {
   const next = theme === "dark" ? "dark" : "light";
@@ -26389,49 +26469,75 @@ function applyScreenTheme(theme) {
     if (wa && wa.setHeaderColor) wa.setHeaderColor(next === "dark" ? "#000000" : "#FFFFFF");
   } catch (e) {}
 }
-function setThemeMiniVisible(visible) {
-  const btn = document.getElementById("theme-mini-btn");
-  if (btn) btn.hidden = !visible;
+function hideThemeHint() {
+  const tip = document.getElementById("theme-mini-tip");
+  if (!tip || tip.hidden) return;
+  tip.classList.remove("is-on");
+  window.setTimeout(() => { tip.hidden = true; }, 260);
 }
-function pulseThemeMiniOnce() {
-  const btn = document.getElementById("theme-mini-btn");
-  if (!btn || btn.hidden) return;
-  let seen = false;
-  try { seen = sessionStorage.getItem(VBR_THEME_ATTENTION_KEY) === "1"; } catch (e) {}
-  if (seen) return;
-  try { sessionStorage.setItem(VBR_THEME_ATTENTION_KEY, "1"); } catch (e) {}
-  window.setTimeout(() => {
-    btn.classList.add("theme-mini-attn");
-    window.setTimeout(() => btn.classList.remove("theme-mini-attn"), 1500);
-  }, 900);
+function closeThemeChoice() {
+  const chooser = document.getElementById("theme-choice");
+  const mini = document.getElementById("theme-mini-btn");
+  if (chooser) chooser.hidden = true;
+  if (mini) mini.hidden = false;
 }
 function openThemeChoice() {
   const chooser = document.getElementById("theme-choice");
   const mini = document.getElementById("theme-mini-btn");
+  hideThemeHint();
   if (chooser) chooser.hidden = false;
   if (mini) mini.hidden = true;
 }
-function initThemeChoice() {
+function toggleThemeChoice() {
   const chooser = document.getElementById("theme-choice");
+  if (chooser && !chooser.hidden) closeThemeChoice(); else openThemeChoice();
+}
+// Первый запуск: один раз мягко показываем, где переключается тема.
+function introduceThemeButtonOnce() {
+  let seen = true;
+  try { seen = localStorage.getItem(VBR_THEME_ATTENTION_KEY) === "1"; } catch (e) { seen = true; }
+  if (seen) return;
+  try { localStorage.setItem(VBR_THEME_ATTENTION_KEY, "1"); } catch (e) {}
+  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.setTimeout(() => {
+    const btn = document.getElementById("theme-mini-btn");
+    const tip = document.getElementById("theme-mini-tip");
+    if (!btn || btn.hidden) return;
+    if (!reduced) {
+      btn.classList.add("theme-mini-attn");
+      window.setTimeout(() => btn.classList.remove("theme-mini-attn"), 1600);
+    }
+    if (tip) {
+      tip.hidden = false;
+      void tip.offsetWidth;
+      tip.classList.add("is-on");
+      window.setTimeout(hideThemeHint, 2600);
+    }
+  }, 900);
+}
+function initThemeChoice() {
   applyScreenTheme(getPreferredTheme());
+  const chooser = document.getElementById("theme-choice");
   const mini = document.getElementById("theme-mini-btn");
-  let hasSaved = false;
-  try { hasSaved = Boolean(localStorage.getItem(VBR_THEME_KEY)); } catch (e) {}
-  setThemeMiniVisible(hasSaved);
-  if (mini) mini.addEventListener("click", openThemeChoice);
+  // Иконка доступна всегда, окно выбора при запуске не показываем.
+  if (mini) {
+    mini.hidden = false;
+    mini.addEventListener("click", (e) => { e.stopPropagation(); toggleThemeChoice(); });
+  }
   if (!chooser) return;
-  if (!hasSaved) chooser.hidden = false;
-  if (hasSaved) pulseThemeMiniOnce();
+  chooser.hidden = true;
+  chooser.addEventListener("click", (e) => e.stopPropagation());
   chooser.querySelectorAll("[data-theme-pick]").forEach(btn => {
     btn.addEventListener("click", () => {
       const theme = btn.getAttribute("data-theme-pick") === "dark" ? "dark" : "light";
       try { localStorage.setItem(VBR_THEME_KEY, theme); } catch (e) {}
       applyScreenTheme(theme);
-      chooser.hidden = true;
-      setThemeMiniVisible(true);
-      pulseThemeMiniOnce();
+      closeThemeChoice();
     });
   });
+  document.addEventListener("click", () => { if (!chooser.hidden) closeThemeChoice(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !chooser.hidden) closeThemeChoice(); });
+  introduceThemeButtonOnce();
 }
 applyScreenTheme(getPreferredTheme());
 
