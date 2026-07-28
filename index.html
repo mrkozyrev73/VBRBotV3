@@ -12688,6 +12688,7 @@ canvas {
         document.body.classList.add('tg-app');
         document.body.classList.toggle('tg-fullscreen', fullscreen);
         applyHeaderInset(top, fullscreen);
+        if (typeof window.vbrSyncHomeHeight === 'function') window.vbrSyncHomeHeight();
         if (typeof window.updateTelegramTopMask === 'function') window.updateTelegramTopMask();
       }
     } catch (e) {}
@@ -26515,6 +26516,29 @@ function introduceThemeButtonOnce() {
     }
   }, 900);
 }
+// Высота главной = видимая часть окна минус реальная высота шапки.
+// В мини-аппе шапка выше на безопасную зону, поэтому фиксированные
+// «100dvh − 58px» давали лишнюю прокрутку и сдвигали героя вниз.
+function syncHomeHeight() {
+  const header = document.getElementById("header");
+  const home = document.getElementById("s-intro");
+  if (!header || !home) return;
+  const headerH = Math.round(header.getBoundingClientRect().height);
+  const viewport = Math.round(
+    (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0
+  );
+  const avail = Math.max(320, viewport - headerH);
+  document.documentElement.style.setProperty("--vbr-home-h", avail + "px");
+  const page = home.querySelector(":scope > .ap-page");
+  [home, page].forEach(el => {
+    if (!el) return;
+    el.style.setProperty("height", avail + "px", "important");
+    el.style.setProperty("max-height", avail + "px", "important");
+    el.style.setProperty("min-height", "0", "important");
+  });
+}
+window.vbrSyncHomeHeight = syncHomeHeight;
+
 function initThemeChoice() {
   applyScreenTheme(getPreferredTheme());
   const chooser = document.getElementById("theme-choice");
@@ -26538,6 +26562,13 @@ function initThemeChoice() {
   document.addEventListener("click", () => { if (!chooser.hidden) closeThemeChoice(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !chooser.hidden) closeThemeChoice(); });
   introduceThemeButtonOnce();
+  syncHomeHeight();
+  [80, 300, 900, 1800].forEach(d => window.setTimeout(syncHomeHeight, d));
+  window.addEventListener("resize", syncHomeHeight);
+  window.addEventListener("orientationchange", () => window.setTimeout(syncHomeHeight, 240));
+  try {
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", syncHomeHeight);
+  } catch (e) {}
 }
 applyScreenTheme(getPreferredTheme());
 
