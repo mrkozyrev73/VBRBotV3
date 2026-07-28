@@ -22316,15 +22316,12 @@ html[data-theme="light"] body.tg-fullscreen .screen, html[data-theme="dark"] bod
   bottom: calc(var(--app-nav-h, 58px) + env(safe-area-inset-bottom) + 56px);
   z-index: 5;
   transform: translateX(-50%) translateY(4px);
-  padding: 6px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--hair-2, rgba(0,0,0,.08));
-  background: rgba(245,245,247,.86);
-  -webkit-backdrop-filter: saturate(180%) blur(18px);
-  backdrop-filter: saturate(180%) blur(18px);
-  color: var(--text-2, #6E6E73);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-3, #86868B);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -.01em;
   white-space: nowrap;
   pointer-events: none;
@@ -22333,9 +22330,9 @@ html[data-theme="light"] body.tg-fullscreen .screen, html[data-theme="dark"] bod
 }
 .theme-mini-tip.is-on { opacity: 1; transform: translateX(-50%) translateY(0); }
 html[data-theme="dark"] .theme-mini-tip {
-  background: rgba(28,28,30,.72);
-  border-color: rgba(255,255,255,.09);
-  color: #A1A1AA;
+  background: none;
+  border: 0;
+  color: #86868B;
 }
 @media (prefers-reduced-motion: reduce) {
   .theme-mini-tip, .theme-mini-tip.is-on { transform: translateX(-50%); }
@@ -22381,6 +22378,16 @@ html[data-theme="light"] #s-about .ap-about-top, html[data-theme="dark"] #s-abou
 html[data-theme="light"] #s-policy .ap-doc, html[data-theme="dark"] #s-policy .ap-doc {
   padding-top: 0 !important;
   margin-top: 0 !important;
+}
+
+/* Смена темы без моргания: на 180 мс отключаем все переходы и анимации. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+  animation-duration: .001ms !important;
+  animation-delay: 0s !important;
 }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
@@ -26460,8 +26467,14 @@ function getPreferredTheme() {
 }
 function applyScreenTheme(theme) {
   const next = theme === "dark" ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", next);
-  document.documentElement.style.background = next === "dark" ? "#000000" : "#FFFFFF";
+  const root = document.documentElement;
+  // На время смены темы гасим переходы: иначе поля и кнопки
+  // с transition на background перекрашиваются с заметным морганием.
+  root.classList.add("theme-switching");
+  window.clearTimeout(applyScreenTheme._t);
+  applyScreenTheme._t = window.setTimeout(() => root.classList.remove("theme-switching"), 180);
+  root.setAttribute("data-theme", next);
+  root.style.background = next === "dark" ? "#000000" : "#FFFFFF";
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", next === "dark" ? "#000000" : "#FFFFFF");
   try {
