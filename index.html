@@ -12626,22 +12626,56 @@ canvas {
       if (canFullscreen && wa.requestFullscreen && !wa.isFullscreen) wa.requestFullscreen();
     } catch (e) {}
   }
-function applyInsets(){
+// Замер env(safe-area-inset-top): в некоторых клиентах Telegram
+  // safeAreaInset приходит нулевым, а системная строка статуса есть.
+  function readEnvSafeTop(){
+    try {
+      var probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:0;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top,0px)';
+      (document.body || document.documentElement).appendChild(probe);
+      var v = parseFloat(window.getComputedStyle(probe).paddingTop) || 0;
+      probe.parentNode.removeChild(probe);
+      return v;
+    } catch (e) { return 0; }
+  }
+
+  // Полноэкранный режим: Telegram рисует поверх страницы строку статуса
+  // и плавающие кнопки «Закрыть» / «…». Отступ шапки ставим инлайном
+  // с !important — иначе его гасит старое правило #header { padding: 0 !important }.
+  function applyHeaderInset(top, fullscreen){
+    var header = document.getElementById('header');
+    if (!header) return;
+    var safe = top;
+    if (fullscreen && top < 24) {
+      // клиент не сообщил безопасную зону — считаем сами:
+      // строка статуса + ряд плавающих кнопок «Закрыть» / «…»
+      var envTop = readEnvSafeTop();
+      safe = (envTop || 44) + 42;
+    }
+    safe = Math.max(0, Math.round(safe));
+    header.style.setProperty('padding-top', safe + 'px', 'important');
+    document.documentElement.style.setProperty('--tg-header-top', safe + 'px');
+  }
+
+  function applyInsets(){
     try {
       var s = wa.safeAreaInset || {}, c = wa.contentSafeAreaInset || {};
       var top = (s.top || 0) + (c.top || 0);
       var bottom = Math.max(s.bottom || 0, c.bottom || 0);
       var vh = wa.viewportStableHeight || wa.viewportHeight || window.innerHeight || 0;
+      var fullscreen = Boolean(wa.isFullscreen);
       document.documentElement.style.setProperty('--tg-safe-top', top + 'px');
       document.documentElement.style.setProperty('--tg-safe-bottom', bottom + 'px');
       if (vh) document.documentElement.style.setProperty('--tg-viewport-h', vh + 'px');
       if (document.body) {
         document.body.classList.add('tg-app');
-        document.body.classList.toggle('tg-fullscreen', Boolean(wa.isFullscreen));
+        document.body.classList.toggle('tg-fullscreen', fullscreen);
+        applyHeaderInset(top, fullscreen);
         if (typeof window.updateTelegramTopMask === 'function') window.updateTelegramTopMask();
       }
     } catch (e) {}
   }
+  window.vbrApplyTelegramInsets = applyInsets;
   requestTelegramFullscreen();
   try {
     wa.onEvent && wa.onEvent('viewportChanged', function(){ requestTelegramFullscreen(); applyInsets(); });
@@ -12649,9 +12683,13 @@ function applyInsets(){
     wa.onEvent && wa.onEvent('safeAreaChanged', applyInsets);
     wa.onEvent && wa.onEvent('contentSafeAreaChanged', applyInsets);
   } catch (e) {}
-  [120, 450, 1000].forEach(function(delay){
+  [120, 450, 1000, 1800, 3000].forEach(function(delay){
     setTimeout(function(){ requestTelegramFullscreen(); applyInsets(); }, delay);
   });
+  try {
+    window.addEventListener('resize', applyInsets);
+    window.addEventListener('orientationchange', function(){ setTimeout(applyInsets, 240); });
+  } catch (e) {}
   if (document.body) applyInsets(); else document.addEventListener('DOMContentLoaded', applyInsets);
 })();
 </script>
@@ -22228,18 +22266,13 @@ html[data-theme="dark"] body.tg-fullscreen #header {
     calc(env(safe-area-inset-top, 0px) + 46px)
   ) !important;
 }
-/* липкие подшапки съезжают вниз ровно на высоту безопасной зоны */
+/* липкие подшапки съезжают вниз ровно на высоту безопасной зоны.
+   --tg-header-top ставит скрипт по реальным замерам клиента Telegram. */
 html[data-theme="light"] body.tg-app #s-compare .cmp-cards,
 html[data-theme="dark"] body.tg-app #s-compare .cmp-cards,
 html[data-theme="light"] body.tg-app .srch-topbar,
 html[data-theme="dark"] body.tg-app .srch-topbar {
-  top: calc(58px + max(var(--tg-safe-top, 0px), env(safe-area-inset-top, 0px))) !important;
-}
-html[data-theme="light"] body.tg-fullscreen #s-compare .cmp-cards,
-html[data-theme="dark"] body.tg-fullscreen #s-compare .cmp-cards,
-html[data-theme="light"] body.tg-fullscreen .srch-topbar,
-html[data-theme="dark"] body.tg-fullscreen .srch-topbar {
-  top: calc(58px + max(var(--tg-safe-top, 0px), var(--tg-page-top, 64px), calc(env(safe-area-inset-top, 0px) + 46px))) !important;
+  top: calc(58px + var(--tg-header-top, 0px)) !important;
 }
 /* в Telegram верхний отступ экрана даёт шапка — второй раз не добавляем */
 html[data-theme="light"] body.tg-app .screen, html[data-theme="dark"] body.tg-app .screen,
