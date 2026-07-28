@@ -12645,16 +12645,30 @@ canvas {
   function applyHeaderInset(top, fullscreen){
     var header = document.getElementById('header');
     if (!header) return;
-    var safe = top;
-    if (fullscreen && top < 24) {
-      // клиент не сообщил безопасную зону — считаем сами:
-      // строка статуса + ряд плавающих кнопок «Закрыть» / «…»
-      var envTop = readEnvSafeTop();
-      safe = (envTop || 44) + 42;
+    var platform = String(wa.platform || '').toLowerCase();
+    var mobile = platform === 'ios' || platform === 'android';
+    // Признак того, что окно занимает весь экран и Telegram рисует свои
+    // кнопки поверх страницы: флаг isFullscreen приходит не во всех клиентах.
+    var coversScreen = false;
+    try {
+      coversScreen = Boolean(window.screen && window.screen.height) &&
+        (window.innerHeight >= window.screen.height - 40);
+    } catch (e) {}
+    var needsInset = top > 0 || ((fullscreen || coversScreen) && mobile);
+    var safe = 0;
+    if (needsInset) {
+      safe = top;
+      if (safe < 24) {
+        // клиент не сообщил безопасную зону — считаем сами:
+        // строка статуса + ряд плавающих кнопок «Закрыть» / «…»
+        var envTop = readEnvSafeTop();
+        safe = (envTop || 44) + 42;
+      }
     }
     safe = Math.max(0, Math.round(safe));
     header.style.setProperty('padding-top', safe + 'px', 'important');
     document.documentElement.style.setProperty('--tg-header-top', safe + 'px');
+    document.documentElement.setAttribute('data-tg-inset', safe + '/' + Math.round(top) + '/' + (fullscreen ? 'fs' : 'no') + '/' + platform);
   }
 
   function applyInsets(){
@@ -12686,6 +12700,15 @@ canvas {
   [120, 450, 1000, 1800, 3000].forEach(function(delay){
     setTimeout(function(){ requestTelegramFullscreen(); applyInsets(); }, delay);
   });
+  // Telegram отдаёт безопасную зону не сразу и иногда меняет её после
+  // разворота окна — первые 6 секунд пересчитываем отступ регулярно.
+  (function(){
+    var ticks = 0;
+    var timer = setInterval(function(){
+      applyInsets();
+      if (++ticks > 12) clearInterval(timer);
+    }, 500);
+  })();
   try {
     window.addEventListener('resize', applyInsets);
     window.addEventListener('orientationchange', function(){ setTimeout(applyInsets, 240); });
