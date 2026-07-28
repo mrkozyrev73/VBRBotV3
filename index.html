@@ -22389,6 +22389,40 @@ html.theme-switching *::after {
   animation-duration: .001ms !important;
   animation-delay: 0s !important;
 }
+
+/* ── Экран подбора и выдача: та же арифметика, что у главной.
+   Раньше высота считалась от 100dvh минус шапка в 58px — в мини-аппе
+   шапка выше на безопасную зону, и сцена уезжала вниз, а при появлении
+   результатов подпрыгивала. --vbr-view-h ставит скрипт по замеру. ── */
+html[data-theme="light"] #s-loading, html[data-theme="dark"] #s-loading {
+  min-height: 0 !important;
+  height: auto !important;
+}
+html[data-theme="light"] #s-loading .loading-wrap,
+html[data-theme="dark"] #s-loading .loading-wrap {
+  min-height: calc(
+    var(--vbr-view-h, calc(100dvh - 58px))
+    - var(--app-nav-h, 58px) - env(safe-area-inset-bottom) - clamp(20px, 3vh, 36px)
+  ) !important;
+}
+html[data-theme="light"] #s-results, html[data-theme="dark"] #s-results {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* ── Липкие подшапки цепляются за реальную высоту шапки.
+   Раньше стояло top: 58px — высота шапки без безопасной зоны,
+   поэтому в мини-аппе блок сравнения заезжал под шапку. ── */
+html[data-theme="light"] #s-compare .cmp-cards,
+html[data-theme="dark"] #s-compare .cmp-cards,
+html[data-theme="light"] .srch-topbar,
+html[data-theme="dark"] .srch-topbar {
+  top: var(--vbr-header-h, 58px) !important;
+  scroll-margin-top: var(--vbr-header-h, 58px) !important;
+}
+html[data-theme="light"] #s-compare, html[data-theme="dark"] #s-compare {
+  scroll-margin-top: var(--vbr-header-h, 58px) !important;
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -26541,7 +26575,9 @@ function syncHomeHeight() {
     (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0
   );
   const avail = Math.max(320, viewport - headerH);
+  document.documentElement.style.setProperty("--vbr-header-h", headerH + "px");
   document.documentElement.style.setProperty("--vbr-home-h", avail + "px");
+  document.documentElement.style.setProperty("--vbr-view-h", avail + "px");
   const page = home.querySelector(":scope > .ap-page");
   [home, page].forEach(el => {
     if (!el) return;
