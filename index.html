@@ -23452,16 +23452,9 @@ html[data-theme="dark"] #s-results .res-section-header.exact {
   color: var(--text-3, #86868B) !important;
 }
 
-/* Длинные списки: браузер не раскладывает и не рисует карточки за экраном.
-   Высота-заглушка держит полосу прокрутки стабильной. */
-.catalog-row {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 84px;
-}
-#s-results .ap-rec {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 190px;
-}
+/* content-visibility убран намеренно: на iOS он давал рывки прокрутки
+   и подвисания при возврате к уже отрисованным карточкам. Выигрыш был
+   умозрительный, симптомы — реальные. */
 
 /* Воронка квиза в админке */
 .adm-funnel { display: grid; gap: 10px; }
@@ -23953,6 +23946,30 @@ html[data-theme="dark"] .partner-hint {
   font-size: 12.5px !important;
   line-height: 1.4 !important;
   color: var(--text-3, #86868B) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   КАРТОЧКА МОДЕЛИ: экран открывается перекрытием (position: fixed;
+   inset: 0; z-index: 200) поверх шапки. В браузере это скрывала
+   собственная строка с кнопкой назад, но в режиме профиля она
+   выключена — и в мини-аппе карточка уезжала под кнопки Telegram.
+   Опускаем перекрытие ниже реальной высоты шапки.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-search,
+html[data-theme="dark"] #s-search {
+  top: var(--vbr-header-h, 58px) !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* iOS иногда «раздувает» шрифт в длинных блоках при повороте и
+   пересчёте раскладки — запрещаем автоматический подбор кегля. */
+html, body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
@@ -25714,7 +25731,15 @@ function catalogScenarioScore(d, scenarioId = _catalogScenario) {
     ].filter(Boolean).length;
   }
   if (id === "highway") {
-    return [
+    // На трассе главное — предупреждения о камерах. Без радарной части
+    // или базы камер это просто регистратор, каким бы хорошим он ни был:
+    // раньше он набирал 4 балла из 5 на Wi-Fi, GPS и разрешении и проходил.
+    const warnsAboutCameras = catalogIsCombo(d) ||
+      (typeof isGpsInformerDisplay === "function" && isGpsInformerDisplay(d));
+    if (!warnsAboutCameras) return -1000;
+    // Устройство с предупреждениями проходит всегда, остальное — ранжирование.
+    // Раньше нормальное недорогое комбо набирало 3 балла и вылетало из сценария.
+    return 4 + [
       catalogIsCombo(d),
       catalogHasGps(d),
       Number(d.q) >= 2,
@@ -25809,9 +25834,12 @@ function catalogParseQuery(raw) {
   let text = source;
   let maxPrice = null;
 
+  // Единица цены должна быть отдельным словом. Раньше вариант «к» съедал
+  // первую букву у «комбо» («до 8000 комбо» → «омбо»), а «р» — у «руб».
+  const UNIT = "(?:₽|руб(?:\\.|лей|ля)?|р(?![а-я])|тыс(?:\\.|яч)?(?![а-я])|к(?![а-я]))";
   const pricePatterns = [
-    /(?:до|<=|≤)\s*(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)?/i,
-    /(\d{1,3}(?:[\s.,]?\d{3})+|\d{4,6}|\d{1,3})\s*(?:₽|р|руб(?:\.|лей|ля)?|тыс(?:\.|яч)?|к)/i,
+    new RegExp("(?:до|дешевле|<=|≤)\\s*(\\d{1,3}(?:[\\s.,]?\\d{3})+|\\d{4,6}|\\d{1,3})\\s*" + UNIT + "?", "i"),
+    new RegExp("(\\d{1,3}(?:[\\s.,]?\\d{3})+|\\d{4,6}|\\d{1,3})\\s*" + UNIT, "i"),
     /^(\d{4,6}|\d{1,3}(?:[\s.,]?\d{3})+)$/,
   ];
 
@@ -25830,11 +25858,29 @@ function catalogParseQuery(raw) {
     }
   }
 
+  // \b в JavaScript не работает с кириллицей, поэтому границы слова
+  // задаём явно — иначе «цена» и «стоимость» оставались в запросе.
   text = catalogSearchNormalize(text
-    .replace(/\b(до|цена|стоимость|руб(?:\.|лей|ля)?|₽)\b/gi, " ")
+    .replace(/(^|[^а-яa-z0-9])(до|цена|стоимость|дешевле|руб(?:\.|лей|ля)?|₽)(?![а-яa-z])/gi, "$1 ")
     .replace(/\s+/g, " "));
   return {text, maxPrice};
 }
+// Голое число в запросе может быть и номером модели («X-COP 9100»),
+// и бюджетом («iBox 15000»). Сначала ищем как есть, и только если
+// ничего не нашлось — пробуем считать число ценой.
+function catalogParseQueryWithFallback(raw, pool) {
+  const parsed = catalogParseQuery(raw);
+  if (parsed.maxPrice != null || !Array.isArray(pool)) return parsed;
+  const num = String(parsed.text || "").match(/(^|\s)(\d{4,6})(\s|$)/);
+  if (!num) return parsed;
+  if (pool.some(d => catalogMatchesQuery(d, parsed))) return parsed;
+  const value = parseInt(num[2], 10);
+  const rest = parsed.text.replace(num[0], " ").replace(/\s+/g, " ").trim();
+  const asPrice = { text: rest, maxPrice: value };
+  // если и так ничего не находится — не подменяем смысл запроса
+  return pool.some(d => catalogMatchesQuery(d, asPrice)) ? asPrice : parsed;
+}
+
 function catalogMatchesQuery(d, parsedQuery) {
   const query = typeof parsedQuery === "string" ? {text: parsedQuery, maxPrice: null} : parsedQuery;
   if (query.maxPrice != null) {
@@ -25863,7 +25909,7 @@ function catalogApplyFilters(items, filterIds = _catalogFilters) {
   }, items);
 }
 function catalogCurrentBase() {
-  const q = catalogParseQuery(_catalogQuery);
+  const q = catalogParseQueryWithFallback(_catalogQuery, catalogSortedDevices());
   return catalogSortedDevices().filter(d => catalogMatchesQuery(d, q));
 }
 function catalogCurrentItems() {
@@ -28360,6 +28406,9 @@ function syncHomeHeight() {
     (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0
   );
   const avail = Math.max(320, viewport - headerH);
+  if (syncHomeHeight._h === headerH && syncHomeHeight._a === avail) return;
+  syncHomeHeight._h = headerH;
+  syncHomeHeight._a = avail;
   document.documentElement.style.setProperty("--vbr-header-h", headerH + "px");
   document.documentElement.style.setProperty("--vbr-home-h", avail + "px");
   document.documentElement.style.setProperty("--vbr-view-h", avail + "px");
@@ -29896,18 +29945,20 @@ function compactDetailLabel(item) {
   const text = String(item?.text || item || "").toLowerCase();
   if (/дороже|дешевле|цена|₽/.test(text)) return "Цена";
   if (/4k|2k|full ?hd|съёмк|съемк|разрешен/.test(text)) return "Съёмка";
-  if (/сенсор|imx|starvis|galaxycore|omnivision|gc\d/.test(text)) return "Сенсор";
+  // «Сенсорное управление» — это про управление, а не про матрицу камеры
+  if (/сенсорн[а-яё]*\s*(управ|экран)|тачскрин|физическ[а-яё]*\s*кнопк|кнопк/.test(text)) return "Управление";
+  if (/сенсор(?![а-яё])|imx|starvis|galaxycore|omnivision|gc\d/.test(text)) return "Сенсор";
   if (/360|поворот камер/.test(text)) return "Поворот 360°";
   if (/обзор|°/.test(text)) return "Обзор";
   if (item?.type === "antenna" || /антенн|рупор|патч/.test(text)) return "Радар";
   if (/wi-?fi/.test(text)) return "Wi-Fi";
   if (/gps/.test(text)) return "GPS";
-  if (/встроенн\w*\s*памят/.test(text)) return "Память";
+  if (/встроенн[а-яё]*\s*памят|встроенной памяти/.test(text)) return "Память";
   if (/доп\.?\s*камер|в комплекте/.test(text)) return "Доп. камера";
   if (/салон/.test(text)) return "Салон";
   if (/задн|кзв/.test(text)) return "КЗВ";
   if (/магнит|креплен/.test(text)) return "Крепление";
-  if (/сенсорн(ое|ым)? управ|кнопк/.test(text)) return "Управление";
+
   if (/экран|дисплей/.test(text)) return "Экран";
   if (/4g|удал[её]нн/.test(text)) return "4G";
   return "Отличие";
@@ -29932,10 +29983,14 @@ function normalizeDetailValue(label, text, tone) {
   // «Сенсорное управление — есть, но вы не просили» → «Есть, но вы не просили»:
   // если до тире стоит та же характеристика, что и в ярлыке, оставляем только значение.
   const stem = l.replace(/[её]/g, "е").slice(0, Math.min(6, Math.max(4, l.length)));
-  const parts = t.match(/^(.{0,44}?)\s[—–-]\s(.+)$/);
+  const parts = t.match(/^(.{0,44}?)\s*[:—–-]\s*(.+)$/);
   if (parts && parts[1].toLowerCase().replace(/[её]/g, "е").includes(stem)) t = parts[2].trim();
   if (/^без\s/i.test(String(text)) && String(text).toLowerCase().includes(l)) t = "нет";
   if (!t || t.toLowerCase() === l) t = tone === "bad" ? "нет" : "есть";
+  if (l === "управление") {
+    if (/сенсор|тачскрин/i.test(text)) t = "сенсорное";
+    else if (/кнопк/i.test(text)) t = "физические кнопки";
+  }
   if (l === "крепление") {
     if (/магнит/i.test(text)) t = "магнитное";
     else if (/обычн/i.test(text)) t = "обычное";
