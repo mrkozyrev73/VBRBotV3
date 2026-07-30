@@ -3183,12 +3183,14 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 #s-results .res-header,
+#s-results .quiz-insight,
 #s-results .chips-wrap,
 #s-results .results-list > * {
   animation: resFadeIn .25s ease both;
 }
 @media (prefers-reduced-motion: reduce) {
   #s-results .res-header,
+  #s-results .quiz-insight,
   #s-results .chips-wrap,
   #s-results .results-list > * {
     animation: none;
@@ -7383,6 +7385,7 @@ html, body {
 
 /* ── Мобильные отступы экрана результатов = как на страницах 1 и 2 (18px) ── */
   #s-results .res-header,
+  #s-results .quiz-insight,
   #s-results .chips-wrap,
   #s-results .results-list,
   #s-results .restart-wrap {
@@ -9023,6 +9026,11 @@ html, body {
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
     padding-bottom: 8px;
+  }
+  #s-results .quiz-insight {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 760px;
   }
   /* блоки не сжимаются под max-height — сайдбар прокручивается целиком */
   .results-sidebar > * { flex-shrink: 0; }
@@ -12127,24 +12135,35 @@ canvas {
 }
 
 /* «Новый подбор» + «Поделиться» — две компактные кнопки в ряд */
-.restart-wrap { display: flex; gap: 10px; }
+.restart-wrap { display: flex; gap: 8px; padding: 8px 18px 0; }
 .restart-wrap .btn-restart {
   flex: 1 1 0;
   min-width: 0;
-  height: 46px;
-  font-size: 14px;
-  gap: 7px;
+  height: 38px;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 6px;
   white-space: nowrap;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  background: var(--fill, rgba(120,120,128,.12));
+  border: 1px solid var(--line);
+  color: var(--text);
+  box-shadow: none;
 }
-.restart-wrap .btn-restart svg { width: 16px; height: 16px; flex-shrink: 0; }
+.restart-wrap .btn-restart svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke: currentColor !important;
+}
 .btn-share-results {
-  background: none !important;
-  border: 1.5px solid var(--blue-border) !important;
-  color: var(--blue) !important;
+  background: var(--fill, rgba(120,120,128,.12)) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
   box-shadow: none !important;
 }
-.btn-share-results svg { stroke: var(--blue); }
+.btn-share-results svg { stroke: currentColor !important; }
 
 /* «+» в кружке у «Показать ещё» */
 .show-more-plus {
@@ -12158,7 +12177,7 @@ canvas {
    той же ширины, компактные строки с иконками в подложках */
 @media (max-width: 899px) {
   /* пара кнопок — скруглённые, компактные */
-  #s-results .restart-wrap .btn-restart { border-radius: 999px; height: 44px; font-size: 14px; }
+  #s-results .restart-wrap .btn-restart { border-radius: 999px; height: 38px; font-size: 13px; }
   /* секция выровнена по карточкам (18px, как .results-list), панель на всю ширину */
   #s-results .support-section { border-top: 0; padding: 6px 18px 30px; background: var(--bg); }
   #s-results .support-inner {
@@ -14783,6 +14802,58 @@ html[data-theme="light"] #s-question .opt:focus-visible {
   margin: 7px 0 0;
   font-size: 14px; line-height: 1.5; letter-spacing: -.012em; color: var(--text-2);
 }
+.ap-dead-solution {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--hair-2);
+  border-radius: 14px;
+  background: var(--field);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 14px;
+  row-gap: 7px;
+  align-items: center;
+}
+.ap-dead-solution-kicker {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+}
+.ap-dead-solution-title {
+  min-width: 0;
+  font-size: 15.5px;
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--text-1);
+}
+.ap-dead-solution-text {
+  grid-column: 1 / -1;
+  font-size: 13.5px;
+  line-height: 1.34;
+  letter-spacing: -.012em;
+  color: var(--text-2);
+}
+.ap-dead-solution-model {
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  color: var(--text-3);
+}
+.ap-dead-solution-count {
+  grid-column: 1 / -1;
+  margin-top: 0 !important;
+}
+.ap-dead-solution-btn {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+  align-self: center;
+}
 .ap-dead-row {
   display: grid; grid-template-columns: minmax(0, 1fr) auto;
   align-items: center; gap: 16px;
@@ -14839,6 +14910,16 @@ html[data-theme="light"] #s-question .opt:focus-visible {
   .ap-dead-row { gap: 12px; }
   .ap-dead-text { font-size: 14.5px; }
   .ap-dead-btn { padding: 0 13px; font-size: 13.5px; }
+  .ap-dead-solution {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+  .ap-dead-solution-btn {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+    margin-top: 2px;
+  }
 }
 
 /* пояснение-плашка внутри списка вариантов */
@@ -15432,6 +15513,121 @@ html[data-theme="light"] #s-results .res-sub {
   margin-top: 8px !important;
   font-size: 15px !important; font-weight: 400 !important;
   letter-spacing: -.012em !important; color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight {
+  margin: 0 18px clamp(14px, 2vh, 20px);
+  padding: 16px;
+  border: 1px solid var(--hair-2);
+  border-radius: 22px;
+  background: var(--card);
+  box-shadow: none;
+}
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker {
+  margin-bottom: 6px;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  color: var(--blue);
+}
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(19px, 4.8vw, 24px);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  color: var(--text-1);
+}
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.38;
+  letter-spacing: -.014em;
+  color: var(--text-2);
+}
+html[data-theme="light"] #s-results .quiz-insight-points,
+html[data-theme="dark"] #s-results .quiz-insight-points {
+  display: grid;
+  gap: 7px;
+  margin-top: 13px;
+}
+html[data-theme="light"] #s-results .quiz-insight-point,
+html[data-theme="dark"] #s-results .quiz-insight-point {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  font-size: 13px;
+  line-height: 1.32;
+  letter-spacing: -.012em;
+  color: var(--text-2);
+}
+html[data-theme="light"] #s-results .quiz-insight-point::before,
+html[data-theme="dark"] #s-results .quiz-insight-point::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-top: .45em;
+  background: var(--blue);
+}
+html[data-theme="light"] #s-results .quiz-insight-chips,
+html[data-theme="dark"] #s-results .quiz-insight-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+html[data-theme="light"] #s-results .quiz-insight-chip,
+html[data-theme="dark"] #s-results .quiz-insight-chip {
+  min-height: 26px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--field);
+  color: var(--text-2);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.01em;
+}
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--hair-2);
+  font-size: 13.5px;
+  line-height: 1.32;
+  letter-spacing: -.012em;
+  color: var(--text-1);
+}
+html[data-theme="light"] #s-results .results-list > .quiz-insight,
+html[data-theme="dark"] #s-results .results-list > .quiz-insight {
+  margin: 0 0 clamp(18px, 2.8vw, 24px) !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight {
+  padding: 16px 18px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(20px, 4.6vw, 25px) !important;
+  line-height: 1.12 !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 8px !important;
+  font-size: 14px !important;
+  line-height: 1.34 !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  margin-top: 12px !important;
+  padding-top: 10px !important;
 }
 /* лента сортировки — горизонтальная прокрутка */
 html[data-theme="light"] #s-results .sort-bar {
@@ -16168,9 +16364,9 @@ html[data-theme="light"] #s-loading .loading-sub {
   transition: background .3s ease, border-color .3s ease, border-width .3s ease;
 }
 .ap-step-mark::after {
-  content: ""; position: absolute; left: 4.5px; top: 2.5px;
+  content: ""; position: absolute; left: 50%; top: 50%;
   width: 4px; height: 7.5px; border: solid #fff;
-  border-width: 0 1.6px 1.6px 0; transform: rotate(45deg);
+  border-width: 0 1.6px 1.6px 0; transform: translate(-50%, -58%) rotate(45deg);
   opacity: 0; transition: opacity .2s ease .05s;
 }
 /* активный этап */
@@ -16191,6 +16387,7 @@ html[data-theme="light"] #s-loading .loading-sub {
 #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark,
 #s-loading.search-done .ap-steps .ap-step-mark {
   background: var(--blue) !important; border-color: var(--blue) !important;
+  border-width: 1.5px !important;
   box-shadow: none !important;
 }
 #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::after,
@@ -21785,6 +21982,7 @@ html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) 
 html[data-theme="dark"] #s-loading.search-done .ap-steps .ap-step-mark {
   background: #0A84FF !important;
   border-color: #0A84FF !important;
+  border-width: 1.5px !important;
 }
 html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1),
 html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2),
@@ -22067,66 +22265,77 @@ html[data-theme="dark"] .fav-btn[aria-pressed="true"] svg {
 .theme-choice[hidden] { display: none !important; }
 .theme-choice {
   position: absolute;
-  left: 50%;
-  bottom: calc(var(--app-nav-h, 58px) + env(safe-area-inset-bottom) + 18px);
+  top: clamp(10px, 1.8dvh, 18px);
+  right: clamp(14px, 4vw, 26px);
   z-index: 6;
-  transform: translateX(-50%);
+  transform: none;
   width: auto;
-  max-width: calc(100% - 40px);
-  padding: 4px;
+  max-width: calc(100% - 28px);
+  padding: 2px;
   border-radius: 999px;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto;
   align-items: center;
-  gap: 4px;
-  background: rgba(245,245,247,.72);
-  border: 1px solid rgba(0,0,0,.07);
+  gap: 2px;
+  background: rgba(245,245,247,.58);
+  border: 1px solid rgba(0,0,0,.06);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   backdrop-filter: saturate(180%) blur(18px);
   box-shadow: none;
-  animation: themeChoiceOpen .18s ease both;
+  animation: none;
 }
 html[data-theme="dark"] .theme-choice {
-  background: rgba(28,28,30,.70);
-  border-color: rgba(255,255,255,.09);
+  background: rgba(28,28,30,.56);
+  border-color: rgba(255,255,255,.10);
   box-shadow: none;
 }
 .theme-choice-label {
-  padding: 0 7px 0 8px;
-  color: var(--text-2);
-  font-size: 11px;
-  font-weight: 560;
-  letter-spacing: -.01em;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
   white-space: nowrap;
 }
 .theme-choice-btn {
   appearance: none;
   border: 0;
   border-radius: 999px;
-  padding: 6px 9px;
-  background: rgba(255,255,255,.68);
-  color: #1D1D1F;
+  padding: 0;
+  background: transparent;
+  color: #A1A1A6;
   font: inherit;
-  font-size: 11px;
-  font-weight: 600;
   cursor: pointer;
   line-height: 1;
-  min-width: 58px;
+  width: 28px;
+  min-width: 28px;
   height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  white-space: nowrap;
+  transition: background .16s ease, color .16s ease;
+}
+.theme-choice-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 html[data-theme="dark"] .theme-choice-btn {
-  background: rgba(255,255,255,.08);
-  color: #F5F5F7;
+  color: #8E8E93;
 }
 html[data-theme="light"] .theme-choice-btn[data-theme-pick="light"],
 html[data-theme="dark"] .theme-choice-btn[data-theme-pick="dark"] {
-  background: var(--blue);
-  color: #fff;
+  background: rgba(255,255,255,.92);
+  color: #8E8E93;
+}
+html[data-theme="dark"] .theme-choice-btn[data-theme-pick="dark"] {
+  background: rgba(255,255,255,.16);
+  color: #C7C7CC;
 }
 .theme-choice-btn:active { transform: scale(.985); }
 
@@ -22423,6 +22632,1328 @@ html[data-theme="dark"] .srch-topbar {
 html[data-theme="light"] #s-compare, html[data-theme="dark"] #s-compare {
   scroll-margin-top: var(--vbr-header-h, 58px) !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   ПУСТЫЕ СОСТОЯНИЯ ВЫДАЧИ — стиль Apple
+   Вместо эмодзи-стикера и жирных начертаний: тонкий знак
+   в круге на волосяной линии, спокойная типографика.
+   ══════════════════════════════════════════════════════════ */
+.ap-blank {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0;
+  padding: clamp(16px, 3vh, 30px) clamp(16px, 4vw, 32px) clamp(24px, 5vh, 44px);
+  max-width: 460px;
+  margin-inline: auto;
+}
+.ap-blank-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--hair-2, rgba(0,0,0,.08));
+  color: var(--text-3, #86868B);
+  margin-bottom: 14px;
+}
+.ap-blank-mark svg { width: 24px; height: 24px; }
+.ap-blank-title {
+  margin: 0;
+  text-wrap: balance;
+  font-size: clamp(21px, 2.2vw, 26px);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -.03em;
+  color: var(--text-1);
+}
+.ap-blank-text {
+  margin: 8px 0 0;
+  text-wrap: balance;
+  max-width: 34ch;
+  font-size: 15.5px;
+  line-height: 1.5;
+  letter-spacing: -.012em;
+  color: var(--text-2);
+}
+.ap-blank-note {
+  margin: 6px 0 0;
+  text-wrap: balance;
+  max-width: 36ch;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-3, #86868B);
+}
+.ap-blank-acts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.ap-blank-btn {
+  appearance: none;
+  border: 1px solid var(--hair, rgba(0,0,0,.12));
+  background: transparent;
+  border-radius: 980px;
+  padding: 9px 18px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -.012em;
+  color: var(--text-1);
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease, transform .12s ease;
+}
+.ap-blank-btn.is-primary {
+  background: var(--blue);
+  border-color: transparent;
+  color: #fff;
+}
+.ap-blank-btn:active { transform: scale(.985); }
+html[data-theme="dark"] .ap-blank-mark { border-color: rgba(255,255,255,.12); }
+html[data-theme="dark"] .ap-blank-btn { border-color: rgba(255,255,255,.14); color: #F5F5F7; }
+html[data-theme="dark"] .ap-blank-btn.is-primary { border-color: transparent; color: #fff; }
+
+/* Apple home: quiet divider between the two main entry scenarios. */
+#s-intro.ap-home .ap-home-or {
+  width: min(100%, 520px);
+  margin: clamp(10px, 1.6dvh, 16px) auto clamp(10px, 1.6dvh, 16px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: center;
+  color: var(--text-3);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+#s-intro.ap-home .ap-home-or::before,
+#s-intro.ap-home .ap-home-or::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--hair-2);
+}
+#s-intro.ap-home .ap-home-or span {
+  flex: 0 0 auto;
+}
+#s-intro.ap-home .ap-actions + .ap-home-or + .ap-search-wrap {
+  margin-top: 0 !important;
+}
+html[data-theme="dark"] #s-intro.ap-home .ap-home-or::before,
+html[data-theme="dark"] #s-intro.ap-home .ap-home-or::after {
+  background: rgba(255,255,255,.12);
+}
+
+/* Product images: large cards should show the whole device, never crop it. */
+.dev-hero .device-photo-wrap,
+.dev-card .device-photo-wrap,
+#s-results .dev-card .dev-hero-body > .device-photo-wrap,
+#srch-results-area .dev-hero .device-photo-wrap {
+  aspect-ratio: 16 / 9 !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+.dev-hero .device-photo-wrap img,
+.dev-card .device-photo-wrap img,
+#s-results .dev-card .dev-hero-body > .device-photo-wrap img,
+#srch-results-area .dev-hero .device-photo-wrap img {
+  width: auto !important;
+  height: auto !important;
+  max-width: calc(100% - 20px) !important;
+  max-height: calc(100% - 20px) !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+/* Quiz: keep the first question visible without the accidental mini scroll. */
+html[data-theme="light"] #s-question.ap-quiz[data-q-key="type"],
+html[data-theme="dark"] #s-question.ap-quiz[data-q-key="type"],
+#s-question.ap-quiz[data-q-key="type"] {
+  overscroll-behavior: none !important;
+}
+html[data-theme="light"] #s-question.ap-quiz[data-q-key="type"] .q-body,
+html[data-theme="dark"] #s-question.ap-quiz[data-q-key="type"] .q-body,
+#s-question.ap-quiz[data-q-key="type"] .q-body {
+  padding-top: clamp(8px, 1.5vh, 16px) !important;
+  padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+}
+html[data-theme="light"] #s-question.ap-quiz[data-q-key="type"] .ap-q-main,
+html[data-theme="dark"] #s-question.ap-quiz[data-q-key="type"] .ap-q-main,
+#s-question.ap-quiz[data-q-key="type"] .ap-q-main {
+  padding-top: clamp(10px, 2vh, 22px) !important;
+}
+
+/* Results simplification: one readable summary, one compact action, then cards. */
+#s-results .chips-wrap,
+#s-results .no-exact-notice {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+#s-results .results-list > .quiz-insight {
+  margin: 0 0 clamp(16px, 2.4vw, 22px) !important;
+  padding: 15px 17px !important;
+  border-radius: 24px !important;
+}
+#s-results .quiz-insight-kicker {
+  margin-bottom: 5px !important;
+  font-size: 12px !important;
+}
+#s-results .quiz-insight-title {
+  font-size: clamp(20px, 4.6vw, 25px) !important;
+  line-height: 1.1 !important;
+}
+#s-results .quiz-insight-text {
+  margin-top: 8px !important;
+  font-size: 14px !important;
+  line-height: 1.34 !important;
+}
+#s-results .quiz-insight-points,
+#s-results .quiz-insight-chips {
+  display: none !important;
+}
+#s-results .quiz-insight-result {
+  display: none !important;
+}
+#s-results .ap-blank {
+  padding: 18px 16px !important;
+  margin: 0 auto clamp(14px, 2.2vw, 20px) !important;
+  max-width: 520px !important;
+}
+#s-results .ap-blank-mark {
+  width: 44px !important;
+  height: 44px !important;
+  margin-bottom: 12px !important;
+}
+#s-results .ap-blank-title {
+  font-size: clamp(20px, 4.4vw, 24px) !important;
+}
+#s-results .ap-blank-text {
+  margin-top: 7px !important;
+  font-size: 14px !important;
+  line-height: 1.38 !important;
+  max-width: 36ch !important;
+}
+#s-results .ap-blank-note {
+  margin-top: 5px !important;
+  font-size: 13px !important;
+  line-height: 1.32 !important;
+  max-width: 38ch !important;
+}
+#s-results .ap-blank-acts {
+  margin-top: 14px !important;
+  gap: 8px !important;
+}
+#s-results .ap-blank-btn {
+  padding: 8px 14px !important;
+  font-size: 13px !important;
+}
+#s-results .compromise-wrap {
+  margin: 0 0 clamp(18px, 2.8vw, 24px) !important;
+  padding: 15px 17px !important;
+  border-radius: 24px !important;
+  background: var(--card) !important;
+  border: 1px solid var(--hair-2) !important;
+}
+#s-results .compromise-title {
+  font-size: 11px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .08em !important;
+  color: var(--text-3) !important;
+}
+#s-results .compromise-sub {
+  margin-top: 7px !important;
+  font-size: 13.5px !important;
+  line-height: 1.34 !important;
+}
+#s-results .compromise-row {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+  padding: 12px 0 0 !important;
+  margin-top: 12px !important;
+}
+#s-results .compromise-text {
+  font-size: 16px !important;
+  line-height: 1.16 !important;
+  font-weight: 600 !important;
+}
+#s-results .compromise-limiter {
+  display: none !important;
+}
+#s-results .compromise-count {
+  margin-top: 5px !important;
+  font-size: 12.5px !important;
+  line-height: 1.22 !important;
+}
+#s-results .compromise-btn {
+  height: 34px !important;
+  min-width: 92px !important;
+  padding: 0 14px !important;
+  justify-content: center !important;
+  font-size: 13.5px !important;
+}
+@media (max-width: 560px) {
+  #s-results .compromise-row {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+  }
+  #s-results .compromise-btn {
+    min-width: 88px !important;
+    padding-inline: 12px !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ВЫДАЧА ПОДБОРА — плотнее и без обрезанных фото
+   ══════════════════════════════════════════════════════════ */
+/* Фото показывается целиком: рамка 3:2, снимок вписан с полем. */
+html[data-theme="light"] #s-results .device-photo-wrap,
+html[data-theme="dark"] #s-results .device-photo-wrap {
+  aspect-ratio: 3 / 2 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(34vh, 240px) !important;
+  margin: 10px 0 0 !important;
+  padding: 10px !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+html[data-theme="light"] #s-results .device-photo-wrap img,
+html[data-theme="dark"] #s-results .device-photo-wrap img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+/* Вертикальный ритм: воздуха между блоками заметно меньше. */
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin-bottom: clamp(8px, 1.2vh, 14px) !important;
+  padding-bottom: 0 !important;
+}
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header,
+html[data-theme="light"] #s-results .dev-section-hdr,
+html[data-theme="dark"] #s-results .dev-section-hdr {
+  margin-top: 18px !important;
+  margin-bottom: 6px !important;
+}
+html[data-theme="light"] #s-results .results-list,
+html[data-theme="dark"] #s-results .results-list {
+  gap: clamp(10px, 1.6vw, 14px) !important;
+}
+html[data-theme="light"] #s-results .match-criteria-block,
+html[data-theme="dark"] #s-results .match-criteria-block,
+html[data-theme="light"] #s-results .req-match,
+html[data-theme="dark"] #s-results .req-match {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  margin-bottom: 0 !important;
+}
+html[data-theme="light"] #s-results .dev-profile-summary,
+html[data-theme="dark"] #s-results .dev-profile-summary {
+  margin: 10px 0 0 !important;
+}
+html[data-theme="light"] #s-results .dev-hero-body,
+html[data-theme="dark"] #s-results .dev-hero-body,
+html[data-theme="light"] #s-results .dev-card .dev-body,
+html[data-theme="dark"] #s-results .dev-card .dev-body {
+  padding-top: 10px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight {
+  margin-bottom: clamp(10px, 1.6vw, 16px) !important;
+}
+
+/* Второе точное совпадение больше не подсвечивается зелёным:
+   отметку «100%» несёт бейдж, рамка остаётся общей волосяной. */
+html[data-theme="light"] .ap-rec.is-exact,
+html[data-theme="light"] #s-results .ap-rec.is-exact {
+  border-color: rgba(0,0,0,.10) !important;
+}
+html[data-theme="dark"] .ap-rec.is-exact,
+html[data-theme="dark"] #s-results .ap-rec.is-exact {
+  border-color: rgba(255,255,255,.12) !important;
+}
+
+/* Переносы: не оставляем одинокие слова в короткiх абзацах. */
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title,
+html[data-theme="light"] #s-results .res-sub,
+html[data-theme="dark"] #s-results .res-sub,
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub,
+html[data-theme="light"] #s-results .compromise-limiter,
+html[data-theme="dark"] #s-results .compromise-limiter {
+  text-wrap: pretty;
+  hyphens: none;
+  overflow-wrap: break-word;
+}
+
+/* Блок быстрой правки: без заголовка-повтора, ведущая строка крупнее. */
+html[data-theme="light"] #s-results .compromise-title,
+html[data-theme="dark"] #s-results .compromise-title { display: none !important; }
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.018em !important;
+  color: var(--text-1) !important;
+  text-transform: none !important;
+  text-wrap: pretty;
+}
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  padding: clamp(14px, 2vw, 18px) !important;
+}
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  text-wrap: pretty;
+}
+
+/* Итог подбора — первый блок экрана, до счётчика моделей. */
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 clamp(12px, 1.8vh, 18px) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ВЫДАЧА — легче и в одну вертикаль
+   Карточки-плашки вокруг «Итога подбора» и блока правки
+   сдвигали текст внутрь на ширину рамки и поля, из-за чего
+   заголовок «Нашли N моделей» казался выехавшим влево.
+   Убираем коробки — остаётся текст на волосяных линиях.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight,
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 0 clamp(16px, 2.4vh, 24px) !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.01em !important;
+  text-transform: none !important;
+  color: var(--blue) !important;
+  margin-bottom: 4px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(19px, 4.2vw, 22px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.028em !important;
+  line-height: 1.16 !important;
+  text-wrap: pretty;
+}
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 6px !important;
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  color: var(--text-2) !important;
+  max-width: 46ch !important;
+  text-wrap: pretty;
+}
+
+/* Заголовок счётчика — спокойнее по весу */
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title {
+  font-size: clamp(24px, 5.4vw, 30px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.032em !important;
+  line-height: 1.14 !important;
+  text-wrap: pretty;
+}
+html[data-theme="light"] #s-results .res-sub,
+html[data-theme="dark"] #s-results .res-sub {
+  margin-top: 4px !important;
+  font-size: 15px !important;
+  color: var(--text-2) !important;
+}
+
+/* Сортировка — сегментированный переключатель, как в системе */
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  display: inline-flex !important;
+  gap: 2px !important;
+  padding: 3px !important;
+  border-radius: 980px !important;
+  border: 0 !important;
+  margin: 0 0 clamp(14px, 2vh, 20px) !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  scrollbar-width: none;
+}
+html[data-theme="light"] #s-results .sort-bar { background: #F2F2F7 !important; }
+html[data-theme="dark"] #s-results .sort-bar { background: rgba(118,118,128,.24) !important; }
+html[data-theme="light"] #s-results .sort-btn,
+html[data-theme="dark"] #s-results .sort-btn {
+  flex: 0 0 auto !important;
+  height: 30px !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  background: transparent !important;
+  color: var(--text-2) !important;
+  font-size: 13.5px !important;
+  font-weight: 450 !important;
+  letter-spacing: -.012em !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-results .sort-btn.active {
+  background: #fff !important;
+  color: var(--text-1) !important;
+  font-weight: 550 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.10), 0 0 0 .5px rgba(0,0,0,.04) !important;
+}
+html[data-theme="dark"] #s-results .sort-btn.active {
+  background: rgba(120,120,128,.36) !important;
+  color: #F5F5F7 !important;
+  font-weight: 550 !important;
+  box-shadow: none !important;
+}
+
+/* Блок быстрой правки — без коробки, на волосяной линии */
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  background: none !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 16px 0 !important;
+  margin: 0 0 clamp(14px, 2vh, 20px) !important;
+}
+html[data-theme="light"] #s-results .compromise-wrap { border-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-results .compromise-wrap { border-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-results .compromise-btn { border-color: rgba(0,0,0,.12) !important; }
+html[data-theme="dark"] #s-results .compromise-btn { border-color: rgba(255,255,255,.14) !important; color: #F5F5F7 !important; }
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  border: 0 !important;
+  background: none !important;
+  padding: 12px 0 0 !important;
+  margin: 0 !important;
+}
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.016em !important;
+}
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count {
+  font-size: 13.5px !important;
+  font-weight: 400 !important;
+}
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  border: 1px solid var(--hair) !important;
+  background: transparent !important;
+  border-radius: 980px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+}
+
+/* Реальный диапазон цен над вариантами бюджета */
+.q-budget-range {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: -.012em;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+html[data-theme="dark"] .q-budget-range { color: #A1A1AA; }
+
+/* ══════════════════════════════════════════════════════════
+   ВЫДАЧА — одна ступень заголовков вместо пяти
+   Было: синий ярлык «Итог подбора», заголовок итога, текст,
+   второй заголовок «Нашли…», подпись со счётчиками.
+   Стало: один заголовок (смысл подбора) и две спокойные
+   строки под ним — пояснение и статус выдачи.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker {
+  display: none !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(24px, 5.4vw, 30px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.032em !important;
+  line-height: 1.14 !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 8px !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight,
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 10px !important;
+}
+
+/* Счётчик выдачи — статусная строка, а не второй заголовок */
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.012em !important;
+  line-height: 1.45 !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-results .res-sub,
+html[data-theme="dark"] #s-results .res-sub {
+  margin-top: 0 !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-results .res-sub b,
+html[data-theme="dark"] #s-results .res-sub b,
+html[data-theme="light"] #s-results .res-title b,
+html[data-theme="dark"] #s-results .res-title b {
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin-bottom: clamp(12px, 1.8vh, 18px) !important;
+}
+
+/* Строка правки: сетка осталась от старого макета «иконка | текст | кнопка»,
+   иконку мы скрыли — из-за этого текст занимал вторую колонку и уезжал вправо. */
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  grid-template-areas: "info btn" !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+html[data-theme="light"] #s-results .compromise-info,
+html[data-theme="dark"] #s-results .compromise-info { grid-area: info !important; }
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn { grid-area: btn !important; }
+
+/* Меньше уровней в типографике: заголовок, подзаголовок, текст, метка. */
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker { display: none !important; }
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header,
+html[data-theme="light"] #s-results .dev-section-hdr,
+html[data-theme="dark"] #s-results .dev-section-hdr {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.01em !important;
+  text-transform: none !important;
+  color: var(--text-3, #86868B) !important;
+}
+
+/* Сегментированный переключатель во всю ширину: три равные доли,
+   иначе последняя кнопка упиралась в правый край и обрезалась. */
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  display: flex !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+html[data-theme="light"] #s-results .sort-btn,
+html[data-theme="dark"] #s-results .sort-btn {
+  flex-grow: 1 !important;
+  flex-shrink: 1 !important;
+  flex-basis: 0 !important;
+  min-width: 0 !important;
+  padding: 0 6px !important;
+  font-size: clamp(12px, 3.3vw, 13.5px) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+/* ── Подсказка по радарной части: без плашки и цветной кнопки ── */
+html[data-theme="light"] #s-results .smart-hint,
+html[data-theme="dark"] #s-results .smart-hint {
+  display: grid !important;
+  gap: 12px !important;
+  background: none !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 16px 0 !important;
+  margin: 0 0 clamp(14px, 2vh, 20px) !important;
+}
+html[data-theme="light"] #s-results .smart-hint { border-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-results .smart-hint { border-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-results .smart-hint-icon,
+html[data-theme="dark"] #s-results .smart-hint-icon { display: none !important; }
+html[data-theme="light"] #s-results .smart-hint-text,
+html[data-theme="dark"] #s-results .smart-hint-text {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  color: var(--text-2) !important;
+  text-wrap: pretty;
+}
+html[data-theme="light"] #s-results .smart-hint-text strong,
+html[data-theme="dark"] #s-results .smart-hint-text strong {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: -.02em !important;
+  color: var(--text-1) !important;
+  margin-bottom: 4px !important;
+}
+html[data-theme="light"] #s-results .smart-hint-actions,
+html[data-theme="dark"] #s-results .smart-hint-actions {
+  display: flex !important;
+  gap: 8px !important;
+  width: auto !important;
+}
+html[data-theme="light"] #s-results .smart-hint-btn,
+html[data-theme="dark"] #s-results .smart-hint-btn {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 980px !important;
+  background: transparent !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.012em !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-results .smart-hint-btn { border-color: rgba(0,0,0,.12) !important; color: #1D1D1F !important; }
+html[data-theme="dark"] #s-results .smart-hint-btn { border-color: rgba(255,255,255,.14) !important; color: #F5F5F7 !important; }
+
+/* ══════════════════════════════════════════════════════════
+   ОТМЕТКА ТОЧНОГО СОВПАДЕНИЯ
+   Зелёные заливки читались как чужеродные. Оставляем зелёным
+   только галочку — сигнал сохраняется, шум уходит.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .ap-rec-badge.exact,
+html[data-theme="light"] #s-results .ap-rec-badge.up,
+html[data-theme="light"] #s-results .rank-pill.exact-pill,
+html[data-theme="light"] #s-results .match-pill,
+html[data-theme="light"] #s-results .match-pill.hi,
+html[data-theme="light"] #s-results .result-alt-pct.up {
+  background: rgba(0,0,0,.05) !important;
+  color: #1D1D1F !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.012em !important;
+}
+html[data-theme="dark"] #s-results .ap-rec-badge.exact,
+html[data-theme="dark"] #s-results .ap-rec-badge.up,
+html[data-theme="dark"] #s-results .rank-pill.exact-pill,
+html[data-theme="dark"] #s-results .match-pill,
+html[data-theme="dark"] #s-results .match-pill.hi,
+html[data-theme="dark"] #s-results .result-alt-pct.up {
+  background: rgba(255,255,255,.10) !important;
+  color: #F5F5F7 !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.012em !important;
+}
+/* галочка перед отметкой точного совпадения — единственный цветной элемент */
+html[data-theme="light"] #s-results .ap-rec-badge.exact::before,
+html[data-theme="dark"] #s-results .ap-rec-badge.exact::before,
+html[data-theme="light"] #s-results .rank-pill.exact-pill::before,
+html[data-theme="dark"] #s-results .rank-pill.exact-pill::before {
+  content: "✓";
+  margin-right: 5px;
+  font-weight: 600;
+  color: #34C759;
+}
+/* строка «Полное совпадение» — без зелёной подложки */
+html[data-theme="light"] #s-results .ap-rec-same,
+html[data-theme="dark"] #s-results .ap-rec-same {
+  background: none !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-radius: 0 !important;
+  padding: 12px 0 0 !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-results .ap-rec-same { border-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-results .ap-rec-same { border-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-results .ap-rec-same b,
+html[data-theme="dark"] #s-results .ap-rec-same b {
+  color: var(--text-1) !important;
+  font-weight: 600 !important;
+}
+/* заголовок секции точных совпадений — как остальные метки */
+html[data-theme="light"] #s-results .res-section-header.exact,
+html[data-theme="dark"] #s-results .res-section-header.exact {
+  color: var(--text-3, #86868B) !important;
+}
+
+/* Длинные списки: браузер не раскладывает и не рисует карточки за экраном.
+   Высота-заглушка держит полосу прокрутки стабильной. */
+.catalog-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 84px;
+}
+#s-results .ap-rec {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 190px;
+}
+
+/* Воронка квиза в админке */
+.adm-funnel { display: grid; gap: 10px; }
+.adm-funnel-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px 78px 44px;
+  align-items: center;
+  gap: 10px;
+}
+.adm-funnel-label {
+  font-size: 14px;
+  letter-spacing: -.012em;
+  color: var(--text-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.adm-funnel-row.is-final .adm-funnel-label { font-weight: 600; }
+.adm-funnel-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(120,120,128,.16);
+  overflow: hidden;
+}
+.adm-funnel-fill { height: 100%; border-radius: 999px; background: var(--blue); }
+.adm-funnel-val {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--text-1);
+}
+.adm-funnel-val span { display: block; font-size: 12px; color: var(--text-3, #86868B); }
+.adm-funnel-drop {
+  font-size: 12.5px;
+  text-align: right;
+  color: #D93025;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 520px) {
+  .adm-funnel-row { grid-template-columns: minmax(0, 1fr) 64px 40px; }
+  .adm-funnel-track { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   АДМИНКА — та же типографика и поверхности, что на остальных
+   экранах: белый фон, волосяные линии, спокойные начертания.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-admin, html[data-theme="dark"] #s-admin {
+  padding-left: clamp(16px, 4vw, 40px) !important;
+  padding-right: clamp(16px, 4vw, 40px) !important;
+  padding-top: clamp(18px, 2.6vh, 28px) !important;
+}
+html[data-theme="light"] #s-admin .admin-wrap,
+html[data-theme="dark"] #s-admin .admin-wrap {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin-inline: auto !important;
+  padding: 0 0 calc(var(--app-nav-h, 58px) + 30px) !important;
+}
+html[data-theme="light"] #s-admin .admin-head,
+html[data-theme="dark"] #s-admin .admin-head { margin-bottom: clamp(14px, 2vh, 20px) !important; }
+html[data-theme="light"] #s-admin .admin-title,
+html[data-theme="dark"] #s-admin .admin-title {
+  margin: 0 !important;
+  font-size: clamp(26px, 3vw, 34px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.032em !important;
+  line-height: 1.1 !important;
+  color: var(--text-1) !important;
+}
+
+/* Вкладки и период — сегментированные переключатели */
+html[data-theme="light"] #s-admin .admin-tabs,
+html[data-theme="dark"] #s-admin .admin-tabs,
+html[data-theme="light"] #s-admin .admin-range,
+html[data-theme="dark"] #s-admin .admin-range {
+  display: flex !important;
+  gap: 2px !important;
+  padding: 3px !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  margin-bottom: clamp(14px, 2vh, 20px) !important;
+}
+html[data-theme="light"] #s-admin .admin-tabs,
+html[data-theme="light"] #s-admin .admin-range { background: #F2F2F7 !important; }
+html[data-theme="dark"] #s-admin .admin-tabs,
+html[data-theme="dark"] #s-admin .admin-range { background: rgba(118,118,128,.24) !important; }
+html[data-theme="light"] #s-admin .admin-tabs button,
+html[data-theme="dark"] #s-admin .admin-tabs button,
+html[data-theme="light"] #s-admin .admin-range button,
+html[data-theme="dark"] #s-admin .admin-range button {
+  flex-grow: 1 !important;
+  flex-shrink: 1 !important;
+  flex-basis: 0 !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  background: transparent !important;
+  color: var(--text-2) !important;
+  font-size: 13.5px !important;
+  font-weight: 450 !important;
+  letter-spacing: -.012em !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-admin .admin-tabs button.active,
+html[data-theme="light"] #s-admin .admin-range button.active {
+  background: #fff !important;
+  color: #1D1D1F !important;
+  font-weight: 550 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.10), 0 0 0 .5px rgba(0,0,0,.04) !important;
+}
+html[data-theme="dark"] #s-admin .admin-tabs button.active,
+html[data-theme="dark"] #s-admin .admin-range button.active {
+  background: rgba(120,120,128,.36) !important;
+  color: #F5F5F7 !important;
+  font-weight: 550 !important;
+}
+
+/* Метрики: крупная цифра, спокойная подпись */
+html[data-theme="light"] #s-admin .adm-kpis,
+html[data-theme="dark"] #s-admin .adm-kpis {
+  gap: 10px !important;
+  margin-bottom: clamp(14px, 2vh, 20px) !important;
+}
+html[data-theme="light"] #s-admin .adm-kpis-4,
+html[data-theme="dark"] #s-admin .adm-kpis-4 {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+}
+html[data-theme="light"] #s-admin .adm-kpi,
+html[data-theme="dark"] #s-admin .adm-kpi {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-admin .adm-kpi { background: #fff !important; border-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-admin .adm-kpi { background: rgba(255,255,255,.04) !important; border-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-admin .adm-kpi-v,
+html[data-theme="dark"] #s-admin .adm-kpi-v {
+  font-size: clamp(24px, 2.4vw, 30px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.03em !important;
+  color: var(--text-1) !important;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme="light"] #s-admin .adm-kpi-l,
+html[data-theme="dark"] #s-admin .adm-kpi-l {
+  margin-top: 4px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  letter-spacing: -.01em !important;
+  color: var(--text-2) !important;
+  text-transform: none !important;
+}
+
+/* Карточки-разделы */
+html[data-theme="light"] #s-admin .adm-card,
+html[data-theme="dark"] #s-admin .adm-card {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 16px !important;
+  padding: 16px !important;
+  margin-bottom: 12px !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-admin .adm-card { background: #fff !important; border-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-admin .adm-card { background: rgba(255,255,255,.04) !important; border-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-admin .adm-card-title,
+html[data-theme="dark"] #s-admin .adm-card-title {
+  margin-bottom: 12px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: -.02em !important;
+  text-transform: none !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-admin .adm-row,
+html[data-theme="dark"] #s-admin .adm-row {
+  padding: 9px 0 !important;
+  font-size: 14.5px !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+}
+html[data-theme="light"] #s-admin .adm-row { border-bottom-color: rgba(0,0,0,.06) !important; }
+html[data-theme="dark"] #s-admin .adm-row { border-bottom-color: rgba(255,255,255,.08) !important; }
+html[data-theme="light"] #s-admin .adm-row-name,
+html[data-theme="dark"] #s-admin .adm-row-name { color: var(--text-1) !important; letter-spacing: -.012em !important; }
+html[data-theme="light"] #s-admin .adm-row-val,
+html[data-theme="dark"] #s-admin .adm-row-val {
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme="light"] #s-admin .adm-empty,
+html[data-theme="dark"] #s-admin .adm-empty {
+  font-size: 14px !important;
+  color: var(--text-3, #86868B) !important;
+  text-align: left !important;
+  padding: 4px 0 !important;
+}
+
+/* График по дням */
+html[data-theme="light"] #s-admin .adm-day-date,
+html[data-theme="dark"] #s-admin .adm-day-date {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-admin .adm-day-count,
+html[data-theme="dark"] #s-admin .adm-day-count {
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme="light"] #s-admin .adm-day-track,
+html[data-theme="dark"] #s-admin .adm-day-track {
+  height: 6px !important;
+  border: 0 !important;
+  background: rgba(120,120,128,.16) !important;
+}
+html[data-theme="light"] #s-admin .adm-day-fill,
+html[data-theme="dark"] #s-admin .adm-day-fill { background: var(--blue) !important; }
+html[data-theme="light"] #s-admin .adm-chart-note,
+html[data-theme="dark"] #s-admin .adm-chart-note {
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+  color: var(--text-3, #86868B) !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  padding-top: 10px !important;
+  margin-top: 12px !important;
+}
+html[data-theme="light"] #s-admin .adm-chart-note { border-top-color: rgba(0,0,0,.06) !important; }
+html[data-theme="dark"] #s-admin .adm-chart-note { border-top-color: rgba(255,255,255,.08) !important; }
+
+/* Вход по ключу */
+html[data-theme="light"] #s-admin .admin-auth-row input,
+html[data-theme="dark"] #s-admin .admin-auth-row input {
+  height: 44px !important;
+  border-radius: 12px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  font-size: 16px !important;
+}
+html[data-theme="light"] #s-admin .admin-auth-row input { background: #F5F5F7 !important; border-color: transparent !important; color: #1D1D1F !important; }
+html[data-theme="dark"] #s-admin .admin-auth-row input { background: rgba(255,255,255,.06) !important; border-color: transparent !important; color: #F5F5F7 !important; }
+html[data-theme="light"] #s-admin .admin-auth-btn,
+html[data-theme="dark"] #s-admin .admin-auth-btn {
+  height: 44px !important;
+  border-radius: 980px !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  letter-spacing: -.012em !important;
+}
+html[data-theme="light"] #s-admin .admin-auth-text,
+html[data-theme="dark"] #s-admin .admin-auth-text { font-size: 15px !important; color: var(--text-2) !important; }
+
+/* Точное совпадение — главный вход в страницу: полноценный заголовок
+   с зелёной галочкой, а не такая же серая метка, как у остальных секций. */
+html[data-theme="light"] #s-results .res-section-header.exact,
+html[data-theme="dark"] #s-results .res-section-header.exact {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: clamp(6px, 1vh, 12px) 0 12px !important;
+  font-size: clamp(19px, 4.6vw, 23px) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.028em !important;
+  line-height: 1.15 !important;
+  color: var(--text-1) !important;
+  text-transform: none !important;
+}
+html[data-theme="light"] #s-results .res-section-header.exact .res-sec-mark,
+html[data-theme="dark"] #s-results .res-section-header.exact .res-sec-mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #34C759;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+html[data-theme="light"] #s-results .res-section-header.exact .res-sec-count,
+html[data-theme="dark"] #s-results .res-section-header.exact .res-sec-count {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-3, #86868B);
+  letter-spacing: -.01em;
+}
+
+/* Реклама выключена — сцена подбора центрируется по высоте экрана. */
+html[data-theme="light"] #s-loading.is-adless .loading-ad,
+html[data-theme="dark"] #s-loading.is-adless .loading-ad {
+  display: none !important;
+}
+html[data-theme="light"] #s-loading.is-adless .loading-wrap,
+html[data-theme="dark"] #s-loading.is-adless .loading-wrap {
+  display: grid !important;
+  align-content: center !important;
+  justify-items: center !important;
+  gap: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+html[data-theme="light"] #s-loading.is-adless .ap-load,
+html[data-theme="dark"] #s-loading.is-adless .ap-load {
+  margin: 0 auto !important;
+}
+
+/* Кнопка сравнения: тот же вес, что у остальных элементов управления —
+   обычное начертание вместо полужирного, тонкая иконка, ровный ритм. */
+html[data-theme="light"] .cmp-btn.cmp-chip,
+html[data-theme="dark"] .cmp-btn.cmp-chip {
+  height: 32px !important;
+  padding: 0 14px !important;
+  gap: 7px !important;
+  border-radius: 980px !important;
+  font-weight: 450 !important;
+}
+html[data-theme="light"] .cmp-btn.cmp-chip .cmp-chip-label,
+html[data-theme="dark"] .cmp-btn.cmp-chip .cmp-chip-label {
+  font-size: 13.5px !important;
+  font-weight: 450 !important;
+  letter-spacing: -.012em !important;
+}
+html[data-theme="light"] .cmp-btn.cmp-chip svg,
+html[data-theme="dark"] .cmp-btn.cmp-chip svg {
+  width: 15px !important;
+  height: 15px !important;
+  stroke-width: 1.6 !important;
+  opacity: .75;
+}
+html[data-theme="light"] .cmp-btn.cmp-chip.active svg,
+html[data-theme="dark"] .cmp-btn.cmp-chip.active svg { opacity: 1; }
+html[data-theme="light"] .cmp-btn.cmp-chip.cmp-chip-compact,
+html[data-theme="dark"] .cmp-btn.cmp-chip.cmp-chip-compact {
+  height: 28px !important;
+  padding: 0 11px !important;
+  gap: 5px !important;
+}
+html[data-theme="light"] .cmp-btn.cmp-chip.cmp-chip-compact .cmp-chip-label,
+html[data-theme="dark"] .cmp-btn.cmp-chip.cmp-chip-compact .cmp-chip-label { font-size: 12.5px !important; }
+html[data-theme="light"] .cmp-btn.cmp-chip.cmp-chip-compact svg,
+html[data-theme="dark"] .cmp-btn.cmp-chip.cmp-chip-compact svg { width: 13px !important; height: 13px !important; }
+
+/* ══════════════════════════════════════════════════════════
+   КАРТОЧКА МОДЕЛИ — единый вертикальный ритм
+   Подписи разделов набирались капсом 11px, строки-раскрывашки
+   имели разную высоту, между блоками стояли разные отступы.
+   Приводим к одному: подпись 13px обычным текстом, строки
+   одинаковой высоты, между разделами одна волосяная линия.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] .dev-profile-story-title,
+html[data-theme="dark"] .dev-profile-story-title,
+html[data-theme="light"] .dev-links-title,
+html[data-theme="dark"] .dev-links-title {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.01em !important;
+  text-transform: none !important;
+  color: var(--text-3, #86868B) !important;
+  margin: 0 0 8px !important;
+}
+html[data-theme="light"] .dev-profile-story,
+html[data-theme="dark"] .dev-profile-story {
+  margin: 0 !important;
+  padding: 16px 0 !important;
+}
+html[data-theme="light"] .dev-profile-story p,
+html[data-theme="dark"] .dev-profile-story p {
+  margin: 0 0 10px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  letter-spacing: -.012em !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] .dev-profile-story p:last-child,
+html[data-theme="dark"] .dev-profile-story p:last-child { margin-bottom: 0 !important; }
+html[data-theme="light"] .dev-profile-story strong,
+html[data-theme="dark"] .dev-profile-story strong {
+  font-weight: 600 !important;
+  color: var(--text-1) !important;
+}
+
+/* Строки-раскрывашки: одинаковая высота и одна линия-разделитель */
+html[data-theme="light"] .specs-full,
+html[data-theme="dark"] .specs-full {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-radius: 0 !important;
+  background: none !important;
+}
+html[data-theme="light"] .specs-full { border-top-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] .specs-full { border-top-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] .specs-full-toggle,
+html[data-theme="dark"] .specs-full-toggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 15.5px !important;
+  font-weight: 400 !important;
+  letter-spacing: -.014em !important;
+  color: var(--text-1) !important;
+  text-align: left !important;
+}
+html[data-theme="light"] .specs-full:not(.open) .specs-full-toggle,
+html[data-theme="dark"] .specs-full:not(.open) .specs-full-toggle { padding-bottom: 0 !important; }
+html[data-theme="light"] .specs-full-arrow,
+html[data-theme="dark"] .specs-full-arrow {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  color: var(--text-3, #86868B) !important;
+  transition: transform .2s ease !important;
+}
+html[data-theme="light"] .specs-full.open .specs-full-arrow,
+html[data-theme="dark"] .specs-full.open .specs-full-arrow { transform: rotate(90deg) !important; }
+html[data-theme="light"] .specs-full-body,
+html[data-theme="dark"] .specs-full-body { padding-bottom: 12px !important; }
+html[data-theme="light"] .specs-full-row,
+html[data-theme="dark"] .specs-full-row {
+  min-height: 38px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  font-size: 14.5px !important;
+}
+
+/* Чипы характеристик — ровный ряд с одинаковым воздухом */
+html[data-theme="light"] .dev-profile-story + .dev-chips,
+html[data-theme="dark"] .dev-profile-story + .dev-chips,
+html[data-theme="light"] .dev-chips,
+html[data-theme="dark"] .dev-chips {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+}
+
+/* Ссылки и покупка */
+html[data-theme="light"] .dev-links-block,
+html[data-theme="dark"] .dev-links-block {
+  margin: 0 !important;
+  padding: 16px 0 0 !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  background: none !important;
+}
+html[data-theme="light"] .dev-links-block { border-top-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] .dev-links-block { border-top-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] .dev-links-row,
+html[data-theme="dark"] .dev-links-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 0 0 10px !important;
+}
+html[data-theme="light"] .btn-buy-primary,
+html[data-theme="dark"] .btn-buy-primary {
+  height: 46px !important;
+  border-radius: 980px !important;
+  font-size: 15.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.014em !important;
+  margin: 0 !important;
+}
+html[data-theme="light"] .partner-hint,
+html[data-theme="dark"] .partner-hint {
+  margin: 10px 0 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+  color: var(--text-3, #86868B) !important;
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -22538,12 +24069,27 @@ function enableMetrika(){
        логика поиска, согласия и счётчика базы работает как была. -->
   <div class="ap-page">
     <span class="theme-mini-tip" id="theme-mini-tip" hidden aria-hidden="true">Здесь можно сменить тему</span>
-      <button class="theme-mini-btn" id="theme-mini-btn" type="button" aria-label="Изменить тему">
+    <button class="theme-mini-btn" id="theme-mini-btn" type="button" aria-label="Изменить тему" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 3v2.2M12 18.8V21M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M3 12h2.2M18.8 12H21M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>
         <circle cx="12" cy="12" r="4.2"/>
       </svg>
     </button>
+
+    <div class="theme-choice" id="theme-choice" aria-label="Выбор темы">
+      <span class="theme-choice-label">Тема</span>
+      <button class="theme-choice-btn" type="button" data-theme-pick="light" aria-label="Светлая тема" title="Светлая тема">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"></circle>
+          <path d="M12 2.8v2.4M12 18.8v2.4M4.3 4.3 6 6M18 18l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"></path>
+        </svg>
+      </button>
+      <button class="theme-choice-btn" type="button" data-theme-pick="dark" aria-label="Тёмная тема" title="Тёмная тема">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.2 14.8A7.7 7.7 0 0 1 9.2 3.8 8.4 8.4 0 1 0 20.2 14.8Z"></path>
+        </svg>
+      </button>
+    </div>
 
     <main class="ap-hero">
       <div class="ap-eyebrow"><span class="ap-dot"></span><span id="intro-db-sticker">База обновляется</span></div>
@@ -22554,6 +24100,8 @@ function enableMetrika(){
       <div class="ap-actions">
         <button class="ap-btn" id="btn-start">Начать подбор</button>
       </div>
+
+      <div class="ap-home-or"><span>или</span></div>
 
       <div class="ap-search-wrap">
         <div class="ap-search">
@@ -22576,12 +24124,6 @@ function enableMetrika(){
       </label>
     </main>
 
-    <div class="theme-choice" id="theme-choice" hidden aria-label="Выбор темы">
-      <span class="theme-choice-label">Выберите тему</span>
-      <button class="theme-choice-btn" type="button" data-theme-pick="light">Светлая</button>
-      <button class="theme-choice-btn" type="button" data-theme-pick="dark">Тёмная</button>
-    </div>
-
   </div>
 
 </div>
@@ -22595,7 +24137,7 @@ function enableMetrika(){
         <p>Если открыть каталог автомобильной электроники и начать выбирать видеорегистратор, довольно быстро становится непонятно вообще все.</p>
         <p>Один прибор просто снимает видео. Другой тоже снимает, но почему-то предупреждает о камерах. Третий называется «комбо 3 в 1» и стоит заметно дороже. При этом внешне все три устройства могут выглядеть практически одинаково.</p>
         <figure class="guide-figure guide-figure-wide">
-          <img src="assets/guide/guide-types.webp" alt="Видеорегистратор, GPS-информер и комбо-устройство">
+          <img loading="lazy" decoding="async" src="assets/guide/guide-types.webp" alt="Видеорегистратор, GPS-информер и комбо-устройство">
         </figure>
         <p>Возникает вполне логичный вопрос: а в чем реальная разница?</p>
         <p>Особенно если продавцы любят писать на коробках GPS, радар, база камер, детектор, сигнатурный режим и еще десяток красивых слов. Я постараюсь рассказать и разобрать этот вопрос для вас максимально просто: без сложной технической терминологии, и для покупки регистратора и понимания всей сути вам не нужно будет закончить радиотехнический факультет.</p>
@@ -22605,7 +24147,7 @@ function enableMetrika(){
           <h3>Обычный видеорегистратор: его главная задача — снимать</h3>
           <p>Начнем с самого простого варианта. Классический видеорегистратор — это автомобильная камера, которая постоянно записывает происходящее перед машиной. Вы включили зажигание, устройство получило питание, началась запись. Карта памяти постепенно заполняется, старые ролики удаляются, на их место записываются новые (это называется циклической записью, на многих старых моделях такого не было и забитую карту приходилось форматировать самостоятельно), а нужный фрагмент можно сохранить вручную или он может быть защищен от перезаписи после сильного удара.</p>
           <figure class="guide-figure">
-            <img src="assets/guide/guide-registrator.webp" alt="Обычный видеорегистратор">
+            <img loading="lazy" decoding="async" src="assets/guide/guide-registrator.webp" alt="Обычный видеорегистратор">
           </figure>
           <p>Главная ценность такого устройства понятна без длинных объяснений. Если произошла авария, спорная ситуация на дороге, повреждение автомобиля на парковке (если есть специальный дополнительный кабель) или просто неприятный разговор с другим участником движения, у вас остается видеозапись. Иногда именно она помогает быстро понять, что произошло, и не спорить на уровне «мне показалось».</p>
           <p>Современные регистраторы могут быть очень разными. У одних есть Wi-Fi для просмотра роликов через приложение, у других — вторая камера для салона или заднего вида, у третьих — режим парковочной записи, хороший ночной режим, сенсорный экран или крепление на магните. Но все эти функции сами по себе не делают устройство прибором для предупреждения о камерах.</p>
@@ -22615,7 +24157,7 @@ function enableMetrika(){
           <h3>Что такое видеорегистратор с GPS-информером</h3>
           <p>Видеорегистратор с GPS-информером внешне может почти не отличаться от обычного регистратора. Он так же крепится на стекло, так же включается вместе с автомобилем, так же пишет видео на карту памяти. Разница начинается внутри: в памяти устройства есть база координат дорожных камер и других точек контроля.</p>
           <figure class="guide-figure">
-            <img src="assets/guide/guide-gps-informer.webp" alt="Видеорегистратор с GPS-информером">
+            <img loading="lazy" decoding="async" src="assets/guide/guide-gps-informer.webp" alt="Видеорегистратор с GPS-информером">
           </figure>
           <p>Работает это довольно просто. Устройство через GPS понимает, где находится автомобиль, сверяет текущее положение с базой и, если впереди есть известная точка контроля, заранее предупреждает водителя. Например, сообщает о камере контроля скорости, контроле полосы, светофора, средней скорости или другом объекте, который внесен в базу производителя.</p>
           <p>То есть GPS-информер не ищет камеру в воздухе и не анализирует радиосигналы вокруг машины. Он работает примерно, как навигатор в вашем смартфоне с отмеченными точками: вы приближаетесь к месту, которое заранее есть в памяти, и устройство подает голосовое или звуковое предупреждение.</p>
@@ -22644,7 +24186,7 @@ function enableMetrika(){
           <h3>Что такое комбо 3 в 1</h3>
           <p>Комбо 3 в 1 объединяет в одном корпусе сразу три функции: видеорегистратор, GPS-информер и радар-детектор. Такое устройство снимает дорогу, предупреждает о стационарных точках по базе координат и дополнительно пытается обнаруживать работающие радарные комплексы по их сигналу.</p>
           <figure class="guide-figure">
-            <img src="assets/guide/guide-combo.webp" alt="Комбо-устройство 3 в 1">
+            <img loading="lazy" decoding="async" src="assets/guide/guide-combo.webp" alt="Комбо-устройство 3 в 1">
           </figure>
           <p>И это действительно выглядит как самый логичный вариант. Один прибор вместо нескольких, меньше проводов, одна настройка, один экран, одна карта памяти. Для многих водителей именно в этом и есть главный смысл комбо: не собирать на стекле целую гирлянду устройств, а поставить один аппарат, который закрывает сразу несколько задач.</p>
           <p>Но универсальность не означает автоматическое превосходство. В комбо производителю нужно совместить хорошую видеочасть, стабильный GPS-информер, радарную часть, фильтрацию помех, удобные обновления и нормальную эргономику. Если где-то сэкономили или плохо настроили устройство, слабое место будет заметно в повседневной езде.</p>
@@ -23151,8 +24693,8 @@ const QS = [
     key:"form", title:"Какой форм-фактор?",
     sub:"Выберите предпочтительный вариант исполнения",
     opts:[
-      {l:"С экраном",           d:"Регистратор со встроенным дисплеем",            v:"с экраном"},
-      {l:"Без экрана",          d:"Скрытая установка, управление через смартфон",  v:"без экрана"},
+      {l:"Классический",        d:"Регистратор со встроенным дисплеем",            v:"с экраном"},
+      {l:"Компактный",          d:"Без экрана, управление через смартфон",         v:"без экрана"},
       {l:"Регистратор-зеркало", d:"Заменяет штатное зеркало заднего вида",         v:"регистратор-зеркало"},
       {l:"Неважно",             d:"Форм-фактор не является критерием",             v:"неважно"},
     ]
@@ -23205,7 +24747,7 @@ const QS = [
   },
   {
     key:"budget", title:"Какой бюджет?",
-    sub:"Покажем только те варианты, которые реально укладываются в выбранную сумму",
+    sub:"Показываем только те суммы, в которые укладываются подходящие вам модели",
     opts:[
       {l:"До 5 000 ₽",  d:"Только если такие модели есть под ваши требования", v:"до 5000",  max:5000},
       {l:"До 10 000 ₽", d:"Популярный бюджет для простых и сбалансированных моделей", v:"до 10000", max:10000},
@@ -23381,7 +24923,7 @@ function compareChipHTML(d, extraClass = "") {
       ? `Можно сравнить до ${COMPARE_MAX} моделей`
       : "Добавить в сравнение";
   return `<button class="cmp-btn cmp-chip ${active ? "active" : ""} ${disabled ? "is-disabled" : ""} ${extraClass}" onclick="toggleCompareByIndex(event, ${DEVICES.indexOf(d)})" aria-label="${active ? "Убрать из сравнения" : "Добавить в сравнение"}" title="${tooltip}" data-tooltip="${tooltip}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="9"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="6" y1="19" x2="6" y2="13"/><line x1="12" y1="19" x2="12" y2="6"/><line x1="18" y1="19" x2="18" y2="10"/></svg>
     <span class="cmp-chip-label">${active ? "В сравнении" : "Сравнить"}</span>
   </button>`;
 }
@@ -24155,6 +25697,9 @@ function catalogCameraCount(d) {
 function catalogIsThreeChannel(d) {
   return catalogCameraCount(d) >= 3 || (d.rear_cam === true && d.ir_cam === true);
 }
+function catalogIsTaxiRelevant(d) {
+  return d.ir_cam === true;
+}
 function catalogScenarioScore(d, scenarioId = _catalogScenario) {
   const id = scenarioId || "";
   const price = parsePrice(d.price);
@@ -24178,7 +25723,8 @@ function catalogScenarioScore(d, scenarioId = _catalogScenario) {
     ].filter(Boolean).length;
   }
   if (id === "taxi") {
-    return (catalogIsThreeChannel(d) ? 100 : 0)
+    if (!catalogIsTaxiRelevant(d)) return -1000;
+    return (catalogIsThreeChannel(d) ? 100 : 82)
       + (d.ir_cam === true ? 36 : 0)
       + (d.rear_cam === true ? 18 : 0)
       + (Number(d.q) >= 2 ? 12 : 0)
@@ -24223,7 +25769,7 @@ function catalogApplyScenario(items) {
       return catalogScenarioScore(d, scenario.id) >= 118;
     }
     if (scenario.id === "taxi") {
-      return d.ir_cam === true || catalogIsThreeChannel(d);
+      return catalogIsTaxiRelevant(d);
     }
     return catalogScenarioScore(d, scenario.id) >= (scenario.min || 1);
   });
@@ -24335,10 +25881,11 @@ function catalogSortItems(items) {
     if (_catalogSort === "scenario" && _catalogScenario) {
       if (_catalogScenario === "taxi") {
         return Number(catalogIsThreeChannel(b)) - Number(catalogIsThreeChannel(a))
+          || Number(b.ir_cam === true) - Number(a.ir_cam === true)
           || catalogCameraCount(b) - catalogCameraCount(a)
-          || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
           || catalogScenarioScore(b, _catalogScenario) - catalogScenarioScore(a, _catalogScenario)
           || (Number(b.q) || 0) - (Number(a.q) || 0)
+          || (priceVal(a) ?? Infinity) - (priceVal(b) ?? Infinity)
           || withName(a, b);
       }
       if (_catalogScenario === "gift") {
@@ -25521,7 +27068,38 @@ function adminRenderHTML(s) {
     </div>
 
     <div class="adm-card"><div class="adm-card-title">Платформы</div>${plats}</div>
+
+    ${quizFunnelHTML(a, fmt)}
   `;
+}
+
+// ── Воронка квиза: на каком вопросе люди уходят ──
+function quizFunnelHTML(actions, fmt) {
+  const steps = QS.map((q, i) => ({
+    label: (typeof QLABELS === "object" && QLABELS[q.key]) || q.title || `Вопрос ${i + 1}`,
+    count: Number(actions["quiz_s" + (i + 1)] || 0),
+  }));
+  steps.push({ label: "Дошли до результатов", count: Number(actions.quiz_done || 0), final: true });
+  const start = steps[0].count;
+  if (!start) {
+    return `<div class="adm-card"><div class="adm-card-title">Воронка подбора</div>
+      <div class="adm-empty">Данные начнут собираться после обновления сайта</div></div>`;
+  }
+  const rows = steps.map((step, i) => {
+    const share = Math.round(step.count / start * 100);
+    const prev = i ? steps[i - 1].count : null;
+    const drop = prev && prev > step.count ? Math.round((prev - step.count) / prev * 100) : 0;
+    return `<div class="adm-funnel-row${step.final ? " is-final" : ""}">
+      <div class="adm-funnel-label">${attrSafe(step.label)}</div>
+      <div class="adm-funnel-track"><div class="adm-funnel-fill" style="width:${Math.max(2, share)}%"></div></div>
+      <div class="adm-funnel-val">${fmt(step.count)}<span>${share}%</span></div>
+      <div class="adm-funnel-drop">${drop >= 5 ? "−" + drop + "%" : ""}</div>
+    </div>`;
+  }).join("");
+  return `<div class="adm-card"><div class="adm-card-title">Воронка подбора</div>
+    <div class="adm-funnel">${rows}</div>
+    <div class="adm-chart-note">Проценты считаются от числа тех, кто увидел первый вопрос. Красным помечены шаги, где уходит больше 5%.</div>
+  </div>`;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -25880,14 +27458,14 @@ function getComboHornQualityHint() {
         label: labels[q],
         answer: answerByQ[q],
         count,
-        text: `<b>${labels[q]}</b> — ${count} ${pluralRu(count, "модель", "модели", "моделей")} с рупорной антенной`
+        text: `<b>${labels[q]}</b> — ${count} ${pluralRu(count, "модель", "модели", "моделей")}`
       };
     })
     .filter(Boolean);
 
   if (matches.length === 0) return null;
   return {
-    text: `При повышении качества появятся варианты с рупорной антенной: ${matches.map(m => m.text).join("; ")}.`,
+    text: `Если поднять качество съёмки, появятся комбо с рупорной антенной — она видит камеры дальше патч-антенны. ${matches.map(m => m.text).join(", ")}.`,
     options: matches.map(m => ({answer: m.answer, label: m.label}))
   };
 }
@@ -26096,6 +27674,7 @@ const COMPROMISE_CTAS = {
 };
 
 const COMPROMISE_PRIORITY = {
+  budget: 0,
   quality: 1,
   form: 2,
   remote: 3,
@@ -26141,12 +27720,32 @@ function evaluateCompromise() {
     bestQ: source[0]?.d.q || 0,
     bestPct,
     bestPrice: source[0] ? parsePrice(source[0].d.price) : Infinity,
+    bestDevice: source[0]?.d || null,
+    exactBestDevice: exact[0]?.d || null,
   };
 }
 
 function getCompromises() {
   const suggestions = [];
   const currentStats = evaluateCompromise();
+  const bestPlan = typeof getBestCompromisePlan === "function" ? getBestCompromisePlan() : null;
+  if (bestPlan && bestPlan.stats?.exactCount > 0) {
+    return [{
+      key: bestPlan.changes.some(ch => ch.key === "budget") ? "budget" : "plan",
+      val: "",
+      title: bestPlan.changes.map(ch => ch.label).join(" + "),
+      hint: bestPlan.changes.map(ch => ch.label).join(" + "),
+      limiter: "",
+      cta: "Показать",
+      priority: bestPlan.changes.some(ch => ch.key === "budget") ? -10 : -5,
+      count: bestPlan.stats.count,
+      exactCount: bestPlan.stats.exactCount,
+      bestQ: bestPlan.stats.bestQ,
+      bestPct: bestPlan.stats.bestPct,
+      bestPrice: bestPlan.stats.bestPrice,
+      action: bestPlan.action,
+    }];
+  }
 
   function trySuggestion({key, val, next, hint, limiter, cta}) {
     const saved = answers[key];
@@ -26262,8 +27861,8 @@ function getCompromises() {
   const seenSuggestions = new Set();
   // Если хотя бы одно изменение даёт ТОЧНОЕ совпадение — показываем только такие:
   // предлагать кнопку, после которой 100% всё равно не будет, бессмысленно.
-  const withExact = suggestions.filter(s => s.exactCount > 0);
-  const pool = withExact.length ? withExact : suggestions;
+  const pool = suggestions.filter(s => s.exactCount > 0);
+  if (!pool.length) return [];
   return pool
     .filter(s => {
       const signature = `${s.key}:${s.hint}`;
@@ -26281,6 +27880,190 @@ function getCompromises() {
       a.bestPrice - b.bestPrice
     )
     .slice(0, 3);
+}
+
+function cloneAnswerValue(v) {
+  return Array.isArray(v) ? [...v] : v;
+}
+
+function withTemporaryAnswerChanges(changes, fn) {
+  const saved = changes.map(ch => ({
+    key: ch.key,
+    had: Object.prototype.hasOwnProperty.call(answers, ch.key),
+    value: cloneAnswerValue(answers[ch.key]),
+  }));
+  changes.forEach(ch => { answers[ch.key] = cloneAnswerValue(ch.next); });
+  const result = fn();
+  saved.forEach(item => {
+    if (item.had) answers[item.key] = item.value;
+    else delete answers[item.key];
+  });
+  return result;
+}
+
+function shortCompromiseLabel(key, current, next) {
+  const from = String(current || "").toLowerCase();
+  const to = String(next || "").toLowerCase();
+  if (key === "budget") {
+    // ярлык варианта уже начинается со слова «До», иначе выходит «до До 30 000 ₽»
+    const amount = String(budgetLabel(next) || to).replace(/^до\s+/i, "");
+    return to === "неважно" ? "не ограничивать бюджет" : `повысить бюджет до ${amount}`;
+  }
+  if (key === "quality") {
+    const names = { хорошее: "Full HD", отличное: "2K", превосходное: "4K" };
+    return `допустить ${names[to] || to}`;
+  }
+  if (key === "form") {
+    const names = {
+      "с экраном": "не ограничивать корпус",
+      "без экрана": "не ограничивать корпус",
+      "регистратор-зеркало": "не ограничивать корпус",
+    };
+    return names[from] || "не ограничивать корпус";
+  }
+  if (key === "type") return "расширить тип устройства";
+  const map = {
+    smartphone: {
+      "да:нет": "без Wi-Fi",
+      "нет:да": "с Wi-Fi",
+      "да:неважно": "не учитывать Wi-Fi",
+      "нет:неважно": "не исключать Wi-Fi",
+    },
+    magnetic: {
+      "да:нет": "без магнита",
+      "нет:да": "с магнитом",
+      "да:неважно": "не учитывать магнит",
+      "нет:неважно": "не исключать магнит",
+    },
+    touch: {
+      "да:нет": "физические кнопки",
+      "нет:да": "сенсорное управление",
+      "да:неважно": "не учитывать сенсор",
+      "нет:неважно": "не исключать сенсор",
+    },
+    ir_cam: {
+      "да:нет": "без камеры салона",
+      "нет:да": "с камерой салона",
+      "да:неважно": "не учитывать камеру салона",
+      "нет:неважно": "не исключать камеру салона",
+    },
+    remote: {
+      "да:нет": "без 4G",
+      "нет:да": "с 4G",
+      "да:неважно": "не учитывать 4G",
+      "нет:неважно": "не исключать 4G",
+    },
+  };
+  return map[key]?.[`${from}:${to}`] || "изменить условие";
+}
+
+function compromiseOperationCandidates() {
+  const ops = [];
+  const currentStats = evaluateCompromise();
+  const push = (key, next, label, priority = COMPROMISE_PRIORITY[key] ?? 20) => {
+    const current = answers[key];
+    if (String(current ?? "") === String(next ?? "")) return;
+    const signature = `${key}:${String(next)}`;
+    if (ops.some(op => op.signature === signature)) return;
+    ops.push({
+      key,
+      next,
+      label: label || shortCompromiseLabel(key, current, next),
+      priority,
+      signature,
+      action: () => { answers[key] = cloneAnswerValue(next); },
+    });
+  };
+
+  const typeSel = selectedTypes();
+  const typeVal = (typeSel && typeSel.length === 1 ? String(typeSel[0]) : "").toLowerCase();
+  if (["gps-информер", "комбо 3 в 1", "4g-регистратор"].includes(typeVal) && currentStats.count === 0) {
+    push("type", "видеорегистратор", "Рассмотреть обычные регистраторы", COMPROMISE_PRIORITY.type);
+  }
+
+  const budgetMax = selectedBudgetMax();
+  if (budgetMax != null) {
+    const budgetQuestion = QS.find(item => item.key === "budget");
+    const higherBudgetOptions = (budgetQuestion?.opts || []).filter(opt =>
+      Number.isFinite(opt.max) && opt.max > budgetMax
+    );
+    higherBudgetOptions.forEach((opt, index) => {
+      push("budget", opt.v, `повысить бюджет до ${String(opt.l).replace(/^до\s+/i, "")}`, COMPROMISE_PRIORITY.budget + index / 10);
+    });
+    push("budget", "неважно", "не ограничивать бюджет", COMPROMISE_PRIORITY.budget + 1);
+  }
+
+  const formVal = (answers.form || "").toLowerCase();
+  if (formVal && formVal !== "неважно") {
+    push("form", "неважно", shortCompromiseLabel("form", formVal, "неважно"), COMPROMISE_PRIORITY.form);
+  }
+
+  BOOLS.forEach(key => {
+    const val = (answers[key] || "неважно").toLowerCase();
+    if (!val || val === "неважно") return;
+    const opposite = val === "да" ? "нет" : "да";
+    push(key, opposite, shortCompromiseLabel(key, val, opposite), COMPROMISE_PRIORITY[key]);
+    push(key, "неважно", shortCompromiseLabel(key, val, "неважно"), (COMPROMISE_PRIORITY[key] ?? 20) + 8);
+  });
+
+  const qVal = (answers.quality || "").toLowerCase();
+  const qDown = { превосходное: ["отличное", "хорошее"], отличное: ["хорошее"] };
+  (qDown[qVal] || []).forEach((lower, index) => {
+    push("quality", lower, shortCompromiseLabel("quality", qVal, lower), COMPROMISE_PRIORITY.quality + index);
+  });
+
+  return ops;
+}
+
+function getBestCompromisePlan() {
+  const ops = compromiseOperationCandidates();
+  if (!ops.length) return null;
+  const plans = [];
+  const addPlan = changes => {
+    if (!changes.length) return;
+    const keys = new Set(changes.map(ch => ch.key));
+    if (keys.size !== changes.length) return;
+    const stats = withTemporaryAnswerChanges(changes, () => evaluateCompromise());
+    if (!stats.exactCount) return;
+    plans.push({
+      changes,
+      stats,
+      score:
+        stats.exactCount * 100000 +
+        stats.bestPct * 100 +
+        stats.bestQ * 10 -
+        changes.length * 2500 -
+        (Number.isFinite(stats.bestPrice) ? stats.bestPrice / 1000 : 999),
+      action: () => changes.forEach(ch => ch.action()),
+    });
+  };
+
+  ops.forEach(op => addPlan([op]));
+  for (let i = 0; i < ops.length; i++) {
+    for (let j = i + 1; j < ops.length; j++) {
+      addPlan([ops[i], ops[j]].sort((a, b) => (a.priority ?? 20) - (b.priority ?? 20)));
+    }
+  }
+  for (let i = 0; i < ops.length; i++) {
+    for (let j = i + 1; j < ops.length; j++) {
+      for (let k = j + 1; k < ops.length; k++) {
+        addPlan([ops[i], ops[j], ops[k]].sort((a, b) => (a.priority ?? 20) - (b.priority ?? 20)));
+      }
+    }
+  }
+
+  if (!plans.length) return null;
+  // Предлагаем минимальную уступку, а не самую результативную: человеку,
+  // выбравшему до 5 000, бессмысленно советовать поднять бюджет до 30 000,
+  // если точное совпадение появляется уже на ближайшей ступени.
+  const planCost = plan => Math.max(...plan.changes.map(ch => ch.priority ?? 20));
+  return plans.sort((a, b) =>
+    a.changes.length - b.changes.length ||
+    planCost(a) - planCost(b) ||
+    b.stats.exactCount - a.stats.exactCount ||
+    b.score - a.score ||
+    (a.stats.bestPrice || Infinity) - (b.stats.bestPrice || Infinity)
+  )[0];
 }
 
 // ════════════════════════════════════════════════════════
@@ -26393,6 +28176,9 @@ function renderPromoAd() {
   const ad = pickAd();
   window._currentAd = ad;
   _adEnabledNow = !!ad;
+  // Без рекламы экран подбора остаётся один: сцену центрируем по вертикали.
+  const loadingScreen = document.getElementById("s-loading");
+  if (loadingScreen) loadingScreen.classList.toggle("is-adless", !ad);
   if (!ad) { box.style.display = "none"; box.innerHTML = ""; return; }
   box.style.display = "";
   box.innerHTML = `
@@ -26526,8 +28312,8 @@ function hideThemeHint() {
 function closeThemeChoice() {
   const chooser = document.getElementById("theme-choice");
   const mini = document.getElementById("theme-mini-btn");
-  if (chooser) chooser.hidden = true;
-  if (mini) mini.hidden = false;
+  if (chooser) chooser.hidden = false;
+  if (mini) mini.hidden = true;
 }
 function openThemeChoice() {
   const chooser = document.getElementById("theme-choice");
@@ -26537,8 +28323,7 @@ function openThemeChoice() {
   if (mini) mini.hidden = true;
 }
 function toggleThemeChoice() {
-  const chooser = document.getElementById("theme-choice");
-  if (chooser && !chooser.hidden) closeThemeChoice(); else openThemeChoice();
+  openThemeChoice();
 }
 // Первый запуск: один раз мягко показываем, где переключается тема.
 function introduceThemeButtonOnce() {
@@ -26592,24 +28377,22 @@ function initThemeChoice() {
   applyScreenTheme(getPreferredTheme());
   const chooser = document.getElementById("theme-choice");
   const mini = document.getElementById("theme-mini-btn");
-  // Иконка доступна всегда, окно выбора при запуске не показываем.
+  // На главной тема выбирается постоянным компактным переключателем.
   if (mini) {
-    mini.hidden = false;
+    mini.hidden = true;
     mini.addEventListener("click", (e) => { e.stopPropagation(); toggleThemeChoice(); });
   }
   if (!chooser) return;
-  chooser.hidden = true;
+  chooser.hidden = false;
   chooser.addEventListener("click", (e) => e.stopPropagation());
   chooser.querySelectorAll("[data-theme-pick]").forEach(btn => {
     btn.addEventListener("click", () => {
       const theme = btn.getAttribute("data-theme-pick") === "dark" ? "dark" : "light";
       try { localStorage.setItem(VBR_THEME_KEY, theme); } catch (e) {}
       applyScreenTheme(theme);
-      closeThemeChoice();
     });
   });
-  document.addEventListener("click", () => { if (!chooser.hidden) closeThemeChoice(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !chooser.hidden) closeThemeChoice(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeThemeChoice(); });
   introduceThemeButtonOnce();
   syncHomeHeight();
   [80, 300, 900, 1800].forEach(d => window.setTimeout(syncHomeHeight, d));
@@ -27150,11 +28933,14 @@ function deviceImageSrc(d) {
   return safeAssetPath(src);
 }
 
-function devicePhotoHTML(d) {
+function devicePhotoHTML(d, options = {}) {
   const src = deviceImageSrc(d);
   if (!src) return "";
+  const priority = !!options.priority;
+  const loading = priority ? "eager" : "lazy";
+  const fetchPriority = priority ? ' fetchpriority="high"' : "";
   return `<div class="device-photo-wrap">
-    <img src="${attrSafe(src)}" alt="${attrSafe(d.name)}" loading="lazy" decoding="async" onerror="this.style.display='none'">
+    <img src="${attrSafe(src)}" alt="${attrSafe(d.name)}" loading="${loading}" decoding="async"${fetchPriority} onerror="this.style.display='none'">
   </div>`;
 }
 
@@ -28140,7 +29926,14 @@ function normalizeDetailValue(label, text, tone) {
   let t = String(text).trim();
   const l = label.toLowerCase();
   const esc = label.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-  t = t.replace(new RegExp("^" + esc + "\\s*[:—–-]?\\s*", "i"), "").trim();
+  // Ярлык срезаем только как целое слово: иначе «Сенсор» откусывал начало
+  // у «Сенсорное управление» и в значении оставалось «ное управление».
+  t = t.replace(new RegExp("^" + esc + "(?![а-яёa-z])\\s*[:—–-]?\\s*", "i"), "").trim();
+  // «Сенсорное управление — есть, но вы не просили» → «Есть, но вы не просили»:
+  // если до тире стоит та же характеристика, что и в ярлыке, оставляем только значение.
+  const stem = l.replace(/[её]/g, "е").slice(0, Math.min(6, Math.max(4, l.length)));
+  const parts = t.match(/^(.{0,44}?)\s[—–-]\s(.+)$/);
+  if (parts && parts[1].toLowerCase().replace(/[её]/g, "е").includes(stem)) t = parts[2].trim();
   if (/^без\s/i.test(String(text)) && String(text).toLowerCase().includes(l)) t = "нет";
   if (!t || t.toLowerCase() === l) t = tone === "bad" ? "нет" : "есть";
   if (l === "крепление") {
@@ -28450,7 +30243,7 @@ function fullSpecRows(d) {
     ["Интерполяция", hasInterpolation(d) ? "есть" : null],
     ["Wi-Fi", d.specs?.wifi_gen || boolSpec(d.smartphone)],
     ["Магнитное крепление", boolSpec(d.magnetic)],
-    ["Поддержка КЗВ", boolSpec(d.rear_cam)],
+    ["Поддержка КЗВ", d.rear_cam ? "есть" : (d.specs?.rear_support ? "поддержка" : "нет")],
     ["Сенсорное управление", boolSpec(d.touch)],
     ["Вращение камеры", boolSpec(d.rotation)],
     ["Внутрисалонная камера", boolSpec(d.ir_cam)],
@@ -28751,7 +30544,7 @@ function matchCriteriaHTML(d) {
   if (!list.length) return '';
   return `<div class="specs-full match-criteria-block">
     <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
-      По каким параметрам ищем аналоги · ${list.length} <span class="specs-full-arrow">›</span>
+      Ключевые параметры модели <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
       ${list.map(label => `<div class="specs-full-row"><span class="specs-full-label">✓ ${attrSafe(label)}</span></div>`).join('')}
@@ -28838,9 +30631,35 @@ function deviceProfileHeaderSummary(d, exactItems, similarItems) {
   return `Ниже показаны ${similarCount} ${pluralRu(similarCount, "похожая модель", "похожие модели", "похожих моделей")} · лучшее совпадение ${bestSimilar}%`;
 }
 
+function resetDeviceProfileScroll() {
+  const nodes = [
+    document.getElementById("s-search"),
+    document.querySelector("#s-search .srch-body"),
+    document.getElementById("srch-results-area"),
+  ].filter(Boolean);
+
+  nodes.forEach(node => {
+    try {
+      node.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    } catch (e) {
+      try { node.scrollTop = 0; node.scrollLeft = 0; } catch (e2) {}
+    }
+  });
+
+  try { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
+  catch (e) { try { window.scrollTo(0, 0); } catch (e2) {} }
+  try {
+    const root = document.scrollingElement || document.documentElement;
+    root.scrollTop = 0;
+    root.scrollLeft = 0;
+  } catch (e) {}
+}
+
 function renderDeviceProfile(d, exact, similar) {
   const area = document.getElementById('srch-results-area');
-  document.getElementById('s-search')?.classList.add('profile-mode');
+  const searchScreen = document.getElementById('s-search');
+  searchScreen?.classList.add('profile-mode');
+  resetDeviceProfileScroll();
   const exactShown = sortExactAnalogsForProfile(exact, d).slice(0, 6);
   // Внутри каждой секции карточки сортируются по проценту, который
   // реально показан на карточке (similarPct) — иначе порядок (по upgradeScore)
@@ -28874,7 +30693,7 @@ function renderDeviceProfile(d, exact, similar) {
           <div class="dev-profile-meta">${attrSafe(deviceTypeLabel(d))} · ${attrSafe(QNAMES[d.q] || "качество не указано")}</div>
         </div>
         ${deviceDecisionPanelHTML(d)}
-        ${devicePhotoHTML(d)}
+        ${devicePhotoHTML(d, {priority: true})}
         ${deviceProfileDescriptionHTML(d)}
         ${keyTags ? `<div class="specs-row">${keyTags}</div>` : ''}
         ${matchCriteriaHTML(d)}
@@ -28927,7 +30746,11 @@ function renderDeviceProfile(d, exact, similar) {
   show('s-search');
   area.innerHTML = html;
   refreshFavoriteUI();
-  document.getElementById('s-search').scrollTo(0, 0);
+  resetDeviceProfileScroll();
+  requestAnimationFrame(() => {
+    resetDeviceProfileScroll();
+    requestAnimationFrame(resetDeviceProfileScroll);
+  });
 }
 
 function backToSearchResults() {
@@ -29044,6 +30867,13 @@ function screenRequiredByType() {
   });
 }
 
+function visibleQuestionOptions(q) {
+  if (q.key === "form" && screenRequiredByType()) {
+    return q.opts.filter(option => option.v !== "без экрана");
+  }
+  return q.opts;
+}
+
 function selectedBudgetMax() {
   const q = QS.find(item => item.key === "budget");
   const opt = q?.opts?.find(item => item.v === answers.budget);
@@ -29063,6 +30893,23 @@ function budgetBasePool() {
   return pool;
 }
 
+// Цены моделей, которые реально проходят по уже данным ответам.
+// Нужны, чтобы вопрос о бюджете показывал существующий диапазон,
+// а не абстрактные ступени вроде «до 5 000» там, где таких моделей нет.
+function budgetMatchingPrices() {
+  return budgetBasePool()
+    .map(d => ({ d, ...scoreDevice(d) }))
+    .filter(item => item.mm.length === 0 || item.pct >= 75)
+    .map(item => parsePrice(item.d.price))
+    .filter(price => Number.isFinite(price) && price > 0)
+    .sort((a, b) => a - b);
+}
+
+function formatRub(value) {
+  try { return new Intl.NumberFormat("ru-RU").format(Math.round(value)) + " ₽"; }
+  catch (e) { return Math.round(value) + " ₽"; }
+}
+
 function budgetOptionCount(option) {
   if (!Number.isFinite(option?.max)) return 1;
   return budgetBasePool()
@@ -29076,12 +30923,9 @@ function budgetOptionCount(option) {
 }
 
 function getOptionDisabledReason(q, option) {
-  if (q.key === "form" && option.v === "без экрана" && screenRequiredByType()) {
-    return "Для выбранного типа нужен экран";
-  }
-  if (q.key === "budget" && Number.isFinite(option.max) && budgetOptionCount(option) === 0) {
-    return "По вашим характеристикам такого бюджета нет";
-  }
+  // During the quiz we never block answers: the real search happens after
+  // all questions are completed, where close alternatives and compromises
+  // can be explained without interrupting the flow.
   return "";
 }
 
@@ -29090,12 +30934,6 @@ function isOptionDisabled(q, option) {
 }
 
 function getQuestionNotice(q) {
-  if (q.key === "form" && screenRequiredByType()) {
-    return {
-      title: "Для этого типа нужен экран",
-      text: "GPS-информеры и комбо показывают предупреждения о камерах и радарах на дисплее. Поэтому вариант «Без экрана» недоступен."
-    };
-  }
   return null;
 }
 
@@ -29161,9 +30999,27 @@ function renderQuizProgress(current, total) {
 // Экран «выбирать не из чего»: объяснение + готовые способы смягчить условия.
 // Считаем варианты той же функцией, что и блок «Как расширить выбор» в выдаче.
 function renderQuizDeadEnd(list, q, hasSkip) {
-  const suggestions = (typeof getCompromises === "function" ? getCompromises() : []).slice(0, 3);
+  const solution = (typeof getBestCompromisePlan === "function" ? getBestCompromisePlan() : null);
+  const suggestions = solution ? [] : (typeof getCompromises === "function" ? getCompromises() : []).slice(0, 3);
+  const solutionHTML = solution ? `
+    <div class="ap-dead-solution">
+      <div class="ap-dead-solution-kicker">Готовое решение</div>
+      <div class="ap-dead-solution-title">Изменить условия и сразу показать подходящие модели</div>
+      <div class="ap-dead-solution-text">
+        ${solution.changes.map(ch => attrSafe(ch.label)).join(" · ")}
+      </div>
+      ${solution.stats.exactBestDevice ? `<div class="ap-dead-solution-model">Например: ${attrSafe(solution.stats.exactBestDevice.name)}</div>` : ""}
+      <button class="ap-dead-btn primary ap-dead-solution-btn" type="button" data-solution="1">
+        ${solution.stats.exactCount === 1 ? "Показать вариант" : "Показать варианты"}
+      </button>
+      <div class="ap-dead-count ap-dead-solution-count">${
+        pluralRu(solution.stats.exactCount, "Появится", "Появятся", "Появятся")
+      } ${solution.stats.exactCount} ${
+        pluralRu(solution.stats.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")
+      }</div>
+    </div>` : "";
   // «Неважно» оставляем отдельным действием: оно снимает ограничение шага
-  const skipRow = hasSkip ? `
+  const skipRow = (!solution && hasSkip) ? `
     <div class="ap-dead-row is-skip">
       <div class="ap-dead-info">
         <div class="ap-dead-text">Не ограничивать этот параметр</div>
@@ -29190,23 +31046,34 @@ function renderQuizDeadEnd(list, q, hasSkip) {
       <div class="ap-dead-head">
         <div class="ap-dead-title">Подходящих моделей нет</div>
         <p class="ap-dead-sub">Выбранные условия не сочетаются ни с одной моделью из базы.
-        ${suggestions.length ? "Смягчите одно условие — или начните подбор заново." : "Вернитесь назад или начните подбор заново."}</p>
+        ${solution ? "Я нашёл ближайшее точное решение — его можно применить одной кнопкой." : (suggestions.length ? "Смягчите одно условие — или начните подбор заново." : "Вернитесь назад или начните подбор заново.")}</p>
       </div>
-      ${rows}${skipRow}
+      ${solutionHTML}${rows}${skipRow}
       <div class="ap-dead-foot">
         <button class="ap-dead-back" type="button">← Назад</button>
         <button class="ap-dead-restart" type="button">Начать подбор заново</button>
       </div>
     </div>`;
 
-  list.querySelectorAll(".ap-dead-row .ap-dead-btn").forEach(btn => {
+  const solutionBtn = list.querySelector('.ap-dead-btn[data-solution]');
+  if (solutionBtn && solution) {
+    solutionBtn.addEventListener("click", () => {
+      solution.action();
+      vbrTrack("quiz_dead_end_solution");
+      showResults();
+    });
+  }
+
+  list.querySelectorAll(".ap-dead-row:not(.is-skip) .ap-dead-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const idx = Number(btn.closest(".ap-dead-row").dataset.idx);
       const sg = suggestions[idx];
       if (!sg) return;
-      answers[sg.key] = sg.val;      // применяем смягчение
+      if (typeof sg.action === "function") sg.action();
+      else answers[sg.key] = "неважно";
       vbrTrack("quiz_dead_end_fix");
-      renderQ();
+      if (qIdx >= QS.length - 1) showResults();
+      else renderQ();
     });
   });
   const skipBtn = list.querySelector('.ap-dead-btn[data-skip]');
@@ -29222,6 +31089,10 @@ function renderQuizDeadEnd(list, q, hasSkip) {
   });
 }
 
+function q0key(index) {
+  return (QS[index] && QS[index].key) || String(index + 1);
+}
+
 function renderQ() {
   const nextRelevant = findRelevantQuestionIndex(qIdx, 1);
   if (nextRelevant >= QS.length) {
@@ -29232,9 +31103,13 @@ function renderQ() {
     qIdx = nextRelevant;
   }
   sendStats("quiz_q", qIdx + 1);
+  // отдельное имя события на шаг — из них собирается воронка в админке
+  sendStats("quiz_s" + (qIdx + 1), q0key(qIdx));
 
   const q = QS[qIdx];
   const { current, total } = visibleQuestionStats();
+  const questionScreen = el("s-question");
+  questionScreen.dataset.qKey = q.key || "";
 
   el("q-label").textContent = `Вопрос ${current} из ${total}`;
   el("q-title").textContent = q.title;
@@ -29253,6 +31128,21 @@ function renderQ() {
   if (q.key === "form" && answers.form === "без экрана" && screenRequiredByType()) {
     delete answers.form;
   }
+  let visibleOpts = visibleQuestionOptions(q);
+
+  // Бюджет: показываем только те ступени, где действительно есть модели
+  // под уже выбранные требования, и подписываем реальный диапазон цен.
+  let budgetPrices = null;
+  if (q.key === "budget") {
+    budgetPrices = budgetMatchingPrices();
+    if (budgetPrices.length) {
+      const reachable = visibleOpts.filter(o => !Number.isFinite(o.max) || budgetPrices[0] <= o.max);
+      if (reachable.some(o => Number.isFinite(o.max))) {
+        if (answers.budget && !reachable.some(o => o.v === answers.budget)) delete answers.budget;
+        visibleOpts = reachable;
+      }
+    }
+  }
 
   const questionNotice = getQuestionNotice(q);
   if (questionNotice) {
@@ -29266,38 +31156,38 @@ function renderQ() {
       </div>`;
     list.appendChild(notice);
   }
-  // Тупик: ни один содержательный вариант недоступен («неважно» не в счёт —
-  // оно ничего не выбирает). Вместо мёртвого списка показываем, что мешает.
-  const meaningfulOpts = q.opts.filter(o => o.v !== "неважно");
-  const allBlocked = meaningfulOpts.length > 0
-    && meaningfulOpts.every(o => Boolean(getOptionDisabledReason(q, o)));
-  if (allBlocked) {
-    // Сам вопрос теряет смысл: выбирать не из чего. Прячем его текст,
-    // экран становится развилкой «смягчить условие / начать заново».
-    el("q-title").textContent = "";
-    el("q-sub").textContent = "";
-    el("s-question").classList.add("is-dead-end");
-    renderQuizDeadEnd(list, q, q.opts.some(o => o.v === "неважно"));
-    btnNext.disabled = true;
-    el("s-question").scrollTop = 0;
-    return;
-  }
+  // No dead-end states inside the quiz. Even if the partial answer set has no
+  // exact matches yet, the user should finish the flow and see the final search.
   el("s-question").classList.remove("is-dead-end");
+
+  if (q.key === "budget" && budgetPrices && budgetPrices.length) {
+    const lo = budgetPrices[0];
+    const hi = budgetPrices[budgetPrices.length - 1];
+    const range = document.createElement("div");
+    range.className = "q-budget-range";
+    range.textContent = lo === hi
+      ? `Под ваши ответы подходит одна модель — ${formatRub(lo)}`
+      : `Под ваши ответы есть модели от ${formatRub(lo)} до ${formatRub(hi)}`;
+    list.appendChild(range);
+  }
 
   const grid = document.createElement("div");
   grid.className = "options-grid" + (q.key === "budget" ? " budget-options-grid" : "");
   list.appendChild(grid);
   btnNext.disabled = !answers[q.key];
-  q.opts.forEach(o => {
+  visibleOpts.forEach(o => {
     const disabledReason = getOptionDisabledReason(q, o);
     const disabled = Boolean(disabledReason);
     const budgetCount = q.key === "budget" && Number.isFinite(o.max) ? budgetOptionCount(o) : null;
     const optionDesc = disabledReason || (budgetCount != null
-      ? `${pluralRu(budgetCount, "Подходит", "Подходят", "Подходят")} ${budgetCount} ${pluralRu(budgetCount, "модель", "модели", "моделей")}`
+      ? (budgetCount > 0
+        ? `${budgetCount} ${pluralRu(budgetCount, "модель", "модели", "моделей")} под ваши ответы`
+        : "Под ваши ответы моделей нет")
       : o.d);
     if (disabled && answers[q.key] === o.v) delete answers[q.key];
     const d = document.createElement("div");
     d.className = "opt" + (isOptPicked(q.key, o.v) ? " sel" : "") + (disabled ? " disabled" : "");
+    d.dataset.optValue = String(o.v);
     d.innerHTML = `<div class="opt-text"><div class="opt-title">${o.l}</div><div class="opt-desc">${optionDesc}</div></div><div class="opt-radio"><div class="opt-radio-dot"></div></div>`;
     d.onclick = () => {
       if (disabled) return;
@@ -29319,7 +31209,11 @@ function renderQ() {
   });
   btnNext.disabled = !answers[q.key];
 
-  el("s-question").scrollTop = 0;
+  questionScreen.scrollTop = 0;
+  requestAnimationFrame(() => {
+    questionScreen.scrollTop = 0;
+    try { (document.scrollingElement || document.documentElement).scrollTop = 0; } catch (e) {}
+  });
 }
 
 // Выбран ли вариант (учитывает мультивыбор типа)
@@ -29347,8 +31241,8 @@ function pick(v) {
     // если теперь экран обязателен — «без экрана» больше недопустим
     if (answers.form === "без экрана" && screenRequiredByType()) delete answers.form;
     el("btn-next").disabled = !answers.type;
-    el("options").querySelectorAll(".opt").forEach((n, i) => {
-      n.classList.toggle("sel", isOptPicked("type", QS[qIdx].opts[i].v));
+    el("options").querySelectorAll(".opt").forEach(n => {
+      n.classList.toggle("sel", isOptPicked("type", n.dataset.optValue));
     });
     return;
   }
@@ -29359,8 +31253,8 @@ function pick(v) {
   }
   answers[key] = v;
   el("btn-next").disabled = false;
-  el("options").querySelectorAll(".opt").forEach((el, i) => {
-    el.classList.toggle("sel", QS[qIdx].opts[i].v === v);
+  el("options").querySelectorAll(".opt").forEach(node => {
+    node.classList.toggle("sel", node.dataset.optValue === String(v));
   });
 }
 
@@ -29504,6 +31398,73 @@ function getUserRequirements() {
     .filter(Boolean);
 }
 
+function buildQuizInsight(top, exact, near, upgrades) {
+  const selected = selectedTypes() || [];
+  const hasType = name => selected.some(v => String(v).toLowerCase() === name);
+  const typeLabel = selected.length === 1
+    ? ({ "видеорегистратор": "видеорегистратор", "gps-информер": "GPS-информер", "комбо 3 в 1": "комбо 3 в 1", "4g-регистратор": "4G-регистратор" }[String(selected[0]).toLowerCase()] || selected[0])
+    : selected.length > 1 ? "несколько типов устройств" : "устройство без жёсткой привязки к типу";
+
+  let title = "Для спокойной записи поездок";
+  let text = "По вашим ответам вам нужна простая надёжная запись дороги. Отобрали модели, где с этим всё в порядке.";
+  if (hasType("комбо 3 в 1")) {
+    title = "Для трассы и защиты от штрафов";
+    text = "Судя по ответам, вам пригодится устройство «три в одном»: запись, база камер и радар-детектор сразу.";
+  } else if (hasType("gps-информер")) {
+    title = "Для города и предупреждений о камерах";
+    text = "По вашим ответам хватит базы стационарных камер — радар-детектор не нужен. Такие модели проще и дешевле, но мобильные комплексы не ловят.";
+  } else if (hasType("4g-регистратор")) {
+    title = "Для удалённого контроля автомобиля";
+    text = "Судя по ответам, вам нужен доступ к камере со смартфона — видеть машину, когда вас нет рядом.";
+  } else if (answers.ir_cam === "да") {
+    title = "Для контроля дороги и салона";
+    text = "По вашим ответам вам нужна съёмка не только дороги, но и салона. Это удобно для такси, семьи и рабочих поездок.";
+  } else if (answers.quality === "превосходное") {
+    title = "Для максимально чёткой записи";
+    text = "Судя по ответам, для вас главное — детализация. Отобрали модели, где номера читаются лучше в темноте и в дождь.";
+  } else if (answers.form === "без экрана") {
+    title = "Для компактной установки";
+    text = "По вашим ответам вам подойдут компактные модели без экрана: меньше лишнего на стекле, настройка через телефон.";
+  }
+
+  const points = [];
+  points.push(`Класс выдачи: ${typeLabel}.`);
+  if (answers.quality && answers.quality !== "неважно") {
+    const q = { хорошее: "Full HD", отличное: "2K", превосходное: "4K" }[answers.quality] || answers.quality;
+    points.push(`Качество съёмки учитывается как важный уровень: ${q}.`);
+  }
+  if (answers.smartphone === "да") points.push("Управление со смартфона повышает удобство настройки и просмотра записей.");
+  else if (answers.smartphone === "нет") points.push("Wi-Fi не обязателен, поэтому в выдаче не переплачиваем только за приложение.");
+  if (answers.magnetic === "да") points.push("Магнитное крепление важно для быстрого снятия и установки устройства.");
+  if (answers.touch === "нет") points.push("Физические кнопки оставлены как более привычный и предсказуемый вариант управления.");
+  else if (answers.touch === "да") points.push("Сенсорное управление учитывается как сценарий более быстрого взаимодействия с экраном.");
+  if (answers.budget && answers.budget !== "неважно") points.push(`Бюджет ограничивает выдачу: ${budgetLabel(answers.budget)}.`);
+  if (points.length > 4) points.length = 4;
+
+  const chips = getUserRequirements().slice(0, 6).map(r => r.label);
+  const found = "";
+
+  return {
+    title,
+    text,
+    points,
+    chips,
+    found,
+    hidden: !top.length && !getUserRequirements().length,
+  };
+}
+
+function quizInsightHTML(top, exact, near, upgrades) {
+  const data = buildQuizInsight(top, exact, near, upgrades);
+  if (data.hidden) return "";
+  return `
+    <div class="quiz-insight-kicker">Итог подбора</div>
+    <div class="quiz-insight-title">${attrSafe(data.title)}</div>
+    <div class="quiz-insight-text">${attrSafe(data.text)}</div>
+    ${data.found ? `<div class="quiz-insight-result">${attrSafe(data.found)}</div>` : ""}
+  `;
+}
+
 // Человекочитаемая интерпретация процента совпадения (расчёт не меняется).
 function matchStatusLabel(pct) {
   if (pct >= 100) return "Точное совпадение";
@@ -29637,6 +31598,11 @@ function layoutResultsColumns() {
   const list = document.getElementById("results-list");
   const chips = document.getElementById("chips-wrap");
   if (!container || !sidebar || !list) return;
+  if (chips) {
+    chips.hidden = true;
+    chips.style.display = "none";
+    chips.classList.remove("open");
+  }
   const isDesktop = window.matchMedia(RESULTS_DESKTOP_MQ).matches;
 
   // блоки прошлого рендера в сайдбаре больше не актуальны
@@ -29670,10 +31636,10 @@ function applyResultsStagger() {
   const header = document.querySelector("#s-results .res-header");
   if (header) header.style.animationDelay = "0ms";
   const chipsWrap = el("chips-wrap");
-  if (chipsWrap) chipsWrap.style.animationDelay = "60ms";
+  if (chipsWrap) chipsWrap.style.animationDelay = "90ms";
   const list = el("results-list");
   [...list.children].forEach((n, i) => {
-    n.style.animationDelay = `${Math.min(120 + i * 45, 380)}ms`;
+    n.style.animationDelay = `${Math.min(145 + i * 45, 400)}ms`;
   });
 }
 
@@ -29684,7 +31650,8 @@ function _renderResults(top) {
   el("answer-chips-row").innerHTML = chips;
   el("chips-count").textContent = userReqs.length;
   const chipsWrap = el("chips-wrap");
-  chipsWrap.style.display = chips ? "block" : "none";
+  chipsWrap.style.display = "none";
+  chipsWrap.hidden = true;
   chipsWrap.classList.remove("open"); // по умолчанию свёрнут
 
   const exact    = sortResultItemsByFit(top.filter(t => t.mm.length === 0));
@@ -29711,10 +31678,48 @@ function _renderResults(top) {
 
   const list = el("results-list");
   list.innerHTML = "";
+  const insight = top.length ? quizInsightHTML(top, exact, near, upgrades) : "";
+  if (insight) {
+    const insightBox = document.createElement("div");
+    insightBox.className = "quiz-insight";
+    insightBox.innerHTML = insight;
+    // Итог подбора идёт первым блоком — раньше счётчика моделей и блока правки.
+    const insightHost = document.querySelector("#s-results .results-container");
+    const insightBefore = document.querySelector("#s-results .res-header");
+    // список очищается сам, а этот блок живёт выше него — убираем прошлый вручную
+    insightHost?.querySelectorAll(":scope > .quiz-insight").forEach(node => node.remove());
+    if (insightHost && insightBefore && insightBefore.parentNode === insightHost) {
+      insightHost.insertBefore(insightBox, insightBefore);
+    } else {
+      list.appendChild(insightBox);
+    }
+  }
 
   function appendCompromiseBlock() {
     const compromises = getCompromises();
     if (compromises.length === 0) return;
+
+    const compactCompromiseTitle = (s) => {
+      const val = String(s.val || "").toLowerCase();
+      if (s.key === "ir_cam" && val === "да") return "Без салонной камеры";
+      if (s.key === "ir_cam" && val === "нет") return "С салонной камерой";
+      if (s.key === "magnetic" && val === "да") return "Без магнитного крепления";
+      if (s.key === "magnetic" && val === "нет") return "С магнитным креплением";
+      if (s.key === "touch" && val === "да") return "С физическими кнопками";
+      if (s.key === "touch" && val === "нет") return "С сенсорным экраном";
+      if (s.key === "smartphone" && val === "да") return "Без Wi-Fi";
+      if (s.key === "smartphone" && val === "нет") return "С Wi-Fi";
+      if (s.key === "remote" && val === "да") return "Без 4G";
+      if (s.key === "remote" && val === "нет") return "С 4G";
+      if (s.key === "type") return "Сменить тип устройства";
+      if (s.key === "quality") return String(s.hint || "").replace(/^Рассмотреть модели с\s*/i, "") || "Другое качество";
+      if (s.key === "form") return "Не ограничивать корпус";
+      const raw = String(s.hint || "Изменить условие");
+      return raw.charAt(0).toUpperCase() + raw.slice(1);
+    };
+    const compactCompromiseCta = (s) => {
+      return "Показать";
+    };
 
     // Тематические иконки ограничений (cyan, в круглой плашке)
     const COMPROMISE_ICONS = {
@@ -29732,11 +31737,10 @@ function _renderResults(top) {
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
     cWrap.innerHTML = `
-      <div class="compromise-title"><svg viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="10" r="2"/><circle cx="20" cy="14" r="2"/></svg>Как расширить выбор</div>
       <div class="compromise-sub">${compromises.some(s => s.exactCount > 0)
-        ? "Можно изменить одно условие — появится точное совпадение."
-        : "Точного совпадения не будет даже при изменении одного условия — но выбор станет шире."}</div>`;
-    compromises.forEach(s => {
+        ? "Одна правка даст 100% совпадение"
+        : "Одна правка заметно расширит выдачу"}</div>`;
+    compromises.slice(0, 1).forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
       // Реальный эффект изменения: точные совпадения важнее близких моделей.
@@ -29747,10 +31751,10 @@ function _renderResults(top) {
         <div class="compromise-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${COMPROMISE_ICONS[s.key] || defaultIcon}</svg></div>
         <div class="compromise-info">
           ${s.limiter ? `<div class="compromise-limiter">${s.limiter}</div>` : ""}
-          <div class="compromise-text">${s.hint}</div>
+          <div class="compromise-text">${compactCompromiseTitle(s)}</div>
           <div class="compromise-count${s.exactCount > 0 ? " exact" : ""}">${countText}</div>
         </div>
-        <button class="compromise-btn">${s.cta || "Изменить"}<span class="compromise-btn-arrow">›</span></button>`;
+        <button class="compromise-btn">${compactCompromiseCta(s)}<span class="compromise-btn-arrow">›</span></button>`;
       row.querySelector(".compromise-btn").addEventListener("click", () => {
         if (row.classList.contains("done")) return;
         // Реальный пересчёт сразу; дальше — только визуальная подача результата
@@ -29815,7 +31819,6 @@ function _renderResults(top) {
     const hint = document.createElement("div");
     hint.className = "smart-hint";
     hint.innerHTML = `
-      <div class="smart-hint-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1 1-1h4l1-1h4l1 1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="12" cy="12.5" r="2.2"/><path d="M9 6.5a4.2 4.2 0 0 1 6 0"/><path d="M7 4.2a7 7 0 0 1 10 0"/></svg></div>
       <div class="smart-hint-text">
         <strong>Подсказка по радарной части</strong>
         ${comboHornHint.text}
@@ -29843,11 +31846,19 @@ function _renderResults(top) {
     && (!answers.budget || answers.budget === "неважно");
   if (allDontCare) {
     const lazy = document.createElement("div");
-    lazy.style.cssText = "display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center;";
+    lazy.className = "ap-blank";
     lazy.innerHTML = `
-      <div style="font-size:56px;margin-bottom:20px;">🤷</div>
-      <div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">Вы слишком непринципиальны в выборе.</div>
-      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">Вам подойдёт абсолютно любой регистратор.</div>`;
+      <span class="ap-blank-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2.1"/><circle cx="15" cy="12" r="2.1"/><circle cx="8" cy="17" r="2.1"/>
+        </svg>
+      </span>
+      <h3 class="ap-blank-title">Подойдёт любая модель</h3>
+      <p class="ap-blank-text">Вы отметили «неважно» во всех вопросах, поэтому ограничений нет. Загляните в каталог или пройдите подбор ещё раз, отметив то, что действительно нужно.</p>
+      <div class="ap-blank-acts">
+        <button class="ap-blank-btn is-primary" type="button" onclick="navGo('catalog')">Открыть каталог</button>
+        <button class="ap-blank-btn" type="button" onclick="restartQuiz()">Пройти заново</button>
+      </div>`;
     list.appendChild(lazy);
     applyResultsStagger();
     show("s-results");
@@ -29858,12 +31869,23 @@ function _renderResults(top) {
   if (top.length === 0) {
     const empty = document.createElement("div");
     const budgetText = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget) : "";
-    empty.style.cssText = "display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 32px;text-align:center;";
+    const hasCompromiseOptions = getCompromises().length > 0;
+    const emptyActions = hasCompromiseOptions ? "" : `
+      <div class="ap-blank-acts">
+        <button class="ap-blank-btn is-primary" type="button" onclick="restartQuiz()">Заново</button>
+        <button class="ap-blank-btn" type="button" onclick="navGo('catalog')">Каталог</button>
+      </div>`;
+    empty.className = "ap-blank";
     empty.innerHTML = `
-      <div style="font-size:56px;margin-bottom:20px;">🤔</div>
-      <div style="font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1.25;margin-bottom:14px;">${budgetText ? "В этом бюджете не нашлось" : "Такой связки не нашлось"}</div>
-      <div style="font-size:18px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:12px;">${budgetText ? `Под выбранные характеристики нет моделей ${budgetText.toLowerCase()}.` : "Тип устройства и форм-фактор не совпали ни с одной моделью."}</div>
-      <div style="font-size:15px;color:var(--text-2);line-height:1.6;">${budgetText ? "Вернитесь на шаг бюджета и выберите сумму выше или вариант «Неважно»." : "Попробуйте изменить формат корпуса или выбрать «Неважно» в одном из первых вопросов."}</div>`;
+      <span class="ap-blank-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>
+        </svg>
+      </span>
+      <h3 class="ap-blank-title">${budgetText ? "Бюджет не совпал" : "Точного варианта нет"}</h3>
+      <p class="ap-blank-text">${budgetText ? `В базе нет моделей ${budgetText.toLowerCase()} под выбранные условия.` : "Такой связки условий в базе нет."}</p>
+      <p class="ap-blank-note">${hasCompromiseOptions ? "Ниже — самый короткий путь к подходящим моделям." : "Лучше вернуться к подбору или открыть каталог."}</p>
+      ${emptyActions}`;
     list.appendChild(empty);
     appendCompromiseBlock();
     applyResultsStagger();
@@ -29996,7 +32018,14 @@ function _renderResults(top) {
         header.textContent = "Подходит и лучше";
       } else {
         header.className = `res-section-header ${isExact ? "exact" : "near"}`;
-        header.textContent = isExact ? "Точное совпадение" : "Похожие варианты";
+        if (isExact) {
+          const n = items.length;
+          header.innerHTML = `<span class="res-sec-mark" aria-hidden="true">✓</span>` +
+            `<span class="res-sec-title">${n > 1 ? "Точные совпадения" : "Точное совпадение"}</span>` +
+            (n > 1 ? `<span class="res-sec-count">${n}</span>` : "");
+        } else {
+          header.textContent = "Похожие варианты";
+        }
       }
       list.appendChild(header);
     }
@@ -30048,7 +32077,7 @@ function _renderResults(top) {
           <div class="dev-price">${attrSafe(d.price || "цена не указана")}</div>
           <span class="match-pill ${isExact || isUpgrade ? "hi" : mc}" role="button" tabindex="0" onclick="toggleMatchPopover(event, this)" data-matched="${rmPill.matchedCount}" data-total="${rmPill.total}" title="Как считаем совпадение?">${attrSafe(pillLabel)}</span>
         </div>
-        ${devicePhotoHTML(d)}
+        ${devicePhotoHTML(d, {priority: true})}
         ${reqMatchHTML(item, isExact, isUpgrade)}
         ${deviceFullSpecsHTML(d, `res-${i}-${devIndex}`)}
         ${usefulLinksHTML(d)}
@@ -30094,18 +32123,6 @@ function _renderResults(top) {
 
   // ── Рендерим блоки ───────────────────────────────
   if (exact.length === 0 && near.length > 0) {
-    // Вывод системы: собранная конфигурация не существует среди моделей базы.
-    const reqTotal = getUserRequirements().length;
-    const notice = document.createElement("div");
-    notice.className = "no-exact-notice";
-    notice.innerHTML = `
-      <div class="no-exact-notice-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></div>
-      <div class="no-exact-notice-text">
-        <strong>Такого устройства <span class="no-exact-accent">в базе нет</span></strong>
-        Вы выбрали сочетание из ${reqTotal} ${pluralRu(reqTotal, "параметра", "параметров", "параметров")}, которому не соответствует ни одна модель. Мы проверили всю базу — ниже варианты, как расширить выбор, и максимально близкие модели.
-      </div>`;
-    list.appendChild(notice);
-
     appendCompromiseBlock();
   }
 
