@@ -23971,6 +23971,176 @@ html, body {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+
+/* ── Значок YouTube: красная плашка с белой кнопкой воспроизведения.
+   В разметке он таким и был, но правила «без цветных плашек» гасили
+   заливку прямоугольника и красили красным сам треугольник. ── */
+html[data-theme="light"] .btn-youtube-logo rect,
+html[data-theme="dark"] .btn-youtube-logo rect,
+html[data-theme="light"] .btn-link-secondary .btn-youtube-logo rect,
+html[data-theme="dark"] .btn-link-secondary .btn-youtube-logo rect {
+  fill: #FF0033 !important;
+}
+html[data-theme="light"] .btn-youtube-logo path,
+html[data-theme="dark"] .btn-youtube-logo path,
+html[data-theme="light"] .btn-link-secondary .btn-youtube-logo path,
+html[data-theme="dark"] .btn-link-secondary .btn-youtube-logo path {
+  fill: #FFFFFF !important;
+}
+html[data-theme="light"] .btn-youtube-logo,
+html[data-theme="dark"] .btn-youtube-logo {
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 50% !important;
+  stroke: none !important;
+  background: none !important;
+  flex-shrink: 0;
+}
+/* круглая заливка вместо прежней прямоугольной плашки */
+html[data-theme="light"] .btn-youtube-logo circle,
+html[data-theme="dark"] .btn-youtube-logo circle { fill: #FF0033 !important; }
+
+/* Выжимка характеристик: ярлык слева серым, значение справа тёмным */
+html[data-theme="light"] .match-criteria-block .specs-full-label,
+html[data-theme="dark"] .match-criteria-block .specs-full-label {
+  color: var(--text-2) !important;
+  font-weight: 400 !important;
+}
+html[data-theme="light"] .match-criteria-block .specs-full-value,
+html[data-theme="dark"] .match-criteria-block .specs-full-value {
+  color: var(--text-1) !important;
+  font-weight: 450 !important;
+  text-align: right;
+  max-width: 60%;
+}
+
+/* Строка «100% совпадения нет» — часть разбора ответов, а не отдельный блок */
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  display: block !important;
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  max-width: 46ch !important;
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  letter-spacing: -.012em !important;
+  color: var(--text-1) !important;
+  text-wrap: pretty;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ВЫДАЧА — спокойнее: меньше цветов и уровней текста
+   ══════════════════════════════════════════════════════════ */
+/* Разбор ответов читается одним абзацем, а не двумя разными по цвету */
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  margin-top: 6px !important;
+  color: var(--text-2) !important;
+  font-weight: 400 !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight {
+  margin-bottom: clamp(14px, 2vh, 20px) !important;
+}
+
+/* Счётчик моделей: одна строка без выделенных полужирным чисел */
+html[data-theme="light"] #s-results .res-sub b,
+html[data-theme="dark"] #s-results .res-sub b,
+html[data-theme="light"] #s-results .res-sub strong,
+html[data-theme="dark"] #s-results .res-sub strong {
+  font-weight: 400 !important;
+  color: inherit !important;
+}
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin-bottom: clamp(10px, 1.4vh, 16px) !important;
+}
+
+/* Блок правки: зелёный убираем, число остаётся тёмным */
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count,
+html[data-theme="light"] #s-results .compromise-count.exact,
+html[data-theme="dark"] #s-results .compromise-count.exact {
+  color: var(--text-2) !important;
+  font-weight: 400 !important;
+}
+html[data-theme="light"] #s-results .compromise-count b,
+html[data-theme="dark"] #s-results .compromise-count b {
+  color: var(--text-1) !important;
+  font-weight: 500 !important;
+}
+html[data-theme="light"] #s-results .compromise-limiter,
+html[data-theme="dark"] #s-results .compromise-limiter {
+  color: var(--text-3, #86868B) !important;
+  font-weight: 400 !important;
+}
+
+/* Подсказка про радар: ссылка-акцент внутри текста без синего */
+html[data-theme="light"] #s-results .smart-hint-text b,
+html[data-theme="dark"] #s-results .smart-hint-text b {
+  color: var(--text-1) !important;
+  font-weight: 500 !important;
+}
+
+/* Плотнее по вертикали: одинаковый шаг между разделами */
+html[data-theme="light"] #s-results .smart-hint,
+html[data-theme="dark"] #s-results .smart-hint,
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  padding: 14px 0 !important;
+  margin: 0 0 clamp(10px, 1.6vh, 16px) !important;
+}
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  margin: 0 0 clamp(10px, 1.6vh, 16px) !important;
+}
+
+/* ── Фото в карточке модели: снимок целиком, без обрезки ──
+   На экране карточки действовали сразу три правила с разными
+   пропорциями (4/3, 16/9) — итог зависел от порядка загрузки. ── */
+html[data-theme="light"] #s-search .device-photo-wrap,
+html[data-theme="dark"] #s-search .device-photo-wrap,
+html[data-theme="light"] #srch-results-area .device-photo-wrap,
+html[data-theme="dark"] #srch-results-area .device-photo-wrap {
+  aspect-ratio: 4 / 3 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(46vh, 340px) !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 12px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+html[data-theme="light"] #s-search .device-photo-wrap img,
+html[data-theme="dark"] #s-search .device-photo-wrap img,
+html[data-theme="light"] #srch-results-area .device-photo-wrap img,
+html[data-theme="dark"] #srch-results-area .device-photo-wrap img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+/* Зелёный в блоке правки гасим и в исходном правиле — оно шло без темы */
+html[data-theme="light"] .compromise-count,
+html[data-theme="dark"] .compromise-count,
+html[data-theme="light"] .compromise-count.exact,
+html[data-theme="dark"] .compromise-count.exact,
+html[data-theme="light"] .compromise-done-sub.exact,
+html[data-theme="dark"] .compromise-done-sub.exact {
+  color: #6E6E73 !important;
+}
+html[data-theme="dark"] .compromise-count,
+html[data-theme="dark"] .compromise-count.exact,
+html[data-theme="dark"] .compromise-done-sub.exact { color: #A1A1AA !important; }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -27778,6 +27948,7 @@ function getCompromises() {
   if (bestPlan && bestPlan.stats?.exactCount > 0) {
     return [{
       key: bestPlan.changes.some(ch => ch.key === "budget") ? "budget" : "plan",
+      changeCount: bestPlan.changes.length,
       val: "",
       title: bestPlan.changes.map(ch => ch.label).join(" + "),
       hint: bestPlan.changes.map(ch => ch.label).join(" + "),
@@ -28021,11 +28192,9 @@ function compromiseOperationCandidates() {
     });
   };
 
-  const typeSel = selectedTypes();
-  const typeVal = (typeSel && typeSel.length === 1 ? String(typeSel[0]) : "").toLowerCase();
-  if (["gps-информер", "комбо 3 в 1", "4g-регистратор"].includes(typeVal) && currentStats.count === 0) {
-    push("type", "видеорегистратор", "Рассмотреть обычные регистраторы", COMPROMISE_PRIORITY.type);
-  }
+  // Тип устройства не трогаем: человек, который ищет 4G или комбо, пришёл
+  // за конкретным классом техники. Предлагать ему «обычный регистратор» —
+  // это не компромисс, а отказ от задачи.
 
   const budgetMax = selectedBudgetMax();
   if (budgetMax != null) {
@@ -30423,7 +30592,7 @@ function reviewLinksHTML(d) {
       Обзор на Rutube
     </a>
     <a class="btn-youtube" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
-      <svg class="btn-youtube-logo" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="18" rx="5" fill="#FF0033"/><path d="M10 5.4v7.2L16 9l-6-3.6z" fill="white"/></svg>
+      <svg class="btn-youtube-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="#FF0033"/><path d="M9.6 7.8v8.4L16.8 12 9.6 7.8z" fill="white"/></svg>
       Обзор на YouTube
     </a>
   </div>`;
@@ -30577,32 +30746,53 @@ function deviceProfileDescriptionHTML(d) {
 
 // Компактный, свёрнутый по умолчанию список параметров, которые реально
 // участвуют в поиске аналогов — без технических кодов сенсора и т.п.
+// В базе разрешение часто записано абзацем («4K Ultra HD (3840×2160) 30 fps —
+// при отключенной задней камере; …»). В выжимке нужен короткий ответ.
+function shortResolutionText(resolution, fallback) {
+  const raw = String(resolution || "").trim();
+  if (!raw) return fallback || null;
+  const head = raw.split(/[;,]|\s[-—–]\s/)[0].trim();
+  const short = head.replace(/\s*\(([^)]*)\)/, (m, inner) => (inner.length <= 12 ? " " + inner : ""));
+  return short.length <= 34 ? short : (fallback || short.slice(0, 34).trim() + "…");
+}
+
 function matchCriteriaHTML(d) {
+  // Раньше здесь был список названий характеристик без значений
+  // («Тип устройства», «Форм-фактор», «Сенсор камеры»…) — из него нельзя
+  // было ничего узнать. Теперь это короткая выжимка: что именно у модели.
   const antenna = radarAntennaLabel(d);
-  const list = [
-    'Тип устройства',
-    'Форм-фактор',
-    d.q ? 'Качество съёмки' : null,
-    sensorLabel(d) ? 'Сенсор камеры' : null,
-    hasGPS(d) ? 'GPS' : null,
-    d.smartphone ? 'Wi-Fi' : null,
-    d.magnetic ? UI_TERMS.magnetic : null,
-    d.rear_cam ? UI_TERMS.rearCam : null,
-    d.touch ? UI_TERMS.touch : null,
-    d.ir_cam ? UI_TERMS.cabinCam : null,
-    d.rotation ? 'Вращение камеры' : null,
-    d.remote ? '4G/удалённый доступ' : null,
-    antenna ? antenna : null,
-    (antenna || hasLNA(d)) ? UI_TERMS.lna : null,
-    hasInterpolation(d) ? 'Интерполяция' : null,
-  ].filter(Boolean);
-  if (!list.length) return '';
+  const yesNo = v => (v ? "есть" : "нет");
+  const qName = { 1: "Full HD", 2: "2K", 3: "4K" }[Number(d.q)] || null;
+  const memory = d.specs?.built_in_memory;
+  const power = d.specs?.power_element;
+
+  const rows = [
+    ["Съёмка", shortResolutionText(d.resolution, qName)],
+    ["Угол обзора", d.angle],
+    ["Матрица", sensorSpecValue(d)],
+    antenna ? ["Радарная антенна", antenna] : null,
+    isComboDevice(d) || isGpsInformerDisplay(d) ? ["База камер", hasGPS(d) ? "есть" : "нет"] : null,
+    ["Экран", d.screen || (String(d.form || "").toLowerCase() === "без экрана" ? "нет" : null)],
+    ["Крепление", d.magnetic ? "магнитное" : "обычное"],
+    ["Управление", d.touch ? "сенсорное" : "кнопки"],
+    ["Wi-Fi", yesNo(d.smartphone)],
+    ["GPS", d.gps || yesNo(hasGPS(d))],
+    d.rear_cam ? ["Задняя камера", "есть"] : null,
+    d.ir_cam ? ["Камера салона", "есть"] : null,
+    d.remote ? ["4G и удалённый доступ", "есть"] : null,
+    memory ? ["Встроенная память", memory] : null,
+    power ? ["Питание", power] : null,
+  ]
+    .filter(row => row && row[1] != null && String(row[1]).trim() !== "" && !/^(н\/д|не указано|null|undefined)$/i.test(String(row[1]).trim()))
+    .slice(0, 10);
+
+  if (!rows.length) return '';
   return `<div class="specs-full match-criteria-block">
     <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
-      Ключевые параметры модели <span class="specs-full-arrow">›</span>
+      Главное о модели <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
-      ${list.map(label => `<div class="specs-full-row"><span class="specs-full-label">✓ ${attrSafe(label)}</span></div>`).join('')}
+      ${rows.map(([label, value]) => `<div class="specs-full-row"><span class="specs-full-label">${attrSafe(label)}</span><span class="specs-full-value">${attrSafe(String(value))}</span></div>`).join('')}
     </div>
   </div>`;
 }
@@ -30635,7 +30825,7 @@ function usefulLinksHTML(d) {
 
   const secondaryBtns = [
     `<a class="btn-link-secondary" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
-      <svg class="btn-youtube-logo" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="18" rx="5" fill="#FF0033"/><path d="M10 5.4v7.2L16 9l-6-3.6z" fill="white"/></svg>
+      <svg class="btn-youtube-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="#FF0033"/><path d="M9.6 7.8v8.4L16.8 12 9.6 7.8z" fill="white"/></svg>
       <span>YouTube</span>
     </a>`,
     `<a class="btn-link-secondary" href="https://rutube.ru/search/?query=${query}" target="_blank" rel="noopener">
@@ -30952,9 +31142,12 @@ function budgetBasePool() {
 // Нужны, чтобы вопрос о бюджете показывал существующий диапазон,
 // а не абстрактные ступени вроде «до 5 000» там, где таких моделей нет.
 function budgetMatchingPrices() {
+  // Считаем так же, как считает финальная выдача: она показывает все модели
+  // с ненулевым совпадением. Прежний порог в 75% давал вопрос, где у каждой
+  // суммы стояло «моделей нет», хотя в результатах их было больше десятка.
   return budgetBasePool()
     .map(d => ({ d, ...scoreDevice(d) }))
-    .filter(item => item.mm.length === 0 || item.pct >= 75)
+    .filter(item => item.pct > 0)
     .map(item => parsePrice(item.d.price))
     .filter(price => Number.isFinite(price) && price > 0)
     .sort((a, b) => a - b);
@@ -30972,7 +31165,7 @@ function budgetOptionCount(option) {
     .filter(item => {
       const price = parsePrice(item.d.price);
       if (!Number.isFinite(price) || price > option.max) return false;
-      return item.mm.length === 0 || item.pct >= 75;
+      return item.pct > 0;
     })
     .length;
 }
@@ -31190,6 +31383,15 @@ function renderQ() {
   let budgetPrices = null;
   if (q.key === "budget") {
     budgetPrices = budgetMatchingPrices();
+    if (!budgetPrices.length) {
+      // Ни одна модель не проходит по уже выбранным условиям — тогда вопрос
+      // о бюджете бессмысленный: любая сумма даст пустую выдачу. Пропускаем
+      // его и сразу показываем результат, где объясняется причина и
+      // предлагается правка условий.
+      answers[q.key] = "неважно";
+      goNext();
+      return;
+    }
     if (budgetPrices.length) {
       const reachable = visibleOpts.filter(o => !Number.isFinite(o.max) || budgetPrices[0] <= o.max);
       if (reachable.some(o => Number.isFinite(o.max))) {
@@ -31215,16 +31417,15 @@ function renderQ() {
   // exact matches yet, the user should finish the flow and see the final search.
   el("s-question").classList.remove("is-dead-end");
 
-  if (q.key === "budget" && budgetPrices && budgetPrices.length) {
+  if (q.key === "budget" && budgetPrices && budgetPrices.length) (() => {
     const lo = budgetPrices[0];
     const hi = budgetPrices[budgetPrices.length - 1];
     const range = document.createElement("div");
     range.className = "q-budget-range";
-    range.textContent = lo === hi
-      ? `Под ваши ответы подходит одна модель — ${formatRub(lo)}`
-      : `Под ваши ответы есть модели от ${formatRub(lo)} до ${formatRub(hi)}`;
+    if (lo === hi) return;
+    range.textContent = `Подходящие модели стоят от ${formatRub(lo)} до ${formatRub(hi)}`;
     list.appendChild(range);
-  }
+  })();
 
   const grid = document.createElement("div");
   grid.className = "options-grid" + (q.key === "budget" ? " budget-options-grid" : "");
@@ -31233,12 +31434,8 @@ function renderQ() {
   visibleOpts.forEach(o => {
     const disabledReason = getOptionDisabledReason(q, o);
     const disabled = Boolean(disabledReason);
-    const budgetCount = q.key === "budget" && Number.isFinite(o.max) ? budgetOptionCount(o) : null;
-    const optionDesc = disabledReason || (budgetCount != null
-      ? (budgetCount > 0
-        ? `${budgetCount} ${pluralRu(budgetCount, "модель", "модели", "моделей")} под ваши ответы`
-        : "Под ваши ответы моделей нет")
-      : o.d);
+    // Счётчик моделей у сумм убран: он обещал совпадение там, где его нет.
+    const optionDesc = disabledReason || o.d;
     if (disabled && answers[q.key] === o.v) delete answers[q.key];
     const d = document.createElement("div");
     d.className = "opt" + (isOptPicked(q.key, o.v) ? " sel" : "") + (disabled ? " disabled" : "");
@@ -31497,7 +31694,12 @@ function buildQuizInsight(top, exact, near, upgrades) {
   if (points.length > 4) points.length = 4;
 
   const chips = getUserRequirements().slice(0, 6).map(r => r.label);
-  const found = "";
+  // Если точных совпадений нет — говорим об этом прямо, сразу после разбора
+  // ответов. Иначе человек листает список и гадает, почему нигде не 100%.
+  const exactCount = Array.isArray(exact) ? exact.length : 0;
+  const found = exactCount
+    ? ""
+    : "Модели, которая подходит на 100%, по вашим ответам не нашлось — ниже самые близкие.";
 
   return {
     title,
@@ -31686,7 +31888,67 @@ resultsDesktopQuery.addEventListener("change", () => {
 
 // Ступенчатое появление: заголовок → требования → вывод системы →
 // рекомендации → карточки. Только opacity+translateY, задержки не блокируют клики.
+// Порядок блоков выдачи: сначала главное, потом инструменты.
+// Отметка точного совпадения → карточка модели → подсказки → сортировка.
+// В коде блоки создаются в другой последовательности, поэтому
+// переставляем их одним проходом перед показом.
+function arrangeResultsLayout() {
+  const list = document.getElementById("results-list");
+  if (!list) return;
+  const exactHeader = list.querySelector(":scope > .res-section-header.exact");
+  const anyHeader = exactHeader || list.querySelector(":scope > .res-section-header");
+  if (!anyHeader) return;
+
+  const next = anyHeader.nextElementSibling;
+  const mainCard = next && /\b(dev-card|dev-hero)\b/.test(next.className || "") ? next : null;
+
+  // Заголовок «Точное совпадение» — часть верхнего блока и уходит наверх.
+  // «Похожие варианты» остаётся при своём списке, иначе он повисает
+  // над подсказкой в отрыве от карточек.
+  if (exactHeader) {
+    list.insertBefore(exactHeader, list.firstChild);
+    if (mainCard) exactHeader.after(mainCard);
+  } else if (mainCard) {
+    list.insertBefore(mainCard, list.firstChild);
+  }
+
+  let ref = mainCard || exactHeader || list.firstChild;
+  [
+    list.querySelector(":scope > .smart-hint"),
+    list.querySelector(":scope > .compromise-wrap"),
+    list.querySelector(":scope > .sort-bar"),
+  ].forEach(node => {
+    if (!node) return;
+    ref.after(node);
+    ref = node;
+  });
+}
+
+// Перестановка карточек в уже отрисованных списках: без перерисовки,
+// без прыжка прокрутки и без подмены главной рекомендации.
+function applySortToResultLists() {
+  const num = (node, key, fallback) => {
+    const v = parseFloat(node.dataset[key]);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  document.querySelectorAll("#s-results .result-alt-grid").forEach(grid => {
+    const cards = [...grid.children].filter(node => node.classList.contains("ap-rec"));
+    if (cards.length < 2) return;
+    cards.forEach((node, i) => { if (!node.dataset.order) node.dataset.order = String(i); });
+    const sorted = [...cards].sort((a, b) => {
+      if (sortMode === "price_asc") return num(a, "price", Infinity) - num(b, "price", Infinity);
+      if (sortMode === "price_desc") return num(b, "price", -1) - num(a, "price", -1);
+      return num(b, "pct", 0) - num(a, "pct", 0) || num(a, "order", 0) - num(b, "order", 0);
+    });
+    sorted.forEach(node => {
+      node.style.animationDelay = "";
+      grid.appendChild(node);
+    });
+  });
+}
+
 function applyResultsStagger() {
+  arrangeResultsLayout();
   layoutResultsColumns(); // сперва раскладываем колонки, затем задержки
   const header = document.querySelector("#s-results .res-header");
   if (header) header.style.animationDelay = "0ms";
@@ -31727,9 +31989,18 @@ function _renderResults(top) {
     titleEl.textContent = `Нашли ${top.length} ${pluralRu(top.length, "подходящую модель", "подходящие модели", "подходящих моделей")}`;
     el("res-sub").innerHTML = `Лучшее совпадение — <b>${bestPct}%</b>`;
   } else {
-    titleEl.textContent = "Точных совпадений нет";
-    el("res-sub").innerHTML = "";
+    const budgetLimit = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget).toLowerCase() : "";
+    titleEl.textContent = "Упс, ничего не найдено";
+    el("res-sub").textContent = budgetLimit
+      ? `Под выбранные условия нет моделей ${budgetLimit}.`
+      : "Такой связки условий в базе нет.";
   }
+
+  // Выдача и шаговая навигация квиза несовместимы: если сюда попали не через
+  // showResults (правка условий, смена сортировки), кнопки «Назад / Далее»
+  // иначе остаются висеть над результатом.
+  const stepNav = document.getElementById("bottom-nav");
+  if (stepNav) stepNav.style.display = "none";
 
   const list = el("results-list");
   list.innerHTML = "";
@@ -31792,9 +32063,14 @@ function _renderResults(top) {
     const cWrap = document.createElement("div");
     cWrap.className = "compromise-wrap";
     cWrap.innerHTML = `
-      <div class="compromise-sub">${compromises.some(s => s.exactCount > 0)
-        ? "Одна правка даст 100% совпадение"
-        : "Одна правка заметно расширит выдачу"}</div>`;
+      <div class="compromise-sub">${(() => {
+        const n = Math.max(1, compromises[0]?.changeCount || 1);
+        const word = n === 1 ? "Одна правка" : n === 2 ? "Две правки" : `${n} правки`;
+        const verb = n === 1 ? "даст" : "дадут";
+        return compromises.some(item => item.exactCount > 0)
+          ? `${word} ${verb} 100% совпадение`
+          : `${word} ${verb} заметно больше вариантов`;
+      })()}</div>`;
     compromises.slice(0, 1).forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
@@ -31861,8 +32137,11 @@ function _renderResults(top) {
       btn.addEventListener("click", () => {
         if (sortMode === mode) return;
         sortMode = mode;
-        _renderResults(_lastTop);
-        window.scrollTo(0, 0);
+        // Меняем только порядок карточек ниже. Полная перерисовка
+        // дёргала страницу, сбрасывала прокрутку и подменяла главную модель.
+        sortBar.querySelectorAll(".sort-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        applySortToResultLists();
       });
       sortBar.appendChild(btn);
     });
@@ -31937,9 +32216,9 @@ function _renderResults(top) {
           <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>
         </svg>
       </span>
-      <h3 class="ap-blank-title">${budgetText ? "Бюджет не совпал" : "Точного варианта нет"}</h3>
-      <p class="ap-blank-text">${budgetText ? `В базе нет моделей ${budgetText.toLowerCase()} под выбранные условия.` : "Такой связки условий в базе нет."}</p>
-      <p class="ap-blank-note">${hasCompromiseOptions ? "Ниже — самый короткий путь к подходящим моделям." : "Лучше вернуться к подбору или открыть каталог."}</p>
+      <p class="ap-blank-text">${hasCompromiseOptions
+        ? "Ниже — самый короткий путь к подходящим моделям."
+        : "Стоит вернуться к подбору или открыть каталог."}</p>
       ${emptyActions}`;
     list.appendChild(empty);
     appendCompromiseBlock();
@@ -32022,6 +32301,9 @@ function _renderResults(top) {
     // та же карточка, что в поиске и каталоге (.ap-rec)
     const card = document.createElement("article");
     card.className = `ap-rec${pct >= 100 ? " is-exact" : ""}`;
+    // данные для сортировки списка без перерисовки страницы
+    card.dataset.pct = String(pct ?? 0);
+    card.dataset.price = String(parsePrice(d.price));
     card.setAttribute("role", "link");
     card.setAttribute("tabindex", "0");
     card.setAttribute("aria-label", `Открыть карточку: ${d.name}`);
@@ -32469,7 +32751,33 @@ document.addEventListener("click", (e) => {
   } else if (href.indexOf("cloudtips.ru") !== -1) {
     vbrTrack("donate_click");
   }
+
+  // В мини-аппе Telegram обычная ссылка с target="_blank" не открывается:
+  // WebView блокирует всплывающее окно. Отдаём адрес клиенту Telegram.
+  openExternalInTelegram(e, a, href);
 }, true);
+
+function openExternalInTelegram(event, link, href) {
+  try {
+    if (!href || !/^https?:\/\//i.test(href)) return;
+    if (link.getAttribute("target") !== "_blank") return;
+    const wa = window.Telegram && window.Telegram.WebApp;
+    const inTelegram = document.documentElement.classList.contains("tg-app-root") ||
+      document.body?.classList.contains("tg-app");
+    if (!wa || !inTelegram) return;
+    if (/^https?:\/\/(t\.me|telegram\.(me|dog))\//i.test(href)) {
+      if (typeof wa.openTelegramLink === "function") {
+        event.preventDefault();
+        wa.openTelegramLink(href);
+        return;
+      }
+    }
+    if (typeof wa.openLink === "function") {
+      event.preventDefault();
+      wa.openLink(href, { try_instant_view: false });
+    }
+  } catch (e) {}
+}
 
 window.addEventListener("resize", () => {
   const bar = document.getElementById("cmp-bar");
