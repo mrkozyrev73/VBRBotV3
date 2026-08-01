@@ -27284,17 +27284,18 @@ function adminRenderHTML(s) {
 
     <div class="adm-card"><div class="adm-card-title">Платформы</div>${plats}</div>
 
-    ${quizFunnelHTML(a, fmt)}
+    ${quizFunnelHTML(a, fmt, s.quizSteps)}
   `;
 }
 
 // ── Воронка квиза: на каком вопросе люди уходят ──
-function quizFunnelHTML(actions, fmt) {
+function quizFunnelHTML(actions, fmt, quizSteps) {
+  const byStep = quizSteps || {};
   const steps = QS.map((q, i) => ({
     label: (typeof QLABELS === "object" && QLABELS[q.key]) || q.title || `Вопрос ${i + 1}`,
-    count: Number(actions["quiz_s" + (i + 1)] || 0),
+    count: Number(byStep[i + 1] || 0),
   }));
-  steps.push({ label: "Дошли до результатов", count: Number(actions.quiz_done || 0), final: true });
+  steps.push({ label: "Дошли до результатов", count: Number(byStep.done || actions.quiz_done || 0), final: true });
   const start = steps[0].count;
   if (!start) {
     return `<div class="adm-card"><div class="adm-card-title">Воронка подбора</div>
@@ -29124,7 +29125,9 @@ function isGpsInformerDisplay(d) {
   const text = `${d?.name || ""} ${d?.brand || ""} ${d?.desc || ""} ${d?.gps || ""} ${d?.resolution || ""}`.toLowerCase();
   if (/(gps|глонасс).*(информ|speedcam|speed cam|баз[аы] камер|камер(?:ы)? контроля|автодори)/i.test(text)) return true;
   if (/(информ|speedcam|speed cam|баз[аы] камер|камер(?:ы)? контроля|автодори).*(gps|глонасс)/i.test(text)) return true;
-  return /sho-me a(?:12|15).*gps/i.test(text);
+  // Sho-Me A12 и A15 — обычные регистраторы: GPS у них для координат
+  // и скорости, базы камер нет. Раньше их считали информерами вручную.
+  return false;
 }
 
 function deviceTypeText(d, short = false) {
@@ -29756,7 +29759,13 @@ function seededShuffle(items, seedText) {
 }
 
 function radarAntenna(d) {
-  const txt = `${d.brand || ""} ${d.name || ""} ${d.type || ""} ${d.desc || ""} ${d.gps || ""} ${d.specs?.radar || ""}`.toLowerCase();
+  // Явно заполненное поле важнее описания: в рекламных текстах производителей
+  // «рупорная антенна» встречается и там, где её нет.
+  const explicit = String(d?.specs?.radar || "").toLowerCase();
+  if (/рупор|horn|exd|допплеровск/.test(explicit)) return "horn";
+  if (/патч|patch/.test(explicit)) return "patch";
+
+  const txt = `${d.brand || ""} ${d.name || ""} ${d.type || ""} ${d.desc || ""} ${d.gps || ""}`.toLowerCase();
   if (/рупор|horn|exd|допплеровск/.test(txt)) return "horn";
   if (/патч|patch/.test(txt)) return "patch";
   return null;
@@ -31350,8 +31359,6 @@ function renderQ() {
     qIdx = nextRelevant;
   }
   sendStats("quiz_q", qIdx + 1);
-  // отдельное имя события на шаг — из них собирается воронка в админке
-  sendStats("quiz_s" + (qIdx + 1), q0key(qIdx));
 
   const q = QS[qIdx];
   const { current, total } = visibleQuestionStats();

@@ -272,7 +272,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -485,7 +486,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -521,7 +523,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -557,7 +560,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -593,7 +597,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -629,7 +634,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "патч-антенна"
     }
   },
   {
@@ -665,7 +671,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": null
+      "wifi_gen": null,
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -701,7 +708,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -1453,7 +1461,8 @@ window.DEVICES = [
       "format": "TS",
       "app": "Есть для iOS и Android / Приложение Viidure / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора",
       "features": "Три камеры в одном корпусе и одна дополнительная (выносная)"
-    }
+    },
+    "spin360": true
   },
   {
     "name": "TrendVision Winner",
@@ -1820,7 +1829,8 @@ window.DEVICES = [
       "app": "Есть для iOS и Android / Приложение TV Connect / Возможности: просмотр текущего и ранее записанных видеороликов, скачивание видео, настройка параметров регистратора, обновление ПО и баз камер",
       "features": "Фильтр Z-сигнатур",
       "radar": "патч-антенна"
-    }
+    },
+    "spin360": true
   },
   {
     "name": "TrendVision Combo F10 CPL",
@@ -2579,7 +2589,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2656,7 +2667,8 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "built_in_memory": "64 ГБ"
+      "built_in_memory": "64 ГБ",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -2845,7 +2857,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2882,7 +2895,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -2919,7 +2933,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3074,7 +3089,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -3185,7 +3201,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -3222,7 +3239,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3296,7 +3314,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -3663,7 +3682,7 @@ window.DEVICES = [
     "angle": "150°",
     "screen": "3\"",
     "gps": "нет",
-    "price": "цена не указана",
+    "price": "~4 990 ₽",
     "url": "https://trendvision.ru/catalog/",
     "photo": null,
     "image": "assets/devices/trendvision-winner-1ch.webp",
@@ -3788,7 +3807,7 @@ window.DEVICES = [
     "angle": "160°",
     "screen": "1.5\"",
     "gps": "GPS встроенный",
-    "price": "цена не указана",
+    "price": "~18 990 ₽",
     "url": "https://trendvision.ru/catalog/",
     "photo": null,
     "image": "assets/devices/trendvision-mini-4k-wi-fi-2ch.webp",
@@ -4915,7 +4934,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -4951,7 +4971,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": false,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5455,7 +5476,8 @@ window.DEVICES = [
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
       "radar": "патч-антенна"
-    }
+    },
+    "spin360": true
   },
   {
     "name": "Inspector AtlaS",
@@ -5841,7 +5863,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -5876,7 +5899,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -6337,7 +6361,8 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null
-    }
+    },
+    "spin360": true
   },
   {
     "name": "NAVITEL R260 NV",
@@ -6733,7 +6758,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -6769,7 +6795,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -6806,7 +6833,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -7430,7 +7458,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -7465,7 +7494,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -9067,7 +9097,7 @@ window.DEVICES = [
     "angle": "125°",
     "screen": "1.9\"",
     "gps": "GPS",
-    "price": "цена уточняется",
+    "price": "~9 990 ₽",
     "url": "https://lamobile.ru/catalog/videoregistratory",
     "image": "assets/devices/70mai-t800e.webp",
     "specs": {
@@ -9110,7 +9140,7 @@ window.DEVICES = [
     "angle": "143°",
     "screen": "нет",
     "gps": "нет",
-    "price": "цена уточняется",
+    "price": "~4 490 ₽",
     "url": "https://lamobile.ru/catalog/videoregistratory",
     "image": "assets/devices/70mai-m310-plus-2k.png",
     "specs": {
@@ -9228,7 +9258,7 @@ window.DEVICES = [
     "angle": "140°",
     "screen": "есть",
     "gps": "GPS + ГЛОНАСС",
-    "price": "цена уточняется",
+    "price": "~9 900 ₽",
     "url": "https://lamobile.ru/catalog/videoregistratory",
     "image": "assets/devices/70mai-a810-lite.jpg",
     "specs": {
@@ -11203,7 +11233,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -11311,7 +11342,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -12024,7 +12056,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "radar": "патч-антенна"
     }
   },
   {
@@ -12395,7 +12428,7 @@ window.DEVICES = [
     "angle": "140°",
     "screen": "без экрана",
     "gps": "GPS в креплении",
-    "price": "цена не указана",
+    "price": "~12 990 ₽",
     "url": "https://ddpai-russia.ru/videoregistrator-ddpai-mini5/",
     "photo": "https://ddpai-russia.ru/wp-content/uploads/2026/03/videoregistrator-ddpai-dash-cam-mini5-4k.jpg",
     "image": "assets/devices/ddpai-dash-cam-mini5-4k.webp",
