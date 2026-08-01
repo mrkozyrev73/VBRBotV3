@@ -25284,8 +25284,7 @@ function buildCompareRows(devices) {
   if (sensors.some(Boolean)) {
     rows.push({
       icon: 'M4 7a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm8 7.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
-      label: 'Сенсор',
-      cells: devices.map((d, i) => ({text: sensors[i] ? sensors[i].label : 'не указан', rank: sensorPriorityScore(d)}))
+      label: 'Матрица', cells: devices.map((d, i) => ({text: sensors[i] ? sensors[i].label : 'не указан', rank: sensorPriorityScore(d)}))
     });
   }
 
@@ -29071,7 +29070,7 @@ const UI_TERMS = {
   horn: "Рупорная антенна",
   patch: "Патч-антенна",
   lna: "LNA-усилитель",
-  sensor: "Сенсор"
+  sensor: "Матрица"
 };
 
 const TERM_HELP = {
@@ -29937,7 +29936,7 @@ function getDiffs(x, d) {
       type: tone
     });
   } else if (xSensor && !dSensor && x.q >= d.q) {
-    diffs.push({text: `Сенсор: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
+    diffs.push({text: `Матрица: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
   // Радарная антенна считается сразу после разрешения/сенсора,
   // чтобы это ключевое отличие не срезалось лимитом в 4 показанных тега.
@@ -30116,7 +30115,7 @@ function compactDetailLabel(item) {
   if (/4k|2k|full ?hd|съёмк|съемк|разрешен/.test(text)) return "Съёмка";
   // «Сенсорное управление» — это про управление, а не про матрицу камеры
   if (/сенсорн[а-яё]*\s*(управ|экран)|тачскрин|физическ[а-яё]*\s*кнопк|кнопк/.test(text)) return "Управление";
-  if (/сенсор(?![а-яё])|imx|starvis|galaxycore|omnivision|gc\d/.test(text)) return "Сенсор";
+  if (/матриц|сенсор(?![а-яё])|imx|starvis|galaxycore|omnivision|gc\d/.test(text)) return "Матрица";
   if (/360|поворот камер/.test(text)) return "Поворот 360°";
   if (/обзор|°/.test(text)) return "Обзор";
   if (item?.type === "antenna" || /антенн|рупор|патч/.test(text)) return "Радар";
@@ -30169,7 +30168,7 @@ function normalizeDetailValue(label, text, tone) {
 
 // Единый порядок строк отличий во всём приложении:
 // цена → сенсор → радар(антенна) → съёмка → обзор → остальное.
-const DETAIL_ORDER = ["Цена", "Доп. камера", "Память", "Сенсор", "Радар", "Съёмка", "Обзор", "КЗВ", "Салон", "Wi-Fi", "GPS", "Экран", "Управление", "Крепление", "4G"];
+const DETAIL_ORDER = ["Цена", "Доп. камера", "Память", "Матрица", "Радар", "Съёмка", "Обзор", "КЗВ", "Салон", "Wi-Fi", "GPS", "Экран", "Управление", "Крепление", "4G"];
 function sortDetailRows(rows) {
   const rank = l => {
     const i = DETAIL_ORDER.indexOf(l);
@@ -30318,8 +30317,8 @@ function exactAnalogFacts(x, d) {
   const sx = sensorInfo(x), sd = sensorInfo(d);
   if (sx && sd && sx.key !== sd.key) {
     const px = sensorPriorityScore(x), pd2 = sensorPriorityScore(d);
-    if (px > pd2)      facts.push({ tone: "good", text: `Сенсор лучше: ${sx.label}` });
-    else if (px < pd2) facts.push({ tone: "bad",  text: `Сенсор проще: ${sx.label}` });
+    if (px > pd2)      facts.push({ tone: "good", text: `Матрица лучше: ${sx.label}` });
+    else if (px < pd2) facts.push({ tone: "bad",  text: `Матрица проще: ${sx.label}` });
   }
   const ax = primaryAngle(x), ad = primaryAngle(d);
   if (ax && ad && ax !== ad) {
@@ -30459,8 +30458,8 @@ function fullSpecRows(d) {
     ["Тип устройства", deviceTypeText(d, true)],
     ["Форм-фактор", d.form],
     ["Разрешение", d.resolution],
-    ["Сенсор", sensorSpecValue(d)],
-    ["Сенсор доп. камеры", d.specs?.rear_sensor],
+    ["Матрица", sensorSpecValue(d)],
+    ["Матрица доп. камеры", d.specs?.rear_sensor],
     ["Угол обзора", d.angle],
     ["Экран", d.screen],
     ["GPS", d.gps],
@@ -32261,7 +32260,7 @@ function _renderResults(top) {
     // Сильные стороны сверх требований — чтобы было видно, чем модель хороша
     const sInfo = sensorInfo(d);
     if (sInfo && isSonySensorInfo(sInfo) && rows.length < 4) {
-      rows.push({label: "Сенсор", text: sInfo.label, tone: "better"});
+      rows.push({label: "Матрица", text: sInfo.label, tone: "better"});
     }
     const ang = primaryAngle(d);
     if (ang >= 160 && rows.length < 4) {
