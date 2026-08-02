@@ -123,7 +123,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -487,7 +487,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -561,7 +561,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -598,7 +598,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -635,7 +635,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -709,7 +709,7 @@ window.DEVICES = [
       "motion": false,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {

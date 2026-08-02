@@ -24141,6 +24141,307 @@ html[data-theme="dark"] .compromise-done-sub.exact {
 html[data-theme="dark"] .compromise-count,
 html[data-theme="dark"] .compromise-count.exact,
 html[data-theme="dark"] .compromise-done-sub.exact { color: #A1A1AA !important; }
+
+/* ══════════════════════════════════════════════════════════
+   СРАВНЕНИЕ И ИЗБРАННОЕ — та же система, что на остальных экранах
+   ══════════════════════════════════════════════════════════ */
+
+/* Переключатель «Все / Отличия» — как сортировка в выдаче:
+   серая дорожка, белая выбранная плашка, а не чёрная пилюля. */
+html[data-theme="light"] #s-compare .cmp-view-toggle,
+html[data-theme="dark"] #s-compare .cmp-view-toggle {
+  display: inline-flex !important;
+  gap: 2px !important;
+  padding: 3px !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+}
+html[data-theme="light"] #s-compare .cmp-view-toggle { background: #F2F2F7 !important; }
+html[data-theme="dark"] #s-compare .cmp-view-toggle { background: rgba(118,118,128,.24) !important; }
+html[data-theme="light"] #s-compare .cmp-view-btn,
+html[data-theme="dark"] #s-compare .cmp-view-btn {
+  height: 30px !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 980px !important;
+  background: transparent !important;
+  color: var(--text-2) !important;
+  font-size: 13.5px !important;
+  font-weight: 450 !important;
+  letter-spacing: -.012em !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-compare .cmp-view-btn.active {
+  background: #fff !important;
+  color: #1D1D1F !important;
+  font-weight: 550 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.10), 0 0 0 .5px rgba(0,0,0,.04) !important;
+}
+html[data-theme="dark"] #s-compare .cmp-view-btn.active {
+  background: rgba(120,120,128,.36) !important;
+  color: #F5F5F7 !important;
+  font-weight: 550 !important;
+}
+html[data-theme="light"] #s-compare .cmp-view-label,
+html[data-theme="dark"] #s-compare .cmp-view-label {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  letter-spacing: -.01em !important;
+  color: var(--text-3, #86868B) !important;
+  text-transform: none !important;
+}
+
+/* Избранное: карточка читается как строка каталога — бренд серым,
+   название обычным начертанием, характеристики через точку. */
+html[data-theme="light"] #s-favorites .fav-card-brand,
+html[data-theme="dark"] #s-favorites .fav-card-brand {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: -.01em !important;
+  text-transform: none !important;
+  color: var(--text-3, #86868B) !important;
+}
+html[data-theme="light"] #s-favorites .fav-card-name,
+html[data-theme="dark"] #s-favorites .fav-card-name {
+  margin-top: 1px !important;
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+  letter-spacing: -.016em !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-favorites .fav-card-pill,
+html[data-theme="dark"] #s-favorites .fav-card-pill {
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  letter-spacing: -.01em !important;
+  color: var(--text-2) !important;
+}
+html[data-theme="light"] #s-favorites .fav-card-pill:not(:last-child)::after,
+html[data-theme="dark"] #s-favorites .fav-card-pill:not(:last-child)::after {
+  content: " · ";
+  color: var(--text-3, #86868B);
+  opacity: 1;
+}
+html[data-theme="light"] #s-favorites .fav-card-meta,
+html[data-theme="dark"] #s-favorites .fav-card-meta {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  margin-top: 2px !important;
+}
+html[data-theme="light"] #s-favorites .fav-card-price,
+html[data-theme="dark"] #s-favorites .fav-card-price {
+  margin-top: 4px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.02em !important;
+  color: var(--text-1) !important;
+}
+html[data-theme="light"] #s-favorites .fav-card,
+html[data-theme="dark"] #s-favorites .fav-card {
+  grid-template-columns: 60px minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+  padding: 12px !important;
+  min-height: 0 !important;
+  border-radius: 16px !important;
+}
+html[data-theme="light"] #s-favorites .fav-card .mode-popular-thumb,
+html[data-theme="dark"] #s-favorites .fav-card .mode-popular-thumb {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+/* Панель «Сравнить избранное» — без коробки, на волосяной линии */
+html[data-theme="light"] #s-favorites .fav-compare-panel,
+html[data-theme="dark"] #s-favorites .fav-compare-panel {
+  background: none !important;
+  border: 0 !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 14px !important;
+  margin: 0 0 14px !important;
+  align-items: center !important;
+}
+html[data-theme="light"] #s-favorites .fav-compare-panel { border-bottom-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] #s-favorites .fav-compare-panel { border-bottom-color: rgba(255,255,255,.10) !important; }
+html[data-theme="light"] #s-favorites .fav-compare-copy strong,
+html[data-theme="dark"] #s-favorites .fav-compare-copy strong {
+  display: block;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.016em !important;
+  color: var(--text-1) !important;
+  margin-bottom: 2px;
+}
+html[data-theme="light"] #s-favorites .fav-compare-copy,
+html[data-theme="dark"] #s-favorites .fav-compare-copy {
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
+  color: var(--text-2) !important;
+  text-wrap: pretty;
+}
+html[data-theme="light"] #s-favorites .fav-compare-btn,
+html[data-theme="dark"] #s-favorites .fav-compare-btn {
+  flex: 0 0 auto !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 980px !important;
+  background: transparent !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #s-favorites .fav-compare-btn { border-color: rgba(0,0,0,.12) !important; color: #1D1D1F !important; }
+html[data-theme="dark"] #s-favorites .fav-compare-btn { border-color: rgba(255,255,255,.14) !important; color: #F5F5F7 !important; }
+
+/* Финальная выдача подбора: компактный Apple-ритм без конкурирующих подсказок */
+html[data-theme="light"] #s-results .results-container,
+html[data-theme="dark"] #s-results .results-container {
+  row-gap: 0 !important;
+}
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin: 0 0 12px !important;
+}
+html[data-theme="light"] #s-results .results-list,
+html[data-theme="dark"] #s-results .results-list {
+  gap: 12px !important;
+}
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title {
+  margin-bottom: 8px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight {
+  margin: 0 0 12px !important;
+  padding: 16px 16px !important;
+  border-radius: 22px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker {
+  margin-bottom: 6px !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  margin-top: 0 !important;
+  margin-bottom: 7px !important;
+  line-height: 1.12 !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  line-height: 1.32 !important;
+}
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  display: none !important;
+}
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  margin: 2px 0 12px !important;
+}
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header,
+html[data-theme="light"] #s-results .res-section-header.exact,
+html[data-theme="dark"] #s-results .res-section-header.exact {
+  margin: 8px 0 8px !important;
+}
+html[data-theme="light"] #s-results .ap-blank,
+html[data-theme="dark"] #s-results .ap-blank {
+  margin: 8px auto 14px !important;
+  padding: 18px 16px !important;
+}
+html[data-theme="light"] #s-results .ap-blank-mark,
+html[data-theme="dark"] #s-results .ap-blank-mark {
+  width: 42px !important;
+  height: 42px !important;
+  margin-bottom: 10px !important;
+}
+html[data-theme="light"] #s-results .ap-blank-title,
+html[data-theme="dark"] #s-results .ap-blank-title {
+  margin-bottom: 7px !important;
+  line-height: 1.12 !important;
+}
+html[data-theme="light"] #s-results .ap-blank-text,
+html[data-theme="dark"] #s-results .ap-blank-text {
+  line-height: 1.34 !important;
+}
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  margin: 8px 0 12px !important;
+  padding: 14px !important;
+  border-radius: 22px !important;
+}
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  margin: 0 0 10px !important;
+  line-height: 1.35 !important;
+}
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  padding: 10px 0 0 !important;
+  gap: 9px !important;
+}
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  line-height: 1.18 !important;
+}
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  min-width: 0 !important;
+  width: auto !important;
+  height: 32px !important;
+  padding: 0 14px !important;
+  white-space: nowrap !important;
+}
+html[data-theme="light"] #s-loading.search-done .loading-sub,
+html[data-theme="dark"] #s-loading.search-done .loading-sub {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+}
+html[data-theme="light"] #s-loading.search-done .loading-sub::before,
+html[data-theme="dark"] #s-loading.search-done .loading-sub::before {
+  flex: 0 0 7px !important;
+  margin: 0 !important;
+  vertical-align: 0 !important;
+}
+html[data-theme="light"] #s-results .smart-hint,
+html[data-theme="dark"] #s-results .smart-hint {
+  display: none !important;
+}
+@keyframes vbrResultSoftIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header,
+html[data-theme="light"] #s-results .quiz-insight,
+html[data-theme="dark"] #s-results .quiz-insight,
+html[data-theme="light"] #s-results .results-list > *,
+html[data-theme="dark"] #s-results .results-list > * {
+  animation-name: vbrResultSoftIn !important;
+  animation-duration: .18s !important;
+  animation-timing-function: ease-out !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="light"] #s-results .res-header,
+  html[data-theme="dark"] #s-results .res-header,
+  html[data-theme="light"] #s-results .quiz-insight,
+  html[data-theme="dark"] #s-results .quiz-insight,
+  html[data-theme="light"] #s-results .results-list > *,
+  html[data-theme="dark"] #s-results .results-list > * {
+    animation: none !important;
+  }
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -27475,8 +27776,8 @@ function resultFitCompare(a, b) {
   // Совпадение → умный баланс цены/пользы (близкие цены — решает польза,
   // ощутимая разница — дешевле первым) → остальные тай-брейки.
   return b.pct - a.pct ||
-    smartValue(a, b) ||
     comboSearchPriority(b) - comboSearchPriority(a) ||
+    smartValue(a, b) ||
     b.d.q - a.d.q ||
     primaryAngle(b.d) - primaryAngle(a.d);
 }
@@ -28272,7 +28573,10 @@ function getBestCompromisePlan() {
   // выбравшему до 5 000, бессмысленно советовать поднять бюджет до 30 000,
   // если точное совпадение появляется уже на ближайшей ступени.
   const planCost = plan => Math.max(...plan.changes.map(ch => ch.priority ?? 20));
+  const hasBudgetChange = plan => plan.changes.some(ch => ch.key === "budget");
+  const budgetMax = selectedBudgetMax();
   return plans.sort((a, b) =>
+    (budgetMax != null ? Number(!hasBudgetChange(a)) - Number(!hasBudgetChange(b)) : 0) ||
     a.changes.length - b.changes.length ||
     planCost(a) - planCost(b) ||
     b.stats.exactCount - a.stats.exactCount ||
@@ -31996,7 +32300,7 @@ function _renderResults(top) {
     el("res-sub").innerHTML = `Лучшее совпадение — <b>${bestPct}%</b>`;
   } else {
     const budgetLimit = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget).toLowerCase() : "";
-    titleEl.textContent = "Упс, ничего не найдено";
+    titleEl.textContent = "Точных совпадений нет";
     el("res-sub").textContent = budgetLimit
       ? `Под выбранные условия нет моделей ${budgetLimit}.`
       : "Такой связки условий в базе нет.";
@@ -32044,6 +32348,12 @@ function _renderResults(top) {
       if (s.key === "remote" && val === "да") return "Без 4G";
       if (s.key === "remote" && val === "нет") return "С 4G";
       if (s.key === "type") return "Сменить тип устройства";
+      if (s.key === "budget") {
+        const raw = String(s.title || s.hint || "").trim();
+        if (/не ограничивать бюджет/i.test(raw)) return "Не ограничивать бюджет";
+        const amount = raw.match(/(?:до|бюджет до)\s+(.+)$/i)?.[1] || raw.replace(/^повысить бюджет до\s+/i, "");
+        return amount ? `Поднять бюджет до ${amount}` : "Поднять бюджет";
+      }
       if (s.key === "quality") return String(s.hint || "").replace(/^Рассмотреть модели с\s*/i, "") || "Другое качество";
       if (s.key === "form") return "Не ограничивать корпус";
       const raw = String(s.hint || "Изменить условие");
@@ -32070,6 +32380,7 @@ function _renderResults(top) {
     cWrap.className = "compromise-wrap";
     cWrap.innerHTML = `
       <div class="compromise-sub">${(() => {
+        if (compromises[0]?.key === "budget") return "Быстрое решение по бюджету";
         const n = Math.max(1, compromises[0]?.changeCount || 1);
         const word = n === 1 ? "Одна правка" : n === 2 ? "Две правки" : `${n} правки`;
         const verb = n === 1 ? "даст" : "дадут";
@@ -32093,34 +32404,18 @@ function _renderResults(top) {
         </div>
         <button class="compromise-btn">${compactCompromiseCta(s)}<span class="compromise-btn-arrow">›</span></button>`;
       row.querySelector(".compromise-btn").addEventListener("click", () => {
-        if (row.classList.contains("done")) return;
-        // Реальный пересчёт сразу; дальше — только визуальная подача результата
+        const btn = row.querySelector(".compromise-btn");
+        if (btn?.disabled) return;
+        if (btn) btn.disabled = true;
+        // Реальный пересчёт сразу: кнопка должна вести прямо к подходящей выдаче,
+        // без промежуточного шага и ощущения, что нужно снова что-то менять.
         s.action();
         sortMode = "match";
         showAllNearResults = false;
         _lastTop = getTop();
-        const exactAfter = _lastTop.filter(t => t.mm.length === 0).length;
 
-        // Состояние успеха на карточке рекомендации (реальные числа, без ложных обещаний)
-        row.classList.add("done");
-        row.innerHTML = `
-          <div class="compromise-done">
-            <span class="compromise-done-check">✓</span>
-            <div>
-              <div class="compromise-done-title">Требование изменено</div>
-              <div class="compromise-done-sub${exactAfter > 0 ? " exact" : ""}">${
-                exactAfter > 0
-                  ? `Найдено ${exactAfter} ${pluralRu(exactAfter, "точное совпадение", "точных совпадения", "точных совпадений")}`
-                  : "Подбор обновлён"
-              }</div>
-            </div>
-          </div>`;
-
-        // Обновляем выдачу без fade-анимации: на мобильном она воспринимается как моргание.
-        setTimeout(() => {
-          _renderResults(_lastTop);
-          window.scrollTo({top: 0, behavior: "auto"});
-        }, 520);
+        _renderResults(_lastTop);
+        requestAnimationFrame(() => window.scrollTo({top: 0, behavior: "auto"}));
       });
       cWrap.appendChild(row);
     });
@@ -32154,31 +32449,8 @@ function _renderResults(top) {
     list.appendChild(sortBar);
   }
 
-  const comboHornHint = getComboHornQualityHint();
-  if (comboHornHint) {
-    const hint = document.createElement("div");
-    hint.className = "smart-hint";
-    hint.innerHTML = `
-      <div class="smart-hint-text">
-        <strong>Подсказка по радарной части</strong>
-        ${comboHornHint.text}
-      </div>
-      <div class="smart-hint-actions">
-        ${comboHornHint.options.map((o, i) => `<button class="smart-hint-btn" type="button" data-i="${i}">Показать ${o.label}</button>`).join("")}
-      </div>`;
-    hint.querySelectorAll(".smart-hint-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const opt = comboHornHint.options[Number(btn.dataset.i)];
-        answers.quality = opt.answer;
-        sortMode = "match";
-        showAllNearResults = false;
-        _lastTop = getTop();
-        _renderResults(_lastTop);
-        window.scrollTo(0, 0);
-      });
-    });
-    list.appendChild(hint);
-  }
+  // Отдельная подсказка по радарной части убрана из финальной выдачи:
+  // пользователь должен видеть один понятный итог и одно короткое решение.
 
   // ── Всё «неважно» ────────────────────────────────
   const scoredKeys = ["quality","smartphone","magnetic","touch","ir_cam","remote"];
@@ -32207,9 +32479,15 @@ function _renderResults(top) {
 
   // ── Пустой результат ─────────────────────────────
   if (top.length === 0) {
+    const hasCompromiseOptions = getCompromises().length > 0;
+    if (hasCompromiseOptions) {
+      appendCompromiseBlock();
+      applyResultsStagger();
+      show("s-results");
+      return;
+    }
     const empty = document.createElement("div");
     const budgetText = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget) : "";
-    const hasCompromiseOptions = getCompromises().length > 0;
     const emptyActions = hasCompromiseOptions ? "" : `
       <div class="ap-blank-acts">
         <button class="ap-blank-btn is-primary" type="button" onclick="restartQuiz()">Заново</button>
