@@ -18745,6 +18745,17 @@ html[data-theme="dark"] #s-results .device-photo-wrap {
   box-sizing: border-box !important;
   overflow: hidden !important;
 }
+
+/* Карточка рекламы открывает модель в боте — показываем это курсором и нажатием */
+html[data-theme="light"] #s-loading .ad-banner-lg.is-openable,
+html[data-theme="dark"] #s-loading .ad-banner-lg.is-openable {
+  cursor: pointer;
+  transition: transform .12s ease;
+}
+html[data-theme="light"] #s-loading .ad-banner-lg.is-openable:active,
+html[data-theme="dark"] #s-loading .ad-banner-lg.is-openable:active {
+  transform: scale(.995);
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -22989,7 +23000,9 @@ function renderPromoAd() {
   if (!ad) { box.style.display = "none"; box.innerHTML = ""; return; }
   box.style.display = "";
   box.innerHTML = `
-    <div class="ad-banner-lg" aria-label="Реклама: ${attrSafe(ad.title)}">
+    <div class="ad-banner-lg${promoDeviceIndex() >= 0 ? " is-openable" : ""}"${promoDeviceIndex() >= 0
+      ? ` role="button" tabindex="0" onclick="openPromoDevice(event)" onkeydown="onPromoDeviceKey(event)"`
+      : ""} aria-label="Реклама: ${attrSafe(ad.title)}">
       ${adGridHTML(ad)}
     </div>
     <div class="ad-place-note">На этом месте может быть реклама вашего продукта.</div>`;
@@ -24324,9 +24337,36 @@ function openDeviceFromSearch(idx) {
   renderDeviceProfile(d, exact, similar);
 }
 
+// Модель для рекламы определяем по самой рекламе: заголовок и описание
+// задаются в кабинете, поэтому раньше жёстко вписанное название открывало
+// чужую карточку, если рекламу меняли.
+function promoDeviceIndex() {
+  const ad = window._currentAd;
+  if (!ad) return -1;
+  const norm = v => String(v || "").toLowerCase().replace(/[^a-zа-яё0-9]+/gi, " ").trim();
+  const byName = (value) => {
+    const q = norm(value);
+    if (!q) return -1;
+    let i = DEVICES.findIndex(d => norm(d && d.name) === q);
+    if (i >= 0) return i;
+    return DEVICES.findIndex(d => d && norm(d.name).startsWith(q) && q.length >= 8);
+  };
+  let idx = byName(ad.model);
+  if (idx < 0) idx = byName(ad.title);
+  if (idx < 0 && ad.image) {
+    idx = DEVICES.findIndex(d => d && d.image && d.image === ad.image);
+  }
+  if (idx < 0 && ad.desc) {
+    const plain = String(ad.desc).replace(/<[^>]+>/g, " ");
+    const first = plain.split(/[—–-]/)[0];
+    idx = byName(first);
+  }
+  return idx;
+}
+
 function openPromoDevice(event) {
   if (event && event.target && event.target.closest && event.target.closest('a')) return;
-  const idx = DEVICES.findIndex(d => d && d.name === "TrendVision Nano 2K Wi-Fi CPL GPS");
+  const idx = promoDeviceIndex();
   if (idx < 0) return;
   stopActiveSearchScene();
   lastSearchOrigin = 'intro';
