@@ -745,7 +745,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -781,7 +781,7 @@ window.DEVICES = [
       "motion": false,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -818,7 +818,7 @@ window.DEVICES = [
       "motion": true,
       "timelapse": false,
       "wifi_gen": null,
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -855,7 +855,7 @@ window.DEVICES = [
       "motion": false,
       "timelapse": false,
       "wifi_gen": "Wi-Fi",
-      "radar": "патч-антенна"
+      "radar": "рупорная антенна"
     }
   },
   {
@@ -5953,9 +5953,9 @@ window.DEVICES = [
     "rotation": false,
     "ir_cam": false,
     "remote": false,
-    "desc": "4K видеорегистратор с двумя камерами, ADAS+BSD, GPS/ГЛОНАСС, Wi-Fi. Отличное качество съёмки по доступной цене.",
+    "desc": "4K видеорегистратор Navitel с матрицей Sony STARVIS IMX415: фронтальная камера 160°, задняя Full HD 120° в комплекте, ADAS+BSD, GPS/ГЛОНАСС, Wi-Fi.",
     "resolution": "4K 3840×2160p",
-    "angle": "140° + зад",
+    "angle": "160° + 120°",
     "screen": "с экраном",
     "gps": "GPS + ГЛОНАСС",
     "price": "~12 400 ₽",
@@ -5973,7 +5973,8 @@ window.DEVICES = [
       "gsensor": true,
       "motion": true,
       "timelapse": false,
-      "wifi_gen": "Wi-Fi"
+      "wifi_gen": "Wi-Fi",
+      "sensor": "Sony STARVIS IMX415"
     }
   },
   {

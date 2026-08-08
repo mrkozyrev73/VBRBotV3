@@ -17761,6 +17761,91 @@ html[data-theme="light"] .catalog-sort-row::-webkit-scrollbar,
 html[data-theme="dark"] .catalog-sort-row::-webkit-scrollbar {
   display: none;
 }
+
+/* ── Значок Rutube: оранжевый круг с белой буквой, как у YouTube.
+   Чёрные края шли от общей обводки svg в кнопках ссылок —
+   правило, снимавшее её, потерялось при уборке старого слоя. ── */
+html[data-theme="light"] .btn-rutube-logo,
+html[data-theme="dark"] .btn-rutube-logo {
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 50% !important;
+  stroke: none !important;
+  background: none !important;
+  flex-shrink: 0;
+}
+html[data-theme="light"] .btn-rutube-logo circle,
+html[data-theme="dark"] .btn-rutube-logo circle {
+  fill: #FF4C00 !important;
+  stroke: none !important;
+}
+html[data-theme="light"] .btn-rutube-logo path,
+html[data-theme="dark"] .btn-rutube-logo path {
+  fill: #FFFFFF !important;
+  stroke: none !important;
+}
+/* та же защита от обводки для остальных цветных значков */
+html[data-theme="light"] .btn-youtube-logo,
+html[data-theme="dark"] .btn-youtube-logo,
+html[data-theme="light"] .btn-market-logo,
+html[data-theme="dark"] .btn-market-logo {
+  stroke: none !important;
+}
+html[data-theme="light"] .btn-youtube-logo circle,
+html[data-theme="dark"] .btn-youtube-logo circle,
+html[data-theme="light"] .btn-youtube-logo path,
+html[data-theme="dark"] .btn-youtube-logo path {
+  stroke: none !important;
+}
+
+/* ── Финальный блок статьи «Главное»: как обычный раздел, только
+   отделён волосяной линией. Синий градиент и заголовок 850-го
+   начертания остались от прежнего дизайна. ── */
+html[data-theme="light"] .guide-final,
+html[data-theme="dark"] .guide-final {
+  margin-top: 0 !important;
+  padding: 20px 18px !important;
+  border: 0 !important;
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .guide-final { border-top-color: rgba(0,0,0,.08) !important; }
+html[data-theme="dark"] .guide-final { border-top-color: rgba(255,255,255,.10) !important; }
+/* заголовок и текст — ровно как в соседних разделах статьи */
+html[data-theme="light"] .guide-final h3 {
+  color: var(--text) !important;
+  font-weight: 800 !important;
+  letter-spacing: normal !important;
+}
+html[data-theme="dark"] .guide-final h3 {
+  color: var(--text-1) !important;
+  font-weight: 500 !important;
+}
+html[data-theme="light"] .guide-final p,
+html[data-theme="dark"] .guide-final p { color: var(--text-2) !important; }
+
+/* ── Иллюстрации статей: фотография заполняет рамку целиком.
+   Прежнее правило вписывало её по ширине, и по краям оставались
+   белые полосы — «письмо в конверте». ── */
+html[data-theme="light"] .guide-figure,
+html[data-theme="dark"] .guide-figure {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+html[data-theme="light"] .guide-figure-wide img,
+html[data-theme="dark"] .guide-figure-wide img {
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -18174,6 +18259,104 @@ function enableMetrika(){
         <div id="admin-manage"></div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<!-- ── СТАТЬЯ: семь признаков плохого регистратора ──── -->
+<div id="s-bad-signs" class="screen">
+  <div class="guide-inner">
+    <article class="guide-article">
+      <h2 class="guide-title">Семь признаков плохого видеорегистратора</h2>
+      <div class="guide-intro-card">
+        <p>На бумаге почти любой современный видеорегистратор выглядит убедительно: 4K, Wi-Fi, широкий угол обзора, ночная съёмка, GPS и десяток дополнительных функций.</p>
+        <p>Но характеристики не рассказывают, зависает ли устройство летом, дрожит ли изображение из-за крепления и сохраняется ли последний файл после выключения двигателя. Именно такие мелочи определяют, можно ли доверять регистратору в нужный момент.</p>
+        <figure class="guide-figure guide-figure-wide">
+          <img loading="lazy" decoding="async" src="assets/guide/bad-signs.webp" alt="Видеорегистратор на лобовом стекле в дождливую погоду">
+        </figure>
+        <p><strong>Хороший регистратор не обязан впечатлять количеством функций. Он обязан без участия водителя включаться, записывать и сохранять нужный файл.</strong></p>
+      </div>
+      <div class="guide-full-article">
+
+        <section class="guide-section guide-text-section">
+          <h3>1. Регистратор иногда не начинает запись</h3>
+          <p>Хороший видеорегистратор работает почти незаметно: получил питание, включился и начал запись. Если водителю приходится каждый раз смотреть на экран, нажимать кнопку или проверять индикатор, что-то уже не так.</p>
+          <p>Проблема проявляется по-разному: устройство включилось, но запись не началась; появилась ошибка карты памяти; регистратор завис на заставке; после запуска двигателя сбросились настройки; дата и время снова стали неправильными.</p>
+          <p>Опасность в том, что водитель замечает сбой только после происшествия, когда выясняется, что нужного файла нет.</p>
+          <p>Поэтому надёжность автоматического запуска важнее многих эффектных функций. Регистратор, который стабильно пишет Full HD, полезнее модели с заявленными 4K и периодическими зависаниями.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>2. Крепление передаёт вибрации на изображение</h3>
+          <p>В характеристиках подробно описывают матрицу и разрешение, но почти ничего не говорят о креплении. Между тем даже хорошая камера будет снимать плохо, если корпус постоянно дрожит.</p>
+          <p>Особенно это заметно на неровной дороге, на холостом ходу, в автомобилях с жёсткой подвеской и при установке тяжёлого регистратора на длинной ножке.</p>
+          <p>Из-за мелкой вибрации номера и дорожные знаки теряют резкость. На остановленном кадре изображение выглядит хуже, чем должно позволять заявленное разрешение.</p>
+          <p>Перед покупкой полезно посмотреть реальные видео со съёмки в движении, а не только аккуратные дневные ролики на ровной дороге. У самого крепления не должно быть люфта: чем короче и жёстче кронштейн, тем меньше лишней тряски.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>3. Последний файл сохраняется неправильно</h3>
+          <p>Когда двигатель выключается, питание регистратора пропадает почти сразу. Устройство должно успеть завершить текущий ролик и корректно сохранить его на карту памяти.</p>
+          <p>Если питание организовано плохо или внутренний аккумулятор изношен, последний файл может не открываться, иметь нулевую продолжительность, обрываться раньше времени или вовсе отсутствовать на карте.</p>
+          <p>Это особенно неприятно, потому что последним часто оказывается самый важный фрагмент.</p>
+          <p>Наличие аккумулятора или суперконденсатора в характеристиках ещё не гарантирует нормальную работу. Важно, как реализовано завершение записи и насколько стабильно устройство ведёт себя после долгой эксплуатации.</p>
+          <p><strong>Быстрая проверка:</strong> включите регистратор, подождите несколько минут, отключите питание и откройте последний ролик.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>4. Ночью изображение красиво выглядит только целиком</h3>
+          <p>Ночную съёмку часто оценивают неправильно. На маленьком экране телефона дорога выглядит светлой и контрастной. Но если остановить кадр и увеличить автомобиль впереди, номер превращается в белое пятно или тёмную кашу.</p>
+          <p>Причины — слишком длинная выдержка, сильное шумоподавление, пересвет от фар, агрессивное повышение резкости, слабая оптика либо плохо настроенные HDR и WDR.</p>
+          <p>Главный вопрос не в том, насколько красиво выглядит сцена, а в том, сохраняются ли важные детали. При просмотре тестовых записей смотрите на автомобили в движении, встречный свет, неосвещённые улицы и номера под разными углами. Статичный автомобиль под фонарём — слишком простое испытание почти для любого регистратора.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>5. Устройство перегревается и становится нестабильным</h3>
+          <p>Летом температура возле лобового стекла заметно выше температуры воздуха. Регистратор часами находится под солнцем и во время работы греется сам.</p>
+          <p>Перегрев проявляется не сразу: зимой устройство работает нормально, а летом начинает самопроизвольно перезагружаться, останавливать запись, отключать Wi-Fi, портить файлы или зависать после долгой поездки.</p>
+          <p>Внимательнее стоит относиться к моделям с маленьким корпусом, мощным процессором и высоким разрешением. Компактность удобна, но тепло из такого корпуса должно нормально отводиться.</p>
+          <p>Сам по себе тёплый корпус — не неисправность. Настораживают именно сбои, появляющиеся после нагрева.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>6. Приложение превращает простое действие в проблему</h3>
+          <p>Wi-Fi в регистраторе нужен прежде всего для быстрого доступа к записям: подключился, нашёл ролик, сохранил на телефон.</p>
+          <p>На практике слабое приложение портит впечатление даже от неплохой камеры: телефон долго не подключается, Wi-Fi отваливается, ролики загружаются медленно, а после обновления приложение перестаёт работать.</p>
+          <p>Особенно критично это для моделей без экрана — там почти все настройки выполняются через смартфон.</p>
+          <p>Перед покупкой посмотрите отзывы не только на регистратор, но и на его приложение: дату последнего обновления, оценки, наличие версии для вашей системы. Надпись Wi-Fi говорит о наличии соединения, а не об удобстве.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>7. Регистратор создаёт помехи другим устройствам</h3>
+          <p>Некоторые регистраторы, кабели питания и адаптеры создают радиопомехи. После установки хуже работает радио, навигатор дольше определяет координаты, появляются проблемы с бесключевым доступом или другая электроника ведёт себя нестабильно.</p>
+          <p>Источником помех бывает не сам регистратор, а некачественный блок питания либо плохо экранированный кабель.</p>
+          <p>В карточке товара об этом почти никогда не пишут. Узнать можно из подробных обзоров, отзывов владельцев такого же автомобиля или личной проверки после установки.</p>
+          <p>Если помехи появились, отключайте по очереди регистратор, адаптер питания и дополнительные камеры — так проще понять источник.</p>
+        </section>
+
+        <section class="guide-section guide-text-section">
+          <h3>Как проверить регистратор после покупки</h3>
+          <p>Первые дни стоит потратить не только на настройку, но и на короткую проверку:</p>
+          <p>1. Запись автоматически начинается после каждого запуска двигателя.<br>
+             2. Несколько роликов с карты открываются, включая последний.<br>
+             3. Дневная и ночная запись просмотрены на большом экране.<br>
+             4. Изображение проверено на неровной дороге.<br>
+             5. Устройство отработало продолжительную поездку.<br>
+             6. Ролик скачивается через приложение.<br>
+             7. Радио, навигация и электроника работают как прежде.<br>
+             8. Дата, время и настройки не сбрасываются.</p>
+          <p>Если регистратор уже на этом этапе зависает, теряет файлы или требует постоянного внимания, не стоит рассчитывать, что со временем проблема исчезнет.</p>
+        </section>
+
+        <section class="guide-section guide-text-section guide-final">
+          <h3>Главное</h3>
+          <p>Плохой видеорегистратор — не обязательно тот, у которого мало функций или невысокое разрешение. Гораздо опаснее устройство, которому нельзя доверять.</p>
+          <p>Хороший регистратор автоматически начинает запись, сохраняет файлы без ошибок, стабильно работает в жару и холод, не дрожит на креплении, не создаёт помех и позволяет быстро получить нужный ролик.</p>
+          <p>Поэтому выбирать регистратор только по таблице характеристик недостаточно. Посмотрите реальные записи, изучите работу приложения и найдите отзывы о длительной эксплуатации. Иногда одна такая проверка рассказывает о модели больше, чем крупная надпись 4K на коробке.</p>
+        </section>
+
+      </div>
+    </article>
   </div>
 </div>
 
@@ -20498,6 +20681,15 @@ function showChooseGuide(updateHash = true) {
   if (sg) sg.scrollTo(0, 0);
 }
 
+function showBadSigns(updateHash = true) {
+  if (updateHash) setSectionHash("badSigns");
+  el("header").style.display = "";
+  el("bottom-nav").style.display = "none";
+  show("s-bad-signs");
+  const sc = document.getElementById("s-bad-signs");
+  if (sc) sc.scrollTo(0, 0);
+}
+
 function showPolicy(updateHash = true) {
   if (updateHash) setSectionHash("policy");
   el("header").style.display = "";   // шапка видна всегда
@@ -21082,6 +21274,11 @@ const ARTICLES = [
     title: "Как выбрать видеорегистратор",
     sub: "Главные характеристики простыми словами",
     open: "showChooseGuide()",
+  },
+  {
+    title: "Семь признаков плохого регистратора",
+    sub: "Проблемы, которых не видно в таблице характеристик",
+    open: "showBadSigns()",
   },
 ];
 
@@ -22038,6 +22235,7 @@ const VBR_SCREEN_TITLES = {
   "s-about": "О проекте", "s-guide": "Гайд: типы устройств", "s-choose-guide": "Гайд: как выбрать",
   "s-policy": "Политика конфиденциальности",
   "s-articles": "Полезные статьи",
+  "s-bad-signs": "Статья: признаки плохого регистратора",
 };
 // ── Собственная статистика (Cloudflare Worker, админка) ──
 const VBR_STATS_URL = "https://vbr-stats.kozyrant.workers.dev";
@@ -22382,7 +22580,7 @@ function show(id) {
   if (id !== "s-search") clearDeviceHash(); // ушли из карточки — хэш больше не актуален
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isTelegram = document.documentElement.classList.contains("tg-app-root") || document.body?.classList.contains("tg-app");
-  ["s-intro","s-guide","s-choose-guide","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles","s-admin"].forEach(s => {
+  ["s-intro","s-guide","s-choose-guide","s-bad-signs","s-question","s-loading","s-results","s-search","s-compare","s-catalog","s-favorites","s-about","s-policy","s-articles","s-admin"].forEach(s => {
     const el = document.getElementById(s);
     if (!el) return;
     el.classList.toggle("on", s === id);
@@ -23151,7 +23349,7 @@ const SECTION_HASH_BY_NAME = {
   favorites: "#favorites",
   compare: "#compare",
   guide: "#guide",
-  chooseGuide: "#choose-guide",
+  chooseGuide: "#choose-guide", badSigns: "#bad-signs",
   about: "#about",
   policy: "#policy",
   articles: "#articles",
@@ -23284,6 +23482,7 @@ function openSectionFromHash() {
   if (hash === "#compare") { showCompareSection(false); return true; }
   if (hash === "#guide") { showGuide(false); return true; }
   if (hash === "#choose-guide") { showChooseGuide(false); return true; }
+  if (hash === "#bad-signs") { showBadSigns(false); return true; }
   if (hash === "#about") { showAbout(false); return true; }
   if (hash === "#policy") { showPolicy(false); return true; }
   if (hash === "#articles") { showArticles(false); return true; }
@@ -24395,7 +24594,7 @@ function reviewLinksHTML(d) {
   const query = encodeURIComponent(`${deviceSearchPhrase(d)} обзор`);
   return `<div class="review-links">
     <a class="btn-rutube" href="https://rutube.ru/search/?query=${query}" target="_blank" rel="noopener">
-      <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="5" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
+      <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="9" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
       Обзор на Rutube
     </a>
     <a class="btn-youtube" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">
@@ -24636,7 +24835,7 @@ function usefulLinksHTML(d) {
       <span>YouTube</span>
     </a>`,
     `<a class="btn-link-secondary" href="https://rutube.ru/search/?query=${query}" target="_blank" rel="noopener">
-      <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="5" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
+      <svg class="btn-rutube-logo" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="9" fill="#FF4C00"/><path d="M5 4h4.5C11.4 4 13 5.3 13 7.2c0 1.4-.8 2.4-2 2.8l2.2 4H11l-2-3.7H7v3.7H5V4zm2 4.5h2.3c.8 0 1.7-.4 1.7-1.3S10.1 5.9 9.3 5.9H7v2.6z" fill="white"/></svg>
       <span>Rutube</span>
     </a>`,
     hasSite ? `<a class="btn-link-secondary" href="${attrSafe(siteUrl)}" target="_blank" rel="noopener">
@@ -24826,6 +25025,7 @@ const SCREEN_OPENERS = {
   "s-policy": () => showPolicy(false),
   "s-guide": () => showGuide(false),
   "s-choose-guide": () => showChooseGuide(false),
+  "s-bad-signs": () => showBadSigns(false),
   "s-results": () => show("s-results"),
   "s-search": () => show("s-search"),
 };
@@ -25823,8 +26023,19 @@ function applySortToResultLists() {
   });
 }
 
+let _quietResultsRender = false;
+
 function applyResultsStagger() {
   arrangeResultsLayout();
+  if (_quietResultsRender) {
+    // тихая перерисовка: элементы появляются сразу, без ступеней
+    layoutResultsColumns();
+    const quietList = el("results-list");
+    if (quietList) [...quietList.children].forEach(n => { n.style.animation = "none"; n.style.animationDelay = "0s"; });
+    const quietHeader = document.querySelector("#s-results .res-header");
+    if (quietHeader) quietHeader.style.animation = "none";
+    return;
+  }
   layoutResultsColumns(); // сперва раскладываем колонки, затем задержки
   const header = document.querySelector("#s-results .res-header");
   if (header) header.style.animationDelay = "0ms";
@@ -25981,8 +26192,10 @@ function _renderResults(top) {
         showAllNearResults = false;
         _lastTop = getTop();
 
-        _renderResults(_lastTop);
-        requestAnimationFrame(() => window.scrollTo({top: 0, behavior: "auto"}));
+        // Перерисовываем тихо: без каскада появления и без прыжка прокрутки —
+        // иначе смена условий читается как моргание всей страницы.
+        _quietResultsRender = true;
+        try { _renderResults(_lastTop); } finally { _quietResultsRender = false; }
       });
       cWrap.appendChild(row);
     });
@@ -26339,7 +26552,9 @@ function _renderResults(top) {
   applyResultsStagger();
   show("s-results");
   refreshFavoriteUI();
-  window.scrollTo(0, 0);
+  // При тихой перерисовке (человек применил правку условий) прокрутку
+  // не трогаем: страница не должна прыгать под пальцем.
+  if (!_quietResultsRender) window.scrollTo(0, 0);
 }
 
 function toggleCard(toggle) {
