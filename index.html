@@ -17490,9 +17490,9 @@ html[data-theme="light"] #s-results .quiz-insight,
 html[data-theme="dark"] #s-results .quiz-insight,
 html[data-theme="light"] #s-results .results-list > *,
 html[data-theme="dark"] #s-results .results-list > * {
-  animation-name: vbrResultSoftIn !important;
-  animation-duration: .18s !important;
-  animation-timing-function: ease-out !important;
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
   html[data-theme="light"] #s-results .res-header,
@@ -17558,6 +17558,264 @@ html[data-theme="dark"] #s-loading .ad-banner-lg.is-openable {
 html[data-theme="light"] #s-loading .ad-banner-lg.is-openable:active,
 html[data-theme="dark"] #s-loading .ad-banner-lg.is-openable:active {
   transform: scale(.995);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RELEASE POLISH: quiz result should read as one decision
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .chips-wrap,
+html[data-theme="dark"] #s-results .chips-wrap,
+html[data-theme="light"] #s-results .chips-toggle,
+html[data-theme="dark"] #s-results .chips-toggle,
+html[data-theme="light"] #s-results .no-exact-notice,
+html[data-theme="dark"] #s-results .no-exact-notice,
+html[data-theme="light"] #s-results .smart-hint,
+html[data-theme="dark"] #s-results .smart-hint {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+}
+
+html[data-theme="light"] #s-results .res-wrap,
+html[data-theme="dark"] #s-results .res-wrap {
+  padding-top: clamp(14px, 2.2vh, 24px) !important;
+}
+
+html[data-theme="light"] #s-results .results-container,
+html[data-theme="dark"] #s-results .results-container {
+  gap: 0 !important;
+}
+
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(23px, 5.1vw, 29px) !important;
+  line-height: 1.12 !important;
+  font-weight: 650 !important;
+  letter-spacing: -.035em !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 7px !important;
+  max-width: 43ch !important;
+  font-size: clamp(14.5px, 3.45vw, 17px) !important;
+  line-height: 1.38 !important;
+  color: var(--text-2) !important;
+}
+
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+}
+
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 550 !important;
+  letter-spacing: -.014em !important;
+  color: var(--text-1) !important;
+}
+
+html[data-theme="light"] #s-results .res-sub,
+html[data-theme="dark"] #s-results .res-sub {
+  margin-top: 2px !important;
+  max-width: 38ch !important;
+  font-size: 14px !important;
+  line-height: 1.34 !important;
+  color: var(--text-2) !important;
+}
+
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  margin: 0 0 14px !important;
+}
+
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header {
+  margin: 14px 0 8px !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  color: var(--text-3) !important;
+}
+
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  margin: 0 0 14px !important;
+  padding: 13px 0 !important;
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  margin: 0 !important;
+  font-size: 14.5px !important;
+  line-height: 1.32 !important;
+  font-weight: 500 !important;
+  letter-spacing: -.016em !important;
+  color: var(--text-1) !important;
+}
+
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  max-width: none !important;
+  font-size: 15px !important;
+  line-height: 1.18 !important;
+  font-weight: 600 !important;
+  letter-spacing: -.018em !important;
+}
+
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count {
+  margin-top: 3px !important;
+  font-size: 12.5px !important;
+  line-height: 1.22 !important;
+  font-weight: 450 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  width: auto !important;
+  min-width: 78px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  padding: 0 13px !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: -.012em !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank,
+html[data-theme="dark"] #s-results .ap-blank {
+  margin: 10px auto 14px !important;
+  padding: 12px 14px !important;
+  gap: 6px !important;
+  min-height: 0 !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-mark,
+html[data-theme="dark"] #s-results .ap-blank-mark {
+  width: 34px !important;
+  height: 34px !important;
+  margin: 0 0 4px !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-title,
+html[data-theme="dark"] #s-results .ap-blank-title {
+  font-size: clamp(21px, 5vw, 26px) !important;
+  line-height: 1.13 !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-text,
+html[data-theme="dark"] #s-results .ap-blank-text,
+html[data-theme="light"] #s-results .ap-blank-note,
+html[data-theme="dark"] #s-results .ap-blank-note {
+  margin: 0 !important;
+  max-width: 34ch !important;
+  font-size: 14px !important;
+  line-height: 1.32 !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-acts,
+html[data-theme="dark"] #s-results .ap-blank-acts,
+html[data-theme="light"] #s-results .restart-wrap,
+html[data-theme="dark"] #s-results .restart-wrap {
+  margin-top: 10px !important;
+  padding-top: 0 !important;
+  gap: 8px !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-btn,
+html[data-theme="dark"] #s-results .ap-blank-btn,
+html[data-theme="light"] #s-results .btn-restart,
+html[data-theme="dark"] #s-results .btn-restart,
+html[data-theme="light"] #s-results .btn-share-results,
+html[data-theme="dark"] #s-results .btn-share-results {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 15px !important;
+  border-radius: 999px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+  background: transparent !important;
+  border: 1px solid var(--hair) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-btn.is-primary,
+html[data-theme="dark"] #s-results .ap-blank-btn.is-primary {
+  background: var(--blue) !important;
+  border-color: var(--blue) !important;
+  color: #fff !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark,
+html[data-theme="dark"] #s-loading .ap-step-mark {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark::after,
+html[data-theme="dark"] #s-loading .ap-step-mark::after {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -56%) rotate(45deg) !important;
+  transform-origin: center !important;
+}
+
+  #s-results.is-quiet-render .res-header,
+  #s-results.is-quiet-render .quiz-insight,
+  #s-results.is-quiet-render .results-list > * {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html[data-theme="light"] #s-results.screen-enter,
+html[data-theme="dark"] #s-results.screen-enter,
+html[data-theme="light"] #s-results.screen-enter > *,
+html[data-theme="dark"] #s-results.screen-enter > * {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -17845,6 +18103,855 @@ html[data-theme="dark"] .guide-figure-wide img {
   width: 100% !important;
   height: auto !important;
   display: block !important;
+}
+
+/* База не загрузилась — заметная, но спокойная строка вместо нулей */
+html[data-theme="light"] #intro-db-sticker.db-failed,
+html[data-theme="dark"] #intro-db-sticker.db-failed {
+  color: #D93025 !important;
+}
+html[data-theme="light"] #intro-db-sticker.db-failed::before,
+html[data-theme="dark"] #intro-db-sticker.db-failed::before {
+  background: #D93025 !important;
+  animation: none !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FINAL RESULT COMPACT PASS
+   Последний слой: не даём старым блокам снова раздувать выдачу.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .res-wrap,
+html[data-theme="dark"] #s-results .res-wrap {
+  padding-top: clamp(14px, 2vh, 22px) !important;
+}
+
+html[data-theme="light"] #s-results .results-container,
+html[data-theme="dark"] #s-results .results-container {
+  row-gap: 0 !important;
+}
+
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  font-size: clamp(22px, 4.8vw, 28px) !important;
+  line-height: 1.12 !important;
+  font-weight: 650 !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin-top: 6px !important;
+  font-size: clamp(14px, 3.35vw, 16px) !important;
+  line-height: 1.34 !important;
+}
+
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+html[data-theme="light"] #s-results .res-title,
+html[data-theme="dark"] #s-results .res-title {
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  font-weight: 560 !important;
+}
+
+html[data-theme="light"] #s-results .res-sub,
+html[data-theme="dark"] #s-results .res-sub {
+  margin-top: 2px !important;
+  font-size: 13.5px !important;
+  line-height: 1.28 !important;
+}
+
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  margin: 0 0 12px !important;
+  gap: 8px !important;
+}
+
+html[data-theme="light"] #s-results .sort-btn,
+html[data-theme="dark"] #s-results .sort-btn {
+  min-height: 34px !important;
+  padding: 0 14px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+}
+
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header {
+  margin: 12px 0 7px !important;
+}
+
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  margin: 0 0 12px !important;
+  padding: 10px 0 12px !important;
+  border-top: 1px solid var(--hair) !important;
+  border-bottom: 1px solid var(--hair) !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-icon,
+html[data-theme="dark"] #s-results .compromise-icon,
+html[data-theme="light"] #s-results .compromise-limiter,
+html[data-theme="dark"] #s-results .compromise-limiter {
+  display: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  margin-top: 6px !important;
+}
+
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  font-size: 14px !important;
+  line-height: 1.18 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count {
+  margin-top: 2px !important;
+  font-size: 12.5px !important;
+  line-height: 1.2 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  min-width: 74px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank,
+html[data-theme="dark"] #s-results .ap-blank {
+  margin: 8px auto 12px !important;
+  padding: 10px 14px !important;
+  min-height: 0 !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-mark,
+html[data-theme="dark"] #s-results .ap-blank-mark {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-title,
+html[data-theme="dark"] #s-results .ap-blank-title {
+  font-size: 22px !important;
+  line-height: 1.12 !important;
+}
+
+html[data-theme="light"] #s-results .ap-blank-text,
+html[data-theme="dark"] #s-results .ap-blank-text {
+  font-size: 13.5px !important;
+  line-height: 1.3 !important;
+}
+
+html[data-theme="light"] #s-results .restart-wrap,
+html[data-theme="dark"] #s-results .restart-wrap {
+  margin-top: 16px !important;
+  padding-top: 12px !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESULT ANSWER MINIMAL PASS
+   Убирает повторные заголовки, спорные рамки и разный ритм
+   в экране результата подбора.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .res-wrap,
+html[data-theme="dark"] #s-results .res-wrap {
+  padding-inline: 26px !important;
+}
+
+html[data-theme="light"] #s-results .results-container,
+html[data-theme="dark"] #s-results .results-container {
+  gap: 0 !important;
+}
+
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-kicker,
+html[data-theme="dark"] #s-results .quiz-insight-kicker {
+  display: none !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  margin: 0 0 9px !important;
+  max-width: 12.8em !important;
+  font-size: clamp(28px, 6.2vw, 38px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.025em !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  margin: 0 !important;
+  max-width: 31ch !important;
+  font-size: clamp(16px, 3.7vw, 19px) !important;
+  line-height: 1.32 !important;
+  color: var(--text-2) !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  margin: 22px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--text-1) !important;
+  font-size: 18px !important;
+  line-height: 1.24 !important;
+  font-weight: 620 !important;
+}
+
+html[data-theme="light"] #s-results .res-header,
+html[data-theme="dark"] #s-results .res-header {
+  display: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  margin: 0 0 22px !important;
+  padding: 14px 0 !important;
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 1px solid var(--hair) !important;
+  border-bottom: 1px solid var(--hair) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  margin: 0 0 8px !important;
+  color: var(--text-2) !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+html[data-theme="light"] #s-results .compromise-row,
+html[data-theme="dark"] #s-results .compromise-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  max-width: 15ch !important;
+  font-size: 18px !important;
+  line-height: 1.16 !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.015em !important;
+}
+
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count,
+html[data-theme="light"] #s-results .compromise-count.exact,
+html[data-theme="dark"] #s-results .compromise-count.exact {
+  margin-top: 5px !important;
+  color: var(--text-2) !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  width: auto !important;
+  min-width: 92px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 16px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--hair) !important;
+  background: transparent !important;
+  color: var(--text-1) !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 520 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-btn-arrow,
+html[data-theme="dark"] #s-results .compromise-btn-arrow {
+  display: none !important;
+}
+
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header {
+  margin: 0 0 10px !important;
+  color: var(--text-2) !important;
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+html[data-theme="light"] #s-results .btn-restart,
+html[data-theme="dark"] #s-results .btn-restart,
+html[data-theme="light"] #s-results .btn-share-results,
+html[data-theme="dark"] #s-results .btn-share-results {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 34px !important;
+  padding: 0 16px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  border-radius: 999px !important;
+  color: var(--text-1) !important;
+  background: transparent !important;
+  border: 1px solid var(--hair) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark,
+html[data-theme="dark"] #s-loading .ap-step-mark {
+  position: relative !important;
+  display: inline-grid !important;
+  place-items: center !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark::after,
+html[data-theme="dark"] #s-loading .ap-step-mark::after {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -56%) rotate(45deg) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RELEASE RESULT RHYTHM
+   Финальный слой для экрана выдачи: один итог, одно действие,
+   спокойная сетка и без каскадного моргания.
+   ══════════════════════════════════════════════════════════ */
+html[data-theme="light"] #s-results .res-wrap,
+html[data-theme="dark"] #s-results .res-wrap {
+  padding: 34px 32px calc(var(--bottom-nav-h) + 24px) !important;
+}
+
+html[data-theme="light"] #s-results .results-container,
+html[data-theme="dark"] #s-results .results-container {
+  display: block !important;
+}
+
+html[data-theme="light"] #s-results .results-container > .quiz-insight,
+html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+  max-width: 720px !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-title,
+html[data-theme="dark"] #s-results .quiz-insight-title {
+  margin: 0 0 10px !important;
+  max-width: 13.5em !important;
+  font-size: clamp(30px, 6.4vw, 42px) !important;
+  line-height: 1.06 !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.03em !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-text,
+html[data-theme="dark"] #s-results .quiz-insight-text {
+  max-width: 34ch !important;
+  font-size: clamp(17px, 3.7vw, 20px) !important;
+  line-height: 1.3 !important;
+}
+
+html[data-theme="light"] #s-results .quiz-insight-result,
+html[data-theme="dark"] #s-results .quiz-insight-result {
+  margin-top: 20px !important;
+  color: var(--text-1) !important;
+  font-size: 18px !important;
+  font-weight: 650 !important;
+}
+
+html[data-theme="light"] #s-results .sort-bar,
+html[data-theme="dark"] #s-results .sort-bar {
+  margin: 0 0 26px !important;
+  padding: 0 !important;
+  gap: 10px !important;
+}
+
+html[data-theme="light"] #s-results .sort-btn,
+html[data-theme="dark"] #s-results .sort-btn {
+  min-height: 32px !important;
+  padding: 0 14px !important;
+  font-size: 13px !important;
+  white-space: nowrap !important;
+}
+
+html[data-theme="light"] #s-results .compromise-wrap,
+html[data-theme="dark"] #s-results .compromise-wrap {
+  margin: 0 0 24px !important;
+  padding: 16px 0 !important;
+  overflow: visible !important;
+}
+
+html[data-theme="light"] #s-results .compromise-sub,
+html[data-theme="dark"] #s-results .compromise-sub {
+  margin-bottom: 10px !important;
+}
+
+html[data-theme="light"] #s-results .compromise-text,
+html[data-theme="dark"] #s-results .compromise-text {
+  max-width: 17ch !important;
+  font-size: 18px !important;
+  line-height: 1.12 !important;
+}
+
+html[data-theme="light"] #s-results .compromise-count,
+html[data-theme="dark"] #s-results .compromise-count,
+html[data-theme="light"] #s-results .compromise-count.exact,
+html[data-theme="dark"] #s-results .compromise-count.exact {
+  margin-top: 5px !important;
+  font-size: 13.5px !important;
+  color: var(--text-2) !important;
+}
+
+html[data-theme="light"] #s-results .compromise-btn,
+html[data-theme="dark"] #s-results .compromise-btn {
+  min-width: 86px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 15px !important;
+}
+
+html[data-theme="light"] #s-results .res-section-header,
+html[data-theme="dark"] #s-results .res-section-header {
+  margin: 0 0 12px !important;
+}
+
+html[data-theme="light"] #s-results .result-alt-grid,
+html[data-theme="dark"] #s-results .result-alt-grid {
+  gap: 14px !important;
+}
+
+html[data-theme="light"] #s-results.is-quiet-render *,
+html[data-theme="dark"] #s-results.is-quiet-render * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+
+html[data-theme="light"] #s-results.screen-enter,
+html[data-theme="dark"] #s-results.screen-enter,
+html[data-theme="light"] #s-results.screen-enter *,
+html[data-theme="dark"] #s-results.screen-enter * {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark,
+html[data-theme="dark"] #s-loading .ap-step-mark {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  display: inline-block !important;
+  flex: 0 0 16px !important;
+  position: relative !important;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: 1px solid var(--hair, rgba(60,60,67,.22)) !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+  transform: translateZ(0) !important;
+  transition: background-color .22s ease, border-color .22s ease, transform .22s ease !important;
+}
+
+html[data-theme="dark"] #s-loading .ap-step-mark {
+  border-color: rgba(255,255,255,.18) !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark::before,
+html[data-theme="dark"] #s-loading .ap-step-mark::before {
+  content: "" !important;
+  position: absolute !important;
+  width: 5px !important;
+  height: 5px !important;
+  left: 50% !important;
+  top: 50% !important;
+  border-radius: 50% !important;
+  background: var(--blue, #007AFF) !important;
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(.72) !important;
+  transition: opacity .18s ease, transform .22s ease !important;
+}
+
+html[data-theme="light"] #s-loading .ap-step-mark::after,
+html[data-theme="dark"] #s-loading .ap-step-mark::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 3.6px !important;
+  height: 6.6px !important;
+  left: 50% !important;
+  top: 48% !important;
+  border: solid #fff !important;
+  border-width: 0 1.45px 1.45px 0 !important;
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) rotate(45deg) scale(.96) !important;
+  transform-origin: 50% 50% !important;
+  transition: opacity .16s ease !important;
+}
+
+html[data-theme="light"] #s-loading .ap-ring-check svg,
+html[data-theme="dark"] #s-loading .ap-ring-check svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke-width: 2.25 !important;
+}
+
+html[data-theme="light"] #s-loading .ap-steps,
+html[data-theme="dark"] #s-loading .ap-steps {
+  gap: 9px !important;
+}
+
+html[data-theme="light"] #s-loading .ap-steps li,
+html[data-theme="dark"] #s-loading .ap-steps li {
+  grid-template-columns: 16px minmax(0, auto) !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  color: var(--text-3) !important;
+}
+
+html[data-theme="light"] #s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark,
+html[data-theme="light"] #s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark,
+html[data-theme="light"] #s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark,
+html[data-theme="light"] #s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark {
+  background: color-mix(in srgb, var(--blue, #007AFF) 10%, transparent) !important;
+  border-color: color-mix(in srgb, var(--blue, #007AFF) 42%, transparent) !important;
+  border-width: 1px !important;
+}
+
+html[data-theme="light"] #s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark::before,
+html[data-theme="light"] #s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark::before,
+html[data-theme="light"] #s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark::before,
+html[data-theme="light"] #s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark::before {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  animation: apStepDotPulse 1.35s ease-in-out infinite !important;
+}
+
+html[data-theme="light"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark,
+html[data-theme="light"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark,
+html[data-theme="light"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark,
+html[data-theme="light"] #s-loading.search-done .ap-steps .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark,
+html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark,
+html[data-theme="dark"] #s-loading.search-done .ap-steps .ap-step-mark {
+  background: var(--blue, #007AFF) !important;
+  border-color: var(--blue, #007AFF) !important;
+  border-width: 1px !important;
+}
+
+html[data-theme="light"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::before,
+html[data-theme="light"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::before,
+html[data-theme="light"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::before,
+html[data-theme="light"] #s-loading.search-done .ap-steps .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::before,
+html[data-theme="dark"] #s-loading.search-done .ap-steps .ap-step-mark::before {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+html[data-theme="light"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::after,
+html[data-theme="light"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::after,
+html[data-theme="light"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::after,
+html[data-theme="light"] #s-loading.search-done .ap-steps .ap-step-mark::after,
+html[data-theme="dark"] #s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::after,
+html[data-theme="dark"] #s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::after,
+html[data-theme="dark"] #s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::after,
+html[data-theme="dark"] #s-loading.search-done .ap-steps .ap-step-mark::after {
+  opacity: 1 !important;
+}
+
+@keyframes apStepDotPulse {
+  0%, 100% { opacity: .62; transform: translate(-50%, -50%) scale(.82); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Search loader: final Apple-style status indicators.
+   Works even before the theme attribute is applied. */
+#s-loading .ap-ring {
+  width: 36px !important;
+  height: 36px !important;
+  margin-bottom: 22px !important;
+}
+
+#s-loading .ap-ring svg {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+#s-loading .ap-ring circle {
+  stroke-width: 2px !important;
+}
+
+#s-loading .ap-ring-check svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke-width: 2.2 !important;
+}
+
+#s-loading .ap-steps {
+  gap: 9px !important;
+}
+
+#s-loading .ap-steps li {
+  grid-template-columns: 15px minmax(0, auto) !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+}
+
+#s-loading .ap-step-mark {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  display: block !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  border: 1px solid rgba(142,142,147,.34) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#s-loading .ap-step-mark::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 4px !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: var(--blue, #007AFF) !important;
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) scale(.8) !important;
+}
+
+#s-loading .ap-step-mark::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 47% !important;
+  width: 3.3px !important;
+  height: 6px !important;
+  border: solid #fff !important;
+  border-width: 0 1.35px 1.35px 0 !important;
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+}
+
+#s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark,
+#s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark {
+  background: transparent !important;
+  border-color: rgba(0,122,255,.45) !important;
+  border-width: 1px !important;
+}
+
+#s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark::before,
+#s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark::before,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark::before,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark::before {
+  opacity: 1 !important;
+  animation: apStepDotPulse 1.25s ease-in-out infinite !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark,
+#s-loading.search-done .ap-steps .ap-step-mark {
+  background: var(--blue, #007AFF) !important;
+  border-color: var(--blue, #007AFF) !important;
+  border-width: 1px !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::before,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::before,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::before,
+#s-loading.search-done .ap-steps .ap-step-mark::before {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::after,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::after,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::after,
+#s-loading.search-done .ap-steps .ap-step-mark::after {
+  opacity: 1 !important;
+}
+
+/* Search loader v2: no badge circles, just tiny Apple-like status marks. */
+#s-loading .ap-ring {
+  width: 34px !important;
+  height: 34px !important;
+  margin-bottom: 20px !important;
+}
+
+#s-loading .ap-ring svg {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+#s-loading .ap-ring circle {
+  stroke-width: 1.8px !important;
+}
+
+#s-loading .ap-ring-check svg {
+  width: 12px !important;
+  height: 12px !important;
+  stroke-width: 2px !important;
+}
+
+#s-loading .ap-steps {
+  margin-top: 18px !important;
+  gap: 10px !important;
+}
+
+#s-loading .ap-steps li {
+  grid-template-columns: 12px minmax(0, auto) !important;
+  gap: 10px !important;
+  align-items: center !important;
+  font-size: 13px !important;
+  line-height: 1.28 !important;
+}
+
+#s-loading .ap-step-mark {
+  width: 12px !important;
+  height: 12px !important;
+  min-width: 12px !important;
+  display: block !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#s-loading .ap-step-mark::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 4px !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: rgba(142,142,147,.42) !important;
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) !important;
+  animation: none !important;
+}
+
+#s-loading .ap-step-mark::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 45% !important;
+  width: 4px !important;
+  height: 7px !important;
+  border: solid var(--blue, #007AFF) !important;
+  border-width: 0 1.6px 1.6px 0 !important;
+  opacity: 0 !important;
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+  transform-origin: 50% 50% !important;
+}
+
+#s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark,
+#s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#s-loading[data-phase="1"] .ap-steps li:nth-child(1) .ap-step-mark::before,
+#s-loading[data-phase="2"] .ap-steps li:nth-child(2) .ap-step-mark::before,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(3) .ap-step-mark::before,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(4) .ap-step-mark::before {
+  width: 6px !important;
+  height: 6px !important;
+  background: var(--blue, #007AFF) !important;
+  opacity: 1 !important;
+  animation: apStepDotPulse 1.25s ease-in-out infinite !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark,
+#s-loading.search-done .ap-steps .ap-step-mark {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::before,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::before,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::before,
+#s-loading.search-done .ap-steps .ap-step-mark::before {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+#s-loading[data-phase="2"] .ap-steps li:nth-child(-n+1) .ap-step-mark::after,
+#s-loading[data-phase="3"] .ap-steps li:nth-child(-n+2) .ap-step-mark::after,
+#s-loading[data-phase="4"] .ap-steps li:nth-child(-n+3) .ap-step-mark::after,
+#s-loading.search-done .ap-steps .ap-step-mark::after {
+  opacity: 1 !important;
 }
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
@@ -18662,7 +19769,7 @@ function enableMetrika(){
   </button>
 </nav>
 
-<script src="./devices.js?v=1.0.9"></script>
+<script src="./devices.js?v=1.1.0"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -21911,6 +23018,11 @@ function getCompromises() {
     }];
   }
 
+  // Если нет плана, который приводит к 100%, не показываем «почти-помощь».
+  // Пользователь ожидает, что кнопка решит проблему, а не попросит снять
+  // ещё одно условие следующим экраном.
+  if (!bestPlan) return [];
+
   function trySuggestion({key, val, next, hint, limiter, cta}) {
     const saved = answers[key];
     answers[key] = next;
@@ -22587,7 +23699,7 @@ function show(id) {
     el.classList.remove("screen-enter");
     if (s === id) {
       el.style.display = "block";   // главная теперь сама сетка (.ap-page)
-      if (!reduced) {
+      if (!reduced && id !== "s-results") {
         void el.offsetWidth;
         el.classList.add("screen-enter");
       }
@@ -25703,7 +26815,12 @@ function showResults() {
   }, 8000));
   loadingTimers.push(setTimeout(() => {
     resetSearchScene();
-    _renderResults(_lastTop); // переход к заранее рассчитанным результатам
+    _quietResultsRender = true;
+    try {
+      _renderResults(_lastTop); // переход к заранее рассчитанным результатам
+    } finally {
+      _quietResultsRender = false;
+    }
   }, 9000));
 }
 
@@ -25790,11 +26907,16 @@ function buildQuizInsight(top, exact, near, upgrades) {
 function quizInsightHTML(top, exact, near, upgrades) {
   const data = buildQuizInsight(top, exact, near, upgrades);
   if (data.hidden) return "";
+  const exactCount = Array.isArray(exact) ? exact.length : 0;
+  const bestPct = Array.isArray(top) && top.length ? Math.max(...top.map(t => t.pct || 0)) : 0;
+  const resultLine = exactCount > 0
+    ? `${exactCount} ${pluralRu(exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
+    : bestPct > 0 ? `Точных совпадений нет · лучшее ${bestPct}%` : "";
   return `
     <div class="quiz-insight-kicker">Итог подбора</div>
     <div class="quiz-insight-title">${attrSafe(data.title)}</div>
     <div class="quiz-insight-text">${attrSafe(data.text)}</div>
-    ${data.found ? `<div class="quiz-insight-result">${attrSafe(data.found)}</div>` : ""}
+    ${resultLine ? `<div class="quiz-insight-result">${attrSafe(resultLine)}</div>` : ""}
   `;
 }
 
@@ -26049,6 +27171,9 @@ function applyResultsStagger() {
 }
 
 function _renderResults(top) {
+  const resultsScreen = el("s-results");
+  if (resultsScreen) resultsScreen.classList.toggle("is-quiet-render", Boolean(_quietResultsRender));
+
   // ── Answer chips: компактный блок «Ваши требования · N» ──
   const userReqs = getUserRequirements();
   const chips = userReqs.map(r => `<span class="answer-chip">${r.label}</span>`).join("");
@@ -26069,16 +27194,16 @@ function _renderResults(top) {
   const titleEl = el("res-title");
   if (exact.length > 0) {
     titleEl.textContent = "Нашли точное совпадение";
-    let subParts = [`<b>${exact.length}</b> ${pluralRu(exact.length, "модель полностью соответствует", "модели полностью соответствуют", "моделей полностью соответствуют")} вашим требованиям`];
-    if (upgrades.length > 0) subParts.push(`<b>${upgrades.length}</b> с апгрейдом`);
+    let subParts = [`<b>${exact.length}</b> ${pluralRu(exact.length, "модель", "модели", "моделей")} на 100%`];
+    if (upgrades.length > 0) subParts.push(`<b>${upgrades.length}</b> лучше`);
     if (near.length > 0)     subParts.push(`<b>${near.length}</b> похожих`);
     el("res-sub").innerHTML = subParts.join(" · ");
   } else if (top.length > 0) {
-    titleEl.textContent = "Точных совпадений нет";
-    el("res-sub").innerHTML = `Показываем ближайшие варианты · лучшее совпадение — <b>${bestPct}%</b>`;
+    titleEl.textContent = "";
+    el("res-sub").textContent = "";
   } else {
     const budgetLimit = answers.budget && answers.budget !== "неважно" ? budgetLabel(answers.budget).toLowerCase() : "";
-    titleEl.textContent = "Упс, ничего не найдено";
+    titleEl.textContent = "";
     el("res-sub").textContent = budgetLimit
       ? `Под выбранные условия нет моделей ${budgetLimit}.`
       : "Такой связки условий в базе нет.";
@@ -26092,6 +27217,7 @@ function _renderResults(top) {
 
   const list = el("results-list");
   list.innerHTML = "";
+  document.querySelectorAll("#s-results .results-container > .quiz-insight").forEach(node => node.remove());
   const insight = top.length ? quizInsightHTML(top, exact, near, upgrades) : "";
   if (insight) {
     const insightBox = document.createElement("div");
@@ -26100,8 +27226,6 @@ function _renderResults(top) {
     // Итог подбора идёт первым блоком — раньше счётчика моделей и блока правки.
     const insightHost = document.querySelector("#s-results .results-container");
     const insightBefore = document.querySelector("#s-results .res-header");
-    // список очищается сам, а этот блок живёт выше него — убираем прошлый вручную
-    insightHost?.querySelectorAll(":scope > .quiz-insight").forEach(node => node.remove());
     if (insightHost && insightBefore && insightBefore.parentNode === insightHost) {
       insightHost.insertBefore(insightBox, insightBefore);
     } else {
@@ -26129,8 +27253,9 @@ function _renderResults(top) {
       if (s.key === "budget") {
         const raw = String(s.title || s.hint || "").trim();
         if (/не ограничивать бюджет/i.test(raw)) return "Не ограничивать бюджет";
-        const amount = raw.match(/(?:до|бюджет до)\s+(.+)$/i)?.[1] || raw.replace(/^повысить бюджет до\s+/i, "");
-        return amount ? `Поднять бюджет до ${amount}` : "Поднять бюджет";
+        const amount = raw.match(/(?:до|бюджет до)\s+([0-9\s]+₽)/i)?.[1] || raw.replace(/^повысить бюджет до\s+/i, "");
+        const quality = /full\s*hd/i.test(raw) ? " + Full HD" : /2k|2к/i.test(raw) ? " + 2K" : /4k|4к/i.test(raw) ? " + 4K" : "";
+        return amount ? `Бюджет ${amount}${quality}` : "Поднять бюджет";
       }
       if (s.key === "quality") return String(s.hint || "").replace(/^Рассмотреть модели с\s*/i, "") || "Другое качество";
       if (s.key === "form") return "Не ограничивать корпус";
@@ -26158,20 +27283,15 @@ function _renderResults(top) {
     cWrap.className = "compromise-wrap";
     cWrap.innerHTML = `
       <div class="compromise-sub">${(() => {
-        if (compromises[0]?.key === "budget") return "Быстрое решение по бюджету";
-        const n = Math.max(1, compromises[0]?.changeCount || 1);
-        const word = n === 1 ? "Одна правка" : n === 2 ? "Две правки" : `${n} правки`;
-        const verb = n === 1 ? "даст" : "дадут";
-        return compromises.some(item => item.exactCount > 0)
-          ? `${word} ${verb} 100% совпадение`
-          : `${word} ${verb} заметно больше вариантов`;
+        if (compromises[0]?.key === "budget") return "Бюджет не совпал";
+        return "Быстрое решение";
       })()}</div>`;
     compromises.slice(0, 1).forEach(s => {
       const row = document.createElement("div");
       row.className = "compromise-row";
       // Реальный эффект изменения: точные совпадения важнее близких моделей.
       const countText = s.exactCount > 0
-        ? `${pluralRu(s.exactCount, "Появится", "Появятся", "Появятся")} <b>${s.exactCount}</b> ${pluralRu(s.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
+        ? `${s.exactCount} ${pluralRu(s.exactCount, "точное совпадение", "точных совпадения", "точных совпадений")}`
         : `+<b>${s.count}</b> ${pluralRu(s.count, "подходящая модель", "подходящие модели", "подходящих моделей")}`;
       row.innerHTML = `
         <div class="compromise-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${COMPROMISE_ICONS[s.key] || defaultIcon}</svg></div>
@@ -26602,7 +27722,32 @@ function dbStickerText(brands, devices, finalBrands, finalDevices) {
   return `${brands} ${pluralRu(finalBrands, "бренд", "бренда", "брендов")} · ${devices} ${pluralRu(finalDevices, "устройство", "устройства", "устройств")}`;
 }
 
+// База не загрузилась (файл не выложен, оборвалась сеть, кэш отдал пустоту) —
+// об этом нужно сказать прямо: иначе человек видит «0 брендов · 0 устройств»
+// и думает, что бот пустой.
+function dbFailed() {
+  return !Array.isArray(window.DEVICES) || window.DEVICES.length === 0;
+}
+
+function showDbFailure() {
+  const sticker = document.getElementById("intro-db-sticker");
+  if (sticker) {
+    sticker.textContent = "База устройств не загрузилась";
+    sticker.classList.add("db-failed");
+  }
+  const btn = document.getElementById("btn-start");
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Обновите страницу";
+    btn.onclick = () => location.reload();
+    btn.disabled = false;
+  }
+  const search = document.getElementById("intro-srch");
+  if (search) { search.disabled = true; search.placeholder = "Поиск недоступен"; }
+}
+
 function renderIntroDbSticker() {
+  if (dbFailed()) { showDbFailure(); return; }
   const sticker = document.getElementById("intro-db-sticker");
   if (!sticker) return;
   const {brands, devices} = getDbCounts();
@@ -26646,6 +27791,7 @@ function animateDbCounter() {
 }
 
 function playIntroScene() {
+  if (dbFailed()) { showDbFailure(); return; }
   if (_introScenePlayed) return;
   _introScenePlayed = true;
   const intro = document.getElementById("s-intro");
