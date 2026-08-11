@@ -19743,6 +19743,249 @@ body.tg-app #s-search.profile-mode .dev-profile-back {
   overflow-wrap: normal !important;
   word-break: normal !important;
 }
+
+/* Compact anti-mistake notes inside the quiz summary. */
+#s-results .quiz-anti {
+  margin-top: 14px !important;
+  padding-top: 12px !important;
+  border-top: 1px solid var(--hair) !important;
+  display: grid !important;
+  gap: 7px !important;
+}
+
+#s-results .quiz-anti-title {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  font-weight: 650 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--text-2) !important;
+}
+
+#s-results .quiz-anti-item {
+  display: grid !important;
+  grid-template-columns: 6px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  align-items: start !important;
+  margin: 0 !important;
+  color: var(--text-2) !important;
+  font-size: clamp(13.5px, 3.4vw, 15px) !important;
+  line-height: 1.35 !important;
+}
+
+#s-results .quiz-anti-item span {
+  width: 6px !important;
+  height: 6px !important;
+  margin-top: .55em !important;
+  border-radius: 999px !important;
+  background: var(--blue, #007AFF) !important;
+}
+
+#s-results .quiz-anti-item p {
+  margin: 0 !important;
+}
+
+/* Desktop results polish: calmer Apple-like rhythm without touching mobile. */
+@media (min-width: 1100px) {
+  #s-results {
+    padding-top: clamp(44px, 5vh, 68px) !important;
+    padding-left: clamp(56px, 7vw, 138px) !important;
+    padding-right: clamp(56px, 7vw, 138px) !important;
+    padding-bottom: calc(var(--app-nav-h, 58px) + env(safe-area-inset-bottom) + 48px) !important;
+  }
+
+  #s-results .results-container,
+  html[data-theme="light"] #s-results .results-container,
+  html[data-theme="dark"] #s-results .results-container {
+    width: 100% !important;
+    max-width: 1360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  #s-results .results-container > .quiz-insight,
+  html[data-theme="light"] #s-results .results-container > .quiz-insight,
+  html[data-theme="dark"] #s-results .results-container > .quiz-insight {
+    max-width: 560px !important;
+    margin: 0 0 30px !important;
+  }
+
+  #s-results .quiz-insight-title,
+  html[data-theme="light"] #s-results .quiz-insight-title,
+  html[data-theme="dark"] #s-results .quiz-insight-title {
+    max-width: 13ch !important;
+    font-size: clamp(40px, 3vw, 52px) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -.045em !important;
+    margin-bottom: 16px !important;
+  }
+
+  #s-results .quiz-insight-text,
+  html[data-theme="light"] #s-results .quiz-insight-text,
+  html[data-theme="dark"] #s-results .quiz-insight-text {
+    max-width: 520px !important;
+    font-size: 20px !important;
+    line-height: 1.45 !important;
+    letter-spacing: -.02em !important;
+  }
+
+  #s-results .quiz-anti {
+    max-width: 520px !important;
+  }
+
+  #s-results .compromise-wrap,
+  html[data-theme="light"] #s-results .compromise-wrap,
+  html[data-theme="dark"] #s-results .compromise-wrap {
+    max-width: 920px !important;
+    margin: 28px 0 28px !important;
+    padding: 30px 32px !important;
+    border-radius: 32px !important;
+  }
+
+  #s-results .compromise-sub {
+    margin-bottom: 22px !important;
+    font-size: 14px !important;
+    letter-spacing: .04em !important;
+    text-transform: none !important;
+  }
+
+  #s-results .compromise-row {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 34px !important;
+    min-height: 92px !important;
+  }
+
+  #s-results .compromise-text {
+    max-width: 430px !important;
+    font-size: clamp(25px, 1.85vw, 30px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  #s-results .compromise-count {
+    margin-top: 10px !important;
+    font-size: 17px !important;
+  }
+
+  #s-results .compromise-btn,
+  html[data-theme="light"] #s-results .compromise-btn,
+  html[data-theme="dark"] #s-results .compromise-btn {
+    min-width: 126px !important;
+    height: 48px !important;
+    padding: 0 24px !important;
+    font-size: 17px !important;
+  }
+
+  #s-results .sort-bar {
+    width: min(760px, 100%) !important;
+    max-width: 760px !important;
+    height: 44px !important;
+    margin: 22px 0 46px !important;
+    padding: 4px !important;
+  }
+
+  #s-results .sort-btn {
+    height: 36px !important;
+    min-height: 36px !important;
+    font-size: 15px !important;
+  }
+
+  #s-results .res-section-header {
+    margin: 0 0 22px !important;
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+    letter-spacing: -.01em !important;
+    text-transform: none !important;
+    color: var(--text-2) !important;
+  }
+
+  #s-results .result-alt-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+    align-items: start !important;
+  }
+
+  #s-results .ap-rec,
+  html[data-theme="light"] #s-results .ap-rec,
+  html[data-theme="dark"] #s-results .ap-rec {
+    padding: 20px 22px !important;
+    border-radius: 30px !important;
+  }
+
+  #s-results .ap-rec-row {
+    grid-template-columns: 132px minmax(0, 1fr) 72px !important;
+    gap: 20px !important;
+  }
+
+  #s-results .ap-rec-photo {
+    width: 132px !important;
+    height: 102px !important;
+    padding: 9px !important;
+    border-radius: 22px !important;
+  }
+
+  #s-results .ap-rec-name {
+    font-size: 24px !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.025em !important;
+  }
+
+  #s-results .ap-rec-meta {
+    margin-top: 7px !important;
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  #s-results .ap-rec-priceline {
+    margin-top: 9px !important;
+  }
+
+  #s-results .ap-rec-price {
+    font-size: 24px !important;
+  }
+
+  #s-results .ap-rec-badge {
+    min-width: 54px !important;
+    max-width: 72px !important;
+    height: 30px !important;
+    font-size: 15px !important;
+    line-height: 30px !important;
+  }
+
+  #s-results .ap-rec-tools {
+    grid-template-columns: repeat(2, 32px) !important;
+    gap: 7px !important;
+  }
+
+  #s-results .ap-rec-tools > button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+
+  #s-results .ap-rec-diff {
+    margin-top: 18px !important;
+    padding-top: 16px !important;
+  }
+
+  #s-results .ap-rec-cols {
+    gap: 18px !important;
+  }
+
+  #s-results .ap-rec-col-t {
+    font-size: 11px !important;
+    letter-spacing: .1em !important;
+  }
+
+  #s-results .ap-rec-diff li {
+    font-size: 14.5px !important;
+    line-height: 1.34 !important;
+  }
+}
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -27696,17 +27939,61 @@ function buildQuizInsight(top, exact, near, upgrades) {
     points,
     chips,
     found,
+    warnings: buildQuizAntiWarnings(exact, near, upgrades),
     hidden: !top.length && !getUserRequirements().length,
   };
+}
+
+function buildQuizAntiWarnings(exact, near, upgrades) {
+  const selected = selectedTypes() || [];
+  const hasType = name => selected.some(v => String(v).toLowerCase() === name);
+  const budgetMax = selectedBudgetMax();
+  const exactCount = Array.isArray(exact) ? exact.length : 0;
+  const warnings = [];
+
+  if (Number.isFinite(budgetMax)) {
+    if (hasType("комбо 3 в 1") && budgetMax < 15000) {
+      warnings.push(`Комбо с радарной частью редко укладываются в такой бюджет. Если точных нет, первым делом стоит поднять лимит.`);
+    }
+    if (answers.quality === "превосходное" && budgetMax <= 10000) {
+      warnings.push(`4K в низком бюджете сильно сужает выбор. Иногда разумнее разрешить 2K или поднять бюджет.`);
+    } else if (answers.quality === "отличное" && budgetMax <= 5000) {
+      warnings.push(`2K до 5${NBSP}000${NBSP}₽ встречается редко. В этом бюджете чаще попадаются честные Full HD-модели.`);
+    }
+    if (answers.ir_cam === "да" && budgetMax < 15000) {
+      warnings.push(`Съёмка салона заметно сужает выбор в недорогом сегменте. Для такси лучше смотреть модели с несколькими камерами.`);
+    }
+  }
+
+  if (hasType("gps-информер") && answers.quality === "превосходное" && exactCount === 0) {
+    warnings.push("Для GPS-информера база камер важнее максимального разрешения. Если точных нет, можно спокойно рассмотреть 2K.");
+  }
+
+  if (hasType("комбо 3 в 1") && answers.magnetic === "да" && exactCount === 0) {
+    warnings.push("У комбо важнее радарная часть и антенна. Магнитное крепление лучше считать приятным бонусом, а не главным условием.");
+  }
+
+  if (!warnings.length && exactCount === 0 && Number.isFinite(budgetMax)) {
+    warnings.push("Запрос получился жёстким по цене. Быстрее всего расширит выбор повышение бюджета.");
+  }
+
+  return warnings.slice(0, 2);
 }
 
 function quizInsightHTML(top, exact, near, upgrades) {
   const data = buildQuizInsight(top, exact, near, upgrades);
   if (data.hidden) return "";
+  const warnings = data.warnings && data.warnings.length
+    ? `<div class="quiz-anti">
+        <div class="quiz-anti-title">Важно</div>
+        ${data.warnings.map(w => `<div class="quiz-anti-item"><span></span><p>${attrSafe(w)}</p></div>`).join("")}
+      </div>`
+    : "";
   return `
     <div class="quiz-insight-kicker">Итог подбора</div>
     <div class="quiz-insight-title">${attrSafe(data.title)}</div>
     <div class="quiz-insight-text">${attrSafe(data.text)}</div>
+    ${warnings}
   `;
 }
 
