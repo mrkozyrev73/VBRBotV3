@@ -15598,6 +15598,25 @@ html[data-theme="light"] #s-compare, html[data-theme="dark"] #s-compare {
   scroll-margin-top: var(--vbr-header-h, 58px) !important;
 }
 
+/* Верхняя полоса сравнения должна быть чистой и непрозрачной:
+   иначе строки характеристик просвечивают под ней при скролле. */
+html[data-theme="light"] #s-compare .cmp-cards,
+html[data-theme="dark"] #s-compare .cmp-cards {
+  z-index: 30 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="light"] #s-compare .cmp-cards {
+  background: #fff !important;
+  border-bottom-color: rgba(60, 60, 67, .18) !important;
+}
+
+html[data-theme="dark"] #s-compare .cmp-cards {
+  background: #000 !important;
+  border-bottom-color: rgba(255, 255, 255, .14) !important;
+}
+
 /* ══════════════════════════════════════════════════════════
    ПУСТЫЕ СОСТОЯНИЯ ВЫДАЧИ — стиль Apple
    Вместо эмодзи-стикера и жирных начертаний: тонкий знак
@@ -19986,6 +20005,7 @@ body.tg-app #s-search.profile-mode .dev-profile-back {
     line-height: 1.34 !important;
   }
 }
+
 </style>
 <!-- Yandex.Metrika counter — НЕ УДАЛЯТЬ при рерайтах! Запускается только после согласия (enableMetrika). -->
 <script type="text/javascript">
@@ -20802,7 +20822,7 @@ function enableMetrika(){
   </button>
 </nav>
 
-<script src="./devices.js?v=1.1.0"></script>
+<script src="./devices.js?v=1.1.2"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -21276,12 +21296,11 @@ function compareRowBest(cells) {
 
 function buildCompareRows(devices) {
   const rows = [];
-  const ql = ['','Full HD','2K','4K'];
 
   rows.push({
     icon: 'M4 7a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zm8 7.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
     label: 'Съёмка',
-    cells: devices.map(d => ({text: ql[d.q] || '—', rank: d.q || 0}))
+    cells: devices.map(d => ({text: qualityLabel(d) || '—', rank: qualityRank(d)}))
   });
 
   const types = devices.map(d => d.type);
@@ -21863,7 +21882,9 @@ const CATALOG_TERM_ALIASES = {
   "duo": "дуо",
   "line": "лайн линия",
   "mirror": "миррор зеркало",
+  "proof": "пруф проф proof",
   "pro": "про",
+  "ultra": "ультра",
   "uno": "уно",
   "wifi": "вайфай wi fi",
   "wi fi": "вайфай wifi",
@@ -24857,7 +24878,7 @@ function deviceCategoryLabel(d) {
 
 function introSearchMetaLine(d) {
   const items = [];
-  const q = ["", "Full HD", "2K", "4K"][d.q] || "";
+  const q = qualityLabel(d);
   if (q) items.push(q);
   // тип устройства теперь в строке-категории над названием — здесь не дублируем
   if (d.gps && d.gps !== "нет") items.push("GPS");
@@ -25021,6 +25042,11 @@ const BRAND_SEARCH_ALIASES = {
   "blackvue": "блеквью блэквью black vue"
 };
 
+const MODEL_SEARCH_ALIASES = {
+  "proof": "пруф проф proof",
+  "ultra": "ультра ultra",
+};
+
 // ── Поиск кириллицей: «мивью 812», «проф ультра», «блэквью» ──
 const RU2EN = {
   а:"a", б:"b", в:"v", г:"g", д:"d", е:"e", ё:"e", ж:"zh", з:"z", и:"i",
@@ -25057,9 +25083,14 @@ function phoneticKeyForDevice(d) {
 
 function searchableTextForDevice(d) {
   const brand = normalize(d.brand);
+  const base = normalize(`${d.name || ""} ${d.brand || ""}`);
+  const aliases = Object.entries(MODEL_SEARCH_ALIASES)
+    .filter(([term]) => base.includes(term))
+    .map(([, alias]) => alias)
+    .join(" ");
   // тип и форм-фактор — чтобы работали запросы «зеркало», «комбо», «информер»
   const cat = `${d.type || ""} ${d.form || ""}`;
-  return normalize(`${d.name} ${d.brand} ${BRAND_SEARCH_ALIASES[brand] || ""} ${cat}`);
+  return normalize(`${d.name} ${d.brand} ${BRAND_SEARCH_ALIASES[brand] || ""} ${aliases} ${cat}`);
 }
 
 function searchDevices(query) {
@@ -25143,7 +25174,16 @@ function findAnalogs(target, allResults) {
   return pickBrandDiverse(candidates, 6, 1).map(x => x.d);
 }
 
-const QNAMES = {1:"Full HD", 2:"2K", 3:"4K"};
+const QNAMES = {1:"Full HD", 2:"2K", 3:"4K", 4:"4K интерп."};
+function qualityLabel(dOrQ) {
+  const q = typeof dOrQ === "object" ? Number(dOrQ?.q) : Number(dOrQ);
+  return QNAMES[q] || "";
+}
+function qualityRank(dOrQ) {
+  const q = typeof dOrQ === "object" ? Number(dOrQ?.q) : Number(dOrQ);
+  if (q === 4) return 2.7; // 4K-интерполяция выше 2K, но ниже честного 4K.
+  return q || 0;
+}
 const FORM_SHORT = {
   "с экраном": "с экраном",
   "без экрана": "без экрана",
@@ -26063,9 +26103,8 @@ function recommendationFitScore(d) {
 // Returns human-readable list of differences vs target device
 function getDiffs(x, d) {
   const diffs = [];
-  const ql = ['','Full HD','2K','4K'];
   if (x.q !== d.q)
-    diffs.push({text: x.q > d.q ? ql[x.q] : `${ql[x.q]} вместо ${ql[d.q]}`, type: x.q > d.q ? 'better' : 'worse'});
+    diffs.push({text: qualityRank(x) > qualityRank(d) ? qualityLabel(x) : `${qualityLabel(x)} вместо ${qualityLabel(d)}`, type: qualityRank(x) > qualityRank(d) ? 'better' : 'worse'});
   const xSensor = sensorInfo(x);
   const dSensor = sensorInfo(d);
   if (xSensor && dSensor && xSensor.key !== dSensor.key && (x.q === d.q || sensorClassDifferent(x, d))) {
@@ -26156,7 +26195,7 @@ function buildMatchExplanation(item, isExact, isUpgrade = false) {
   const mm = item.mm || [];
   const reqQ = answers.quality && answers.quality !== "неважно"
     ? QRANK[answers.quality.toLowerCase()] : null;
-  const qText = {1:"Full HD", 2:"2K", 3:"4K"};
+  const qText = QNAMES;
   const matched = [];
 
   if (answers.type && answers.type !== "неважно") matched.push(deviceTypeText(d, true));
@@ -26919,7 +26958,7 @@ function matchCriteriaHTML(d) {
   // было ничего узнать. Теперь это короткая выжимка: что именно у модели.
   const antenna = radarAntennaLabel(d);
   const yesNo = v => (v ? "есть" : "нет");
-  const qName = { 1: "Full HD", 2: "2K", 3: "4K" }[Number(d.q)] || null;
+  const qName = qualityLabel(d) || null;
   const memory = d.specs?.built_in_memory;
   const power = d.specs?.power_element;
 
@@ -28012,7 +28051,7 @@ function reqMatchData(item, isUpgrade = false) {
   const reqs = getUserRequirements();
   const mm = item.mm || [];
   const mmByKey = new Map(mm.map(m => [m.key, m]));
-  const QUAL_BY_RANK = {1:"Full HD", 2:"2K", 3:"4K"};
+  const QUAL_BY_RANK = QNAMES;
   const matched = [], missed = [], bonus = [];
   const upByKey = new Map((item.up || []).map(u => [u.key, u]));
   reqs.forEach(r => {
@@ -28662,10 +28701,9 @@ function _renderResults(top) {
       card.setAttribute("tabindex", "0");
       card.setAttribute("aria-label", `Открыть карточку: ${d.name}`);
 
-      const QLABELS_BADGE = {1:"Full HD", 2:"2K", 3:"4K"};
       // Один смысл — одно представление: статусная плашка со смысловой
       // интерпретацией процента, без дублирующего progress bar и тегов.
-      const pillLabel = isUpgrade ? `${QLABELS_BADGE[d.q] || ""} лучше запрошенного`
+      const pillLabel = isUpgrade ? `${qualityLabel(d) || ""} лучше запрошенного`
                       : isExact   ? "100% · Точное совпадение"
                                   : `${pct}% · ${matchStatusLabel(pct)}`;
       const rmPill = reqMatchData(item, isUpgrade);
@@ -28989,7 +29027,7 @@ function renderModePopular(listId = "mode-popular-list") {
   list.innerHTML = [...promoted, ...picks].map(({d, idx}) => {
     const meta = [
       d.type,
-      d.q ? ["", "Full HD", "2K", "4K"][d.q] : "",
+      qualityLabel(d),
       d.form,
       d.smartphone ? "Wi-Fi" : "",
     ].filter(Boolean).join(" · ");
@@ -29145,6 +29183,50 @@ if (shouldResetRouteOnReload()) {
   if (cb) cb.addEventListener('change', function(){ if (cb.checked) giveConsent(); });
 })();
 </script>
+
+<style>
+/* Финальный фикс: кнопка поделиться в карточке модели всегда остаётся компактной,
+   даже если выше подключаются общие стили для больших кнопок. */
+.dev-hero-actions .share-btn,
+#s-search .share-btn,
+.share-btn {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 34px !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+.share-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
+  flex: 0 0 16px !important;
+}
+
+/* Финальный фикс сравнения: липкая верхняя полоса не должна просвечивать. */
+html[data-theme="light"] #s-compare .cmp-cards,
+html[data-theme="dark"] #s-compare .cmp-cards {
+  z-index: 30 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-theme="light"] #s-compare .cmp-cards {
+  background: #fff !important;
+}
+html[data-theme="dark"] #s-compare .cmp-cards {
+  background: #000 !important;
+}
+</style>
 
 </body>
 </html>
