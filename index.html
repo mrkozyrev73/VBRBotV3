@@ -23509,9 +23509,11 @@ function scoreDevice(dev) {
     m++;
     if (q.key === "quality") {
       const reqQ = QRANK[a] || 0;
-      if (dev.q === reqQ) {
+      const devQualityRank = qualityRank(dev);
+      const reqQualityRank = qualityRank(reqQ);
+      if (devQualityRank === reqQualityRank) {
         s += 1;
-      } else if (dev.q > reqQ) {
+      } else if (devQualityRank > reqQualityRank) {
         // Снимает лучше запрошенного — требование выполнено (это бонус, не минус).
         // Целый балл, чтобы процент = честная доля выполненных требований.
         s += 1;
@@ -23715,6 +23717,7 @@ function getUpgrades(exactItems) {
   const reqQ = answers.quality && answers.quality !== "неважно"
     ? QRANK[answers.quality.toLowerCase()] : null;
   if (reqQ == null || exactItems.length === 0) return [];
+  const reqQualityRank = qualityRank(reqQ);
 
   const exactNames = new Set(exactItems.map(e => e.d.name));
 
@@ -23725,7 +23728,7 @@ function getUpgrades(exactItems) {
 
   const candidates = pool.filter(d => {
     if (exactNames.has(d.name)) return false;   // уже в точных
-    if (d.q <= reqQ) return false;               // не апгрейд
+    if (qualityRank(d) <= reqQualityRank) return false; // не апгрейд
     // Все булевы критерии должны совпадать идеально
     return BOOLS.every(k => {
       const a = (answers[k] || "неважно").toLowerCase();
@@ -23742,7 +23745,7 @@ function getUpgrades(exactItems) {
     const ab = exactBrands.has(a.brand) ? 0 : 1;
     const bb = exactBrands.has(b.brand) ? 0 : 1;
     if (ab !== bb) return ab - bb;
-    return a.q - b.q;
+    return qualityRank(a) - qualityRank(b);
   });
 
   // Максимум 2 апгрейда, по одному на бренд
@@ -23873,8 +23876,8 @@ function auditDeviceData() {
     const has2kText = /(?:^|[^a-zа-я0-9])(2k|2к|2\.5k|2\.7k|3k|1296|1440|1600|1944|2304|2560|2592)/i.test(resolution);
     const hasFullHdText = /(?:full\s*hd|fhd|1080|1920)/i.test(resolution);
     const interpolated4k = has4kText && /интерполяц/i.test(resolution);
-    if (interpolated4k && d.q !== 2) {
-      report.resolution.push({index, brand: d.brand, name: d.name, issue: "4K указано как интерполяция, обычно q должен быть 2", q: d.q, resolution: d.resolution});
+    if (interpolated4k && qualityRank(d) !== 2) {
+      report.resolution.push({index, brand: d.brand, name: d.name, issue: "4K указано как интерполяция, по уровню должно считаться как 2K", q: d.q, resolution: d.resolution});
     } else if (has4kText && !interpolated4k && d.q !== 3) {
       report.resolution.push({index, brand: d.brand, name: d.name, issue: "в resolution указано 4K, но q не 3", q: d.q, resolution: d.resolution});
     } else if (!has4kText && has2kText && d.q !== 2) {
@@ -25163,11 +25166,11 @@ function findAnalogs(target, allResults) {
       return sameType && sameForm && !inResults;
     })
     .sort((a, b) => {
-      // prefer same q, then different brand
-      const aqDiff = Math.abs(a.q - target.q);
-      const bqDiff = Math.abs(b.q - target.q);
+      // prefer same practical quality level, then stronger native class
+      const aqDiff = Math.abs(qualityRank(a) - qualityRank(target));
+      const bqDiff = Math.abs(qualityRank(b) - qualityRank(target));
       if (aqDiff !== bqDiff) return aqDiff - bqDiff;
-      return (b.q - a.q);
+      return qualityRank(b) - qualityRank(a);
     })
     .map(d => ({d, pct: similarPct(d, target)}));
 
@@ -25181,7 +25184,7 @@ function qualityLabel(dOrQ) {
 }
 function qualityRank(dOrQ) {
   const q = typeof dOrQ === "object" ? Number(dOrQ?.q) : Number(dOrQ);
-  if (q === 4) return 2.7; // 4K-интерполяция выше 2K, но ниже честного 4K.
+  if (q === 4) return 2; // 4K-интерполяция считается уровнем 2K, не честным 4K.
   return q || 0;
 }
 const FORM_SHORT = {
@@ -25394,7 +25397,7 @@ function sensorPriorityScore(d) {
 }
 
 function shootingQualityScore(d) {
-  let score = (d.q || 0) * 100;
+  let score = qualityRank(d) * 100;
   score += sensorPriorityScore(d) * 8;
   if (hasInterpolation(d)) score -= 35;
   return score;
@@ -26013,8 +26016,10 @@ function upgradeScore(x, d) {
 }
 
 function hasMeaningfulUpgrade(x, d) {
-  if ((x.q || 0) > (d.q || 0)) return true;
-  if (sensorPriorityScore(x) > sensorPriorityScore(d) + 0.25 && (x.q || 0) >= (d.q || 0)) return true;
+  const xQualityRank = qualityRank(x);
+  const dQualityRank = qualityRank(d);
+  if (xQualityRank > dQualityRank) return true;
+  if (sensorPriorityScore(x) > sensorPriorityScore(d) + 0.25 && xQualityRank >= dQualityRank) return true;
   if (radarAntennaRank(x) > radarAntennaRank(d)) return true;
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
@@ -26033,9 +26038,11 @@ function isBetterAlternative(x, d) {
   // "Лучше" не может быть хуже по главному для регистратора: съёмке.
   // Иначе модель со слабым сенсором, но большим углом/доп. камерой ошибочно
   // всплывает как upgrade к более сильной 4K-модели.
-  if ((x.q || 0) < (d.q || 0)) return false;
+  const xQualityRank = qualityRank(x);
+  const dQualityRank = qualityRank(d);
+  if (xQualityRank < dQualityRank) return false;
   if (radarAntennaRank(x) < radarAntennaRank(d)) return false;
-  if ((x.q || 0) === (d.q || 0) && sensorPriorityScore(x) + 0.4 < sensorPriorityScore(d)) return false;
+  if (xQualityRank === dQualityRank && sensorPriorityScore(x) + 0.4 < sensorPriorityScore(d)) return false;
   if (hasGPS(d) && !hasGPS(x)) return false;
   if (d.rear_cam && !x.rear_cam) return false;
   if (d.ir_cam && !x.ir_cam) return false;
@@ -26080,12 +26087,14 @@ function similarPct(x, d) {
   if (hasGPS(x)   === hasGPS(d))    p += 8;
   if (radarAntenna(x) && radarAntenna(d)) p += radarAntenna(x) === radarAntenna(d) ? 8 : radarAntennaRank(x) > radarAntennaRank(d) ? 6 : 2;
   if ((radarAntenna(x) || radarAntenna(d)) && hasLNA(x) && hasLNA(d)) p += 2;
-  const qDiff = Math.abs(x.q - d.q);
-  p += qDiff === 0 ? 14 : x.q > d.q ? 12 : qDiff === 1 ? 6 : 0;
+  const xQualityRank = qualityRank(x);
+  const dQualityRank = qualityRank(d);
+  const qDiff = Math.abs(xQualityRank - dQualityRank);
+  p += qDiff === 0 ? 14 : xQualityRank > dQualityRank ? 12 : qDiff <= 1 ? 6 : 0;
   const xSensorRank = sensorPriorityScore(x);
   const dSensorRank = sensorPriorityScore(d);
   if (xSensorRank && dSensorRank) {
-    p += Math.abs(xSensorRank - dSensorRank) < 0.8 ? 5 : xSensorRank > dSensorRank && x.q >= d.q ? 4 : 1;
+    p += Math.abs(xSensorRank - dSensorRank) < 0.8 ? 5 : xSensorRank > dSensorRank && xQualityRank >= dQualityRank ? 4 : 1;
   }
   return Math.min(99, p);
 }
@@ -26114,14 +26123,14 @@ function getDiffs(x, d) {
     const tone = xSony && dSony
       ? (x.q === d.q
         ? (betterSensor ? 'better' : 'worse')
-        : (betterSensor && x.q >= d.q ? 'better' : !betterSensor && x.q <= d.q ? 'worse' : undefined))
-      : (xSony && betterSensor && x.q >= d.q ? 'better' : undefined);
+        : (betterSensor && qualityRank(x) >= qualityRank(d) ? 'better' : !betterSensor && qualityRank(x) <= qualityRank(d) ? 'worse' : undefined))
+      : (xSony && betterSensor && qualityRank(x) >= qualityRank(d) ? 'better' : undefined);
     const sensorText = tone ? xSensor.label : `Сенсор: ${xSensor.label}`;
     diffs.push({
       text: sensorText,
       type: tone
     });
-  } else if (xSensor && !dSensor && x.q >= d.q) {
+  } else if (xSensor && !dSensor && qualityRank(x) >= qualityRank(d)) {
     diffs.push({text: `Матрица: ${xSensor.label}`, type: isSonySensorInfo(xSensor) ? 'better' : undefined});
   }
   // Радарная антенна считается сразу после разрешения/сенсора,
@@ -26167,7 +26176,7 @@ function getDiffs(x, d) {
   if (x.touch !== d.touch)
     diffs.push({text: x.touch ? UI_TERMS.touch : 'Физические кнопки', type: x.touch ? 'better' : 'worse'});
   if (x.rotation !== d.rotation)
-    diffs.push({text: x.rotation ? 'Вращение камеры' : 'Без вращения камеры', type: x.rotation ? 'better' : 'worse'});
+    diffs.push({text: x.rotation ? 'Поворотная камера' : 'Без поворотной камеры', type: x.rotation ? 'better' : 'worse'});
   if (hasGPS(x) !== hasGPS(d))
     diffs.push({text: hasGPS(x) ? 'GPS' : 'Без GPS', type: hasGPS(x) ? 'better' : 'worse'});
   if (x.type !== d.type)
@@ -26183,7 +26192,7 @@ function describeSpecValue(key, val) {
     smartphone: val ? "Wi-Fi и приложение" : "без Wi-Fi",
     magnetic:   val ? UI_TERMS.magnetic.toLowerCase() : "обычное крепление",
     touch:      val ? UI_TERMS.touch.toLowerCase() : "физические кнопки",
-    rotation:   val ? "вращение камеры" : "камера не вращается",
+    rotation:   val ? "поворотная камера" : "без поворотной камеры",
     ir_cam:     val ? UI_TERMS.cabinCam : "без внутрисалонной камеры",
     remote:     val ? "4G/удаленный доступ" : "без 4G"
   };
@@ -26302,7 +26311,7 @@ function compactDetailLabel(item) {
   // «Сенсорное управление» — это про управление, а не про матрицу камеры
   if (/сенсорн[а-яё]*\s*(управ|экран)|тачскрин|физическ[а-яё]*\s*кнопк|кнопк/.test(text)) return "Управление";
   if (/матриц|сенсор(?![а-яё])|imx|starvis|galaxycore|omnivision|gc\d/.test(text)) return "Матрица";
-  if (/360|поворот камер/.test(text)) return "Поворот 360°";
+  if (/поворот камер|вращени[ея]\s+камер|без\s+поворотн/.test(text)) return "Поворотная камера";
   if (/обзор|°/.test(text)) return "Обзор";
   if (item?.type === "antenna" || /антенн|рупор|патч/.test(text)) return "Радар";
   if (/wi-?fi/.test(text)) return "Wi-Fi";
@@ -26354,7 +26363,7 @@ function normalizeDetailValue(label, text, tone) {
 
 // Единый порядок строк отличий во всём приложении:
 // цена → сенсор → радар(антенна) → съёмка → обзор → остальное.
-const DETAIL_ORDER = ["Цена", "Доп. камера", "Память", "Матрица", "Радар", "Съёмка", "Обзор", "КЗВ", "Салон", "Wi-Fi", "GPS", "Экран", "Управление", "Крепление", "4G"];
+const DETAIL_ORDER = ["Цена", "Доп. камера", "Память", "Матрица", "Радар", "Съёмка", "Обзор", "Поворотная камера", "КЗВ", "Салон", "Wi-Fi", "GPS", "Экран", "Управление", "Крепление", "4G"];
 function sortDetailRows(rows) {
   const rank = l => {
     const i = DETAIL_ORDER.indexOf(l);
@@ -26557,8 +26566,8 @@ function renderAnalogCard(x, pct, diffs, delayIndex = 0, target = null, variant 
   const antennaDiff = antenna === "horn" && targetAntenna === "patch" && !(diffs || []).some(diff => String(diff?.text || diff || "").toLowerCase().includes("рупор"))
     ? [{text: UI_TERMS.horn, type: "antenna"}]
     : [];
-  // Поворотная камера 360° — редкая особенность (70mai Omni). Если она есть
-  // у выбранной модели, у любого аналога её отсутствие идёт в минусы.
+  // Реальный круговой поворот — отдельная редкая особенность. Не смешиваем его
+  // с обычной поворотной камерой, чтобы не приписывать 360° всем моделям.
   const spinDiff = (target && target.spin360 && !x.spin360)
     ? [{text: "Нет поворота камеры на 360°", type: "worse"}]
     : [];
@@ -26580,7 +26589,7 @@ function renderAnalogCard(x, pct, diffs, delayIndex = 0, target = null, variant 
     badge = `<span class="ap-rec-badge exact">Полный аналог</span>`;
     verdict = `<div class="ap-rec-verdict ${tone}">${attrSafe(sub)}</div>`;
     const extraSpin = (target.spin360 && !x.spin360)
-      ? [{label: "Поворот 360°", text: "Нет поворота камеры", tone: "worse"}]
+      ? [{label: "Поворот 360°", text: "нет", tone: "worse"}]
       : [];
     const factRows = extraSpin.concat(exactAnalogFacts(x, target).map(f => ({
       label: compactDetailLabel({text: f.text, type: f.tone === "good" ? "better" : "worse"}),
