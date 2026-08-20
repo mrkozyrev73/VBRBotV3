@@ -47,6 +47,29 @@
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", theme === "dark" ? "#000000" : "#FFFFFF");
 })();
+
+// Stable accordions for device profile sections.
+document.addEventListener("click", function handleSpecsFullToggle(event) {
+  const toggle = event.target.closest && event.target.closest(".specs-full-toggle");
+  if (!toggle) return;
+
+  const block = toggle.closest(".specs-full");
+  if (!block) return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const isOpen = !block.classList.contains("open");
+  block.classList.toggle("open", isOpen);
+  toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+
+  const body = block.querySelector(".specs-full-body");
+  if (body) {
+    body.hidden = !isOpen;
+    body.style.display = isOpen ? "block" : "none";
+  }
+}, true);
+
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -5582,6 +5605,63 @@ canvas {
   
   
 }
+
+/* Fixes: profile accordions, full-analog badge, profile-to-profile back chain. */
+html[data-theme="light"] .specs-full.open .specs-full-body,
+html[data-theme="dark"] .specs-full.open .specs-full-body {
+  display: block !important;
+}
+html[data-theme="light"] .specs-full-toggle,
+html[data-theme="dark"] .specs-full-toggle {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+@media (min-width: 1100px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 84px minmax(0, 1fr) minmax(148px, max-content) !important;
+  }
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-side,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-side {
+    min-width: 148px !important;
+    max-width: none !important;
+  }
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-badge,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-badge {
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+}
+@media (min-width: 1420px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 92px minmax(0, 1fr) minmax(154px, max-content) !important;
+  }
+}
+
+
+/* Final profile accordion repair. */
+html[data-theme="light"] .specs-full .specs-full-body,
+html[data-theme="dark"] .specs-full .specs-full-body {
+  display: none !important;
+}
+
+html[data-theme="light"] .specs-full.open .specs-full-body,
+html[data-theme="dark"] .specs-full.open .specs-full-body {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.specs-full-toggle {
+  touch-action: manipulation;
+}
+
+
 </style>
 <!-- Telegram Mini App: полноэкранный режим при открытии внутри Telegram -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -7227,6 +7307,49 @@ html[data-theme="light"] #s-about .ap-about-wrap {
 }
 .ap-foot-link:hover { color: var(--blue); text-decoration-color: currentColor; }
 .ap-foot-dot { color: var(--text-3); opacity: .45; font-size: 12.5px; }
+.ap-community-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: clamp(12px, 2vh, 20px);
+  border-top: 1px solid var(--hair-2);
+}
+.ap-community-row h4 {
+  margin: 0 0 4px;
+  font-size: clamp(14px, 1.1vw, 15.5px);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--text-1);
+}
+.ap-community-row p {
+  margin: 0;
+  max-width: 56ch;
+  font-size: clamp(12.5px, .95vw, 13.5px);
+  line-height: 1.45;
+  letter-spacing: -.008em;
+  color: var(--text-2);
+}
+.ap-community-link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.btn-telegram-logo {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  color: var(--blue);
+}
+.btn-community {
+  max-width: 100%;
+}
+.btn-community span {
+  min-width: 0;
+}
+.community-label-short {
+  display: none;
+}
 .ap-btn-ghost {
   appearance: none; cursor: pointer;
   background: #fff; border: 1px solid var(--hair);
@@ -7250,6 +7373,16 @@ html[data-theme="light"] #s-about .ap-btn {
   .ap-cols3 > div { border-bottom: 1px solid var(--hair-2); padding: 16px 0; }
   .ap-cols3 > div:last-child { border-bottom: 0; }
   html[data-theme="light"] #s-about .ap-about-wrap { min-height: 0; }
+  .ap-community-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ap-community-link {
+    height: 34px !important;
+    padding-inline: 13px !important;
+    font-size: 13px !important;
+  }
   .ap-about-foot { justify-content: center; text-align: center; }
 }
 
@@ -16911,7 +17044,7 @@ html[data-theme="dark"] .dev-links-block { border-top-color: rgba(255,255,255,.1
 html[data-theme="light"] .dev-links-row,
 html[data-theme="dark"] .dev-links-row {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 8px !important;
   margin: 0 0 10px !important;
 }
@@ -20756,6 +20889,18 @@ function enableMetrika(){
         <p>Гаджеты, тесты и техника без скучных инструкций.</p>
         <p class="ap-cols3-links"><a class="ap-inline-link" href="https://www.youtube.com/@progadgets_official" target="_blank" rel="noopener">YouTube</a><span class="ap-dot-sep">·</span><a class="ap-inline-link" href="https://vk.com/progadgets_official" target="_blank" rel="noopener">VK</a></p>
       </div>
+    </div>
+
+    <div class="ap-community-row">
+      <div>
+        <h4>Обсуждение моделей</h4>
+        <p>Можно спросить про конкретный регистратор и посмотреть опыт других пользователей.</p>
+      </div>
+      <a class="btn-link-secondary btn-community ap-community-link" href="https://t.me/VBRPro_Community" target="_blank" rel="noopener" onclick="try{event.stopPropagation();vbrTrack('community_open')}catch(e){}">
+        <svg class="btn-telegram-logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 4.4 17.9 19c-.2.9-.8 1.1-1.5.7l-4.2-3.1-2 1.9c-.2.2-.4.4-.8.4l.3-4.3 7.8-7c.3-.3-.1-.5-.5-.2l-9.7 6.1-4.1-1.3c-.9-.3-.9-.9.2-1.3L19.5 4c.8-.3 1.5.2 1.3.4Z" fill="currentColor"/></svg>
+        <span class="community-label-full">Обсудить с другими пользователями</span>
+        <span class="community-label-short">Обсудить</span>
+      </a>
     </div>
 
     <div class="ap-about-foot">
@@ -25160,7 +25305,7 @@ function findAnalogs(target, allResults) {
   const candidates = DEVICES
     .filter(d => {
       if (d === target) return false;
-      const sameType = d.type === target.type;
+      const sameType = sameDeviceClass(d, target);
       const sameForm = d.form === target.form;
       const inResults = allResults.some(r => r.d === d);
       return sameType && sameForm && !inResults;
@@ -25241,6 +25386,23 @@ function safeExternalUrl(raw, fallback = "") {
   } catch(e) {
     return fallback ? safeExternalUrl(fallback) : "";
   }
+}
+
+const VBR_COMMUNITY_URL = "https://t.me/VBRPro_Community";
+
+function telegramIconHTML() {
+  return `<svg class="btn-telegram-logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M20.8 4.4 17.9 19c-.2.9-.8 1.1-1.5.7l-4.2-3.1-2 1.9c-.2.2-.4.4-.8.4l.3-4.3 7.8-7c.3-.3-.1-.5-.5-.2l-9.7 6.1-4.1-1.3c-.9-.3-.9-.9.2-1.3L19.5 4c.8-.3 1.5.2 1.3.4Z" fill="currentColor"/>
+  </svg>`;
+}
+
+function communityLinkHTML(label = "Обсудить с другими пользователями", className = "btn-link-secondary btn-community") {
+  const safeLabel = attrSafe(label);
+  return `<a class="${attrSafe(className)}" href="${VBR_COMMUNITY_URL}" target="_blank" rel="noopener" onclick="try{event.stopPropagation();vbrTrack('community_open')}catch(e){}">
+    ${telegramIconHTML()}
+    <span class="community-label-full">${safeLabel}</span>
+    <span class="community-label-short">Обсудить</span>
+  </a>`;
 }
 
 function safeAssetPath(raw) {
@@ -25845,9 +26007,16 @@ async function shareFavorites(event) {
   }
 }
 
-function openDeviceFromSearch(idx) {
+let deviceProfileBackStack = [];
+
+function openDeviceFromSearch(idx, backIdx = -1, opts = {}) {
   const d = DEVICES[idx];
   if (!d) return;
+  const hasProfileBack = Number.isInteger(backIdx) && backIdx >= 0 && DEVICES[backIdx] && backIdx !== idx;
+  if (!opts.preserveBackStack) {
+    if (hasProfileBack) deviceProfileBackStack.push(backIdx);
+    else deviceProfileBackStack.length = 0;
+  }
   vbrTrack("device_open", { model: d.name });
   rememberRecentDevice(d);
   setDeviceHash(d); // ссылкой на карточку можно поделиться
@@ -25855,8 +26024,19 @@ function openDeviceFromSearch(idx) {
   // If called from an analog card (not from intro), keep origin as-is
   // lastSearchOrigin and lastSearchQuery are set by openDeviceFromIntro before this call
 
-  // 100% analogs: all key specs must match exactly
-  const exact = DEVICES.filter(x => isExactAnalog(x, d));
+  // 100% analogs: all key specs must match exactly.
+  // Clean analogs with only price difference go first; extra differences are secondary.
+  const exact = DEVICES.filter(x => isExactAnalog(x, d)).sort((a, b) => {
+    const aFacts = exactAnalogFacts(a, d).length;
+    const bFacts = exactAnalogFacts(b, d).length;
+    if ((aFacts === 0) !== (bFacts === 0)) return aFacts === 0 ? -1 : 1;
+    if (aFacts !== bFacts) return aFacts - bFacts;
+    const ap = parsePrice(a.price);
+    const bp = parsePrice(b.price);
+    const av = Number.isFinite(ap) ? ap : Infinity;
+    const bv = Number.isFinite(bp) ? bp : Infinity;
+    return av - bv || String(a.name || '').localeCompare(String(b.name || ''), 'ru');
+  });
 
   // Similar: same class and form, with useful upgrades first.
   const similarCandidates = DEVICES.filter(x => {
@@ -25975,6 +26155,19 @@ function isComboDevice(d) {
   return String(d?.type || "").toLowerCase() === "комбо 3 в 1";
 }
 
+function deviceClassKey(dOrType) {
+  const raw = typeof dOrType === "string" ? dOrType : dOrType?.type;
+  const type = String(raw || "").toLowerCase().trim();
+  if (type === "комбо 3 в 1" || type.startsWith("комбо") || type.startsWith("гибрид") || type.startsWith("hybrid")) return "combo";
+  if (type === "gps-информер" || type === "gps информер") return "gps-informer";
+  if (type === "4g-регистратор" || type === "4g регистратор") return "4g-registrar";
+  return "registrar";
+}
+
+function sameDeviceClass(a, b) {
+  return deviceClassKey(a) === deviceClassKey(b);
+}
+
 // Плашка про антенну на карточке больше не выводится: тип антенны показывается
 // только в «Основных отличиях» — зелёным, если лучше, красным, если хуже.
 function cardAntennaBadgeHTML(d, weakRadarPart = false) {
@@ -25983,7 +26176,7 @@ function cardAntennaBadgeHTML(d, weakRadarPart = false) {
 
 function compatibleProfileCandidate(x, d) {
   if (x.form !== d.form) return false;
-  if (x.type !== d.type) return false;
+  if (!sameDeviceClass(x, d)) return false;
 
   // В ручном сравнении похожесть должна держать базовый класс устройства.
   // Например, 3CH-регистратор не должен получать в "похожие" обычный 1CH/2CH
@@ -26064,13 +26257,13 @@ function similarSectionTitle(d) {
 
 function isExactAnalog(x, d) {
   if (x === d) return false;
-  if (x.type !== d.type || x.form !== d.form || x.q !== d.q) return false;
+  if (!sameDeviceClass(x, d) || x.form !== d.form || x.q !== d.q) return false;
   if (hasGPS(x) !== hasGPS(d)) return false;
   if (hasInterpolation(x) !== hasInterpolation(d)) return false;
   if (sensorClassDifferent(x, d)) return false;
   const xAntenna = radarAntenna(x);
   const dAntenna = radarAntenna(d);
-  if ((x.type === "комбо 3 в 1" || d.type === "комбо 3 в 1") && xAntenna !== dAntenna) return false;
+  if ((deviceClassKey(x) === "combo" || deviceClassKey(d) === "combo") && xAntenna !== dAntenna) return false;
   if (xAntenna && dAntenna && xAntenna !== dAntenna) return false;
   return ANALOG_BOOLS.every(k => x[k] === d[k]);
 }
@@ -26179,7 +26372,7 @@ function getDiffs(x, d) {
     diffs.push({text: x.rotation ? 'Поворотная камера' : 'Без поворотной камеры', type: x.rotation ? 'better' : 'worse'});
   if (hasGPS(x) !== hasGPS(d))
     diffs.push({text: hasGPS(x) ? 'GPS' : 'Без GPS', type: hasGPS(x) ? 'better' : 'worse'});
-  if (x.type !== d.type)
+  if (!sameDeviceClass(x, d))
     diffs.push({text: deviceTypeText(x, true)});
   if (x.form !== d.form)
     diffs.push({text: x.form});
@@ -26608,8 +26801,9 @@ function renderAnalogCard(x, pct, diffs, delayIndex = 0, target = null, variant 
 
   const thumbSrc = deviceImageSrc(x);
   const meta = compactRecommendationMetaItems(x).join(" · ");
+  const targetIndex = target ? DEVICES.indexOf(target) : -1;
 
-  return `<article class="ap-rec${isExact ? " is-exact" : ""}" onclick="openDeviceFromSearch(${DEVICES.indexOf(x)})">
+  return `<article class="ap-rec${isExact ? " is-exact" : ""}" onclick="openDeviceFromSearch(${DEVICES.indexOf(x)}, ${targetIndex})">
     <div class="ap-rec-row">
       <div class="ap-rec-photo">${thumbSrc
         ? `<img src="${attrSafe(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
@@ -26993,7 +27187,7 @@ function matchCriteriaHTML(d) {
 
   if (!rows.length) return '';
   return `<div class="specs-full match-criteria-block">
-    <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
+    <button type="button" class="specs-full-toggle" aria-expanded="false">
       Главное о модели <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
@@ -27008,7 +27202,7 @@ function deviceFullSpecsHTML(d, idSuffix = "") {
   if (!rows.length) return "";
 
   return `<div class="specs-full dev-profile-specs-full" id="profile-specs-${idSuffix}">
-    <button class="specs-full-toggle" onclick="this.closest('.specs-full').classList.toggle('open')">
+    <button type="button" class="specs-full-toggle" aria-expanded="false">
       Все ${rows.length} ${pluralizeRu(rows.length, 'характеристика', 'характеристики', 'характеристик')} <span class="specs-full-arrow">›</span>
     </button>
     <div class="specs-full-body">
@@ -27040,7 +27234,8 @@ function usefulLinksHTML(d) {
     hasSite ? `<a class="btn-link-secondary" href="${attrSafe(siteUrl)}" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       <span>Сайт</span>
-    </a>` : ''
+    </a>` : '',
+    communityLinkHTML()
   ].filter(Boolean).join('');
 
   const buyBtn = hasMarket ? `<a class="btn-buy-primary" href="${attrSafe(marketUrl)}" target="_blank" rel="noopener">
@@ -27050,7 +27245,7 @@ function usefulLinksHTML(d) {
   const hint = hasMarket ? `<div class="partner-hint">Цена ориентировочная, маркетплейсы могут менять её ежедневно.</div>` : '';
 
   return `<div class="dev-links-block">
-    <div class="dev-links-title">Обзоры и источник</div>
+    <div class="dev-links-title">Обзоры, источник и чат</div>
     <div class="dev-links-row">${secondaryBtns}</div>
     ${buyBtn}
     ${hint}
@@ -27123,9 +27318,11 @@ function renderDeviceProfile(d, exact, similar) {
   const betterSimilar = similar.filter(a => isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const regularSimilar = similar.filter(a => !isBetterAlternative(a, d)).sort(bySimilarPctDesc);
   const keyTags = keyFeatureTagsHTML(d);
-  const backLabel = lastSearchOrigin === "results"
-    ? "Назад к результатам"
-    : (lastSearchOrigin === "admin" ? "Назад в админку" : "Назад");
+  const backLabel = deviceProfileBackStack.length
+    ? "Назад к модели"
+    : lastSearchOrigin === "results"
+      ? "Назад к результатам"
+      : (lastSearchOrigin === "admin" ? "Назад в админку" : "Назад");
   // подпись-сводка больше не выводится (дублировала заголовки секций ниже)
 
   let html = `
@@ -27277,6 +27474,13 @@ window.addEventListener("popstate", () => {
 });
 
 function backToSearchResults() {
+  if (deviceProfileBackStack.length) {
+    const prevIdx = deviceProfileBackStack.pop();
+    if (Number.isInteger(prevIdx) && DEVICES[prevIdx]) {
+      openDeviceFromSearch(prevIdx, -1, { preserveBackStack: true });
+      return;
+    }
+  }
   // Профиль открыт из результатов подбора — возвращаемся именно к ним.
   if (lastSearchOrigin === 'results') {
     show('s-results');
@@ -28310,8 +28514,10 @@ function _renderResults(top) {
   chipsWrap.classList.remove("open"); // по умолчанию свёрнут
 
   const exact    = sortResultItemsByFit(top.filter(t => t.mm.length === 0));
-  const near     = sortResultItemsByFit(top.filter(t => t.mm.length > 0));
-  const upgrades = getUpgrades(exact);
+  const resultClassAnchor = exact[0]?.d || top[0]?.d || null;
+  const keepResultClass = item => !resultClassAnchor || sameDeviceClass(item.d, resultClassAnchor);
+  const near     = sortResultItemsByFit(top.filter(t => t.mm.length > 0 && keepResultClass(t)));
+  const upgrades = getUpgrades(exact).filter(keepResultClass);
   const hasHornCandidate = [...top, ...upgrades].some(t => radarAntenna(t.d) === "horn");
   const bestPct  = top.length ? Math.max(...top.map(t => t.pct)) : 0;
 
@@ -29235,6 +29441,661 @@ html[data-theme="light"] #s-compare .cmp-cards {
 html[data-theme="dark"] #s-compare .cmp-cards {
   background: #000 !important;
 }
+
+/* Desktop profile layout: карточка модели слева, аналоги и связанные блоки справа. */
+@media (min-width: 1100px) {
+  html[data-theme="light"] #s-search.profile-mode,
+  html[data-theme="dark"] #s-search.profile-mode {
+    padding-top: 26px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .srch-body,
+  html[data-theme="dark"] #s-search.profile-mode .srch-body {
+    width: min(100% - 72px, 1580px) !important;
+    max-width: 1580px !important;
+    margin-inline: auto !important;
+    padding-inline: 0 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode #srch-results-area,
+  html[data-theme="dark"] #s-search.profile-mode #srch-results-area {
+    display: grid !important;
+    grid-template-columns: minmax(420px, 520px) minmax(0, 1fr) !important;
+    gap: 28px !important;
+    align-items: start !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-back,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-back {
+    grid-column: 1 / -1 !important;
+    width: fit-content !important;
+    margin: 0 0 4px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero {
+    grid-column: 1 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    position: sticky !important;
+    top: 92px !important;
+    align-self: start !important;
+    max-height: calc(100vh - 128px) !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+    scrollbar-width: thin !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero-body,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero-body {
+    padding: 24px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-title,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-title {
+    margin-bottom: 18px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-name,
+  html[data-theme="dark"] #s-search.profile-mode .dev-name {
+    font-size: clamp(30px, 2vw, 42px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-meta,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-meta {
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .device-photo-wrap,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .device-photo-wrap {
+    aspect-ratio: 4 / 3 !important;
+    margin: 16px 0 18px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .device-photo-wrap img,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .device-photo-wrap img {
+    object-fit: contain !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-story,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-story,
+  html[data-theme="light"] #s-search.profile-mode .specs-row,
+  html[data-theme="dark"] #s-search.profile-mode .specs-row,
+  html[data-theme="light"] #s-search.profile-mode .match-criteria-block,
+  html[data-theme="dark"] #s-search.profile-mode .match-criteria-block,
+  html[data-theme="light"] #s-search.profile-mode .dev-links-block,
+  html[data-theme="dark"] #s-search.profile-mode .dev-links-block {
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs {
+    grid-column: 2 !important;
+    min-width: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-section-hdr,
+  html[data-theme="dark"] #s-search.profile-mode .dev-section-hdr {
+    margin: 0 0 14px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-section-hdr:not(:first-child),
+  html[data-theme="dark"] #s-search.profile-mode .dev-section-hdr:not(:first-child) {
+    margin-top: 28px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .analog-card-grid,
+  html[data-theme="dark"] #s-search.profile-mode .analog-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+}
+
+@media (min-width: 1420px) {
+  html[data-theme="light"] #s-search.profile-mode .srch-body,
+  html[data-theme="dark"] #s-search.profile-mode .srch-body {
+    width: min(100% - 96px, 1720px) !important;
+    max-width: 1720px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode #srch-results-area,
+  html[data-theme="dark"] #s-search.profile-mode #srch-results-area {
+    grid-template-columns: minmax(460px, 560px) minmax(0, 1fr) !important;
+    gap: 34px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .analog-card-grid,
+  html[data-theme="dark"] #s-search.profile-mode .analog-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+}
+
+/* Desktop profile polish: меньше пустоты, ровнее сетка, без внутреннего скролла в карточке. */
+@media (min-width: 1100px) {
+  html[data-theme="light"] #s-search.profile-mode,
+  html[data-theme="dark"] #s-search.profile-mode {
+    padding-top: 22px !important;
+    padding-bottom: 112px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .srch-body,
+  html[data-theme="dark"] #s-search.profile-mode .srch-body {
+    width: min(100% - 64px, 1560px) !important;
+    max-width: 1560px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode #srch-results-area,
+  html[data-theme="dark"] #s-search.profile-mode #srch-results-area {
+    grid-template-columns: minmax(390px, 500px) minmax(0, 1fr) !important;
+    gap: 30px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-back,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-back {
+    margin-bottom: 8px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin-top: 0 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero-body,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero-body {
+    padding: 16px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-name,
+  html[data-theme="dark"] #s-search.profile-mode .dev-name {
+    font-size: clamp(25px, 1.45vw, 32px) !important;
+    line-height: 1.08 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-price,
+  html[data-theme="dark"] #s-search.profile-mode .dev-price {
+    font-size: clamp(24px, 1.45vw, 32px) !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-meta,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-meta {
+    font-size: 15px !important;
+    line-height: 1.35 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .device-photo-wrap,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .device-photo-wrap {
+    aspect-ratio: 16 / 10 !important;
+    max-height: 250px !important;
+    margin: 10px 0 12px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-story,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-story,
+  html[data-theme="light"] #s-search.profile-mode .specs-row,
+  html[data-theme="dark"] #s-search.profile-mode .specs-row,
+  html[data-theme="light"] #s-search.profile-mode .match-criteria-block,
+  html[data-theme="dark"] #s-search.profile-mode .match-criteria-block,
+  html[data-theme="light"] #s-search.profile-mode .dev-links-block,
+  html[data-theme="dark"] #s-search.profile-mode .dev-links-block {
+    margin-top: 14px !important;
+    padding-top: 14px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-summary,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-summary {
+    margin-top: 10px !important;
+    gap: 10px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero-actions,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero-actions {
+    gap: 8px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero-actions > button,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero-actions > button,
+  html[data-theme="light"] #s-search.profile-mode .dev-hero-actions .compare-chip,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero-actions .compare-chip {
+    min-height: 34px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-story p,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-story p {
+    font-size: 13px !important;
+    line-height: 1.38 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-story p + p,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-story p + p {
+    margin-top: 7px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-profile-story-title,
+  html[data-theme="dark"] #s-search.profile-mode .dev-profile-story-title {
+    font-size: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .specs-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .specs-row,
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .match-criteria-block,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .match-criteria-block,
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .dev-profile-specs-full,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .dev-profile-specs-full,
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .dev-links-block,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .dev-links-block {
+    margin-top: 12px !important;
+    padding-top: 12px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-hero .match-criteria-block,
+  html[data-theme="dark"] #s-search.profile-mode .dev-hero .match-criteria-block {
+    display: none !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs {
+    padding-top: 0 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-section-hdr,
+  html[data-theme="dark"] #s-search.profile-mode .dev-section-hdr {
+    margin: 0 0 12px !important;
+    font-size: 11px !important;
+    letter-spacing: .13em !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-section-hdr:not(:first-child),
+  html[data-theme="dark"] #s-search.profile-mode .dev-section-hdr:not(:first-child) {
+    margin-top: 24px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec {
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 86px minmax(0, 1fr) auto !important;
+    gap: 12px !important;
+    align-items: center !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-photo,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-photo {
+    width: 86px !important;
+    height: 68px !important;
+    flex-basis: 86px !important;
+    border-radius: 15px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-name,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-name {
+    font-size: 18px !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.025em !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-meta,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-meta {
+    font-size: 12.5px !important;
+    line-height: 1.25 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-price,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-price {
+    font-size: 18px !important;
+    line-height: 1.1 !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-side,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-side {
+    gap: 7px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-badge,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-badge {
+    height: 26px !important;
+    padding-inline: 10px !important;
+    font-size: 12px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-tools > button,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-tools > button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-diff,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-diff {
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-cols,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-cols {
+    gap: 12px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-col-t,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-col-t {
+    font-size: 10px !important;
+    letter-spacing: .12em !important;
+    margin-bottom: 6px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-diff li,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-diff li {
+    font-size: 11.5px !important;
+    line-height: 1.28 !important;
+  }
+}
+
+@media (min-width: 1420px) {
+  html[data-theme="light"] #s-search.profile-mode .srch-body,
+  html[data-theme="dark"] #s-search.profile-mode .srch-body {
+    width: min(100% - 88px, 1660px) !important;
+    max-width: 1660px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode #srch-results-area,
+  html[data-theme="dark"] #s-search.profile-mode #srch-results-area {
+    grid-template-columns: minmax(430px, 520px) minmax(0, 1fr) !important;
+    gap: 32px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .analog-card-grid,
+  html[data-theme="dark"] #s-search.profile-mode .analog-card-grid {
+    gap: 18px !important;
+  }
+}
+
+
+/* Desktop device profile: аналоговые карточки не должны вылезать из колонки. */
+@media (min-width: 1100px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    display: grid !important;
+    grid-template-columns: 84px minmax(0, 1fr) max-content !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    align-items: center !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-photo,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-photo {
+    width: 84px !important;
+    height: 66px !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-info,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-info,
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-priceline,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-priceline {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-name,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-name {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-meta,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-meta,
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-verdict,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-verdict {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-side,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-side {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 132px !important;
+    justify-self: end !important;
+    align-self: start !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 7px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-badge,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-badge {
+    max-width: 132px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-tools,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-tools {
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-diff,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-diff,
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-cols,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-cols,
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-col,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-col {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-diff li,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-diff li {
+    overflow-wrap: anywhere !important;
+  }
+}
+
+@media (min-width: 1420px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 92px minmax(0, 1fr) max-content !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-photo,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-photo {
+    width: 92px !important;
+    height: 72px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  html[data-theme="light"] .dev-links-block .dev-links-row,
+  html[data-theme="dark"] .dev-links-block .dev-links-row {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  html[data-theme="light"] .dev-links-block .dev-links-row .btn-link-secondary,
+  html[data-theme="dark"] .dev-links-block .dev-links-row .btn-link-secondary {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    padding-inline: 10px !important;
+  }
+  .dev-links-block .community-label-full {
+    display: none !important;
+  }
+  .dev-links-block .community-label-short {
+    display: inline !important;
+  }
+}
+
+/* Final profile fixes: keep analog badges readable and accordions expandable. */
+html[data-theme="light"] .specs-full.open .specs-full-body,
+html[data-theme="dark"] .specs-full.open .specs-full-body {
+  display: block !important;
+}
+html[data-theme="light"] .specs-full-toggle,
+html[data-theme="dark"] .specs-full-toggle {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+@media (min-width: 1100px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 84px minmax(0, 1fr) minmax(148px, max-content) !important;
+  }
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-side,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-side {
+    min-width: 148px !important;
+    max-width: none !important;
+  }
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-badge,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-badge {
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+}
+@media (min-width: 1420px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 92px minmax(0, 1fr) minmax(154px, max-content) !important;
+  }
+}
+
+
+/* Mobile profile analog repair: readable badges and cleaner exact analog order visuals. */
+@media (max-width: 520px) {
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec {
+    padding: 12px 14px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-row,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-row {
+    grid-template-columns: 78px minmax(0, 1fr) minmax(88px, max-content) !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-side,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-side {
+    min-width: 88px !important;
+    width: auto !important;
+    justify-self: end !important;
+    align-self: center !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-badge,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-badge {
+    max-width: none !important;
+    min-width: 0 !important;
+    width: auto !important;
+    height: 22px !important;
+    padding: 0 9px !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    font-size: 11px !important;
+    line-height: 22px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-tools,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-tools {
+    grid-template-columns: repeat(2, 26px) !important;
+    gap: 6px !important;
+  }
+
+  html[data-theme="light"] #s-search.profile-mode .dev-analogs .ap-rec-tools > button,
+  html[data-theme="dark"] #s-search.profile-mode .dev-analogs .ap-rec-tools > button {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+  }
+}
+
+
+/* VBR ultimate accordion visibility repair */
+html[data-theme="light"] #s-search.profile-mode .dev-hero .match-criteria-block,
+html[data-theme="dark"] #s-search.profile-mode .dev-hero .match-criteria-block,
+html[data-theme="light"] #s-search.profile-mode .dev-hero .dev-profile-specs-full,
+html[data-theme="dark"] #s-search.profile-mode .dev-hero .dev-profile-specs-full,
+html[data-theme="light"] .dev-hero .match-criteria-block,
+html[data-theme="dark"] .dev-hero .match-criteria-block,
+html[data-theme="light"] .dev-hero .dev-profile-specs-full,
+html[data-theme="dark"] .dev-hero .dev-profile-specs-full {
+  display: block !important;
+}
+
+html[data-theme="light"] .specs-full .specs-full-body,
+html[data-theme="dark"] .specs-full .specs-full-body {
+  display: none !important;
+  height: auto !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html[data-theme="light"] .specs-full.open .specs-full-body,
+html[data-theme="dark"] .specs-full.open .specs-full-body {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html[data-theme="light"] .specs-full.open .specs-full-row,
+html[data-theme="dark"] .specs-full.open .specs-full-row {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html[data-theme="light"] .specs-full-row .specs-full-value,
+html[data-theme="dark"] .specs-full-row .specs-full-value,
+html[data-theme="light"] .specs-full-row .specs-full-val,
+html[data-theme="dark"] .specs-full-row .specs-full-val {
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 </style>
 
 </body>
