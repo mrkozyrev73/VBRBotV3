@@ -20249,7 +20249,7 @@ function enableMetrika(){
       <div class="catalog-filter-strip" id="catalog-filter-strip" aria-label="Быстрый выбор"></div>
       <div class="catalog-filter-strip catalog-price-filter-strip" id="catalog-price-filter-strip" aria-label="Быстрый выбор по цене"></div>
       <div class="catalog-count-row">
-        <div class="catalog-count" id="catalog-count"></div>
+        <div class="catalog-count" id="catalog-count" role="status" aria-live="polite" aria-atomic="true"></div>
         <button class="catalog-reset" id="catalog-reset" type="button" onclick="resetCatalogFilters()">Сбросить</button>
       </div>
     </div>
@@ -21273,6 +21273,38 @@ function setupCopyEmailActions() {
 // Короткий подскок иконки в момент смены состояния: человек видит,
 // что действие засчиталось, не дожидаясь тоста. Класс снимаем по
 // окончании анимации, иначе повторное нажатие её не перезапустит.
+// Escape возвращает на шаг назад со «вложенных» экранов. Раньше карточку
+// модели с клавиатуры закрыть было нечем: видимая кнопка «Назад» есть,
+// но привычная клавиша не работала.
+const ESC_BACK_SCREENS = {
+  "s-search": ".dev-profile-back",
+  "s-guide": ".guide-back, .sec-back",
+  "s-policy": ".sec-back, .ap-doc-back",
+  "s-articles": ".sec-back",
+};
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape" || event.defaultPrevented) return;
+  const tag = (event.target && event.target.tagName) || "";
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag)) return;   // не мешаем полям
+  const selector = ESC_BACK_SCREENS[currentScreenId];
+  if (!selector) return;
+  const back = document.querySelector(`#${currentScreenId} ${selector}`);
+  if (!back || !back.offsetParent) return;
+  event.preventDefault();
+  back.click();
+});
+
+// При открытии карточки фокус уходит на её заголовок: иначе после клика
+// он остаётся на исчезнувшей кнопке и следующий Tab начинает с начала страницы.
+function focusDeviceProfileTitle() {
+  requestAnimationFrame(() => {
+    const title = document.querySelector("#s-search .dev-name");
+    if (!title) return;
+    if (!title.hasAttribute("tabindex")) title.setAttribute("tabindex", "-1");
+    try { title.focus({ preventScroll: true }); } catch (e) { title.focus(); }
+  });
+}
+
 // Отклик Telegram: в Mini App у нас есть настоящая тактильная отдача,
 // а не только CSS. Всё под guard — в обычном браузере просто ничего.
 function vbrHaptic(kind) {
@@ -23309,7 +23341,8 @@ function smartValue(a, b) {
 function resultFeatureScore(d) {
   let score = 0;
   score += shootingQualityScore(d) / 10;
-  score += sensorPriorityScore(d) * 8;
+  score += sensorPriorityScore(d) * 14;
+  if (hasHighTrustSensor(d)) score += 18;
   score += radarAntennaRank(d) * 18;
   score += hasGPS(d) ? 7 : 0;
   score += d.smartphone ? 6 : 0;
@@ -24490,10 +24523,16 @@ applyScreenTheme(getPreferredTheme());
 let _screenStack = [];
 let _restoringScreen = false;
 
+// Проходные экраны: это не место назначения, а состояние по дороге.
+// Экран подбора именно такой — вернувшись на него, человек снова смотрит
+// восьмисекундную анимацию и снова приезжает в ту же самую выдачу.
+const TRANSIENT_SCREENS = new Set(["s-loading"]);
+
 function show(id) {
   if (!_restoringScreen && currentScreenId && currentScreenId !== id) {
     if (id === "s-intro") _screenStack = [];
-    else if (_screenStack[_screenStack.length - 1] !== currentScreenId) _screenStack.push(currentScreenId);
+    else if (!TRANSIENT_SCREENS.has(currentScreenId)
+      && _screenStack[_screenStack.length - 1] !== currentScreenId) _screenStack.push(currentScreenId);
     if (_screenStack.length > 12) _screenStack.shift();
   }
   // уходим из каталога — запоминаем позицию прокрутки, чтобы вернуть её при возврате
@@ -25211,12 +25250,25 @@ function isSonySensorInfo(info) {
 function sensorPriorityScore(d) {
   const info = sensorInfo(d);
   if (!info) return 0;
-  return info.rank + (isSonySensorInfo(info) ? 0.35 : 0);
+  let score = info.rank;
+  if (isSonySensorInfo(info)) score += 0.35;
+  if (isStarvis2SensorInfo(info)) score += 1.25;
+  return score;
+}
+
+function isStarvis2SensorInfo(info) {
+  return /STARVIS\s*2|IMX6(?:62|75|78)/i.test(`${info?.label || ""} ${info?.key || ""}`);
+}
+
+function hasHighTrustSensor(d) {
+  const info = sensorInfo(d);
+  return !!info && (isStarvis2SensorInfo(info) || sensorPriorityScore(d) >= 4);
 }
 
 function shootingQualityScore(d) {
   let score = qualityRank(d) * 100;
-  score += sensorPriorityScore(d) * 8;
+  score += sensorPriorityScore(d) * 14;
+  if (isStarvis2SensorInfo(sensorInfo(d))) score += 95;
   if (hasInterpolation(d)) score -= 35;
   return score;
 }
@@ -25709,6 +25761,7 @@ function openDeviceFromSearch(idx, backIdx = -1, opts = {}) {
   const similar = pickBrandDiverse(similarCandidates, 10, 2).map(x => x.d);
 
   renderDeviceProfile(d, exact, similar);
+  focusDeviceProfileTitle();
 }
 
 // Модель для рекламы определяем по самой рекламе: заголовок и описание
@@ -25849,6 +25902,9 @@ function upgradeScore(x, d) {
   const shootingDelta = shootingQualityScore(x) - shootingQualityScore(d);
   if (shootingDelta > 0) score += Math.min(46, shootingDelta / 2.5);
   if (shootingDelta < 0) score -= Math.min(42, Math.abs(shootingDelta) / 2.4);
+  const sensorDelta = sensorPriorityScore(x) - sensorPriorityScore(d);
+  if (sensorDelta > 0) score += Math.min(32, sensorDelta * 8);
+  if (sensorDelta < 0) score -= Math.min(34, Math.abs(sensorDelta) * 9);
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle > dAngle) score += Math.min(30, xAngle - dAngle);
@@ -25867,6 +25923,7 @@ function upgradeScore(x, d) {
 function hasMeaningfulUpgrade(x, d) {
   const xQualityRank = qualityRank(x);
   const dQualityRank = qualityRank(d);
+  if (hasHighTrustSensor(x) && !hasHighTrustSensor(d) && xQualityRank >= dQualityRank) return true;
   if (xQualityRank > dQualityRank) return true;
   if (sensorPriorityScore(x) > sensorPriorityScore(d) + 0.25 && xQualityRank >= dQualityRank) return true;
   if (radarAntennaRank(x) > radarAntennaRank(d)) return true;
@@ -25889,9 +25946,12 @@ function isBetterAlternative(x, d) {
   // всплывает как upgrade к более сильной 4K-модели.
   const xQualityRank = qualityRank(x);
   const dQualityRank = qualityRank(d);
+  const xSensorScore = sensorPriorityScore(x);
+  const dSensorScore = sensorPriorityScore(d);
   if (xQualityRank < dQualityRank) return false;
   if (radarAntennaRank(x) < radarAntennaRank(d)) return false;
-  if (xQualityRank === dQualityRank && sensorPriorityScore(x) + 0.4 < sensorPriorityScore(d)) return false;
+  if (xQualityRank === dQualityRank && xSensorScore + 0.4 < dSensorScore) return false;
+  if (xQualityRank > dQualityRank && hasHighTrustSensor(d) && !hasHighTrustSensor(x) && xSensorScore + 1.8 < dSensorScore) return false;
   if (hasGPS(d) && !hasGPS(x)) return false;
   if (d.rear_cam && !x.rear_cam) return false;
   if (d.ir_cam && !x.ir_cam) return false;
@@ -25953,6 +26013,8 @@ function recommendationFitScore(d) {
   let score = base.pct;
   if (isComboSearch()) score += radarAntennaRank(d) * 8;
   score += shootingQualityScore(d) / 24;
+  score += sensorPriorityScore(d) * 3;
+  if (hasHighTrustSensor(d)) score += 12;
   const angle = primaryAngle(d);
   if (angle) score += Math.min(10, Math.max(0, angle - 120) / 8);
   return score;
@@ -25969,11 +26031,13 @@ function getDiffs(x, d) {
     const betterSensor = sensorPriorityScore(x) > sensorPriorityScore(d);
     const xSony = isSonySensorInfo(xSensor);
     const dSony = isSonySensorInfo(dSensor);
+    const xTrusted = isStarvis2SensorInfo(xSensor);
+    const dTrusted = isStarvis2SensorInfo(dSensor);
     const tone = xSony && dSony
       ? (x.q === d.q
         ? (betterSensor ? 'better' : 'worse')
-        : (betterSensor && qualityRank(x) >= qualityRank(d) ? 'better' : !betterSensor && qualityRank(x) <= qualityRank(d) ? 'worse' : undefined))
-      : (xSony && betterSensor && qualityRank(x) >= qualityRank(d) ? 'better' : undefined);
+        : (betterSensor && (qualityRank(x) >= qualityRank(d) || xTrusted) ? 'better' : !betterSensor && (qualityRank(x) <= qualityRank(d) || dTrusted) ? 'worse' : undefined))
+      : (xSony && betterSensor && (qualityRank(x) >= qualityRank(d) || xTrusted) ? 'better' : dTrusted && !xTrusted ? 'worse' : undefined);
     const sensorText = tone ? xSensor.label : `Сенсор: ${xSensor.label}`;
     diffs.push({
       text: sensorText,
@@ -27096,6 +27160,21 @@ const SCREEN_OPENERS = {
   "s-bad-signs": () => showBadSigns(false),
   "s-results": () => show("s-results"),
   "s-search": () => show("s-search"),
+  // Возврат в квиз: goNext() на последнем вопросе не двигает qIdx, поэтому
+  // ответы и номер шага целы — вопрос открывается ровно там, где его оставили.
+  // Если шаг стал неактуальным, renderQ() ушёл бы обратно в выдачу и вышел
+  // бы круг, поэтому проверяем это заранее и в таком случае идём на главную.
+  "s-question": () => {
+    const total = (typeof QS !== "undefined" && QS) ? QS.length : 0;
+    const nextRelevant = (typeof findRelevantQuestionIndex === "function")
+      ? findRelevantQuestionIndex(qIdx, 1)
+      : qIdx;
+    if (!Number.isInteger(qIdx) || !total || nextRelevant >= total) { goHome(); return; }
+    const nav = document.getElementById("bottom-nav");
+    if (nav) nav.style.display = "block";
+    renderQ();
+    show("s-question");
+  },
 };
 
 function vbrGoBack() {
@@ -31384,27 +31463,40 @@ html[data-theme="dark"] {
 }
 
 /* Компоненты, где зелёный был вписан числом мимо токенов. */
-html body .req-mark,
-html body .compromise-count.exact,
-html body .result-alt-pct.up,
-html body .result-alt-detail-label,
-html body .result-alt-match-note,
-html body .result-alt-note.is-plus,
-html body .spec-tag.has,
-html body .spec-tag.better,
-html body .feature-chip.good,
-html body .srch-badge.hi,
-html body .match-pill.hi,
-html body .ap-rec-col.plus .ap-rec-k::before {
+html[data-theme="light"] body .req-col.good .req-mark,
+html[data-theme="dark"] body .req-col.good .req-mark,
+html[data-theme="light"] body .compromise-count.exact,
+html[data-theme="dark"] body .compromise-count.exact,
+html[data-theme="light"] body .result-alt-pct.up,
+html[data-theme="dark"] body .result-alt-pct.up,
+html[data-theme="light"] body .result-alt-note.is-plus,
+html[data-theme="dark"] body .result-alt-note.is-plus,
+html[data-theme="light"] body .spec-tag.has,
+html[data-theme="dark"] body .spec-tag.has,
+html[data-theme="light"] body .spec-tag.better,
+html[data-theme="dark"] body .spec-tag.better,
+html[data-theme="light"] body .feature-chip.good,
+html[data-theme="dark"] body .feature-chip.good,
+html[data-theme="light"] body .srch-badge.hi,
+html[data-theme="dark"] body .srch-badge.hi,
+html[data-theme="light"] body .match-pill.hi,
+html[data-theme="dark"] body .match-pill.hi,
+html[data-theme="light"] body .ap-rec-col.plus .ap-rec-k::before,
+html[data-theme="dark"] body .ap-rec-col.plus .ap-rec-k::before {
   color: var(--ok) !important;
 }
-html body .res-sec-mark,
-html body .home-v2-sticker::before,
-html body .rank-pill.exact-pill::before {
+html[data-theme="light"] body .res-sec-mark,
+html[data-theme="dark"] body .res-sec-mark,
+html[data-theme="light"] body .home-v2-sticker::before,
+html[data-theme="dark"] body .home-v2-sticker::before,
+html[data-theme="light"] body .rank-pill.exact-pill::before,
+html[data-theme="dark"] body .rank-pill.exact-pill::before {
   background: var(--ok) !important;
 }
-html body .ap-rec-badge.exact,
-html body .ap-rec-same {
+html[data-theme="light"] body .ap-rec-badge.exact,
+html[data-theme="dark"] body .ap-rec-badge.exact,
+html[data-theme="light"] body .ap-rec-same,
+html[data-theme="dark"] body .ap-rec-same {
   color: var(--ok) !important;
   background: var(--ok-bg) !important;
 }
@@ -31469,6 +31561,67 @@ html[data-theme="light"] body #s-about .ap-about-wrap,
 html[data-theme="dark"] body #s-about .ap-about-wrap {
   height: auto !important;
   min-height: calc(100dvh - 58px - var(--app-nav-h, 58px) - clamp(18px, 2.6vh, 30px)) !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ЕДИНЫЙ КРАСНЫЙ
+   Было шесть оттенков: #D70015, #FF3B30, #C0392F, #B3453C,
+   #FF6B6B, #E08079. Разводим на два смысла и два токена:
+   --like — сердце избранного и счётчик в меню (это симпатия,
+   а не ошибка), --bad — статус «хуже / не совпало».
+   Контраст проверен: белый на --like-strong 4.6:1,
+   --bad на белом 5.3:1.
+   ══════════════════════════════════════════════════════════ */
+:root,
+html[data-theme="light"] {
+  --like: #E25950;
+  --like-strong: #D53F34;
+  --bad: #B4483C;
+  --bad-bg: rgba(180, 72, 60, .10);
+  --red-text: var(--bad);
+  --red-bg: var(--bad-bg);
+}
+html[data-theme="dark"] {
+  --like: #E87168;
+  --like-strong: #E0574C;
+  --bad: #E0857B;
+  --bad-bg: rgba(224, 133, 123, .16);
+  --red-text: var(--bad);
+  --red-bg: var(--bad-bg);
+}
+
+/* Симпатия: сердце и счётчики. */
+html[data-theme="light"] body #app-nav .app-nav-badge,
+html[data-theme="dark"] body #app-nav .app-nav-badge,
+html[data-theme="light"] body .app-nav-badge,
+html[data-theme="dark"] body .app-nav-badge {
+  background: var(--like-strong) !important;
+  color: #fff !important;
+}
+html[data-theme="light"] body .fav-btn.active,
+html[data-theme="dark"] body .fav-btn.active,
+html[data-theme="light"] body .fav-btn[aria-pressed="true"],
+html[data-theme="dark"] body .fav-btn[aria-pressed="true"],
+html[data-theme="light"] body .fav-btn.active svg,
+html[data-theme="dark"] body .fav-btn.active svg,
+html[data-theme="light"] body .fav-btn[aria-pressed="true"] svg,
+html[data-theme="dark"] body .fav-btn[aria-pressed="true"] svg {
+  color: var(--like) !important;
+  fill: var(--like) !important;
+}
+
+/* Статус «хуже / не совпало». */
+html[data-theme="light"] body .req-col.bad .req-mark,
+html[data-theme="dark"] body .req-col.bad .req-mark,
+html[data-theme="light"] body .ap-rec-verdict.minus,
+html[data-theme="dark"] body .ap-rec-verdict.minus,
+html[data-theme="light"] body .ap-rec-col.minus .ap-rec-k::before,
+html[data-theme="dark"] body .ap-rec-col.minus .ap-rec-k::before,
+html[data-theme="light"] body .fav-row-remove:hover,
+html[data-theme="dark"] body .fav-row-remove:hover,
+html[data-theme="light"] body .result-alt-note.is-minus,
+html[data-theme="dark"] body .result-alt-note.is-minus {
+  color: var(--bad) !important;
 }
 
 /* ==== Единое кольцо фокуса с клавиатуры ==== */
