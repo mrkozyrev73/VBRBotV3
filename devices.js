@@ -7344,6 +7344,7 @@ window.DEVICES = [
     "gps": "нет",
     "price": "~2 500 ₽",
     "url": "https://road-go.ru/my-cam",
+    "market_url": "https://market.yandex.ru/cc/BC3yYW",
     "photo": "",
     "image": "assets/devices/roadgo-mycam.webp",
     "specs": {
