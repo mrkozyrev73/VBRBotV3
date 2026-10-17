@@ -20379,7 +20379,7 @@ function enableMetrika(){
   </button>
 </nav>
 
-<script src="./devices.js?v=1.1.2"></script>
+<script src="./devices.js?v=1.1.3"></script>
 <script>
 // ════════════════════════════════════════════════════════
 //  DATA
@@ -20667,6 +20667,7 @@ function manufacturerSearchUrl(d) {
   if (brand === "playme") return `https://playme-russia.ru/search/?q=${q}`;
   if (brand === "viofo") return `https://www.viofo.ru/search/?q=${q}`;
   if (brand === "blackvue") return `https://blackvue.ru/search/?q=${q}`;
+  if (brand === "roadgo" && /roadgo\s+alpha/i.test(d.name || "")) return fallback;
   if (brand === "roadgo") return `https://road-go.ru/?s=${q}`;
 
   return fallback;
@@ -25172,6 +25173,7 @@ const SENSOR_META = {
   GC2083: {rank: 1, label: "GalaxyCore GC2083", tier: "базовый Full HD"},
   GC323PJ: {rank: 1, label: "GalaxyCore GC323PJ", tier: "базовый Full HD"},
   SC533: {rank: 1.4, label: "SmartSens SC533", tier: "сенсор указан"},
+  SC553: {rank: 1.4, label: "SmartSens SC553", tier: "сенсор указан"},
   SC1225: {rank: 0.8, label: "SmartSens SC1225", tier: "дополнительная камера"},
   SC2336: {rank: 1.2, label: "SmartSens SC2336", tier: "базовый Full HD"},
   SC2363P: {rank: 1.2, label: "SmartSens SC2363P", tier: "базовый Full HD"},
