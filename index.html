@@ -25403,8 +25403,14 @@ function findDeviceBySlug(slug) {
   return _deviceSlugMap.get(slug) || null;
 }
 
+function shareBaseUrl() {
+  return location.protocol === "file:"
+    ? "https://vbrbot.pro/"
+    : `${location.origin}${location.pathname}`;
+}
+
 function deviceShareUrl(d) {
-  return `${location.origin}${location.pathname}#m=${deviceSlug(d)}`;
+  return `${shareBaseUrl()}#m=${deviceSlug(d)}`;
 }
 
 let _currentDeviceSlug = null;
@@ -25486,7 +25492,7 @@ function compareShareUrl() {
     .map(key => DEVICES.find(d => deviceKey(d) === key))
     .filter(Boolean)
     .map(deviceSlug);
-  return `${location.origin}${location.pathname}#cmp=${slugs.map(encodeURIComponent).join(",")}`;
+  return `${shareBaseUrl()}#cmp=${slugs.map(encodeURIComponent).join(",")}`;
 }
 
 function favoritesShareUrl() {
@@ -25495,7 +25501,7 @@ function favoritesShareUrl() {
     .map(key => DEVICES.find(d => deviceKey(d) === key))
     .filter(Boolean)
     .map(deviceSlug);
-  return `${location.origin}${location.pathname}#fav=${slugs.map(encodeURIComponent).join(",")}`;
+  return `${shareBaseUrl()}#fav=${slugs.map(encodeURIComponent).join(",")}`;
 }
 
 function openCompareFromHash() {
@@ -25559,7 +25565,7 @@ function openSectionFromHash() {
 function shareQuizResults() {
   let url;
   try {
-    url = location.origin + location.pathname + "#r=" + encodeURIComponent(JSON.stringify(answers));
+    url = shareBaseUrl() + "#r=" + encodeURIComponent(JSON.stringify(answers));
   } catch (e) { return; }
   vbrTrack("share_results");
   const title = "Мой подбор видеорегистратора в VBR БОТ";
