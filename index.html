@@ -25760,7 +25760,8 @@ function openDeviceFromSearch(idx, backIdx = -1, opts = {}) {
     return similarPct(b, d) - similarPct(a, d) || b.q - a.q || primaryAngle(b) - primaryAngle(a);
   }).map(x => ({d: x, pct: similarPct(x, d) + upgradeScore(x, d)}));
 
-  const similar = pickBrandDiverse(similarCandidates, 10, 2).map(x => x.d);
+  const perBrand = deviceClassKey(d) === "4g-registrar" ? 6 : 2;
+  const similar = pickBrandDiverse(similarCandidates, 10, perBrand).map(x => x.d);
 
   renderDeviceProfile(d, exact, similar);
   focusDeviceProfileTitle();
@@ -25886,8 +25887,11 @@ function cardAntennaBadgeHTML(d, weakRadarPart = false) {
 }
 
 function compatibleProfileCandidate(x, d) {
-  if (x.form !== d.form) return false;
   if (!sameDeviceClass(x, d)) return false;
+  if (x.form !== d.form) {
+    const screenVariants = new Set(["с экраном", "без экрана"]);
+    if (deviceClassKey(d) !== "4g-registrar" || !screenVariants.has(d.form) || !screenVariants.has(x.form)) return false;
+  }
 
   // В ручном сравнении похожесть должна держать базовый класс устройства.
   // Например, 3CH-регистратор не должен получать в "похожие" обычный 1CH/2CH
@@ -26063,6 +26067,12 @@ function getDiffs(x, d) {
   // ключевых технических отличий, чтобы не срезалась лимитом показанных тегов.
   const priceDelta = priceDiff(x, d);
   if (priceDelta) diffs.push(priceDelta);
+  if (deviceClassKey(d) === "4g-registrar" && x.form !== d.form) {
+    diffs.push({
+      text: x.form === "без экрана" ? "Без экрана" : `Экран: ${x.screen || x.form}`,
+      type: x.form === "без экрана" ? "worse" : "better"
+    });
+  }
   const xAngle = primaryAngle(x);
   const dAngle = primaryAngle(d);
   if (xAngle && dAngle && xAngle !== dAngle)
@@ -26096,7 +26106,7 @@ function getDiffs(x, d) {
     diffs.push({text: hasGPS(x) ? 'GPS' : 'Без GPS', type: hasGPS(x) ? 'better' : 'worse'});
   if (!sameDeviceClass(x, d))
     diffs.push({text: deviceTypeText(x, true)});
-  if (x.form !== d.form)
+  if (x.form !== d.form && deviceClassKey(d) !== "4g-registrar")
     diffs.push({text: x.form});
   return diffs;
 }
@@ -27093,7 +27103,7 @@ function renderDeviceProfile(d, exact, similar) {
   if (exact.length > 0) {
     html += `<div class="dev-section-hdr exact">Полные аналоги</div>`;
     html += `<div class="analog-card-grid">${exactShown.map((a, i) => renderAnalogCard(a, 100, exactAnalogSavingsDiff(a, d), i, d, "exact")).join('')}</div>`;
-  } else if (similar.length > 0) {
+  } else if (similar.length > 0 && deviceClassKey(d) !== "4g-registrar") {
     html += `<div class="dev-no-exact">
       <div class="dev-no-exact-icon">!</div>
       <div>
@@ -27110,8 +27120,12 @@ function renderDeviceProfile(d, exact, similar) {
     html += `<div class="analog-card-grid">${betterSimilar.map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i, d, "upgrade")).join('')}</div>`;
   }
 
-  // Секция «Близкие альтернативы» убрана: показываем только полные аналоги
-  // и модели, которые действительно лучше. Просто «похожее рядом» не выводим.
+  // Для 4G форм-фактор не определяет класс устройства: версии без экрана
+  // полезно показать отдельно, даже если они не являются улучшением.
+  if (deviceClassKey(d) === "4g-registrar" && regularSimilar.length > 0) {
+    html += `<div class="dev-section-hdr">Другие 4G-модели</div>`;
+    html += `<div class="analog-card-grid">${regularSimilar.slice(0, 6).map((a, i) => renderAnalogCard(a, similarPct(a, d), getDiffs(a, d), i, d)).join('')}</div>`;
+  }
 
   if (exact.length === 0 && betterSimilar.length === 0 && similar.length === 0) {
     html += `<div class="dev-no-exact">
