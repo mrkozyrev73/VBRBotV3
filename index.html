@@ -25578,12 +25578,32 @@ function shareQuizResults() {
     .catch(() => { try { window.prompt("Скопируйте ссылку:", url); } catch (e) {} });
 }
 
+function validSharedAnswers(parsed) {
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
+  const clean = {};
+  for (const [key, value] of Object.entries(parsed)) {
+    const question = QS.find(q => q.key === key);
+    if (!question) continue;
+    const allowed = new Set(question.opts.map(opt => opt.v));
+    if (key === "type" && Array.isArray(value)) {
+      if (!value.length || !value.every(v => typeof v === "string" && allowed.has(v))) return null;
+      clean[key] = [...new Set(value)];
+    } else if (typeof value === "string" && (allowed.has(value) || (key === "type" && value === "неважно"))) {
+      clean[key] = value;
+    } else {
+      return null;
+    }
+  }
+  return Object.keys(clean).length ? clean : null;
+}
+
 function openSharedResultsFromHash() {
   if (!location.hash.startsWith("#r=")) return false;
   let parsed;
   try { parsed = JSON.parse(decodeURIComponent(location.hash.slice(3))); } catch (e) { return false; }
-  if (!parsed || typeof parsed !== "object") return false;
-  answers = parsed;
+  const sharedAnswers = validSharedAnswers(parsed);
+  if (!sharedAnswers) return false;
+  answers = sharedAnswers;
   sortMode = "match";
   showAllNearResults = false;
   _lastTop = getTop();
